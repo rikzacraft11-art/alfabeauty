@@ -1,4 +1,4 @@
-.PHONY: run build test migrate-up migrate-down migrate-status db-check
+.PHONY: run build test migrate-up migrate-down migrate-status db-check smoke-notify
 
 run:
 	go run ./cmd/server
@@ -20,3 +20,6 @@ migrate-status:
 
 db-check:
 	go run ./cmd/dbcheck
+
+smoke-notify:
+	go run ./cmd/smoke_notify

@@ -369,7 +369,7 @@ Tambahan non-itemized (tetap wajib untuk "selesai" sesuai WBS/SoW):
 | DO-001 | Terraform project init | 0.5 | 0.95 | DO 3.1, SOW 2.C | Infrastructure as Code |
 | DO-002 | VPC/Network config | 0.5 | 0.95 | DO 3.1, RAB | Private network isolation |
 | DO-003 | VPS provisioning | 0.5 | 0.95 | RAB Seimbang | IDCloudHost per RAB recommendation |
-| DO-004 | Managed DB setup | 0.5 | 0.95 | RAB, DO 3.2 | Managed PostgreSQL 15+ |
+| DO-004 | Managed DB setup | 0.5 | 0.95 | RAB, DO 3.2 | Managed PostgreSQL 17.6+ |
 | DO-005 | Redis Cloud Flex | 0.25 | 0.48 | RAB, BP 1 | Memory-First caching |
 | DO-006 | Cloudflare DNS + CDN | 0.25 | 0.48 | RAB (Free tier) | CDN + DDoS protection included |
 | DO-007 | SSL certificate | 0.25 | 0.48 | DO 5.2 | HTTPS enforcement |

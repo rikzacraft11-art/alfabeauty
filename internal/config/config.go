@@ -17,6 +17,20 @@ type Config struct {
 	SentryDSN      string
 	DatabaseURL    string
 	TrustedProxies string
+
+	NotifyEmailEnabled   bool
+	NotifyWebhookEnabled bool
+
+	SMTPHost     string
+	SMTPPort     int
+	SMTPUsername string
+	SMTPPassword string
+	SMTPFrom     string
+	SMTPToCSV    string
+	SMTPUseTLS   bool
+
+	WebhookURL    string
+	WebhookSecret string
 }
 
 func (c Config) Addr() string {
@@ -51,6 +65,23 @@ func LoadFromEnv() (Config, error) {
 	cfg.DatabaseURL = strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	cfg.TrustedProxies = strings.TrimSpace(os.Getenv("TRUSTED_PROXIES"))
 
+	cfg.NotifyEmailEnabled = strings.TrimSpace(strings.ToLower(os.Getenv("LEAD_NOTIFY_EMAIL_ENABLED"))) == "true"
+	cfg.NotifyWebhookEnabled = strings.TrimSpace(strings.ToLower(os.Getenv("LEAD_NOTIFY_WEBHOOK_ENABLED"))) == "true"
+
+	cfg.SMTPHost = strings.TrimSpace(os.Getenv("SMTP_HOST"))
+	cfg.SMTPPort, err = intFromEnv("SMTP_PORT", 0)
+	if err != nil {
+		return Config{}, err
+	}
+	cfg.SMTPUsername = strings.TrimSpace(os.Getenv("SMTP_USERNAME"))
+	cfg.SMTPPassword = strings.TrimSpace(os.Getenv("SMTP_PASSWORD"))
+	cfg.SMTPFrom = strings.TrimSpace(os.Getenv("SMTP_FROM"))
+	cfg.SMTPToCSV = strings.TrimSpace(os.Getenv("SMTP_TO"))
+	cfg.SMTPUseTLS = strings.TrimSpace(strings.ToLower(os.Getenv("SMTP_USE_TLS"))) == "true"
+
+	cfg.WebhookURL = strings.TrimSpace(os.Getenv("GOOGLE_SHEETS_WEBHOOK_URL"))
+	cfg.WebhookSecret = strings.TrimSpace(os.Getenv("GOOGLE_SHEETS_WEBHOOK_SECRET"))
+
 	// Minimal safety checks.
 	if cfg.MaxBodyBytes <= 0 {
 		return Config{}, fmt.Errorf("LEAD_API_MAX_BODY_BYTES must be > 0")
@@ -65,6 +96,27 @@ func LoadFromEnv() (Config, error) {
 		// Allow running in dev, but fail fast elsewhere.
 		if cfg.Env != "development" {
 			return Config{}, fmt.Errorf("LEAD_API_ADMIN_TOKEN must be set to a real secret (got placeholder)")
+		}
+	}
+
+	// Notification config validation.
+	if cfg.NotifyEmailEnabled {
+		if cfg.SMTPHost == "" {
+			return Config{}, fmt.Errorf("SMTP_HOST is required when LEAD_NOTIFY_EMAIL_ENABLED=true")
+		}
+		if cfg.SMTPPort <= 0 {
+			return Config{}, fmt.Errorf("SMTP_PORT is required when LEAD_NOTIFY_EMAIL_ENABLED=true")
+		}
+		if cfg.SMTPFrom == "" {
+			return Config{}, fmt.Errorf("SMTP_FROM is required when LEAD_NOTIFY_EMAIL_ENABLED=true")
+		}
+		if cfg.SMTPToCSV == "" {
+			return Config{}, fmt.Errorf("SMTP_TO is required when LEAD_NOTIFY_EMAIL_ENABLED=true")
+		}
+	}
+	if cfg.NotifyWebhookEnabled {
+		if cfg.WebhookURL == "" {
+			return Config{}, fmt.Errorf("GOOGLE_SHEETS_WEBHOOK_URL is required when LEAD_NOTIFY_WEBHOOK_ENABLED=true")
 		}
 	}
 

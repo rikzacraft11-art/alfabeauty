@@ -16,7 +16,7 @@ import (
 func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
-		BodyLimit:            cfg.MaxBodyBytes,
+		BodyLimit:             cfg.MaxBodyBytes,
 	})
 
 	// Minimal observability: request-id + panic recovery + access log.
@@ -41,7 +41,8 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 		return err
 	})
 
-	app.Get("/health", healthHandler())
+	app.Get("/health", httpMetrics("/health"), healthHandler())
+	app.Get("/metrics", httpMetrics("/metrics"), requireAdminToken(cfg.AdminToken), metricsHandler(leadSvc))
 
 	api := app.Group("/api")
 	v1 := api.Group("/v1")
@@ -56,10 +57,12 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 		},
 	})
 
-	v1.Post("/leads", leadLimiter, createLeadHandler(leadSvc))
+	v1.Post("/leads", httpMetrics("/api/v1/leads"), leadRateLimitMetricsMiddleware(), leadLimiter, createLeadHandler(leadSvc))
 
 	admin := v1.Group("/admin", requireAdminToken(cfg.AdminToken))
 	admin.Get("/leads.csv", exportLeadsCSVHandler(leadSvc))
+	admin.Get("/lead-notifications", listLeadNotificationsHandler(leadSvc))
+	admin.Get("/lead-notifications/stats", leadNotificationsStatsHandler(leadSvc))
 
 	return app
 }

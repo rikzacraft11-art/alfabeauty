@@ -354,6 +354,8 @@ Catatan:
 - SEV-1: error rate > 1% for 5 minutes
 - SEV-1: lead submit endpoint failing continuously
 
+Contoh rules Prometheus (minimal): `docs-paket-a/prometheus_alerts_example.yml`
+
 ---
 
 ## 8. Acceptance contract (UAT-A 01–16) + sign-off
@@ -596,6 +598,14 @@ Sebuah item dianggap DONE jika:
 | OPS-01 | Error logging lead pipeline | Error lead tidak silent; ada log/trace minimal | Screenshot/log | Fokus drop lead |
 | OPS-02 | Metric “lead success rate” | Ada indikator sukses/gagal per periode | Dashboard/metrics | Minimal cukup |
 | OPS-03 | Runbook deploy/rollback | Ada langkah deploy, rollback, incident | Doc link | Handover-ready |
+
+Catatan implementasi (Option B Lead API):
+
+- Endpoint metrics (admin-only): `GET /metrics`
+- Metric utama untuk OPS-02:
+  - `lead_api_lead_submissions_total{result="accepted|invalid|spam|internal|invalid_json|rate_limited"}`
+  - (ops queue health) `lead_api_lead_notifications_pending_ready_total`
+  - (ops queue health) `lead_api_lead_notifications_oldest_ready_pending_age_seconds`
 
 #### 7) Quality gates
 
@@ -989,6 +999,12 @@ Operational minimum (Option B):
 **Deploy (staging/prod):** deploy via pipeline; smoke test Home/Products/Detail/WA CTA/Lead form.  
 **Rollback:** lakukan bila SEV-1 atau error rate tinggi; rollback ke release known-good; ulangi smoke test + 1 submit lead valid.  
 **Lead pipeline health checks:** monitor success rate + error counts; jika drop dicurigai, submit lead test dan cek persistence/notification.
+
+Ops shortcut (admin-only):
+
+- `GET /api/v1/admin/lead-notifications/stats` → cek backlog outbox (counts per status + oldest ready pending age).
+  - Jika `pending_ready_count` tinggi dan `oldest_ready_pending_age_seconds` besar → worker/sender kemungkinan bermasalah.
+  - Jika `pending_delayed_count` tinggi → banyak retry/backoff (indikasi provider email/webhook flaky).
 
 ### Production checklist (summary)
 

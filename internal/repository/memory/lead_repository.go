@@ -2,6 +2,7 @@ package memory
 
 import (
 	"context"
+	"errors"
 	"sync"
 	"time"
 
@@ -9,6 +10,8 @@ import (
 
 	"example.com/alfabeauty-b2b/internal/domain/lead"
 )
+
+var errLeadNotFound = errors.New("lead not found")
 
 const defaultLeadCapacity = 64
 
@@ -45,6 +48,18 @@ func (r *LeadRepository) Create(_ context.Context, l lead.Lead) (lead.Lead, erro
 		r.byKey[l.IdempotencyKeyHash] = l
 	}
 	return l, nil
+}
+
+func (r *LeadRepository) GetByID(_ context.Context, id uuid.UUID) (lead.Lead, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	for i := range r.leads {
+		if r.leads[i].ID == id {
+			return r.leads[i], nil
+		}
+	}
+	return lead.Lead{}, errLeadNotFound
 }
 
 func (r *LeadRepository) List(_ context.Context, limit int, before time.Time) ([]lead.Lead, error) {

@@ -5,7 +5,7 @@ Order Facilitation Platform for B2B Distribution
 ## Tech Stack
 
 - **Backend:** Go 1.22 + Fiber v2
-- **Database:** PostgreSQL 15 (Managed)
+- **Database:** PostgreSQL 17.6 (Managed)
 - **Cache:** Redis Cloud Flex
 - **Auth:** JWT (HS256)
 
@@ -41,7 +41,9 @@ make build        # Build binary
 make test         # Run tests
 make migrate-up   # Apply migrations
 make migrate-down # Rollback migrations
-make lint         # Run linter
+make migrate-status # Show migration status
+make db-check     # Verify DB hardening & schema
+make smoke-notify # End-to-end smoke for notification pipeline (uses DATABASE_URL)
 ```
 
 ## Project Structure
@@ -65,9 +67,28 @@ Health check: `GET /health`
 
 API Base URL: `/api/v1`
 
+### Admin endpoints (ops)
+
+All admin endpoints require `X-Admin-Token` (or `Authorization: Bearer <token>`).
+
+- `GET /api/v1/admin/leads.csv` — export leads as CSV
+- `GET /api/v1/admin/lead-notifications` — list outbox items (filterable)
+- `GET /api/v1/admin/lead-notifications/stats` — backlog summary (counts per status + oldest ready pending age)
+
+### Metrics (Prometheus)
+
+- `GET /metrics` — Prometheus metrics for lead pipeline + outbox (admin-protected)
+
 ## Environment Variables
 
 See `.env.example` for required configuration.
+
+## Smoke test (notifications)
+
+Run `make smoke-notify` to validate the lead notification pipeline end-to-end without external providers.
+It uses a local fake SMTP server and a local webhook receiver, while writing outbox state to `DATABASE_URL`.
+
+Cleanup is automatic unless `SMOKE_KEEP=true`.
 
 ## Documentation
 

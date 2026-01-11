@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"example.com/alfabeauty-b2b/internal/domain/lead"
+	"github.com/google/uuid"
 )
 
 type LeadRepository struct {
@@ -102,6 +103,38 @@ func (r *LeadRepository) Create(ctx context.Context, l lead.Lead) (lead.Lead, er
 		&l.IPAddress,
 	); err != nil {
 		return lead.Lead{}, fmt.Errorf("insert lead: %w", err)
+	}
+
+	return l, nil
+}
+
+func (r *LeadRepository) GetByID(ctx context.Context, id uuid.UUID) (lead.Lead, error) {
+	q := `
+		SELECT
+			id, created_at,
+			COALESCE(idempotency_key_hash, ''),
+			name, email, phone, message,
+			page_url_initial, page_url_current,
+			user_agent, ip_address
+		FROM leads
+		WHERE id = $1;
+	`
+
+	var l lead.Lead
+	if err := r.db.QueryRowContext(ctx, q, id).Scan(
+		&l.ID,
+		&l.CreatedAt,
+		&l.IdempotencyKeyHash,
+		&l.Name,
+		&l.Email,
+		&l.Phone,
+		&l.Message,
+		&l.PageURLInitial,
+		&l.PageURLCurrent,
+		&l.UserAgent,
+		&l.IPAddress,
+	); err != nil {
+		return lead.Lead{}, fmt.Errorf("get lead by id: %w", err)
 	}
 
 	return l, nil

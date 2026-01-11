@@ -1,0 +1,48 @@
+# Example Prometheus alert rules for Paket A (Option B Lead API)
+#
+# This file is intentionally minimal and should be adapted to your environment
+# (job/instance labels, routing, notification channels).
+
+groups:
+  - name: paket-a-lead-api
+    rules:
+      # Paket A §7 "Alerting (minimal)": error rate > 1% for 5 minutes
+      - alert: LeadAPIHighErrorRate
+        expr: |
+          (
+            sum(rate(lead_api_http_requests_total{route="/api/v1/leads",status_class="5xx"}[5m]))
+            /
+            sum(rate(lead_api_http_requests_total{route="/api/v1/leads"}[5m]))
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: sev1
+        annotations:
+          summary: "Lead API 5xx error rate > 1% (5m)"
+          description: "Lead submit endpoint (/api/v1/leads) is erroring at >1% for 5 minutes. Consider rollback if recent deploy."
+
+      # Paket A §7 "Alerting (minimal)": lead submit endpoint failing continuously
+      - alert: LeadAPISubmitFailingContinuously
+        expr: |
+          sum(rate(lead_api_http_requests_total{route="/api/v1/leads",status_class="5xx"}[2m])) > 0
+          and
+          sum(rate(lead_api_http_requests_total{route="/api/v1/leads"}[2m])) > 0
+        for: 10m
+        labels:
+          severity: sev1
+        annotations:
+          summary: "Lead submit endpoint failing continuously"
+          description: "Non-zero 5xx rate on /api/v1/leads sustained for 10 minutes."
+
+      # Ops health: outbox backlog is ready-but-stuck
+      - alert: LeadNotificationBacklogStuck
+        expr: |
+          lead_api_lead_notifications_pending_ready_total > 0
+          and
+          lead_api_lead_notifications_oldest_ready_pending_age_seconds > 600
+        for: 10m
+        labels:
+          severity: sev2
+        annotations:
+          summary: "Lead notification backlog stuck (ready pending > 10m)"
+          description: "Outbox has ready-to-send items older than 10 minutes. Check worker/senders and provider health."

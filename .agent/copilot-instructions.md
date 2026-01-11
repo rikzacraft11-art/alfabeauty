@@ -136,7 +136,7 @@ Paket A Canonical Spec: docs-paket-a/paket-a.md
 ### Database
 | Component | Technology |
 |-----------|------------|
-| **Primary** | PostgreSQL 15+ |
+| **Primary** | PostgreSQL 17.6+ |
 | **Cache** | Redis Cloud Flex |
 | **Search** | PostgreSQL Full-Text (cukup untuk SKU < 2000) |
 

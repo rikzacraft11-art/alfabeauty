@@ -10,6 +10,7 @@ import (
 
 	"example.com/alfabeauty-b2b/internal/domain/lead"
 	"example.com/alfabeauty-b2b/internal/service"
+	"example.com/alfabeauty-b2b/pkg/metrics"
 )
 
 type createLeadRequest struct {
@@ -31,6 +32,7 @@ func createLeadHandler(svc *service.LeadService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var req createLeadRequest
 		if err := c.BodyParser(&req); err != nil {
+			metrics.IncLeadSubmission("invalid_json")
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_json"})
 		}
 
@@ -52,14 +54,19 @@ func createLeadHandler(svc *service.LeadService) fiber.Handler {
 		created, err := svc.Create(c.Context(), l)
 		if err != nil {
 			if errors.Is(err, lead.ErrSpam) {
+				metrics.IncLeadSubmission("spam")
 				// Do not give bots signal.
 				return c.SendStatus(fiber.StatusAccepted)
 			}
 			if lead.IsInvalid(err) {
+				metrics.IncLeadSubmission("invalid")
 				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 			}
+			metrics.IncLeadSubmission("internal")
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "internal"})
 		}
+
+		metrics.IncLeadSubmission("accepted")
 
 		return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
 			"status": "accepted",
