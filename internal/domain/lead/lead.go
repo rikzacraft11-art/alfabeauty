@@ -10,6 +10,9 @@ import (
 type Lead struct {
 	ID             uuid.UUID
 	CreatedAt      time.Time
+	// IdempotencyKeyHash is a SHA-256 hex hash of the client-supplied Idempotency-Key.
+	// We store only the hash to avoid persisting the raw key.
+	IdempotencyKeyHash string
 	Name           string
 	Email          string
 	Phone          string
@@ -26,6 +29,7 @@ func (l *Lead) Normalize() {
 	l.Email = strings.TrimSpace(strings.ToLower(l.Email))
 	l.Phone = strings.TrimSpace(l.Phone)
 	l.Message = strings.TrimSpace(l.Message)
+	l.IdempotencyKeyHash = strings.TrimSpace(strings.ToLower(l.IdempotencyKeyHash))
 	l.PageURLInitial = strings.TrimSpace(l.PageURLInitial)
 	l.PageURLCurrent = strings.TrimSpace(l.PageURLCurrent)
 	l.UserAgent = strings.TrimSpace(l.UserAgent)

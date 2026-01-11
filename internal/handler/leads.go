@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 
@@ -31,7 +34,10 @@ func createLeadHandler(svc *service.LeadService) fiber.Handler {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_json"})
 		}
 
+		idempotencyKeyHash := hashIdempotencyKey(c.Get("Idempotency-Key"))
+
 		l := lead.Lead{
+			IdempotencyKeyHash: idempotencyKeyHash,
 			Name:           req.Name,
 			Email:          req.Email,
 			Phone:          req.Phone,
@@ -60,4 +66,13 @@ func createLeadHandler(svc *service.LeadService) fiber.Handler {
 			"id":     created.ID.String(),
 		})
 	}
+}
+
+func hashIdempotencyKey(raw string) string {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return ""
+	}
+	sum := sha256.Sum256([]byte(raw))
+	return hex.EncodeToString(sum[:])
 }
