@@ -95,4 +95,43 @@ func main() {
 	if gcount == 0 {
 		fmt.Println("(no grants)")
 	}
+
+	fmt.Println("\n== leads idempotency schema ==")
+	var hasColumn bool
+	if err := db.QueryRow(`
+		SELECT EXISTS(
+			SELECT 1
+			FROM information_schema.columns
+			WHERE table_schema = 'public'
+			  AND table_name = 'leads'
+			  AND column_name = 'idempotency_key_hash'
+		)
+	`).Scan(&hasColumn); err != nil {
+		log.Fatalf("query column: %v", err)
+	}
+	if !hasColumn {
+		fmt.Println("idempotency_key_hash column: MISSING")
+	} else {
+		fmt.Println("idempotency_key_hash column: OK")
+	}
+
+	var idxDef sql.NullString
+	if err := db.QueryRow(`
+		SELECT indexdef
+		FROM pg_indexes
+		WHERE schemaname = 'public'
+		  AND tablename = 'leads'
+		  AND indexname = 'leads_idempotency_key_hash_uidx'
+	`).Scan(&idxDef); err != nil {
+		// If not found, Scan returns sql.ErrNoRows.
+		if err == sql.ErrNoRows {
+			fmt.Println("leads_idempotency_key_hash_uidx: MISSING")
+			return
+		}
+		log.Fatalf("query index: %v", err)
+	}
+	if idxDef.Valid {
+		fmt.Println("leads_idempotency_key_hash_uidx: OK")
+		fmt.Printf("indexdef: %s\n", idxDef.String)
+	}
 }
