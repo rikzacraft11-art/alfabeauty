@@ -20,3 +20,8 @@ dist/
 bin/
 *.exe
 *.out
+
+# --- Local-only (owner review) ---
+# Per instruction: keep PASS+Evidence and working docs local; do not commit these folders.
+artifacts/
+docs/
