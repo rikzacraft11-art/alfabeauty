@@ -40,3 +40,7 @@ supabase/
 
 tmp/
 reference/
+
+# Prometheus (local ops tooling)
+prometheus/data/
+prometheus/secrets/lead_api_admin_token

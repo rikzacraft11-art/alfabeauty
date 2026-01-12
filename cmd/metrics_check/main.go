@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -13,6 +15,16 @@ import (
 
 	"example.com/alfabeauty-b2b/internal/obs"
 )
+
+type leadHoneypotRequest struct {
+	BusinessName  string `json:"business_name"`
+	ContactName   string `json:"contact_name"`
+	PhoneWhatsApp string `json:"phone_whatsapp"`
+	City          string `json:"city"`
+	SalonType     string `json:"salon_type"`
+	Consent       bool   `json:"consent"`
+	Company       string `json:"company"` // honeypot
+}
 
 func main() {
 	obs.Init()
@@ -47,6 +59,35 @@ func main() {
 	}
 
 	client := &http.Client{Timeout: 8 * time.Second}
+
+	// Seed a safe, read-only lead submit (honeypot) so lead_submissions_total gets a label series
+	// and becomes visible on /metrics. This should not persist any user data.
+	{
+		payload := leadHoneypotRequest{
+			BusinessName:  "METRICS-CHECK",
+			ContactName:   "Metrics",
+			PhoneWhatsApp: "+6281111111111",
+			City:          "Jakarta",
+			SalonType:     "OTHER",
+			Consent:       true,
+			Company:       "bot", // trigger honeypot
+		}
+		b, _ := json.Marshal(payload)
+		req, err := http.NewRequest(http.MethodPost, baseURL+"/api/v1/leads", bytes.NewReader(b))
+		if err != nil {
+			obs.Fatal("metrics_check_build_seed_request_failed", obs.Fields{"error": err.Error()})
+		}
+		req.Header.Set("Content-Type", "application/json; charset=utf-8")
+		resp, err := client.Do(req)
+		if err != nil {
+			obs.Fatal("metrics_check_seed_request_failed", obs.Fields{"error": err.Error()})
+		}
+		_ = resp.Body.Close()
+		if resp.StatusCode != http.StatusAccepted {
+			obs.Fatal("metrics_check_seed_unexpected_status", obs.Fields{"status": resp.StatusCode})
+		}
+	}
+
 	req, err := http.NewRequest(http.MethodGet, baseURL+"/metrics", nil)
 	if err != nil {
 		obs.Fatal("metrics_check_build_request_failed", obs.Fields{"error": err.Error()})

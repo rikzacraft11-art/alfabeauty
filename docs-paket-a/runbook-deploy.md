@@ -93,3 +93,27 @@ Minimal checklist:
 
 Jika ada incident:
 - ikuti `docs-paket-a/runbook-triage.md` (Signals → Logs → Trace correlation)
+
+---
+
+## Appendix — Akses Prometheus tanpa domain (local/staging)
+
+Jika belum ada domain/ingress untuk Prometheus, akses UI Prometheus bisa dilakukan via localhost:
+
+### Opsi 1: Prometheus local via Docker Compose (paling cepat)
+
+Repo ini menyediakan compose minimal:
+- `docker-compose.prometheus.yml`
+- `prometheus/prometheus.yml`
+
+Catatan penting:
+- Endpoint `/metrics` di Lead API **admin-protected**, jadi Prometheus perlu token via `bearer_token_file`.
+- Buat file token lokal (ignored by git): `prometheus/secrets/lead_api_admin_token`
+
+UI:
+- Buka `http://localhost:9090`
+- Validasi `Status -> Targets` (atau `/targets`) menunjukkan job `alfab-lead-api` status **UP**.
+
+### Opsi 2: Kubernetes port-forward (lebih aman)
+
+Jika nanti memakai K8s, gunakan `kubectl port-forward` untuk mengakses Prometheus tanpa expose publik.

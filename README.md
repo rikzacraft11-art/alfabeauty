@@ -45,6 +45,7 @@ make migrate-status # Show migration status
 make db-check     # Verify DB hardening & schema
 make smoke-notify # End-to-end smoke for notification pipeline (uses DATABASE_URL)
 make smoke-http   # Read-only deployment smoke (health + honeypot lead + admin stats + metrics)
+make metrics-check # Verify /metrics contains required metric names (admin-protected)
 ```
 
 ## Project Structure
@@ -131,6 +132,27 @@ Required env:
 
 Safety guard:
 - If `SMOKE_BASE_URL` is `http://...`, you must also set `SMOKE_ALLOW_INSECURE=true`.
+
+## Prometheus (local, no domain)
+
+If you haven't bought a domain yet, you can still access Prometheus locally.
+
+This repo includes a minimal Prometheus setup that runs on your machine and scrapes the Lead API
+via `host.docker.internal` (Docker Desktop). It does **not** require a domain.
+
+Files:
+- `docker-compose.prometheus.yml`
+
+Optional reference files (not required by compose, but useful as reference):
+- `prometheus/prometheus.yml`
+- `prometheus/secrets/lead_api_admin_token.example`
+
+Steps (high level):
+1) Run the Lead API on your host (default `PORT=8080`).
+2) Set `LEAD_API_ADMIN_TOKEN` in your shell environment (Prometheus will use it to access `/metrics`).
+3) Start Prometheus with Docker Compose.
+4) Open Prometheus UI at `http://localhost:9090` and check:
+	- `Status -> Targets` (or `/targets`) shows job `alfab-lead-api` as **UP**.
 
 ## Documentation
 

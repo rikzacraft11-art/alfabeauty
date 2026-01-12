@@ -1,0 +1,144 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    container_name: alfab-prometheus
+    ports:
+      - "9090:9090"
+    environment:
+      # Where Prometheus should scrape the Lead API from.
+      # Default works when the API is running on the host (Docker Desktop).
+      PROM_SCRAPE_TARGET: "host.docker.internal:8080"
+      # Bearer token used to access /metrics (admin-protected).
+      # Provide this via your shell env to avoid storing secrets in the repo.
+      PROM_BEARER_TOKEN: "${LEAD_API_ADMIN_TOKEN:-__CHANGE_ME__}"
+
+      # Optional: enable a synthetic alert that always fires when the target is UP.
+      # This is useful to prove alert evaluation via /api/v1/alerts, but should be
+      # left disabled by default.
+      PROM_ENABLE_LOCAL_DRILL: "${PROM_ENABLE_LOCAL_DRILL:-false}"
+
+    entrypoint:
+      - /bin/sh
+      - -lc
+      - |
+        set -eu
+        if [ -z "$${PROM_BEARER_TOKEN:-}" ] || [ "$${PROM_BEARER_TOKEN}" = "__CHANGE_ME__" ]; then
+          echo "PROM_BEARER_TOKEN is required (set LEAD_API_ADMIN_TOKEN in your environment)." >&2
+          exit 1
+        fi
+
+        mkdir -p /etc/prometheus/secrets
+        printf "%s" "$${PROM_BEARER_TOKEN}" > /etc/prometheus/secrets/lead_api_admin_token
+
+        mkdir -p /etc/prometheus/rules
+        cat > /etc/prometheus/rules/paket-a-lead-api.yml <<'EOF'
+        # Example Prometheus alert rules for Paket A (Option B Lead API)
+        #
+        # This file is generated inside the container to avoid Windows bind-mount
+        # issues on certain drive letters.
+        groups:
+          - name: paket-a-lead-api
+            rules:
+              - alert: LeadAPIHighErrorRate
+                expr: |
+                  (
+                    sum(rate(lead_api_http_requests_total{route="/api/v1/leads",status_class="5xx"}[5m]))
+                    /
+                    sum(rate(lead_api_http_requests_total{route="/api/v1/leads"}[5m]))
+                  ) > 0.01
+                for: 5m
+                labels:
+                  severity: sev1
+                annotations:
+                  summary: "Lead API 5xx error rate > 1% (5m)"
+                  description: "Lead submit endpoint (/api/v1/leads) is erroring at >1% for 5 minutes. Consider rollback if recent deploy."
+
+              - alert: LeadAPISubmitFailingContinuously
+                expr: |
+                  sum(rate(lead_api_http_requests_total{route="/api/v1/leads",status_class="5xx"}[2m])) > 0
+                  and
+                  sum(rate(lead_api_http_requests_total{route="/api/v1/leads"}[2m])) > 0
+                for: 10m
+                labels:
+                  severity: sev1
+                annotations:
+                  summary: "Lead submit endpoint failing continuously"
+                  description: "Non-zero 5xx rate on /api/v1/leads sustained for 10 minutes."
+
+              - alert: LeadNotificationBacklogStuck
+                expr: |
+                  lead_api_lead_notifications_pending_ready_total > 0
+                  and
+                  lead_api_lead_notifications_oldest_ready_pending_age_seconds > 600
+                for: 10m
+                labels:
+                  severity: sev2
+                annotations:
+                  summary: "Lead notification backlog stuck (ready pending > 10m)"
+                  description: "Outbox has ready-to-send items older than 10 minutes. Check worker/senders and provider health."
+
+              - alert: LeadAPISlowP95
+                expr: |
+                  histogram_quantile(
+                    0.95,
+                    sum(rate(lead_api_http_request_duration_seconds_bucket{route="/api/v1/leads"}[5m])) by (le)
+                  ) > 1
+                for: 10m
+                labels:
+                  severity: sev2
+                annotations:
+                  summary: "Lead API p95 latency > 1s (10m)"
+                  description: "p95 request latency for /api/v1/leads exceeded 1s for 10 minutes. Use exemplars (trace_id) to drill down to representative slow requests."
+
+              - alert: LeadAPIInternalLeadFailures
+                expr: |
+                  sum(rate(lead_api_lead_submissions_total{result="internal"}[5m])) > 0
+                for: 5m
+                labels:
+                  severity: sev2
+                annotations:
+                  summary: "Lead submissions returning internal result"
+                  description: "Lead pipeline is recording internal failures. Investigate logs around http_request + lead_notification_enqueue_failed events."
+        EOF
+
+        if [ "$${PROM_ENABLE_LOCAL_DRILL}" = "true" ]; then
+          cat >> /etc/prometheus/rules/paket-a-lead-api.yml <<'EOF'
+
+              # Local-only drill to prove rule evaluation + alert firing via /api/v1/alerts.
+              # This fires when the target is UP, and uses a distinct 'severity=test'.
+              - alert: LeadAPILocalAlertDrill_TargetUp
+                expr: |
+                  up{job="alfab-lead-api"} == 1
+                for: 0m
+                labels:
+                  severity: test
+                annotations:
+                  summary: "[LOCAL DRILL] Lead API target is UP"
+                  description: "Local-only alert drill to validate Prometheus rule loading and evaluation. Not for staging/prod."
+        EOF
+        fi
+
+        cat > /etc/prometheus/prometheus.yml <<EOF
+        global:
+          scrape_interval: 15s
+          evaluation_interval: 15s
+
+        rule_files:
+          - /etc/prometheus/rules/*.yml
+
+        scrape_configs:
+          - job_name: "alfab-lead-api"
+            metrics_path: /metrics
+            scheme: http
+            bearer_token_file: /etc/prometheus/secrets/lead_api_admin_token
+            static_configs:
+              - targets: ["$${PROM_SCRAPE_TARGET}"]
+        EOF
+
+        exec /bin/prometheus \
+          --config.file=/etc/prometheus/prometheus.yml \
+          --web.enable-lifecycle
+    # For Linux hosts, this maps host.docker.internal to the Docker host gateway.
+    # On Docker Desktop (Windows/macOS), host.docker.internal is already available.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
