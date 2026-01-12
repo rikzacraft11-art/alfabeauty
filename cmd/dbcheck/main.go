@@ -3,26 +3,29 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
+
+	"example.com/alfabeauty-b2b/internal/obs"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func main() {
+	obs.Init()
+
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
-		log.Fatalf("DATABASE_URL is required")
+		obs.Fatal("dbcheck_invalid_config", obs.Fields{"reason": "DATABASE_URL_required"})
 	}
 
 	db, err := sql.Open("pgx", dbURL)
 	if err != nil {
-		log.Fatalf("open db: %v", err)
+		obs.Fatal("dbcheck_db_open_failed", obs.Fields{"error": err.Error()})
 	}
 	defer db.Close()
 
 	if err := db.Ping(); err != nil {
-		log.Fatalf("ping db: %v", err)
+		obs.Fatal("dbcheck_db_ping_failed", obs.Fields{"error": err.Error()})
 	}
 
 	fmt.Println("== leads RLS flags ==")
@@ -33,7 +36,7 @@ func main() {
 		JOIN pg_namespace n ON n.oid = c.relnamespace
 		WHERE n.nspname = 'public' AND c.relname = 'leads'
 	`).Scan(&rls, &force); err != nil {
-		log.Fatalf("query rls flags: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "leads_rls_flags", "error": err.Error()})
 	}
 	fmt.Printf("RLS enabled: %v\n", rls)
 	fmt.Printf("RLS forced:  %v\n", force)
@@ -46,7 +49,7 @@ func main() {
 		ORDER BY policyname
 	`)
 	if err != nil {
-		log.Fatalf("query policies: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "leads_policies", "error": err.Error()})
 	}
 	defer rows.Close()
 
@@ -54,13 +57,13 @@ func main() {
 	for rows.Next() {
 		var name, cmd string
 		if err := rows.Scan(&name, &cmd); err != nil {
-			log.Fatalf("scan policy: %v", err)
+			obs.Fatal("dbcheck_scan_failed", obs.Fields{"row": "leads_policy", "error": err.Error()})
 		}
 		count++
 		fmt.Printf("- %s (%s)\n", name, cmd)
 	}
 	if err := rows.Err(); err != nil {
-		log.Fatalf("rows: %v", err)
+		obs.Fatal("dbcheck_rows_failed", obs.Fields{"rows": "leads_policies", "error": err.Error()})
 	}
 	if count == 0 {
 		fmt.Println("(no policies)")
@@ -76,7 +79,7 @@ func main() {
 		ORDER BY grantee, privilege_type
 	`)
 	if err != nil {
-		log.Fatalf("query grants: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "leads_grants", "error": err.Error()})
 	}
 	defer grows.Close()
 
@@ -84,13 +87,13 @@ func main() {
 	for grows.Next() {
 		var grantee, priv string
 		if err := grows.Scan(&grantee, &priv); err != nil {
-			log.Fatalf("scan grant: %v", err)
+			obs.Fatal("dbcheck_scan_failed", obs.Fields{"row": "leads_grant", "error": err.Error()})
 		}
 		gcount++
 		fmt.Printf("- %s: %s\n", grantee, priv)
 	}
 	if err := grows.Err(); err != nil {
-		log.Fatalf("rows: %v", err)
+		obs.Fatal("dbcheck_rows_failed", obs.Fields{"rows": "leads_grants", "error": err.Error()})
 	}
 	if gcount == 0 {
 		fmt.Println("(no grants)")
@@ -107,7 +110,7 @@ func main() {
 			  AND column_name = 'idempotency_key_hash'
 		)
 	`).Scan(&hasColumn); err != nil {
-		log.Fatalf("query column: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "leads_idempotency_column", "error": err.Error()})
 	}
 	if !hasColumn {
 		fmt.Println("idempotency_key_hash column: MISSING")
@@ -128,7 +131,7 @@ func main() {
 			fmt.Println("leads_idempotency_key_hash_uidx: MISSING")
 			return
 		}
-		log.Fatalf("query index: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "leads_idempotency_index", "error": err.Error()})
 	}
 	if idxDef.Valid {
 		fmt.Println("leads_idempotency_key_hash_uidx: OK")
@@ -146,7 +149,7 @@ func main() {
 		JOIN pg_namespace n ON n.oid = c.relnamespace
 		WHERE n.nspname = 'public' AND c.relname = 'lead_notifications'
 	`).Scan(&nRLS, &nForce); err != nil {
-		log.Fatalf("query lead_notifications rls flags: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "lead_notifications_rls_flags", "error": err.Error()})
 	}
 	fmt.Printf("RLS enabled: %v\n", nRLS)
 	fmt.Printf("RLS forced:  %v\n", nForce)
@@ -159,7 +162,7 @@ func main() {
 		ORDER BY policyname
 	`)
 	if err != nil {
-		log.Fatalf("query lead_notifications policies: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "lead_notifications_policies", "error": err.Error()})
 	}
 	defer nrows.Close()
 
@@ -167,13 +170,13 @@ func main() {
 	for nrows.Next() {
 		var name, cmd string
 		if err := nrows.Scan(&name, &cmd); err != nil {
-			log.Fatalf("scan lead_notifications policy: %v", err)
+			obs.Fatal("dbcheck_scan_failed", obs.Fields{"row": "lead_notifications_policy", "error": err.Error()})
 		}
 		ncount++
 		fmt.Printf("- %s (%s)\n", name, cmd)
 	}
 	if err := nrows.Err(); err != nil {
-		log.Fatalf("lead_notifications policies rows: %v", err)
+		obs.Fatal("dbcheck_rows_failed", obs.Fields{"rows": "lead_notifications_policies", "error": err.Error()})
 	}
 	if ncount == 0 {
 		fmt.Println("(no policies)")
@@ -189,7 +192,7 @@ func main() {
 		ORDER BY grantee, privilege_type
 	`)
 	if err != nil {
-		log.Fatalf("query lead_notifications grants: %v", err)
+		obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "lead_notifications_grants", "error": err.Error()})
 	}
 	defer ngrows.Close()
 
@@ -197,13 +200,13 @@ func main() {
 	for ngrows.Next() {
 		var grantee, priv string
 		if err := ngrows.Scan(&grantee, &priv); err != nil {
-			log.Fatalf("scan lead_notifications grant: %v", err)
+			obs.Fatal("dbcheck_scan_failed", obs.Fields{"row": "lead_notifications_grant", "error": err.Error()})
 		}
 		ngcount++
 		fmt.Printf("- %s: %s\n", grantee, priv)
 	}
 	if err := ngrows.Err(); err != nil {
-		log.Fatalf("lead_notifications grants rows: %v", err)
+		obs.Fatal("dbcheck_rows_failed", obs.Fields{"rows": "lead_notifications_grants", "error": err.Error()})
 	}
 	if ngcount == 0 {
 		fmt.Println("(no grants)")
@@ -230,7 +233,7 @@ func main() {
 				fmt.Printf("%s: MISSING\n", idx)
 				continue
 			}
-			log.Fatalf("query lead_notifications index %s: %v", idx, err)
+			obs.Fatal("dbcheck_query_failed", obs.Fields{"query": "lead_notifications_index", "index": idx, "error": err.Error()})
 		}
 		fmt.Printf("%s: OK\n", idx)
 		if def.Valid {

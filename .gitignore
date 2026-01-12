@@ -21,9 +21,17 @@ bin/
 *.exe
 *.out
 
-# --- Local-only (owner review) ---
-# Per instruction: keep PASS+Evidence and working docs local; do not commit these folders.
+# --- Evidence pack ---
+# Paket A: PASS + Evidence is meant to be auditable.
+# Keep generic artifacts ignored, but allow committing Paket A evidence artifacts.
 artifacts/
+!artifacts/paket-a/
+!artifacts/paket-a/**
+
+# Allow evidence logs inside the Paket A evidence-pack (global *.log ignore above).
+!artifacts/paket-a/**/*.log
+
+# Working docs folder (legacy) stays ignored.
 docs/
 
 # Supabase CLI local state (do not commit)

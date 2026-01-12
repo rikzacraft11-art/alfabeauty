@@ -1,8 +1,11 @@
 "use client";
 
 import WhatsAppLink from "@/components/site/WhatsAppLink";
+import { trackEvent } from "@/lib/analytics";
 
 export default function WhatsAppStickyCTA() {
+  const fallbackEmail = process.env.NEXT_PUBLIC_FALLBACK_EMAIL;
+
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <WhatsAppLink
@@ -11,6 +14,23 @@ export default function WhatsAppStickyCTA() {
       >
         WhatsApp Consult
       </WhatsAppLink>
+
+      {fallbackEmail ? (
+        <div className="mt-2 text-right">
+          <a
+            className="text-xs font-medium text-zinc-700 underline underline-offset-2 hover:text-zinc-900"
+            href={`mailto:${fallbackEmail}`}
+            onClick={() => {
+              trackEvent("cta_email_click", {
+                href: `mailto:${fallbackEmail}`,
+                target: "email",
+              });
+            }}
+          >
+            Email us instead
+          </a>
+        </div>
+      ) : null}
     </div>
   );
 }

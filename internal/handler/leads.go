@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
@@ -9,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"example.com/alfabeauty-b2b/internal/domain/lead"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/service"
 	"example.com/alfabeauty-b2b/pkg/metrics"
 )
@@ -82,7 +84,12 @@ func createLeadHandler(svc *service.LeadService) fiber.Handler {
 			Honeypot:       req.Honeypot,
 		}
 
-		created, err := svc.Create(c.Context(), l)
+		var ctx context.Context = c.Context()
+		if tp, ok := c.Locals("traceparent").(string); ok {
+			ctx = obs.WithTraceparent(ctx, tp)
+		}
+
+		created, err := svc.Create(ctx, l)
 		if err != nil {
 			if errors.Is(err, lead.ErrSpam) {
 				metrics.IncLeadSubmission("spam")

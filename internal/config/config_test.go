@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -31,5 +32,80 @@ func TestLoadFromEnv_MissingAdminToken(t *testing.T) {
 	_, err := LoadFromEnv()
 	if err == nil {
 		t.Fatalf("expected error")
+	}
+}
+
+func TestLoadFromEnv_NonDevRequiresDatabaseURL(t *testing.T) {
+	t.Setenv("APP_ENV", "production")
+	t.Setenv("LEAD_API_ADMIN_TOKEN", "super-secret-admin-token")
+	t.Setenv("DATABASE_URL", "")
+
+	_, err := LoadFromEnv()
+	if err == nil {
+		t.Fatalf("expected error")
+	}
+	if got, want := err.Error(), "DATABASE_URL is required"; !strings.Contains(got, want) {
+		t.Fatalf("expected error to contain %q, got %q", want, got)
+	}
+}
+
+func TestLoadFromEnv_NonDevRejectsPlaceholderDatabaseURL(t *testing.T) {
+	t.Setenv("APP_ENV", "staging")
+	t.Setenv("LEAD_API_ADMIN_TOKEN", "super-secret-admin-token")
+	t.Setenv("DATABASE_URL", "__CHANGE_ME__")
+
+	_, err := LoadFromEnv()
+	if err == nil {
+		t.Fatalf("expected error")
+	}
+	if got, want := err.Error(), "DATABASE_URL must be set"; !strings.Contains(got, want) {
+		t.Fatalf("expected error to contain %q, got %q", want, got)
+	}
+}
+
+func TestLoadFromEnv_NonDevRejectsPlaceholderAdminToken(t *testing.T) {
+	t.Setenv("APP_ENV", "production")
+	t.Setenv("LEAD_API_ADMIN_TOKEN", "__CHANGE_ME__")
+	t.Setenv("DATABASE_URL", "postgres://user:pass@localhost:5432/db")
+
+	_, err := LoadFromEnv()
+	if err == nil {
+		t.Fatalf("expected error")
+	}
+	if got, want := err.Error(), "LEAD_API_ADMIN_TOKEN must be set"; !strings.Contains(got, want) {
+		t.Fatalf("expected error to contain %q, got %q", want, got)
+	}
+}
+
+func TestLoadFromEnv_DevAllowsPlaceholderAdminToken(t *testing.T) {
+	t.Setenv("APP_ENV", "development")
+	t.Setenv("LEAD_API_ADMIN_TOKEN", "__CHANGE_ME__")
+
+	_, err := LoadFromEnv()
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+}
+
+func TestLoadFromEnv_AwinEnabledRequiresRealToken(t *testing.T) {
+	t.Setenv("LEAD_API_ADMIN_TOKEN", "dev-secret")
+	t.Setenv("LEAD_API_AWIN_ENABLED", "true")
+	t.Setenv("LEAD_API_AWIN_TOKEN", "")
+
+	_, err := LoadFromEnv()
+	if err == nil {
+		t.Fatalf("expected error")
+	}
+	if got, want := err.Error(), "LEAD_API_AWIN_TOKEN is required"; !strings.Contains(got, want) {
+		t.Fatalf("expected error to contain %q, got %q", want, got)
+	}
+
+	t.Setenv("LEAD_API_AWIN_TOKEN", "__CHANGE_ME__")
+	_, err = LoadFromEnv()
+	if err == nil {
+		t.Fatalf("expected error")
+	}
+	if got, want := err.Error(), "LEAD_API_AWIN_TOKEN must be set"; !strings.Contains(got, want) {
+		t.Fatalf("expected error to contain %q, got %q", want, got)
 	}
 }

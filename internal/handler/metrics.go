@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -38,19 +39,27 @@ func metricsHandler(leadSvc *service.LeadService) fiber.Handler {
 
 		mfs, err := prometheus.DefaultGatherer.Gather()
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "internal"})
+			return writeJSON(c, fiber.StatusInternalServerError, fiber.Map{"error": "internal"})
 		}
 
-	var buf bytes.Buffer
-	enc := expfmt.NewEncoder(&buf, expfmt.FmtText)
+		h := http.Header{}
+		h.Set(fiber.HeaderAccept, c.Get(fiber.HeaderAccept))
+		format := expfmt.Negotiate(h)
+		// Exemplar support requires OpenMetrics. Negotiation keeps compatibility with older scrapers.
+		if format == expfmt.FmtUnknown {
+			format = expfmt.FmtText
+		}
+
+		var buf bytes.Buffer
+		enc := expfmt.NewEncoder(&buf, format)
 	for _, mf := range mfs {
 		_ = enc.Encode(mf)
 	}
 
 	// Prevent caching.
 	c.Set("Cache-Control", "no-store")
-	// Prometheus text format.
-	c.Set(fiber.HeaderContentType, string(expfmt.FmtText))
-	return c.Send(buf.Bytes())
+		// Prometheus exposition format.
+		c.Set(fiber.HeaderContentType, string(format))
+		return c.Send(buf.Bytes())
 	}
 }

@@ -123,6 +123,27 @@ func TestLeadCreate_IdempotencyKey(t *testing.T) {
 	}
 }
 
+func TestLeadCreate_RequiresJSONContentType(t *testing.T) {
+	cfg := config.Config{MaxBodyBytes: 1024, RateLimitRPS: 5, AdminToken: "secret"}
+	repo := memory.NewLeadRepository()
+	leadSvc := service.NewLeadService(repo)
+	app := NewApp(cfg, leadSvc)
+
+	// NOTE: This is a Go raw string literal, so do NOT escape quotes.
+	payload := []byte(`{"business_name":"Biz A","contact_name":"A","phone_whatsapp":"+6281111111111","city":"Jakarta","salon_type":"SALON","consent":true}`)
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/leads", bytes.NewReader(payload))
+	req.Header.Set("Content-Type", "text/plain")
+
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("app.Test: %v", err)
+	}
+	if resp.StatusCode != http.StatusUnsupportedMediaType {
+		b, _ := io.ReadAll(resp.Body)
+		t.Fatalf("expected 415, got %d: %s", resp.StatusCode, string(b))
+	}
+}
+
 func TestAdminLeadNotifications_Unauthorized(t *testing.T) {
 	cfg := config.Config{MaxBodyBytes: 1024, RateLimitRPS: 5, AdminToken: "secret"}
 	leadRepo := memory.NewLeadRepository()

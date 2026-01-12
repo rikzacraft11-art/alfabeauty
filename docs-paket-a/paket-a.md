@@ -1000,6 +1000,70 @@ Operational minimum (Option B):
 **Rollback:** lakukan bila SEV-1 atau error rate tinggi; rollback ke release known-good; ulangi smoke test + 1 submit lead valid.  
 **Lead pipeline health checks:** monitor success rate + error counts; jika drop dicurigai, submit lead test dan cek persistence/notification.
 
+#### Alertability + triage (minimal, Paket A)
+
+File contoh alert rules: `docs-paket-a/prometheus_alerts_example.yml`.
+
+Prinsip triage:
+- **Mitigate first** (rollback / disable risky change) untuk SEV-1.
+- Gunakan **metrics** untuk melihat *scope* (berapa banyak, sejak kapan).
+- Gunakan **logs** untuk melihat *why*.
+- Gunakan **exemplars (trace_id)** untuk menghubungkan spike latency ke request representatif (tanpa menambah label/cardinality).
+
+**Cara pakai exemplar `trace_id`:**
+
+1) Buka panel latency (mis. `lead_api_http_request_duration_seconds`) di Grafana/Prometheus.
+2) Klik exemplar (jika tersedia) untuk mendapatkan `trace_id`.
+3) Cari di log server event `http_request` pada field `trace` yang berisi traceparent.
+  - `trace` adalah string W3C `traceparent`.
+  - `trace_id` adalah substring 32-hex (bagian ke-2 dari `traceparent`).
+
+> Catatan: exemplars biasanya tampil jika scraper menggunakan OpenMetrics. Endpoint `/metrics` mendukung negosiasi format via `Accept`.
+
+##### Playbook: LeadAPIHighErrorRate / LeadAPISubmitFailingContinuously
+
+1) Pastikan ada traffic (agar rasio bermakna):
+  - lihat `sum(rate(lead_api_http_requests_total{route="/api/v1/leads"}[5m]))`
+2) Periksa error burst (5xx):
+  - `sum(rate(lead_api_http_requests_total{route="/api/v1/leads",status_class="5xx"}[5m]))`
+3) Periksa hasil lead pipeline (OPS-02):
+  - `sum(rate(lead_api_lead_submissions_total[5m])) by (result)`
+4) Mitigasi cepat:
+  - rollback release terakhir (jika error muncul pasca deploy)
+  - jalankan 1 submit lead valid (smoke) dan verifikasi persistence + export
+
+##### Playbook: LeadNotificationBacklogStuck
+
+1) Lihat backlog (ready vs delayed):
+  - `lead_api_lead_notifications_pending_ready_total`
+  - `lead_api_lead_notifications_pending_delayed_total`
+2) Lihat usia oldest ready:
+  - `lead_api_lead_notifications_oldest_ready_pending_age_seconds`
+3) Cek endpoint admin stats (lebih informatif per status):
+  - `GET /api/v1/admin/lead-notifications/stats` (admin-only)
+4) Interpretasi cepat:
+  - `pending_ready_total` tinggi + `oldest_ready_pending_age_seconds` tinggi → worker/sender tidak jalan atau provider hard-fail
+  - `pending_delayed_total` tinggi → retry/backoff meningkat (provider flaky)
+
+##### Playbook: LeadAPISlowP95
+
+1) Konfirmasi p95 query sesuai route template (tidak pakai raw path):
+  - `histogram_quantile(0.95, sum(rate(lead_api_http_request_duration_seconds_bucket{route="/api/v1/leads"}[5m])) by (le))`
+2) Gunakan exemplars (trace_id) untuk mengambil contoh request lambat, lalu korelasikan ke log.
+3) Mitigasi cepat:
+  - jika lambat karena dependency (DB) → cek health DB / pool / timeouts
+  - rollback jika regresi pasca deploy
+
+##### Playbook: LeadAPIInternalLeadFailures
+
+1) Konfirmasi ada kenaikan result=internal:
+  - `sum(rate(lead_api_lead_submissions_total{result="internal"}[5m]))`
+2) Korelasikan dengan log event:
+  - `http_request` (status 5xx pada route leads)
+  - `lead_notification_enqueue_failed` (enqueue outbox gagal)
+3) Mitigasi:
+  - rollback / degrade mode (jika ada) / matikan channel notifikasi bermasalah bila memicu error (ops decision)
+
 Ops shortcut (admin-only):
 
 - `GET /api/v1/admin/lead-notifications/stats` → cek backlog outbox (counts per status + oldest ready pending age).

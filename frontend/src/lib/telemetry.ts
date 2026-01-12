@@ -55,6 +55,9 @@ function sendJSONBeacon(url: string, payload: unknown): boolean {
 const queue: Array<{ url: string; payload: unknown }> = [];
 let listenersInstalled = false;
 
+// If beacons fail repeatedly (rare), avoid unbounded memory growth.
+const MAX_QUEUE = 50;
+
 function installFlushOnHidden() {
   if (listenersInstalled) return;
   listenersInstalled = true;
@@ -93,5 +96,10 @@ export function postTelemetry(path: "/api/rum" | "/api/events", payload: Record<
   const ok = sendJSONBeacon(url, enriched);
   if (!ok) {
     queue.push({ url, payload: enriched });
+
+    // Drop oldest items if the queue grows too large.
+    while (queue.length > MAX_QUEUE) {
+      queue.shift();
+    }
   }
 }

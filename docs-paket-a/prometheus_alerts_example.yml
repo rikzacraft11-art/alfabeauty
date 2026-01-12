@@ -2,6 +2,11 @@
 #
 # This file is intentionally minimal and should be adapted to your environment
 # (job/instance labels, routing, notification channels).
+#
+# Notes:
+# - The Lead API can attach trace exemplars (trace_id) to HTTP duration histograms.
+#   To see exemplars, scrape /metrics with OpenMetrics enabled (Prometheus will usually
+#   negotiate this automatically via Accept headers).
 
 groups:
   - name: paket-a-lead-api
@@ -46,3 +51,29 @@ groups:
         annotations:
           summary: "Lead notification backlog stuck (ready pending > 10m)"
           description: "Outbox has ready-to-send items older than 10 minutes. Check worker/senders and provider health."
+
+      # Latency (alertability): p95 duration of /api/v1/leads is too slow.
+      # Use route label (stable template) to avoid cardinality blow-up.
+      - alert: LeadAPISlowP95
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(lead_api_http_request_duration_seconds_bucket{route="/api/v1/leads"}[5m])) by (le)
+          ) > 1
+        for: 10m
+        labels:
+          severity: sev2
+        annotations:
+          summary: "Lead API p95 latency > 1s (10m)"
+          description: "p95 request latency for /api/v1/leads exceeded 1s for 10 minutes. Use exemplars (trace_id) to drill down to representative slow requests."
+
+      # Business failure mode: internal errors on lead submissions should be near-zero.
+      - alert: LeadAPIInternalLeadFailures
+        expr: |
+          sum(rate(lead_api_lead_submissions_total{result="internal"}[5m])) > 0
+        for: 5m
+        labels:
+          severity: sev2
+        annotations:
+          summary: "Lead submissions returning internal result"
+          description: "Lead pipeline is recording internal failures. Investigate logs around http_request + lead_notification_enqueue_failed events."

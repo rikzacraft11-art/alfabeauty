@@ -2,12 +2,13 @@ package service
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"example.com/alfabeauty-b2b/internal/domain/lead"
 	"example.com/alfabeauty-b2b/internal/domain/notification"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/repository"
+	"example.com/alfabeauty-b2b/pkg/metrics"
 )
 
 type LeadService struct {
@@ -47,14 +48,40 @@ func (s *LeadService) Create(ctx context.Context, l lead.Lead) (lead.Lead, error
 
 	// Enqueue notifications (non-blocking for intake): a failure here must not lose the lead.
 	if s.notificationRepo != nil {
+		tp := obs.TraceparentFromContext(ctx)
+
 		if s.enableEmail {
-			if err := s.notificationRepo.Enqueue(ctx, created.ID, notification.ChannelEmail); err != nil {
-				log.Printf("lead notify enqueue email failed (lead_id=%s): %v", created.ID, err)
+			start := time.Now()
+			err := s.notificationRepo.Enqueue(ctx, created.ID, notification.ChannelEmail)
+			result := "ok"
+			if err != nil {
+				result = "error"
+			}
+			metrics.ObserveLeadNotificationEnqueueWithTraceparent("email", result, time.Since(start), tp)
+			if err != nil {
+				obs.Log("lead_notification_enqueue_failed", obs.Fields{
+					"channel": "email",
+					"lead_id":  created.ID.String(),
+					"trace":    tp,
+					"error":    err.Error(),
+				})
 			}
 		}
 		if s.enableWebhook {
-			if err := s.notificationRepo.Enqueue(ctx, created.ID, notification.ChannelWebhook); err != nil {
-				log.Printf("lead notify enqueue webhook failed (lead_id=%s): %v", created.ID, err)
+			start := time.Now()
+			err := s.notificationRepo.Enqueue(ctx, created.ID, notification.ChannelWebhook)
+			result := "ok"
+			if err != nil {
+				result = "error"
+			}
+			metrics.ObserveLeadNotificationEnqueueWithTraceparent("webhook", result, time.Since(start), tp)
+			if err != nil {
+				obs.Log("lead_notification_enqueue_failed", obs.Fields{
+					"channel": "webhook",
+					"lead_id":  created.ID.String(),
+					"trace":    tp,
+					"error":    err.Error(),
+				})
 			}
 		}
 	}

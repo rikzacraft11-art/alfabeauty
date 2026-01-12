@@ -41,6 +41,44 @@ var (
 		[]string{"result"},
 	)
 
+	leadNotificationEnqueueTotal = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: "lead_api",
+			Name:      "lead_notification_enqueue_total",
+			Help:      "Total lead notification enqueue attempts, labeled by channel/result.",
+		},
+		[]string{"channel", "result"},
+	)
+
+	leadNotificationEnqueueDurationSeconds = prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Namespace: "lead_api",
+			Name:      "lead_notification_enqueue_duration_seconds",
+			Help:      "Duration of enqueueing a lead notification into the outbox, labeled by channel/result.",
+			Buckets:   []float64{0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1},
+		},
+		[]string{"channel", "result"},
+	)
+
+	leadNotificationSendTotal = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: "lead_api",
+			Name:      "lead_notification_send_total",
+			Help:      "Total lead notification send attempts by the worker, labeled by channel/result.",
+		},
+		[]string{"channel", "result"},
+	)
+
+	leadNotificationSendDurationSeconds = prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Namespace: "lead_api",
+			Name:      "lead_notification_send_duration_seconds",
+			Help:      "Duration of sending a lead notification by the worker, labeled by channel/result.",
+			Buckets:   []float64{0.01, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10},
+		},
+		[]string{"channel", "result"},
+	)
+
 	leadNotificationsCountByStatus = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: "lead_api",
@@ -142,6 +180,10 @@ func Init() {
 			httpRequestsTotal,
 			httpRequestDurationSeconds,
 			leadSubmissionsTotal,
+			leadNotificationEnqueueTotal,
+			leadNotificationEnqueueDurationSeconds,
+			leadNotificationSendTotal,
+			leadNotificationSendDurationSeconds,
 			leadNotificationsCountByStatus,
 			leadNotificationsPendingReady,
 			leadNotificationsPendingDelayed,
@@ -160,6 +202,16 @@ func Init() {
 //
 // The caller must ensure "route" is a stable template (e.g. "/api/v1/leads"), not raw paths.
 func ObserveHTTPRequest(route, method string, statusCode int, dur time.Duration) {
+	ObserveHTTPRequestWithTraceparent(route, method, statusCode, dur, "")
+}
+
+// ObserveHTTPRequestWithTraceparent records low-cardinality HTTP metrics and, when possible,
+// attaches a trace exemplar (trace_id) to the duration histogram.
+//
+// IMPORTANT:
+// - The trace identifier is attached as an exemplar (sample), NOT as a label.
+// - This keeps metric cardinality low while enabling drill-down from spikes to traces/logs.
+func ObserveHTTPRequestWithTraceparent(route, method string, statusCode int, dur time.Duration, traceparent string) {
 	Init()
 
 	statusClass := "other"
@@ -169,13 +221,110 @@ func ObserveHTTPRequest(route, method string, statusCode int, dur time.Duration)
 	}
 
 	httpRequestsTotal.WithLabelValues(route, method, statusClass).Inc()
-	httpRequestDurationSeconds.WithLabelValues(route, method).Observe(dur.Seconds())
+
+	// Attach exemplar when the Prometheus client supports it and traceparent contains a valid trace id.
+	obs := httpRequestDurationSeconds.WithLabelValues(route, method)
+	if eo, ok := obs.(prometheus.ExemplarObserver); ok {
+		if tid := traceIDFromTraceparent(traceparent); tid != "" {
+			eo.ObserveWithExemplar(dur.Seconds(), prometheus.Labels{"trace_id": tid})
+			return
+		}
+	}
+	obs.Observe(dur.Seconds())
+}
+
+// traceIDFromTraceparent extracts the 32-hex trace-id from a W3C traceparent header.
+// Expected format: "version-traceid-spanid-flags" (e.g. "00-<32hex>-<16hex>-01").
+func traceIDFromTraceparent(tp string) string {
+	tp = strings.TrimSpace(tp)
+	if tp == "" {
+		return ""
+	}
+	parts := strings.Split(tp, "-")
+	if len(parts) != 4 {
+		return ""
+	}
+	traceID := strings.ToLower(strings.TrimSpace(parts[1]))
+	if len(traceID) != 32 {
+		return ""
+	}
+	// Must be lowercase hex.
+	for i := 0; i < len(traceID); i++ {
+		c := traceID[i]
+		isNum := c >= '0' && c <= '9'
+		isHex := c >= 'a' && c <= 'f'
+		if !isNum && !isHex {
+			return ""
+		}
+	}
+	// W3C forbids all-zero trace-id.
+	if traceID == "00000000000000000000000000000000" {
+		return ""
+	}
+	return traceID
 }
 
 // IncLeadSubmission increments the lead submission counter.
 func IncLeadSubmission(result string) {
 	Init()
 	leadSubmissionsTotal.WithLabelValues(result).Inc()
+}
+
+// ObserveLeadNotificationEnqueueWithTraceparent records outbox enqueue performance and, when possible,
+// attaches a trace exemplar (trace_id) to the duration histogram.
+//
+// result should be a stable low-cardinality value, e.g. "ok" or "error".
+func ObserveLeadNotificationEnqueueWithTraceparent(channel, result string, dur time.Duration, traceparent string) {
+	Init()
+	ch := strings.TrimSpace(strings.ToLower(channel))
+	if ch == "" {
+		ch = "unknown"
+	}
+	res := strings.TrimSpace(strings.ToLower(result))
+	if res == "" {
+		res = "unknown"
+	}
+
+	leadNotificationEnqueueTotal.WithLabelValues(ch, res).Inc()
+
+	obs := leadNotificationEnqueueDurationSeconds.WithLabelValues(ch, res)
+	if eo, ok := obs.(prometheus.ExemplarObserver); ok {
+		if tid := traceIDFromTraceparent(traceparent); tid != "" {
+			eo.ObserveWithExemplar(dur.Seconds(), prometheus.Labels{"trace_id": tid})
+			return
+		}
+	}
+	obs.Observe(dur.Seconds())
+}
+
+// ObserveLeadNotificationSendWithTraceparent records worker send performance and, when possible,
+// attaches a trace exemplar (trace_id) to the duration histogram.
+//
+// result should be a stable low-cardinality value, e.g. "ok" or "error".
+func ObserveLeadNotificationSendWithTraceparent(channel, result string, dur time.Duration, traceparent string) {
+	Init()
+	ch := strings.TrimSpace(strings.ToLower(channel))
+	if ch == "" {
+		ch = "unknown"
+	}
+	res := strings.TrimSpace(strings.ToLower(result))
+	if res == "" {
+		res = "unknown"
+	}
+
+	leadNotificationSendTotal.WithLabelValues(ch, res).Inc()
+	if dur <= 0 {
+		return
+	}
+
+	obs := leadNotificationSendDurationSeconds.WithLabelValues(ch, res)
+	if eo, ok := obs.(prometheus.ExemplarObserver); ok {
+		if tid := traceIDFromTraceparent(traceparent); tid != "" {
+			eo.ObserveWithExemplar(dur.Seconds(), prometheus.Labels{"trace_id": tid})
+			return
+		}
+	}
+	obs.Observe(dur.Seconds())
 }
 
 // SetLeadNotificationBacklog updates gauges for lead notification backlog.

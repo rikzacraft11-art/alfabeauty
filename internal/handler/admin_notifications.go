@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"strconv"
 	"strings"
 	"time"
@@ -9,6 +10,7 @@ import (
 	"github.com/google/uuid"
 
 	"example.com/alfabeauty-b2b/internal/domain/notification"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/repository"
 	"example.com/alfabeauty-b2b/internal/service"
 )
@@ -27,6 +29,11 @@ const (
 //   - before: RFC3339 timestamp (optional) -> created_at < before
 func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		var ctx context.Context = c.Context()
+		if tp, ok := c.Locals("traceparent").(string); ok {
+			ctx = obs.WithTraceparent(ctx, tp)
+		}
+
 		status := strings.TrimSpace(strings.ToLower(c.Query("status")))
 		channel := strings.TrimSpace(strings.ToLower(c.Query("channel")))
 
@@ -35,7 +42,7 @@ func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 			case notification.StatusPending, notification.StatusProcessing, notification.StatusSent, notification.StatusFailed:
 				// ok
 			default:
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_status"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_status"})
 			}
 		}
 		if channel != "" {
@@ -43,7 +50,7 @@ func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 			case notification.ChannelEmail, notification.ChannelWebhook:
 				// ok
 			default:
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_channel"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_channel"})
 			}
 		}
 
@@ -51,7 +58,7 @@ func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 		if raw := strings.TrimSpace(c.Query("limit")); raw != "" {
 			v, err := strconv.Atoi(raw)
 			if err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_limit"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_limit"})
 			}
 			limit = v
 		}
@@ -66,7 +73,7 @@ func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 		if raw := strings.TrimSpace(c.Query("before")); raw != "" {
 			t, err := time.Parse(time.RFC3339, raw)
 			if err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_before"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_before"})
 			}
 			before = t
 		}
@@ -75,12 +82,13 @@ func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 		if raw := strings.TrimSpace(c.Query("lead_id")); raw != "" {
 			id, err := uuid.Parse(raw)
 			if err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_lead_id"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_lead_id"})
 			}
 			leadID = &id
 		}
 
-		items, err := svc.ListNotifications(c.Context(), repository.LeadNotificationListQuery{
+		start := time.Now()
+		items, err := svc.ListNotifications(ctx, repository.LeadNotificationListQuery{
 			Status:  status,
 			Channel: channel,
 			LeadID:  leadID,
@@ -88,8 +96,25 @@ func listLeadNotificationsHandler(svc *service.LeadService) fiber.Handler {
 			Before:  before,
 		})
 		if err != nil {
+			obs.Log("admin_list_lead_notifications_failed", obs.Fields{
+				"trace": obs.TraceparentFromContext(ctx),
+				"status": status,
+				"channel": channel,
+				"has_lead_id": leadID != nil,
+				"limit": limit,
+				"error": err.Error(),
+			})
 			return writeJSON(c, fiber.StatusInternalServerError, fiber.Map{"error": "internal"})
 		}
+		obs.Log("admin_list_lead_notifications", obs.Fields{
+			"trace": obs.TraceparentFromContext(ctx),
+			"status": status,
+			"channel": channel,
+			"has_lead_id": leadID != nil,
+			"limit": limit,
+			"count": len(items),
+			"dur_ms": time.Since(start).Milliseconds(),
+		})
 
 		// Admin-only operational state; avoid caches.
 		c.Set("Cache-Control", "no-store")

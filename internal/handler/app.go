@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"log"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,17 +10,25 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 
 	"example.com/alfabeauty-b2b/internal/config"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/service"
 )
 
 func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
+	trustedProxies := parseTrustedProxies(cfg.TrustedProxies)
+
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		BodyLimit:             cfg.MaxBodyBytes,
+		// Only trust X-Forwarded-For when explicit TRUSTED_PROXIES are configured.
+		EnableTrustedProxyCheck: len(trustedProxies) > 0,
+		TrustedProxies:          trustedProxies,
+		ProxyHeader:             fiber.HeaderXForwardedFor,
 	})
 
-	// Minimal observability: request-id + panic recovery + access log.
-	app.Use(requestid.New())
+	// Minimal observability (Paket A): request-id + trace context + panic recovery + access log.
+	app.Use(requestid.New(requestid.Config{Header: fiber.HeaderXRequestID}))
+	app.Use(ensureTraceparent())
 	app.Use(recover.New())
 	app.Use(func(c *fiber.Ctx) error {
 		start := time.Now()
@@ -30,14 +38,17 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 		// Avoid logging request bodies to reduce PII risk.
 		status := c.Response().StatusCode()
 		rid, _ := c.Locals("requestid").(string)
-		log.Printf("rid=%s method=%s path=%s status=%d dur_ms=%d ip=%s",
-			rid,
-			c.Method(),
-			c.Path(),
-			status,
-			dur.Milliseconds(),
-			c.IP(),
-		)
+		tp, _ := c.Locals("traceparent").(string)
+
+		obs.Log("http_request", obs.Fields{
+			"rid":       rid,
+			"trace":     tp,
+			"method":    c.Method(),
+			"path":      c.Path(),
+			"status":    status,
+			"dur_ms":    dur.Milliseconds(),
+			"ip":        c.IP(),
+		})
 		return err
 	})
 
@@ -51,7 +62,7 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 		return c.Next()
 	})
 
-	app.Get("/health", httpMetrics("/health"), healthHandler())
+	app.Get("/health", httpMetrics("/health"), healthHandler(cfg))
 	app.Get("/metrics", httpMetrics("/metrics"), requireAdminToken(cfg.AdminToken), metricsHandler(leadSvc))
 
 	api := app.Group("/api")
@@ -78,10 +89,10 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 	})
 
 	// Website telemetry (Paket A A4): analytics events + CWV RUM.
-	v1.Post("/events", httpMetrics("/api/v1/events"), telemetryLimiter, ingestWebsiteEventHandler())
-	v1.Post("/rum", httpMetrics("/api/v1/rum"), telemetryLimiter, ingestRUMHandler())
+	v1.Post("/events", httpMetrics("/api/v1/events"), requireJSONContentType(), telemetryLimiter, ingestWebsiteEventHandler())
+	v1.Post("/rum", httpMetrics("/api/v1/rum"), requireJSONContentType(), telemetryLimiter, ingestRUMHandler())
 
-	v1.Post("/leads", httpMetrics("/api/v1/leads"), leadRateLimitMetricsMiddleware(), leadLimiter, createLeadHandler(leadSvc))
+	v1.Post("/leads", httpMetrics("/api/v1/leads"), requireJSONContentType(), leadRateLimitMetricsMiddleware(), leadLimiter, createLeadHandler(leadSvc))
 
 	admin := v1.Group("/admin", requireAdminToken(cfg.AdminToken))
 	admin.Get("/leads.csv", exportLeadsCSVHandler(leadSvc))
@@ -89,4 +100,25 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 	admin.Get("/lead-notifications/stats", leadNotificationsStatsHandler(leadSvc))
 
 	return app
+}
+
+func parseTrustedProxies(raw string) []string {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return nil
+	}
+
+	parts := strings.Split(raw, ",")
+	out := make([]string, 0, len(parts))
+	for _, p := range parts {
+		p = strings.TrimSpace(p)
+		if p == "" {
+			continue
+		}
+		out = append(out, p)
+	}
+	if len(out) == 0 {
+		return nil
+	}
+	return out
 }

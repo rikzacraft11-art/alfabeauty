@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"log"
 	"os"
 	"os/signal"
 	"strings"
@@ -13,6 +12,7 @@ import (
 	"example.com/alfabeauty-b2b/internal/config"
 	"example.com/alfabeauty-b2b/internal/database"
 	"example.com/alfabeauty-b2b/internal/handler"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/notify"
 	"example.com/alfabeauty-b2b/internal/repository"
 	"example.com/alfabeauty-b2b/internal/repository/memory"
@@ -21,14 +21,31 @@ import (
 )
 
 func main() {
+	obs.Init()
+
 	// Best-effort local dev convenience. In containers/CI, env should be injected.
 	_, _ = os.Stat(".env")
 	_ = godotenv.Load()
 
 	cfg, err := config.LoadFromEnv()
 	if err != nil {
-		log.Fatalf("config error: %v", err)
+		obs.Fatal("startup_error", obs.Fields{"stage": "config", "error": err.Error()})
 	}
+
+	obs.Log("startup", obs.Fields{
+		"env":                        cfg.Env,
+		"addr":                       cfg.Addr(),
+		"notify_email_enabled":       cfg.NotifyEmailEnabled,
+		"notify_webhook_enabled":     cfg.NotifyWebhookEnabled,
+		"awin_enabled":               cfg.AwinEnabled,
+		"trusted_proxies_configured": strings.TrimSpace(cfg.TrustedProxies) != "",
+		"persistence": func() string {
+			if strings.TrimSpace(cfg.DatabaseURL) != "" && cfg.DatabaseURL != "__CHANGE_ME__" {
+				return "postgres"
+			}
+			return "memory"
+		}(),
+	})
 
 	var leadRepo repository.LeadRepository
 	var notifRepo repository.LeadNotificationRepository
@@ -47,17 +64,17 @@ func main() {
 	if cfg.DatabaseURL != "" && cfg.DatabaseURL != "__CHANGE_ME__" {
 		db, err := database.OpenPostgres(cfg.DatabaseURL)
 		if err != nil {
-			log.Fatalf("database error: %v", err)
+			obs.Fatal("startup_error", obs.Fields{"stage": "database", "error": err.Error()})
 		}
 		defer db.Close()
 
 		leadRepo = postgres.NewLeadRepository(db)
 		notifRepo = postgres.NewLeadNotificationRepository(db)
-		log.Printf("lead repository: postgres")
+		obs.Log("repo_selected", obs.Fields{"lead_repo": "postgres"})
 	} else {
 		leadRepo = memory.NewLeadRepository()
 		notifRepo = memory.NewLeadNotificationRepository()
-		log.Printf("lead repository: memory")
+		obs.Log("repo_selected", obs.Fields{"lead_repo": "memory"})
 	}
 
 	// Notification senders (optional).
@@ -72,14 +89,14 @@ func main() {
 			To:       recipients,
 			UseTLS:   cfg.SMTPUseTLS,
 		}))
-		log.Printf("lead notifications: email enabled")
+		obs.Log("notify_enabled", obs.Fields{"channel": "email"})
 	}
 	if cfg.NotifyWebhookEnabled {
 		senders = append(senders, notify.NewWebhookSender(notify.WebhookConfig{
 			URL:    cfg.WebhookURL,
 			Secret: cfg.WebhookSecret,
 		}))
-		log.Printf("lead notifications: webhook enabled")
+		obs.Log("notify_enabled", obs.Fields{"channel": "webhook"})
 	}
 
 	leadSvc := service.NewLeadServiceWithNotifications(leadRepo, notifRepo, cfg.NotifyEmailEnabled, cfg.NotifyWebhookEnabled)
@@ -87,7 +104,7 @@ func main() {
 	if notifRepo != nil && len(senders) > 0 {
 		w := notify.NewWorker(notifRepo, leadRepo, senders)
 		go w.Run(ctx)
-		log.Printf("notification worker started")
+		obs.Log("worker_started", obs.Fields{"worker": "notification"})
 	}
 
 	app := handler.NewApp(cfg, leadSvc)
@@ -96,9 +113,9 @@ func main() {
 		_ = app.Shutdown()
 	}()
 
-	log.Printf("listening on %s", cfg.Addr())
+	obs.Log("listen", obs.Fields{"addr": cfg.Addr()})
 	if err := app.Listen(cfg.Addr()); err != nil {
-		log.Fatalf("server stopped: %v", err)
+		obs.Fatal("server_stopped", obs.Fields{"error": err.Error()})
 	}
 }
 

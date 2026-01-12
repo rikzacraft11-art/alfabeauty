@@ -39,8 +39,13 @@ func ingestRUMHandler() fiber.Handler {
 		}
 
 		metric := strings.ToUpper(strings.TrimSpace(p.MetricName))
-		if strings.TrimSpace(p.MetricID) == "" {
+		id := strings.TrimSpace(p.MetricID)
+		if id == "" {
 			return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "metric_id is required"})
+		}
+		// Defense-in-depth: bound key size to reduce memory pressure under abuse.
+		if len(id) > 128 {
+			return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "metric_id is too long"})
 		}
 		switch metric {
 		case "LCP", "CLS", "INP":
@@ -68,7 +73,7 @@ func ingestRUMHandler() fiber.Handler {
 
 		// Best-effort dedupe by metric_id to avoid double counting when the client
 		// retries (sendBeacon fallback, pagehide/visibilitychange flush, etc.).
-		if rumMetricIDDedupe.Seen(strings.TrimSpace(p.MetricID), time.Now()) {
+		if rumMetricIDDedupe.Seen(id, time.Now()) {
 			return c.SendStatus(fiber.StatusNoContent)
 		}
 

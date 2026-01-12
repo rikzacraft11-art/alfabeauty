@@ -20,6 +20,8 @@ func TestWebsiteEvents_Ingest_OK(t *testing.T) {
 	app := NewApp(cfg, leadSvc)
 
 	payload := []byte(`{"event_name":"cta_whatsapp_click","page_url_current":"http://localhost:3000/","device_type":"desktop"}`)
+	// NOTE: This is a Go raw string literal, so do NOT escape quotes.
+	payload = []byte(`{"event_name":"cta_whatsapp_click","page_url_current":"http://localhost:3000/","device_type":"desktop"}`)
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewReader(payload))
 	req.Header.Set("Content-Type", "application/json")
 
@@ -29,6 +31,67 @@ func TestWebsiteEvents_Ingest_OK(t *testing.T) {
 	}
 	if resp.StatusCode != http.StatusNoContent {
 		t.Fatalf("expected 204, got %d", resp.StatusCode)
+	}
+}
+
+func TestWebsiteEvents_Ingest_RequiresJSONContentType(t *testing.T) {
+	cfg := config.Config{MaxBodyBytes: 1024 * 8, RateLimitRPS: 5, AdminToken: "secret"}
+	repo := memory.NewLeadRepository()
+	leadSvc := service.NewLeadService(repo)
+	app := NewApp(cfg, leadSvc)
+
+	payload := []byte(`{"event_name":"cta_whatsapp_click","page_url_current":"http://localhost:3000/","device_type":"desktop"}`)
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewReader(payload))
+	req.Header.Set("Content-Type", "text/plain")
+
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("app.Test: %v", err)
+	}
+	if resp.StatusCode != http.StatusUnsupportedMediaType {
+		b, _ := io.ReadAll(resp.Body)
+		t.Fatalf("expected 415, got %d: %s", resp.StatusCode, string(b))
+	}
+}
+
+func TestWebsiteEvents_UnknownEvent_IsNormalized(t *testing.T) {
+	cfg := config.Config{MaxBodyBytes: 1024 * 8, RateLimitRPS: 5, AdminToken: "secret"}
+	repo := memory.NewLeadRepository()
+	leadSvc := service.NewLeadService(repo)
+	app := NewApp(cfg, leadSvc)
+
+	// Unknown event names must not create new Prometheus label values.
+	// NOTE: This is a Go raw string literal, so do NOT escape quotes.
+	payload := []byte(`{"event_name":"evil_event_123","page_url_current":"http://localhost:3000/","device_type":"desktop"}`)
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewReader(payload))
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("app.Test: %v", err)
+	}
+	if resp.StatusCode != http.StatusNoContent {
+		t.Fatalf("expected 204, got %d", resp.StatusCode)
+	}
+
+	metricsReq := httptest.NewRequest(http.MethodGet, "/metrics", nil)
+	metricsReq.Header.Set("X-Admin-Token", "secret")
+	metricsResp, err := app.Test(metricsReq)
+	if err != nil {
+		t.Fatalf("app.Test metrics: %v", err)
+	}
+	if metricsResp.StatusCode != http.StatusOK {
+		t.Fatalf("expected 200, got %d", metricsResp.StatusCode)
+	}
+	bodyBytes, err := io.ReadAll(metricsResp.Body)
+	if err != nil {
+		t.Fatalf("read metrics body: %v", err)
+	}
+	body := string(bodyBytes)
+
+	needle := "lead_api_website_events_total{device_type=\"desktop\",event=\"unknown\"} 1"
+	if !strings.Contains(body, needle) {
+		t.Fatalf("expected metrics to contain %q", needle)
 	}
 }
 
@@ -58,6 +121,26 @@ func TestRUM_Ingest_Validates(t *testing.T) {
 	}
 	if okResp.StatusCode != http.StatusNoContent {
 		t.Fatalf("expected 204, got %d", okResp.StatusCode)
+	}
+}
+
+func TestRUM_Ingest_RequiresJSONContentType(t *testing.T) {
+	cfg := config.Config{MaxBodyBytes: 1024 * 8, RateLimitRPS: 5, AdminToken: "secret"}
+	repo := memory.NewLeadRepository()
+	leadSvc := service.NewLeadService(repo)
+	app := NewApp(cfg, leadSvc)
+
+	payload := []byte(`{"metric_id":"m1","metric_name":"LCP","value":1234.0,"rating":"good","page_url_current":"http://localhost:3000/","device_type":"desktop"}`)
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/rum", bytes.NewReader(payload))
+	req.Header.Set("Content-Type", "text/plain")
+
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatalf("app.Test: %v", err)
+	}
+	if resp.StatusCode != http.StatusUnsupportedMediaType {
+		b, _ := io.ReadAll(resp.Body)
+		t.Fatalf("expected 415, got %d: %s", resp.StatusCode, string(b))
 	}
 }
 

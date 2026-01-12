@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"context"
 	"crypto/subtle"
 	"encoding/csv"
 	"strconv"
@@ -10,6 +11,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/service"
 )
 
@@ -40,11 +42,16 @@ func requireAdminToken(expected string) fiber.Handler {
 
 func exportLeadsCSVHandler(svc *service.LeadService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		var ctx context.Context = c.Context()
+		if tp, ok := c.Locals("traceparent").(string); ok {
+			ctx = obs.WithTraceparent(ctx, tp)
+		}
+
 		limit := defaultExportLimit
 		if raw := strings.TrimSpace(c.Query("limit")); raw != "" {
 			v, err := strconv.Atoi(raw)
 			if err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_limit"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_limit"})
 			}
 			limit = v
 		}
@@ -59,15 +66,27 @@ func exportLeadsCSVHandler(svc *service.LeadService) fiber.Handler {
 		if raw := strings.TrimSpace(c.Query("before")); raw != "" {
 			t, err := time.Parse(time.RFC3339, raw)
 			if err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid_before"})
+				return writeJSON(c, fiber.StatusBadRequest, fiber.Map{"error": "invalid_before"})
 			}
 			before = t
 		}
 
-		leads, err := svc.List(c.Context(), limit, before)
+		start := time.Now()
+		leads, err := svc.List(ctx, limit, before)
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "internal"})
+			obs.Log("admin_export_leads_failed", obs.Fields{
+				"trace": obs.TraceparentFromContext(ctx),
+				"limit": limit,
+				"error": err.Error(),
+			})
+			return writeJSON(c, fiber.StatusInternalServerError, fiber.Map{"error": "internal"})
 		}
+		obs.Log("admin_export_leads", obs.Fields{
+			"trace": obs.TraceparentFromContext(ctx),
+			"limit": limit,
+			"count": len(leads),
+			"dur_ms": time.Since(start).Milliseconds(),
+		})
 
 		var buf bytes.Buffer
 		w := csv.NewWriter(&buf)
@@ -118,7 +137,7 @@ func exportLeadsCSVHandler(svc *service.LeadService) fiber.Handler {
 
 		w.Flush()
 		if err := w.Error(); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "internal"})
+			return writeJSON(c, fiber.StatusInternalServerError, fiber.Map{"error": "internal"})
 		}
 
 		c.Set("Cache-Control", "no-store")

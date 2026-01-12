@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -21,6 +20,7 @@ import (
 	"example.com/alfabeauty-b2b/internal/domain/lead"
 	"example.com/alfabeauty-b2b/internal/domain/notification"
 	"example.com/alfabeauty-b2b/internal/notify"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/repository/postgres"
 	"example.com/alfabeauty-b2b/internal/service"
 )
@@ -30,9 +30,11 @@ import (
 //
 // It is intended for operators/devs to quickly validate wiring without relying on external providers.
 func main() {
+	obs.Init()
+
 	dbURL := strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	if dbURL == "" {
-		log.Fatalf("DATABASE_URL is required")
+		obs.Fatal("smoke_notify_invalid_config", obs.Fields{"reason": "DATABASE_URL_required"})
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -73,13 +75,13 @@ func main() {
 	// --- Fake SMTP server ---
 	smtp, err := startFakeSMTPServer()
 	if err != nil {
-		log.Fatalf("start fake smtp: %v", err)
+		obs.Fatal("smoke_notify_smtp_start_failed", obs.Fields{"error": err.Error()})
 	}
 	defer smtp.Close()
 
 	db, err := database.OpenPostgres(dbURL)
 	if err != nil {
-		log.Fatalf("db open: %v", err)
+		obs.Fatal("smoke_notify_db_open_failed", obs.Fields{"error": err.Error()})
 	}
 	defer db.Close()
 
@@ -116,9 +118,9 @@ func main() {
 		IPAddress:      "127.0.0.1",
 	})
 	if err != nil {
-		log.Fatalf("create lead: %v", err)
+		obs.Fatal("smoke_notify_create_lead_failed", obs.Fields{"error": err.Error()})
 	}
-	log.Printf("created lead: %s", created.ID)
+	obs.Log("smoke_notify_created_lead", obs.Fields{"lead_id": created.ID.String()})
 
 	workerCtx, workerCancel := context.WithCancel(context.Background())
 	defer workerCancel()
@@ -134,7 +136,7 @@ func main() {
 
 		statuses, err := getNotificationStatuses(ctx, db, created.ID.String())
 		if err != nil {
-			log.Fatalf("query notification statuses: %v", err)
+			obs.Fatal("smoke_notify_query_statuses_failed", obs.Fields{"error": err.Error()})
 		}
 
 		emailOK := statuses[notification.ChannelEmail] == notification.StatusSent
@@ -147,14 +149,14 @@ func main() {
 
 	statuses, err := getNotificationStatuses(ctx, db, created.ID.String())
 	if err != nil {
-		log.Fatalf("final query statuses: %v", err)
+		obs.Fatal("smoke_notify_query_statuses_failed", obs.Fields{"phase": "final", "error": err.Error()})
 	}
 
 	if statuses[notification.ChannelEmail] != notification.StatusSent {
-		log.Fatalf("email notification not sent: status=%s", statuses[notification.ChannelEmail])
+		obs.Fatal("smoke_notify_email_not_sent", obs.Fields{"status": statuses[notification.ChannelEmail]})
 	}
 	if statuses[notification.ChannelWebhook] != notification.StatusSent {
-		log.Fatalf("webhook notification not sent: status=%s", statuses[notification.ChannelWebhook])
+		obs.Fatal("smoke_notify_webhook_not_sent", obs.Fields{"status": statuses[notification.ChannelWebhook]})
 	}
 
 	webhookMu.Lock()
@@ -163,25 +165,26 @@ func main() {
 	webhookMu.Unlock()
 
 	if hits < 1 {
-		log.Fatalf("expected webhook to be called at least once")
+		obs.Fatal("smoke_notify_webhook_not_called", obs.Fields{"hits": hits})
 	}
 	if got, _ := payload["lead_id"].(string); got != created.ID.String() {
-		log.Fatalf("webhook payload lead_id mismatch: got=%q want=%q", got, created.ID.String())
+		obs.Fatal("smoke_notify_webhook_payload_mismatch", obs.Fields{"field": "lead_id"})
 	}
 
 	smtpData := smtp.LastMessage()
 	if !bytes.Contains(smtpData, []byte(created.ID.String())) {
-		log.Fatalf("smtp message did not include lead id")
+		obs.Fatal("smoke_notify_smtp_payload_missing", obs.Fields{"field": "lead_id"})
 	}
 
 	// Cleanup (default). This keeps Supabase tidy.
 	if strings.TrimSpace(strings.ToLower(os.Getenv("SMOKE_KEEP"))) != "true" {
 		if err := cleanupLead(ctx, db, created.ID.String()); err != nil {
-			log.Printf("cleanup warning: %v", err)
+			obs.Log("smoke_notify_cleanup_warning", obs.Fields{"error": err.Error()})
 		}
 	}
 
-	log.Printf("SMOKE PASS: notifications delivered (email + webhook)")
+	obs.Log("smoke_notify_pass", obs.Fields{"result": "notifications_delivered"})
+	fmt.Println("SMOKE PASS: notifications delivered (email + webhook)")
 }
 
 func getNotificationStatuses(ctx context.Context, db *sql.DB, leadID string) (map[string]string, error) {

@@ -21,17 +21,50 @@ export default function WhatsAppLink({ prefill, href, ...props }: Props) {
       fallbackEmail,
     });
 
+  const isDisabled = finalHref === "#";
+  const isMailto = !isDisabled && finalHref.startsWith("mailto:");
+  const isExternal = !isDisabled && !isMailto;
+
+  const className = [
+    props.className,
+    isDisabled ? "cursor-not-allowed opacity-60" : undefined,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <a
       {...props}
-      href={finalHref}
-      target="_blank"
-      rel="noopener noreferrer"
+      className={className}
+      href={isDisabled ? undefined : finalHref}
+      aria-disabled={isDisabled ? true : undefined}
+      tabIndex={isDisabled ? -1 : props.tabIndex}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       onClick={(e) => {
-        trackEvent("cta_whatsapp_click", {
-          href: finalHref,
-          target: "whatsapp",
-        });
+        if (isDisabled) {
+          e.preventDefault();
+          trackEvent("cta_whatsapp_click", {
+            href: finalHref,
+            target: "whatsapp",
+            result: "disabled_missing_config",
+          });
+          props.onClick?.(e);
+          return;
+        }
+
+        // Ensure analytics reflects what the link actually does.
+        if (isMailto) {
+          trackEvent("cta_email_click", {
+            href: finalHref,
+            target: "email",
+          });
+        } else {
+          trackEvent("cta_whatsapp_click", {
+            href: finalHref,
+            target: "whatsapp",
+          });
+        }
 
         props.onClick?.(e);
       }}

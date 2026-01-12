@@ -6,34 +6,54 @@ export async function POST(req: Request) {
   const baseUrl = process.env.LEAD_API_BASE_URL;
   if (!baseUrl) {
     return NextResponse.json(
-      { error: "Lead API is not configured" },
+      { error: "lead_api_not_configured" },
       { status: 500, headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
+  const ct = req.headers.get("content-type") ?? "";
+  if (!ct.toLowerCase().startsWith("application/json")) {
+    return NextResponse.json(
+      { error: "content_type_must_be_application_json" },
+      { status: 415, headers: { "Cache-Control": "no-store" } },
     );
   }
 
   const body = await req.text();
   if (!body) {
     return NextResponse.json(
-      { error: "Empty body" },
+      { error: "empty_body" },
       { status: 400, headers: { "Cache-Control": "no-store" } },
     );
   }
 
   const url = `${baseUrl.replace(/\/$/, "")}/api/v1/rum`;
 
+  // Forward selected client context headers so the Lead API can apply IP/user-agent
+  // signals correctly when TRUSTED_PROXIES is configured.
+  const ua = req.headers.get("user-agent");
+  const xff = req.headers.get("x-forwarded-for");
+  const xri = req.headers.get("x-real-ip");
+
   const upstream = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...(ua ? { "User-Agent": ua } : {}),
+      ...(xff ? { "X-Forwarded-For": xff } : {}),
+      ...(xri ? { "X-Real-IP": xri } : {}),
     },
     body,
     // Telemetry should be best-effort and fast.
     signal: AbortSignal.timeout(2000),
   }).catch((err: unknown) => {
     const msg = err instanceof Error ? err.message : "upstream_error";
-    return new Response(JSON.stringify({ error: "Lead API unreachable", detail: msg }), {
+    return new Response(JSON.stringify({ error: "lead_api_unreachable", detail: msg }), {
       status: 502,
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+      },
     });
   });
 

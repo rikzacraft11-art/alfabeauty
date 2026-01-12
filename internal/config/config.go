@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	Env            string
+	Host           string
 	Port           string
 	AdminToken     string
 	RateLimitRPS   int
@@ -17,6 +18,9 @@ type Config struct {
 	SentryDSN      string
 	DatabaseURL    string
 	TrustedProxies string
+
+	AwinEnabled bool
+	AwinToken   string
 
 	NotifyEmailEnabled   bool
 	NotifyWebhookEnabled bool
@@ -34,17 +38,22 @@ type Config struct {
 }
 
 func (c Config) Addr() string {
+	host := strings.TrimSpace(c.Host)
 	port := strings.TrimSpace(c.Port)
 	if port == "" {
 		port = "8080"
 	}
-	return ":" + port
+	if host == "" {
+		return ":" + port
+	}
+	return host + ":" + port
 }
 
 func LoadFromEnv() (Config, error) {
 	cfg := Config{}
 
 	cfg.Env = strings.TrimSpace(getenvDefault("APP_ENV", "development"))
+	cfg.Host = strings.TrimSpace(getenvDefault("HOST", "0.0.0.0"))
 	cfg.Port = strings.TrimSpace(getenvDefault("PORT", "8080"))
 
 	cfg.AdminToken = strings.TrimSpace(os.Getenv("LEAD_API_ADMIN_TOKEN"))
@@ -64,6 +73,9 @@ func LoadFromEnv() (Config, error) {
 
 	cfg.DatabaseURL = strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	cfg.TrustedProxies = strings.TrimSpace(os.Getenv("TRUSTED_PROXIES"))
+
+	cfg.AwinEnabled = strings.TrimSpace(strings.ToLower(os.Getenv("LEAD_API_AWIN_ENABLED"))) == "true"
+	cfg.AwinToken = strings.TrimSpace(os.Getenv("LEAD_API_AWIN_TOKEN"))
 
 	cfg.NotifyEmailEnabled = strings.TrimSpace(strings.ToLower(os.Getenv("LEAD_NOTIFY_EMAIL_ENABLED"))) == "true"
 	cfg.NotifyWebhookEnabled = strings.TrimSpace(strings.ToLower(os.Getenv("LEAD_NOTIFY_WEBHOOK_ENABLED"))) == "true"
@@ -96,6 +108,28 @@ func LoadFromEnv() (Config, error) {
 		// Allow running in dev, but fail fast elsewhere.
 		if cfg.Env != "development" {
 			return Config{}, fmt.Errorf("LEAD_API_ADMIN_TOKEN must be set to a real secret (got placeholder)")
+		}
+	}
+
+	// Optional integration guard: fail fast if explicitly enabled but token is missing/placeholder.
+	// This prevents non-obvious runtime failures after the service is already running.
+	if cfg.AwinEnabled {
+		if cfg.AwinToken == "" {
+			return Config{}, fmt.Errorf("LEAD_API_AWIN_TOKEN is required when LEAD_API_AWIN_ENABLED=true")
+		}
+		if isPlaceholder(cfg.AwinToken) {
+			return Config{}, fmt.Errorf("LEAD_API_AWIN_TOKEN must be set to a real secret (got placeholder)")
+		}
+	}
+
+	// Paket A hard gate: lead must be persisted (durable) before acknowledging success.
+	// Therefore, non-development environments must not silently fall back to in-memory repositories.
+	if cfg.Env != "development" {
+		if strings.TrimSpace(cfg.DatabaseURL) == "" {
+			return Config{}, fmt.Errorf("DATABASE_URL is required when APP_ENV!=development (durable lead persistence is mandatory)")
+		}
+		if isPlaceholder(cfg.DatabaseURL) {
+			return Config{}, fmt.Errorf("DATABASE_URL must be set to a real database url when APP_ENV!=development (got placeholder)")
 		}
 	}
 

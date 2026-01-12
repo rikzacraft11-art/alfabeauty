@@ -3,11 +3,12 @@ package notify
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"example.com/alfabeauty-b2b/internal/domain/notification"
+	"example.com/alfabeauty-b2b/internal/obs"
 	"example.com/alfabeauty-b2b/internal/repository"
+	"example.com/alfabeauty-b2b/pkg/metrics"
 )
 
 type Worker struct {
@@ -53,7 +54,10 @@ func (w *Worker) Run(ctx context.Context) {
 func (w *Worker) tick(ctx context.Context) {
 	items, err := w.repo.ClaimBatch(ctx, w.batchSize)
 	if err != nil {
-		log.Printf("notify worker: claim batch error: %v", err)
+		obs.Log("notify_claim_batch_error", obs.Fields{
+			"batch_size": w.batchSize,
+			"error":      err.Error(),
+		})
 		return
 	}
 	if len(items) == 0 {
@@ -63,23 +67,62 @@ func (w *Worker) tick(ctx context.Context) {
 	for _, n := range items {
 		sender, ok := w.senders[n.Channel]
 		if !ok {
-			_ = w.repo.MarkFailed(ctx, n.ID, n.Attempts+1, fmt.Sprintf("no sender configured for channel=%s", n.Channel))
+			msg := fmt.Sprintf("no sender configured for channel=%s", n.Channel)
+			obs.Log("notify_sender_missing", obs.Fields{
+				"notification_id": n.ID.String(),
+				"channel":         n.Channel,
+				"lead_id":          n.LeadID.String(),
+				"attempt":         n.Attempts + 1,
+			})
+			if err := w.repo.MarkFailed(ctx, n.ID, n.Attempts+1, msg); err != nil {
+				obs.Log("notify_mark_failed_error", obs.Fields{
+					"notification_id": n.ID.String(),
+					"channel":         n.Channel,
+					"lead_id":          n.LeadID.String(),
+					"attempt":         n.Attempts + 1,
+					"error":           err.Error(),
+				})
+			}
+			metrics.ObserveLeadNotificationSendWithTraceparent(n.Channel, "no_sender", 0, obs.TraceparentFromContext(ctx))
 			continue
 		}
 
 		l, err := w.leadRepo.GetByID(ctx, n.LeadID)
 		if err != nil {
+			obs.Log("notify_load_lead_failed", obs.Fields{
+				"notification_id": n.ID.String(),
+				"channel":         n.Channel,
+				"lead_id":          n.LeadID.String(),
+				"attempt":         n.Attempts + 1,
+				"error":           err.Error(),
+			})
 			w.retryOrFail(ctx, n, fmt.Errorf("load lead: %w", err))
+			metrics.ObserveLeadNotificationSendWithTraceparent(n.Channel, "error", 0, obs.TraceparentFromContext(ctx))
 			continue
 		}
 
+		sendStart := time.Now()
 		if err := sender.Send(ctx, l); err != nil {
+			obs.Log("notify_send_failed", obs.Fields{
+				"notification_id": n.ID.String(),
+				"channel":         n.Channel,
+				"lead_id":          n.LeadID.String(),
+				"attempt":         n.Attempts + 1,
+				"error":           truncate(err.Error(), 900),
+			})
+			metrics.ObserveLeadNotificationSendWithTraceparent(n.Channel, "error", time.Since(sendStart), obs.TraceparentFromContext(ctx))
 			w.retryOrFail(ctx, n, err)
 			continue
 		}
+		metrics.ObserveLeadNotificationSendWithTraceparent(n.Channel, "ok", time.Since(sendStart), obs.TraceparentFromContext(ctx))
 
 		if err := w.repo.MarkSent(ctx, n.ID); err != nil {
-			log.Printf("notify worker: mark sent error (id=%s): %v", n.ID, err)
+			obs.Log("notify_mark_sent_error", obs.Fields{
+				"notification_id": n.ID.String(),
+				"channel":         n.Channel,
+				"lead_id":          n.LeadID.String(),
+				"error":           err.Error(),
+			})
 		}
 	}
 }
@@ -90,14 +133,26 @@ func (w *Worker) retryOrFail(ctx context.Context, n notification.LeadNotificatio
 
 	if attempt >= w.maxAttempts {
 		if err := w.repo.MarkFailed(ctx, n.ID, attempt, msg); err != nil {
-			log.Printf("notify worker: mark failed error (id=%s): %v", n.ID, err)
+			obs.Log("notify_mark_failed_error", obs.Fields{
+				"notification_id": n.ID.String(),
+				"channel":         n.Channel,
+				"lead_id":          n.LeadID.String(),
+				"attempt":         attempt,
+				"error":           err.Error(),
+			})
 		}
 		return
 	}
 
 	next := time.Now().UTC().Add(computeBackoff(attempt))
 	if err := w.repo.MarkRetry(ctx, n.ID, attempt, next, msg); err != nil {
-		log.Printf("notify worker: mark retry error (id=%s): %v", n.ID, err)
+		obs.Log("notify_mark_retry_error", obs.Fields{
+			"notification_id": n.ID.String(),
+			"channel":         n.Channel,
+			"lead_id":          n.LeadID.String(),
+			"attempt":         attempt,
+			"error":           err.Error(),
+		})
 	}
 }
 

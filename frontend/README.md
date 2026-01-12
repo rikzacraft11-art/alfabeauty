@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PT. Alfa Beauty Cosmetica - Website Frontend (Next.js)
 
-## Getting Started
+This folder contains the Paket A website frontend built with Next.js (App Router).
 
-First, run the development server:
+Key behaviors:
+
+- Lead form submits to `/api/leads` (Next.js route handler) which proxies to the Lead API (Go) at `LEAD_API_BASE_URL`.
+- Telemetry:
+	- `/api/rum` proxies to the Lead API RUM endpoint.
+	- `/api/events` proxies to the Lead API analytics endpoint.
+- WhatsApp CTA uses env-configured phone/prefill and can fall back to email.
+
+## Environment configuration
+
+Copy `frontend/.env.example` to `frontend/.env.local` and update values.
+
+Important variables:
+
+- `LEAD_API_BASE_URL` (server-side only): Base URL for the Go Lead API.
+- `NEXT_PUBLIC_SITE_URL`: Site base URL (used by metadata + sitemap/robots).
+- `NEXT_PUBLIC_WHATSAPP_NUMBER`: WhatsApp number (accepted formats: `+62...`, `62...`, or local `08...`).
+- `NEXT_PUBLIC_WHATSAPP_PREFILL`: Plain text message; will be URL-encoded by the app.
+- `NEXT_PUBLIC_FALLBACK_EMAIL`: Optional email shown as fallback CTA.
+
+## Local development
+
+### Run frontend
+
+From this folder:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The default dev server port is pinned to 3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Run with backend proxy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Start the Go Lead API separately (repo root). Then ensure `LEAD_API_BASE_URL` points to it.
+The frontend will call `/api/leads`, `/api/rum`, and `/api/events` and proxy to the Lead API.
 
-## Learn More
+## Smoke: frontend proxy to Lead API
 
-To learn more about Next.js, take a look at the following resources:
+There is a PowerShell smoke script that:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1) starts the Lead API on a chosen port
+2) builds + starts the Next.js production server on a chosen port
+3) POSTs telemetry to Next.js proxy routes
+4) reads `/metrics` from the Lead API and captures evidence
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Script:
 
-## Deploy on Vercel
+- `scripts/smoke-frontend-telemetry-proxy.ps1`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Notes:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- If port 3000 is already in use, pass `-FrontendPort 3001` (or another free port).
+- The script writes a JSON summary to `tmp/frontend_proxy_smoke.json` and evidence markdown to `artifacts/paket-a/evidence-pack/...`.
+

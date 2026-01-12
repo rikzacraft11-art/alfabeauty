@@ -151,6 +151,7 @@ export default function LeadForm() {
           onChange={(e) => setBusinessName(e.target.value)}
           required
           minLength={2}
+          maxLength={120}
         />
       </div>
 
@@ -165,6 +166,7 @@ export default function LeadForm() {
           onChange={(e) => setContactName(e.target.value)}
           required
           minLength={2}
+          maxLength={80}
         />
       </div>
 
@@ -179,6 +181,7 @@ export default function LeadForm() {
             className="mt-1 w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            maxLength={254}
           />
         </div>
         <div>
@@ -191,6 +194,7 @@ export default function LeadForm() {
             value={phoneWhatsApp}
             onChange={(e) => setPhoneWhatsApp(e.target.value)}
             required
+            maxLength={20}
           />
         </div>
       </div>
@@ -207,6 +211,7 @@ export default function LeadForm() {
             onChange={(e) => setCity(e.target.value)}
             required
             minLength={2}
+            maxLength={80}
           />
         </div>
         <div>
@@ -271,6 +276,7 @@ export default function LeadForm() {
               value={specialization}
               onChange={(e) => setSpecialization(e.target.value)}
               placeholder="e.g. coloring, keratin"
+              maxLength={200}
             />
           </div>
 
@@ -283,6 +289,7 @@ export default function LeadForm() {
               className="mt-1 w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm"
               value={currentBrandsUsed}
               onChange={(e) => setCurrentBrandsUsed(e.target.value)}
+              maxLength={200}
             />
           </div>
 
@@ -296,6 +303,7 @@ export default function LeadForm() {
               value={monthlySpendRange}
               onChange={(e) => setMonthlySpendRange(e.target.value)}
               placeholder="optional"
+              maxLength={80}
             />
           </div>
         </div>
@@ -313,6 +321,7 @@ export default function LeadForm() {
           className="mt-1 w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
+          maxLength={200}
         />
       </div>
 

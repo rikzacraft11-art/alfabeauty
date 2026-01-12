@@ -4,7 +4,7 @@ Order Facilitation Platform for B2B Distribution
 
 ## Tech Stack
 
-- **Backend:** Go 1.22 + Fiber v2
+- **Backend:** Go 1.24 + Fiber v2
 - **Database:** PostgreSQL 17.6 (Managed)
 - **Cache:** Redis Cloud Flex
 - **Auth:** JWT (HS256)
@@ -13,7 +13,7 @@ Order Facilitation Platform for B2B Distribution
 
 ### Prerequisites
 
-- Go 1.22+
+- Go 1.24+
 - Docker & Docker Compose
 - Make
 
@@ -79,9 +79,27 @@ All admin endpoints require `X-Admin-Token` (or `Authorization: Bearer <token>`)
 
 - `GET /metrics` — Prometheus metrics for lead pipeline + outbox (admin-protected)
 
+### Observability (logs + trace correlation)
+
+- The server and operator CLIs emit **structured JSON logs** (one line per event) via `internal/obs`.
+- `event` is the stable signal name (low-cardinality). `fields` carries minimal context (avoid PII).
+
+HTTP requests support minimal W3C correlation via `traceparent`:
+
+- If an incoming request includes `traceparent`, it is preserved.
+- Otherwise, the server generates one and echoes it back in the response header.
+
+HTTP duration histograms may also attach **exemplars** with `trace_id` (derived from `traceparent`) to support drill-down from latency spikes to correlated logs, without adding high-cardinality metric labels.
+
 ## Environment Variables
 
 See `.env.example` for required configuration.
+
+Notes:
+
+- `.env` is **ignored by git** (use it for local/dev only; never commit real secrets).
+- `LEAD_API_ADMIN_TOKEN` is required (dev-only value is OK locally).
+- In non-development (`APP_ENV!=development`), `DATABASE_URL` is **required** to enforce durable lead persistence.
 
 ## Smoke test (notifications)
 
