@@ -18,12 +18,13 @@ type Props = {
 export default function ProductDetailContent({ product }: Props) {
   const { locale } = useLocale();
   const tx = t(locale);
+  const base = `/${locale}`;
 
   if (!product) {
     return (
       <div className="space-y-3">
         <p className="type-body text-zinc-700">{tx.productDetail.notFound.body}</p>
-        <Link href="/products" className="type-body font-semibold text-zinc-900 underline">
+        <Link href={`${base}/products`} className="type-body font-semibold text-zinc-900 underline">
           {tx.productDetail.notFound.back}
         </Link>
       </div>
@@ -35,7 +36,7 @@ export default function ProductDetailContent({ product }: Props) {
   return (
     <div className="space-y-8">
       <nav className="type-body text-zinc-600">
-        <Link href="/products" className="hover:underline">
+        <Link href={`${base}/products`} className="hover:underline">
           {tx.nav.products}
         </Link>
         <span className="px-2">/</span>
@@ -73,7 +74,7 @@ export default function ProductDetailContent({ product }: Props) {
               <WhatsAppLink className={getButtonClassName({ variant: "primary", size: "md" })} prefill={prefill}>
                 {tx.cta.whatsappConsult}
               </WhatsAppLink>
-              <ButtonLink href="/partnership/become-partner" variant="secondary">
+              <ButtonLink href={`${base}/partnership/become-partner`} variant="secondary">
                 {tx.cta.becomePartner}
               </ButtonLink>
             </div>

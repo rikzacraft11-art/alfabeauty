@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 test("WhatsApp CTA renders a usable wa.me link", async ({ page }) => {
-  await page.goto("/");
+  // Use canonical locale path to avoid environment-dependent redirects.
+  await page.goto("/en");
 
   const link = page.getByRole("link", { name: /whatsapp consult/i }).first();
   await expect(link).toBeVisible();

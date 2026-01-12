@@ -21,7 +21,8 @@ export default defineConfig({
     : [["html", { open: "on-failure", outputFolder: htmlReportDir }]],
   outputDir,
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000",
+    // Prefer localhost on Windows to avoid IPv4/IPv6 binding mismatches.
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -31,14 +32,17 @@ export default defineConfig({
   webServer: skipWebServer
     ? undefined
     : {
-        command: "npm run dev",
-        url: "http://127.0.0.1:3000",
+        // Use a production-like server for deterministic middleware/redirect behavior.
+        command: "npm run build && npm run start",
+        // Root (/) is intentionally non-routable in this app (locale-prefixed URLs only).
+        // Use a canonical locale path so Playwright can detect server readiness.
+        url: "http://localhost:3000/en",
         reuseExistingServer,
         timeout: 120_000,
         env: {
           // Website runtime config for e2e.
-          LEAD_API_BASE_URL: process.env.LEAD_API_BASE_URL ?? "http://127.0.0.1:8082",
-          NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000",
+          LEAD_API_BASE_URL: process.env.LEAD_API_BASE_URL ?? "http://localhost:8082",
+          NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 
           // Ensure WhatsApp CTA produces a wa.me link in UI smoke tests.
           NEXT_PUBLIC_WHATSAPP_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "6281234567890",

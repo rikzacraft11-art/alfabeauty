@@ -6,6 +6,10 @@ Untuk mengurangi fragmentasi, seluruh spesifikasi Paket A kini digabung menjadi 
 
 - **Baca/ubah di sini:** `docs-paket-a/paket-a.md`
 
+Spesifikasi UI/Frontend (design language + contract + Education/Events) yang sudah dikonsolidasikan:
+
+- **Baca/ubah di sini:** `docs-paket-a/frontend-spec.md`
+
 Dokumen handover (ringkas, untuk operator/owner):
 
 - `docs-paket-a/handover.md`

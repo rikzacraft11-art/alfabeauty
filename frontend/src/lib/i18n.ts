@@ -8,6 +8,16 @@ export function normalizeLocale(input: string | null | undefined): Locale {
 
 const dict = {
   en: {
+    seo: {
+      aboutDescription: "About PT Alfa Beauty Cosmetica — professional beauty distribution for salons and barbershops in Indonesia.",
+      contactDescription: "Contact Alfa Beauty Cosmetica for consultation, recommendations, and partnership inquiries.",
+      productsDescription: "Browse our curated professional product portfolio. No public pricing — consult via WhatsApp.",
+      educationDescription: "Training, knowledge, and event highlights for salon and barbershop professionals.",
+      partnershipDescription: "Become a partner and get curated products, education, and technical support.",
+      becomePartnerDescription: "Submit your details to become an Alfa Beauty partner. We will follow up within 24 hours.",
+      privacyDescription: "Privacy Policy for Alfa Beauty Cosmetica website.",
+      termsDescription: "Terms and conditions for using the Alfa Beauty Cosmetica website.",
+    },
     nav: {
       products: "Products",
       education: "Education",
@@ -28,9 +38,9 @@ const dict = {
         lede:
           "PT Alfa Beauty is a professional beauty distribution company dedicated to providing products, education, and technical support for salons and barbershops in Indonesia.",
         points: [
-          "Positioning: who we are, our 3 pillars (Products, Education, Partnership), and the strength of a curated portfolio.",
-          "Discovery: an easy-to-navigate product catalog for salons and barbershops (no public pricing).",
-          "Conversion: a fast path to WhatsApp consultation + Become Partner lead capture.",
+          "Curated portfolio: professional brands selected for consistent real‑world performance.",
+          "Education & support: practical training and technical guidance for your team.",
+          "WhatsApp-first consultation: recommendations and ordering without public pricing.",
         ],
         note: "No public pricing. For consultation and product recommendations, contact us via WhatsApp.",
       },
@@ -81,7 +91,7 @@ const dict = {
       readyBlock: {
         title: "Ready to become a partner?",
         body:
-          "Submit your details and we’ll follow up. Your lead is stored durably before we confirm success.",
+          "Submit your details and we’ll follow up. We save your request before confirming success.",
       },
     },
     becomePartner: {
@@ -132,6 +142,71 @@ const dict = {
     legal: {
       privacyTitle: "Privacy Policy",
       termsTitle: "Terms",
+      privacyPolicy: {
+        intro: {
+          prefix: "Overview",
+          body: "This Privacy Policy explains how we collect, use, and protect information when you use this website or contact us.",
+        },
+        sections: {
+          informationWeCollect: {
+            title: "Information we collect",
+            items: [
+              "Information you submit via the Partnership lead form (e.g., business name, contact, WhatsApp, city).",
+              "Basic technical/analytics data for performance and reliability (e.g., CTA clicks, RUM metrics).",
+              "Information you provide when contacting us via WhatsApp/email.",
+            ],
+          },
+          howWeUse: {
+            title: "How we use information",
+            items: [
+              "To respond to product consultation requests and partnership inquiries.",
+              "To improve the website (stability, performance, and user experience).",
+              "To prevent spam and abuse in the lead pipeline.",
+            ],
+          },
+          storageSecurity: {
+            title: "Storage & security",
+            body:
+              "We store lead submissions before confirming success, and use reasonable security measures to protect information from unauthorized access.",
+          },
+          cookies: {
+            title: "Cookies & similar technologies",
+            body:
+              "We may use cookies/similar technologies for analytics and performance. You can manage cookies via your browser settings.",
+          },
+          contact: {
+            title: "Contact",
+            body: "If you have questions about this policy, please contact us via the Contact page or WhatsApp.",
+          },
+        },
+      },
+      termsPolicy: {
+        intro: {
+          prefix: "Overview",
+          body: "These Terms explain how you may use this website and its content.",
+        },
+        sections: {
+          websiteUse: {
+            title: "Website use",
+            body:
+              "This website provides product information, education highlights, and consultation/partnership pathways for salon & barbershop professionals.",
+          },
+          noPublicPricing: {
+            title: "No public pricing",
+            body:
+              "We do not publish public pricing. Consultation, recommendations, and ordering happen via WhatsApp.",
+          },
+          limitations: {
+            title: "Limitations",
+            body: "Content is provided as-is. We aim for accuracy, but information may change over time.",
+          },
+          changes: {
+            title: "Changes",
+            body:
+              "We may update these terms from time to time. The latest version will be published on this page.",
+          },
+        },
+      },
     },
     education: {
       hub: {
@@ -260,6 +335,22 @@ const dict = {
     },
   },
   id: {
+    seo: {
+      aboutDescription:
+        "Tentang PT Alfa Beauty Cosmetica — distribusi beauty profesional untuk salon dan barbershop di Indonesia.",
+      contactDescription:
+        "Hubungi Alfa Beauty Cosmetica untuk konsultasi, rekomendasi produk, dan pertanyaan partnership.",
+      productsDescription:
+        "Jelajahi portofolio produk profesional yang terkurasi. Tanpa harga publik — konsultasi via WhatsApp.",
+      educationDescription:
+        "Highlight training, pengetahuan, dan event untuk profesional salon dan barbershop.",
+      partnershipDescription:
+        "Menjadi partner untuk akses produk terkurasi, edukasi, dan dukungan teknis.",
+      becomePartnerDescription:
+        "Kirim data bisnis untuk menjadi partner Alfa Beauty. Tim kami akan follow up dalam 24 jam.",
+      privacyDescription: "Kebijakan Privasi untuk website Alfa Beauty Cosmetica.",
+      termsDescription: "Syarat dan ketentuan penggunaan website Alfa Beauty Cosmetica.",
+    },
     nav: {
       products: "Produk",
       education: "Edukasi",
@@ -280,9 +371,9 @@ const dict = {
         lede:
           "PT Alfa Beauty adalah perusahaan distribusi kecantikan profesional yang menyediakan produk, edukasi, dan dukungan teknis untuk salon dan barbershop di Indonesia.",
         points: [
-          "Positioning: memperjelas siapa Alfa Beauty, 3 pilar (Products, Education, Partnership), dan keunggulan kurasi brand.",
-          "Discovery: katalog produk yang mudah dinavigasi untuk salon/barbershop (tanpa harga publik).",
-          "Conversion: jalur cepat ke WhatsApp untuk konsultasi + Become Partner (lead capture) dengan profil dasar.",
+          "Portofolio terkurasi: brand profesional dipilih untuk performa konsisten di penggunaan nyata.",
+          "Edukasi & dukungan: training praktis dan panduan teknis untuk tim Anda.",
+          "Konsultasi WhatsApp: rekomendasi dan pemesanan tanpa harga publik.",
         ],
         note: "Tanpa harga publik. Untuk konsultasi dan rekomendasi produk, hubungi kami via WhatsApp.",
       },
@@ -333,7 +424,7 @@ const dict = {
       readyBlock: {
         title: "Siap jadi partner?",
         body:
-          "Kirim detail Anda dan tim kami akan follow up. Lead disimpan secara durable sebelum kami mengonfirmasi sukses.",
+          "Kirim detail Anda dan tim kami akan follow up. Permintaan Anda kami simpan sebelum ditandai berhasil.",
       },
     },
     becomePartner: {
@@ -384,6 +475,73 @@ const dict = {
     legal: {
       privacyTitle: "Kebijakan Privasi",
       termsTitle: "Syarat & Ketentuan",
+      privacyPolicy: {
+        intro: {
+          prefix: "Ringkasan",
+          body: "Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi saat Anda menggunakan website ini atau menghubungi kami.",
+        },
+        sections: {
+          informationWeCollect: {
+            title: "Informasi yang kami kumpulkan",
+            items: [
+              "Data yang Anda kirimkan melalui form Kemitraan (mis. nama bisnis, kontak, WhatsApp, kota).",
+              "Data teknis dasar untuk analytics/performa (mis. event klik CTA, metrik RUM).",
+              "Informasi yang Anda kirimkan saat menghubungi kami via WhatsApp/email.",
+            ],
+          },
+          howWeUse: {
+            title: "Cara kami menggunakan informasi",
+            items: [
+              "Menindaklanjuti permintaan konsultasi produk dan/atau pendaftaran kemitraan.",
+              "Meningkatkan kualitas website (stabilitas, performa, dan pengalaman pengguna).",
+              "Mencegah spam/penyalahgunaan pada jalur lead.",
+            ],
+          },
+          storageSecurity: {
+            title: "Penyimpanan & keamanan",
+            body:
+              "Data lead disimpan sebelum ditandai berhasil. Kami menerapkan langkah keamanan wajar untuk melindungi data dari akses tidak sah.",
+          },
+          cookies: {
+            title: "Cookie & teknologi serupa",
+            body:
+              "Kami dapat menggunakan cookie/teknologi serupa untuk analitik dan peningkatan performa. Anda dapat mengatur preferensi cookie melalui pengaturan browser Anda.",
+          },
+          contact: {
+            title: "Hubungi kami",
+            body:
+              "Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami melalui halaman Contact atau WhatsApp.",
+          },
+        },
+      },
+      termsPolicy: {
+        intro: {
+          prefix: "Ringkasan",
+          body: "Syarat ini menjelaskan aturan penggunaan website dan kontennya.",
+        },
+        sections: {
+          websiteUse: {
+            title: "Penggunaan website",
+            body:
+              "Website ini disediakan untuk informasi produk, edukasi, dan jalur konsultasi/kemitraan untuk profesional salon & barbershop.",
+          },
+          noPublicPricing: {
+            title: "Tidak ada harga publik",
+            body:
+              "Kami tidak menampilkan harga publik. Konsultasi, rekomendasi, dan pemesanan dilakukan melalui WhatsApp.",
+          },
+          limitations: {
+            title: "Keterbatasan",
+            body:
+              "Konten disediakan apa adanya. Kami berupaya menjaga akurasi, namun informasi dapat berubah.",
+          },
+          changes: {
+            title: "Perubahan",
+            body:
+              "Kami dapat memperbarui syarat ini dari waktu ke waktu. Versi terbaru akan dipublikasikan di halaman ini.",
+          },
+        },
+      },
     },
     education: {
       hub: {

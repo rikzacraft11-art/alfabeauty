@@ -11,7 +11,7 @@ export default function BecomePartnerContent() {
   return (
     <div className="grid gap-10 md:grid-cols-2">
       <div className="space-y-4">
-        <h1 className="type-h2 tracking-tight">{copy.becomePartner.title}</h1>
+        <h1 className="type-h2">{copy.becomePartner.title}</h1>
         <p className="type-body text-zinc-700">{copy.becomePartner.lede}</p>
 
         <div className="border border-zinc-200 bg-zinc-50 p-6">

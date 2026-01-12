@@ -9,7 +9,7 @@ export default function ProductsHeader() {
 
   return (
     <header className="space-y-2">
-      <h1 className="type-h2 tracking-tight">{copy.products.title}</h1>
+      <h1 className="type-h2">{copy.products.title}</h1>
       <p className="type-body text-zinc-700">{copy.products.lede}</p>
     </header>
   );

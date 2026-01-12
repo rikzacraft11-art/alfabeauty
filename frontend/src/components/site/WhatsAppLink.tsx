@@ -12,12 +12,13 @@ type Props = ComponentProps<"a"> & {
 export default function WhatsAppLink({ prefill, href, ...props }: Props) {
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const fallbackEmail = process.env.NEXT_PUBLIC_FALLBACK_EMAIL;
+  const defaultPrefill = process.env.NEXT_PUBLIC_WHATSAPP_PREFILL;
 
   const finalHref =
     href ??
     buildWhatsAppHref({
       number,
-      message: prefill,
+      message: prefill ?? defaultPrefill,
       fallbackEmail,
     });
 

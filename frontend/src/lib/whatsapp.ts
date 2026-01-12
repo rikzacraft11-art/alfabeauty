@@ -20,7 +20,7 @@ export function buildWhatsAppHref(opts: {
   fallbackEmail?: string;
 }): string {
   const waNumber = normalizeNumberE164(opts.number);
-  const msg = (opts.message ?? "Hi Alfa Beauty, I’d like to consult about your products.").trim();
+  const msg = (opts.message ?? "").trim();
 
   if (!waNumber) {
     if (opts.fallbackEmail) return `mailto:${opts.fallbackEmail}`;

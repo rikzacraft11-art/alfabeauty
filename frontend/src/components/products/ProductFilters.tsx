@@ -74,7 +74,7 @@ export default function ProductFilters() {
             <button
               type="button"
               onClick={clear}
-              className="text-xs font-semibold text-zinc-900 underline"
+              className="type-data font-semibold text-zinc-900 underline"
             >
               {tx.products.filters.clear}
             </button>

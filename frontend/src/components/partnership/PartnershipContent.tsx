@@ -8,11 +8,12 @@ import { t } from "@/lib/i18n";
 export default function PartnershipContent() {
   const { locale } = useLocale();
   const copy = t(locale);
+  const base = `/${locale}`;
 
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <h1 className="type-h2 tracking-tight">{copy.partnership.title}</h1>
+        <h1 className="type-h2">{copy.partnership.title}</h1>
         <p className="type-body text-zinc-700">{copy.partnership.lede}</p>
       </header>
 
@@ -31,7 +32,7 @@ export default function PartnershipContent() {
         <h2 className="type-data font-semibold text-zinc-900">{copy.partnership.readyBlock.title}</h2>
         <p className="mt-2 type-body text-zinc-700">{copy.partnership.readyBlock.body}</p>
         <div className="mt-4">
-          <ButtonLink href="/partnership/become-partner">{copy.cta.becomePartner}</ButtonLink>
+          <ButtonLink href={`${base}/partnership/become-partner`}>{copy.cta.becomePartner}</ButtonLink>
         </div>
       </div>
     </div>

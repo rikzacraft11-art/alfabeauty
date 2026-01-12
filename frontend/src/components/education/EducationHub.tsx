@@ -12,6 +12,7 @@ import Card from "@/components/ui/Card";
 export default function EducationHub() {
   const { locale } = useLocale();
   const tx = t(locale);
+  const base = `/${locale}`;
 
   const events = listEvents(locale);
   const articles = listArticles(locale);
@@ -36,7 +37,7 @@ export default function EducationHub() {
                     {e.city} • {e.date}
                   </p>
                   <Link
-                    href={`/education/events/${e.slug}`}
+                    href={`${base}/education/events/${e.slug}`}
                     className="type-h3 hover:underline"
                   >
                     {e.title}
@@ -46,7 +47,7 @@ export default function EducationHub() {
                     {tx.education.hub.labels.audience}: {e.audience.join(", ")}
                   </p>
                   <div className="pt-2">
-                    <Link href={`/education/events/${e.slug}`}>
+                    <Link href={`${base}/education/events/${e.slug}`}>
                       <Button variant="secondary" size="sm">
                         {tx.education.hub.actions.viewDetails}
                       </Button>
@@ -67,14 +68,14 @@ export default function EducationHub() {
                 <div className="space-y-2">
                   <p className="type-kicker text-zinc-600">{a.date}</p>
                   <Link
-                    href={`/education/articles/${a.slug}`}
+                    href={`${base}/education/articles/${a.slug}`}
                     className="type-h3 hover:underline"
                   >
                     {a.title}
                   </Link>
                   <p className="type-body text-zinc-700">{a.excerpt}</p>
                   <div className="pt-2">
-                    <Link href={`/education/articles/${a.slug}`}>
+                    <Link href={`${base}/education/articles/${a.slug}`}>
                       <Button variant="secondary" size="sm">
                         {tx.education.hub.actions.read}
                       </Button>

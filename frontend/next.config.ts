@@ -5,11 +5,15 @@ const nextConfig: NextConfig = {
     // Paket A §15 — Website (HTML) security headers baseline.
     // Note: CSP here is intentionally minimal to avoid breaking Next.js runtime.
     // We only enforce the baseline directives required by the spec.
+    const isProd = process.env.NODE_ENV === "production";
+
+    // IMPORTANT: `upgrade-insecure-requests` and HSTS can break local http dev.
+    // Enable them only in production.
     const csp = [
       "base-uri 'none'",
       "object-src 'none'",
       "frame-ancestors 'none'",
-      "upgrade-insecure-requests",
+      ...(isProd ? ["upgrade-insecure-requests"] : []),
     ].join("; ");
 
     return [
@@ -18,10 +22,14 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: [
           { key: "Content-Security-Policy", value: csp },
+          { key: "X-DNS-Prefetch-Control", value: "off" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
+          ...(isProd
+            ? [{ key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" }]
+            : []),
           { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=()" },
+          { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
           // Legacy/defense-in-depth (optional per spec).
           { key: "X-Frame-Options", value: "DENY" },
         ],

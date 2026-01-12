@@ -9,19 +9,20 @@ import ButtonLink from "@/components/ui/ButtonLink";
 export default function CTASection() {
   const { locale } = useLocale();
   const copy = t(locale);
+  const base = `/${locale}`;
 
   return (
     <section className="border border-zinc-200 bg-zinc-50 p-6 sm:p-10">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-3">
-          <h2 className="type-h3 tracking-tight">{copy.sections.consultCta.title}</h2>
+          <h2 className="type-h3">{copy.sections.consultCta.title}</h2>
           <p className="type-body text-zinc-700">{copy.sections.consultCta.body}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
           <WhatsAppLink className={getButtonClassName({ variant: "primary", size: "md" })}>
             {copy.cta.whatsappConsult}
           </WhatsAppLink>
-          <ButtonLink href="/partnership/become-partner" variant="secondary">
+          <ButtonLink href={`${base}/partnership/become-partner`} variant="secondary">
             {copy.cta.becomePartner}
           </ButtonLink>
         </div>

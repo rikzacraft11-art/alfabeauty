@@ -9,7 +9,7 @@ export default function AboutContent() {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <h1 className="type-h2 tracking-tight">{copy.about.title}</h1>
+      <h1 className="type-h2">{copy.about.title}</h1>
       <p className="type-body text-zinc-700">{copy.about.body}</p>
     </div>
   );

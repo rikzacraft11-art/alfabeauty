@@ -18,7 +18,8 @@ test("Become Partner form can submit successfully", async ({ page }) => {
     });
   }
 
-  await page.goto("/partnership/become-partner");
+  // Use canonical locale path to avoid environment-dependent redirects.
+  await page.goto("/en/partnership/become-partner");
 
   const submit = page.getByRole("button", { name: /^submit$/i });
   await expect(submit).toBeVisible();
@@ -47,7 +48,7 @@ test("Become Partner form can submit successfully", async ({ page }) => {
 });
 
 test("Become Partner form requires consent before enabling submit", async ({ page }) => {
-  await page.goto("/partnership/become-partner");
+  await page.goto("/en/partnership/become-partner");
 
   const submit = page.getByRole("button", { name: /^submit$/i });
   await expect(submit).toBeVisible();
@@ -74,7 +75,7 @@ test("Become Partner shows friendly message on rate limit (429)", async ({ page 
     });
   });
 
-  await page.goto("/partnership/become-partner");
+  await page.goto("/en/partnership/become-partner");
 
   await page.getByLabel(/business name/i).fill("Salon Mawar");
   await page.getByLabel(/contact name/i).fill("Dewi");
@@ -99,7 +100,7 @@ test("Become Partner shows server error message (>=400)", async ({ page }) => {
     });
   });
 
-  await page.goto("/partnership/become-partner");
+  await page.goto("/en/partnership/become-partner");
 
   await page.getByLabel(/business name/i).fill("Salon Mawar");
   await page.getByLabel(/contact name/i).fill("Dewi");

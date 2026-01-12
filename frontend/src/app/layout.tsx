@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-import SiteFooter from "@/components/site/SiteFooter";
-import SiteHeader from "@/components/site/SiteHeader";
-import WhatsAppStickyCTA from "@/components/site/WhatsAppStickyCTA";
-import WebVitalsReporter from "@/components/analytics/WebVitalsReporter";
-import StructuredData from "@/components/seo/StructuredData";
-import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,9 +15,6 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  alternates: {
-    canonical: "/",
-  },
   title: {
     default: "Alfa Beauty Cosmetica — Professional Beauty Distribution",
     template: "%s — Alfa Beauty Cosmetica",
@@ -37,7 +28,6 @@ export const metadata: Metadata = {
       "Professional beauty distribution for salons and barbershops in Indonesia — products, education, and technical support.",
     url: "/",
     siteName: "Alfa Beauty Cosmetica",
-    locale: "en_ID",
     images: [
       {
         url: "/opengraph-image",
@@ -60,28 +50,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const h = await headers();
+  const localeHeader = h.get("x-alfab-locale");
+  const lang = localeHeader === "id" || localeHeader === "en" ? localeHeader : "en";
+
   return (
-    <html lang="en">
+    <html lang={lang} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LocaleProvider>
-          <div className="min-h-dvh bg-white text-zinc-950">
-            <StructuredData />
-            <SiteHeader />
-            <WebVitalsReporter />
-            <main className="mx-auto w-full max-w-[80rem] px-4 py-10 sm:px-6">
-              {children}
-            </main>
-            <SiteFooter />
-            <WhatsAppStickyCTA />
-          </div>
-        </LocaleProvider>
+        {children}
       </body>
     </html>
   );

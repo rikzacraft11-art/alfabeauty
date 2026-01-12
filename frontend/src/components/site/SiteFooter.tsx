@@ -8,6 +8,7 @@ import { t } from "@/lib/i18n";
 export default function SiteFooter() {
   const { locale } = useLocale();
   const tx = t(locale);
+  const base = `/${locale}`;
 
   return (
     <footer className="border-t border-zinc-200 bg-white">
@@ -20,17 +21,17 @@ export default function SiteFooter() {
           <p className="type-data font-semibold text-zinc-950">{tx.footer.explore}</p>
           <ul className="space-y-1 type-body text-zinc-700">
             <li>
-              <Link href="/products" className="hover:underline">
+              <Link href={`${base}/products`} className="hover:underline">
                 {tx.nav.products}
               </Link>
             </li>
             <li>
-              <Link href="/education" className="hover:underline">
+              <Link href={`${base}/education`} className="hover:underline">
                 {tx.nav.education}
               </Link>
             </li>
             <li>
-              <Link href="/partnership" className="hover:underline">
+              <Link href={`${base}/partnership`} className="hover:underline">
                 {tx.nav.partnership}
               </Link>
             </li>
@@ -40,12 +41,12 @@ export default function SiteFooter() {
           <p className="type-data font-semibold text-zinc-950">{tx.footer.legal}</p>
           <ul className="space-y-1 type-body text-zinc-700">
             <li>
-              <Link href="/privacy" className="hover:underline">
+              <Link href={`${base}/privacy`} className="hover:underline">
                 {tx.legal.privacyTitle}
               </Link>
             </li>
             <li>
-              <Link href="/terms" className="hover:underline">
+              <Link href={`${base}/terms`} className="hover:underline">
                 {tx.legal.termsTitle}
               </Link>
             </li>
