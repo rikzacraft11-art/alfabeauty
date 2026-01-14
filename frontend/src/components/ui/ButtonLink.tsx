@@ -1,6 +1,9 @@
 import Link from "next/link";
+import type { ComponentProps } from "react";
 
 import { getButtonClassName, type ButtonSize, type ButtonVariant } from "@/components/ui/Button";
+
+type LinkComponentProps = ComponentProps<typeof Link>;
 
 export default function ButtonLink({
   href,
@@ -8,17 +11,20 @@ export default function ButtonLink({
   className = "",
   variant = "primary",
   size = "md",
-  prefetch,
+  ...linkProps
 }: {
-  href: string;
+  href: LinkComponentProps["href"];
   children: React.ReactNode;
   className?: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
-  prefetch?: boolean;
-}) {
+} & Omit<LinkComponentProps, "href" | "className" | "children">) {
   return (
-    <Link href={href} prefetch={prefetch} className={getButtonClassName({ variant, size, className })}>
+    <Link
+      href={href}
+      className={getButtonClassName({ variant, size, className })}
+      {...linkProps}
+    >
       {children}
     </Link>
   );

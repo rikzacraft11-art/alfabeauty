@@ -12,13 +12,13 @@ export default function PrivacyPolicyContent() {
 
   return (
     <div className="space-y-6">
-      <p className="type-body text-zinc-700">
-        <span className="font-semibold text-zinc-900">{policy.intro.prefix}</span> {policy.intro.body}
+      <p className="type-body">
+        <span className="type-strong text-foreground">{policy.intro.prefix}</span> {policy.intro.body}
       </p>
 
       <section className="space-y-2">
         <h2 className="type-h3">{sections.informationWeCollect.title}</h2>
-        <ul className="list-disc space-y-1 pl-5 type-body text-zinc-700">
+        <ul className="list-disc space-y-1 pl-5 type-body">
           {sections.informationWeCollect.items.map((item) => (
             <li key={item}>{item}</li>
           ))}
@@ -27,7 +27,7 @@ export default function PrivacyPolicyContent() {
 
       <section className="space-y-2">
         <h2 className="type-h3">{sections.howWeUse.title}</h2>
-        <ul className="list-disc space-y-1 pl-5 type-body text-zinc-700">
+        <ul className="list-disc space-y-1 pl-5 type-body">
           {sections.howWeUse.items.map((item) => (
             <li key={item}>{item}</li>
           ))}
@@ -36,17 +36,17 @@ export default function PrivacyPolicyContent() {
 
       <section className="space-y-2">
         <h2 className="type-h3">{sections.storageSecurity.title}</h2>
-        <p className="type-body text-zinc-700">{sections.storageSecurity.body}</p>
+        <p className="type-body">{sections.storageSecurity.body}</p>
       </section>
 
       <section className="space-y-2">
         <h2 className="type-h3">{sections.cookies.title}</h2>
-        <p className="type-body text-zinc-700">{sections.cookies.body}</p>
+        <p className="type-body">{sections.cookies.body}</p>
       </section>
 
       <section className="space-y-2">
         <h2 className="type-h3">{sections.contact.title}</h2>
-        <p className="type-body text-zinc-700">{sections.contact.body}</p>
+        <p className="type-body">{sections.contact.body}</p>
       </section>
     </div>
   );

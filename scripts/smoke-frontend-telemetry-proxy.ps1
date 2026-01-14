@@ -121,7 +121,8 @@ try {
     if ($snapshot.ports["$LeadApiPort"] -and $snapshot.ports["$FrontendPort"]) {
       try {
         Invoke-WebRequest -Uri "http://localhost:$LeadApiPort/health" -Method GET -UseBasicParsing -TimeoutSec 2 | Out-Null
-        Invoke-WebRequest -Uri "http://localhost:$FrontendPort/" -Method GET -UseBasicParsing -TimeoutSec 2 | Out-Null
+		# This app uses locale-prefixed routes only; / is intentionally non-routable.
+		Invoke-WebRequest -Uri "http://localhost:$FrontendPort/en" -Method GET -UseBasicParsing -TimeoutSec 2 | Out-Null
         break
       } catch {
         # Keep waiting.
@@ -140,14 +141,14 @@ try {
     metric_name = "LCP"
     value = 1234.0
     rating = "good"
-    page_url_initial = "http://localhost:$FrontendPort/"
-    page_url_current = "http://localhost:$FrontendPort/about"
+    page_url_initial = "http://localhost:$FrontendPort/en"
+    page_url_current = "http://localhost:$FrontendPort/en/about"
     device_type = "desktop"
   }
   $evtObj = [ordered]@{
     event_name = "cta_whatsapp_click"
-    page_url_initial = "http://localhost:$FrontendPort/"
-    page_url_current = "http://localhost:$FrontendPort/products"
+    page_url_initial = "http://localhost:$FrontendPort/en"
+    page_url_current = "http://localhost:$FrontendPort/en/products"
     device_type = "desktop"
     href = "https://wa.me/62..."
   }

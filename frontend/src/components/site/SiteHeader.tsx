@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import DesktopMegaNav from "@/components/site/DesktopMegaNav";
 import HeaderPromo from "@/components/site/HeaderPromo";
 import LocaleToggle from "@/components/i18n/LocaleToggle";
 import { useLocale } from "@/components/i18n/LocaleProvider";
-import Button from "@/components/ui/Button";
+import AppLink from "@/components/ui/AppLink";
+import ButtonLink from "@/components/ui/ButtonLink";
 import { t } from "@/lib/i18n";
 
 function IconMenu(props: React.SVGProps<SVGSVGElement>) {
@@ -194,18 +194,18 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={"sticky top-0 z-40 bg-white"}
+      className={"sticky top-0 z-40 bg-background"}
       data-scrolled={scrolled ? "true" : "false"}
     >
       <HeaderPromo />
 
       {/* Main nav */}
-      <div className="border-b border-black/10">
+      <div className="border-b border-border">
         <div className="mx-auto grid h-[72px] w-full grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10">
           <div className="flex items-center justify-start gap-4">
-            <Link href={base} className="text-base font-medium tracking-tight text-zinc-950">
+            <AppLink href={base} underline="none" className="type-brand text-foreground">
               Alfa Beauty
-            </Link>
+            </AppLink>
           </div>
 
           <div className="justify-self-center">
@@ -215,19 +215,19 @@ export default function SiteHeader() {
           <div className="flex items-center justify-end gap-2">
             {/* Desktop actions */}
             <div className="hidden md:flex items-center gap-4">
-              <div className="border-r border-zinc-200 pr-4">
+              <div className="border-r border-border pr-4">
                 <LocaleToggle />
               </div>
-              <Link href={becomePartnerHref}>
-                <Button size="sm">{tx.cta.becomePartner}</Button>
-              </Link>
+              <ButtonLink href={becomePartnerHref} size="sm">
+                {tx.cta.becomePartner}
+              </ButtonLink>
             </div>
 
             {/* Mobile actions */}
             <button
               ref={openerRef}
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center text-zinc-700 hover:text-zinc-950 md:hidden"
+              className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-foreground-muted hover:text-foreground md:hidden"
               aria-label={tx.header.actions.openMenu}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
@@ -246,7 +246,7 @@ export default function SiteHeader() {
       {menuOpen ? (
         <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
           <div
-            className="absolute inset-0 bg-zinc-950/30"
+            className="absolute inset-0 bg-foreground/30"
             onClick={() => {
               setMobileSubmenu(null);
               setMenuOpen(false);
@@ -256,20 +256,21 @@ export default function SiteHeader() {
           <div
             id="mobile-nav"
             ref={drawerRef}
-            className="absolute inset-x-0 top-0 max-h-[100dvh] overflow-auto bg-white"
+            className="absolute inset-x-0 top-0 max-h-[100dvh] overflow-auto bg-background"
           >
-            <div className="flex h-16 items-center justify-between border-b border-zinc-200 px-4 sm:px-6">
-              <Link
+            <div className="flex h-16 items-center justify-between border-b border-border px-4 sm:px-6">
+              <AppLink
                 href={base}
-                className="text-base font-medium tracking-tight text-zinc-950"
+                underline="none"
+                className="type-brand text-foreground"
                 onClick={() => setMenuOpen(false)}
               >
                 Alfa Beauty
-              </Link>
+              </AppLink>
               <button
                 ref={closeBtnRef}
                 type="button"
-                className="inline-flex h-10 w-10 items-center justify-center text-zinc-700 hover:text-zinc-950"
+                className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-foreground-muted hover:text-foreground"
                 aria-label={tx.header.actions.closeMenu}
                 onClick={() => {
                   setMobileSubmenu(null);
@@ -285,7 +286,7 @@ export default function SiteHeader() {
                 <div>
                   <button
                     type="button"
-                    className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900"
+                    className="type-data-strong mb-6 inline-flex items-center gap-2 text-foreground"
                     onClick={() => setMobileSubmenu(null)}
                   >
                     <IconChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -296,18 +297,18 @@ export default function SiteHeader() {
                     {nav
                       .find((n) => n.key === mobileSubmenu)
                       ?.links?.map((l) => (
-                        <Link
+                        <AppLink
                           key={l.href}
                           href={l.href}
-                          className="flex items-center justify-between border-b border-zinc-100 py-6 type-h2 tracking-tight"
+                          className="type-nav flex items-center justify-between border-b border-border py-6 text-foreground"
                           onClick={() => {
                             setMobileSubmenu(null);
                             setMenuOpen(false);
                           }}
                         >
                           <span>{l.label}</span>
-                          <IconChevronRight className="h-6 w-6 text-zinc-400" aria-hidden="true" />
-                        </Link>
+                          <IconChevronRight className="h-6 w-6 text-muted-soft" aria-hidden="true" />
+                        </AppLink>
                       ))}
                   </div>
                 </div>
@@ -320,25 +321,25 @@ export default function SiteHeader() {
                         <button
                           key={n.key}
                           type="button"
-                          className="flex w-full items-center justify-between border-b border-zinc-100 py-6 text-left type-h2 tracking-tight"
+                          className="type-nav flex w-full items-center justify-between border-b border-border py-6 text-left text-foreground"
                           onClick={() => setMobileSubmenu(n.key)}
                         >
                           <span>{n.label}</span>
-                          <IconChevronRight className="h-6 w-6 text-zinc-400" aria-hidden="true" />
+                          <IconChevronRight className="h-6 w-6 text-muted-soft" aria-hidden="true" />
                         </button>
                       );
                     }
 
                     return (
-                      <Link
+                      <AppLink
                         key={n.key}
                         href={n.href}
-                        className="flex items-center justify-between border-b border-zinc-100 py-6 type-h2 tracking-tight"
+                        className="type-nav flex items-center justify-between border-b border-border py-6 text-foreground"
                         onClick={() => setMenuOpen(false)}
                       >
                         <span>{n.label}</span>
-                        <IconChevronRight className="h-6 w-6 text-zinc-400" aria-hidden="true" />
-                      </Link>
+                        <IconChevronRight className="h-6 w-6 text-muted-soft" aria-hidden="true" />
+                      </AppLink>
                     );
                   })}
                 </div>
@@ -346,51 +347,60 @@ export default function SiteHeader() {
 
               <div className="mt-10 space-y-6">
                 <div>
-                  <p className="type-data font-semibold text-zinc-950">Language</p>
+                  <p className="type-data-strong text-foreground">Language</p>
                   <div className="mt-3 inline-flex">
                     <LocaleToggle />
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <Link href={becomePartnerHref} onClick={() => setMenuOpen(false)}>
-                    <Button className="w-full" size="md">
-                      {tx.cta.becomePartner}
-                    </Button>
-                  </Link>
-                  <Link href={contactHref} onClick={() => setMenuOpen(false)}>
-                    <Button className="w-full" size="md" variant="secondary">
-                      {tx.nav.contact}
-                    </Button>
-                  </Link>
+                  <ButtonLink
+                    href={becomePartnerHref}
+                    className="w-full"
+                    size="md"
+                    prefetch={false}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {tx.cta.becomePartner}
+                  </ButtonLink>
+                  <ButtonLink
+                    href={contactHref}
+                    className="w-full"
+                    size="md"
+                    variant="secondary"
+                    prefetch={false}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {tx.nav.contact}
+                  </ButtonLink>
                 </div>
 
-                <div className="space-y-2 text-sm text-zinc-700">
+                <div className="space-y-2 type-body">
                   <p>{tx.header.announcement}</p>
                   <p>
-                    <Link
+                    <AppLink
                       href={productsHref}
-                      className="font-semibold text-zinc-900 underline underline-offset-2 hover:no-underline"
+                      className="type-data-strong text-foreground underline underline-offset-2 hover:no-underline"
                       onClick={() => setMenuOpen(false)}
                     >
                       {tx.nav.products}
-                    </Link>
+                    </AppLink>
                     {" · "}
-                    <Link
+                    <AppLink
                       href={educationHref}
-                      className="font-semibold text-zinc-900 underline underline-offset-2 hover:no-underline"
+                      className="type-data-strong text-foreground underline underline-offset-2 hover:no-underline"
                       onClick={() => setMenuOpen(false)}
                     >
                       {tx.nav.education}
-                    </Link>
+                    </AppLink>
                     {" · "}
-                    <Link
+                    <AppLink
                       href={partnershipHref}
-                      className="font-semibold text-zinc-900 underline underline-offset-2 hover:no-underline"
+                      className="type-data-strong text-foreground underline underline-offset-2 hover:no-underline"
                       onClick={() => setMenuOpen(false)}
                     >
                       {tx.nav.partnership}
-                    </Link>
+                    </AppLink>
                   </p>
                 </div>
               </div>

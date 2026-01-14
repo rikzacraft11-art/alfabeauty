@@ -140,8 +140,8 @@ export default function LeadForm() {
     return (
       <div className="space-y-3">
         <p className="type-h3">{tx.leadForm.success.title}</p>
-        <p className="type-body text-zinc-700">{tx.leadForm.success.body}</p>
-        {result.id ? <p className="type-data text-zinc-600">{tx.leadForm.success.ref}: {result.id}</p> : null}
+        <p className="type-body">{tx.leadForm.success.body}</p>
+        {result.id ? <p className="type-data">{tx.leadForm.success.ref}: {result.id}</p> : null}
       </div>
     );
   }
@@ -149,7 +149,7 @@ export default function LeadForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <label className="block type-data font-semibold" htmlFor="business_name">
+        <label className="block type-data-strong" htmlFor="business_name">
           {tx.leadForm.fields.businessName}
         </label>
         <Input
@@ -164,7 +164,7 @@ export default function LeadForm() {
       </div>
 
       <div>
-        <label className="block type-data font-semibold" htmlFor="contact_name">
+        <label className="block type-data-strong" htmlFor="contact_name">
           {tx.leadForm.fields.contactName}
         </label>
         <Input
@@ -180,7 +180,7 @@ export default function LeadForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block type-data font-semibold" htmlFor="email">
+          <label className="block type-data-strong" htmlFor="email">
             {tx.leadForm.fields.emailOptional}
           </label>
           <Input
@@ -193,7 +193,7 @@ export default function LeadForm() {
           />
         </div>
         <div>
-          <label className="block type-data font-semibold" htmlFor="phone_whatsapp">
+          <label className="block type-data-strong" htmlFor="phone_whatsapp">
             {tx.leadForm.fields.whatsAppNumber}
           </label>
           <Input
@@ -209,7 +209,7 @@ export default function LeadForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block type-data font-semibold" htmlFor="city">
+          <label className="block type-data-strong" htmlFor="city">
             {tx.leadForm.fields.city}
           </label>
           <Input
@@ -223,7 +223,7 @@ export default function LeadForm() {
           />
         </div>
         <div>
-          <label className="block type-data font-semibold" htmlFor="salon_type">
+          <label className="block type-data-strong" htmlFor="salon_type">
             {tx.leadForm.fields.salonType}
           </label>
           <Select
@@ -255,13 +255,13 @@ export default function LeadForm() {
         </div>
       </div>
 
-      <details className="border border-zinc-200 p-4">
-        <summary className="cursor-pointer type-body font-semibold text-zinc-900">
+      <details className="border border-border p-4">
+        <summary className="cursor-pointer type-body-strong text-foreground">
           {tx.leadForm.additionalDetails.summary}
         </summary>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="block type-data font-semibold" htmlFor="chair_count">
+            <label className="block type-data-strong" htmlFor="chair_count">
               {tx.leadForm.additionalDetails.chairCount}
             </label>
             <Input
@@ -275,7 +275,7 @@ export default function LeadForm() {
           </div>
 
           <div>
-            <label className="block type-data font-semibold" htmlFor="specialization">
+            <label className="block type-data-strong" htmlFor="specialization">
               {tx.leadForm.additionalDetails.specialization}
             </label>
             <Input
@@ -289,7 +289,7 @@ export default function LeadForm() {
           </div>
 
           <div>
-            <label className="block type-data font-semibold" htmlFor="current_brands_used">
+            <label className="block type-data-strong" htmlFor="current_brands_used">
               {tx.leadForm.additionalDetails.currentBrandsUsed}
             </label>
             <Input
@@ -302,7 +302,7 @@ export default function LeadForm() {
           </div>
 
           <div>
-            <label className="block type-data font-semibold" htmlFor="monthly_spend_range">
+            <label className="block type-data-strong" htmlFor="monthly_spend_range">
               {tx.leadForm.additionalDetails.monthlySpendRange}
             </label>
             <Input
@@ -319,7 +319,7 @@ export default function LeadForm() {
 
       {/* Honeypot field: must be hidden from real users (Paket A / Lead API anti-spam) */}
       <div className="hidden" aria-hidden="true">
-        <label className="block type-data font-semibold" htmlFor="company">
+        <label className="block type-data-strong" htmlFor="company">
           {tx.leadForm.honeypot.companyLabel}
         </label>
         <Input
@@ -334,7 +334,7 @@ export default function LeadForm() {
       </div>
 
       <div>
-        <label className="block type-data font-semibold" htmlFor="message">
+        <label className="block type-data-strong" htmlFor="message">
           {tx.leadForm.fields.messageOptional}
         </label>
         <Textarea
@@ -347,7 +347,7 @@ export default function LeadForm() {
         />
       </div>
 
-      <label className="flex items-start gap-3 type-data text-zinc-700">
+      <label className="flex items-start gap-3 type-data">
         <input
           type="checkbox"
           className="mt-0.5 h-4 w-4"

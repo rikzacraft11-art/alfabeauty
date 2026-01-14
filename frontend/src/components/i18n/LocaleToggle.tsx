@@ -31,7 +31,7 @@ export default function LocaleToggle() {
   }
 
   const baseBtn =
-    "h-8 px-2 text-xs font-medium tracking-wide underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2";
+    "type-ui-sm-wide ui-focus-ring ui-radius-tight h-8 px-2 underline-offset-4";
 
   return (
     <div className="inline-flex items-center gap-2 bg-transparent">
@@ -39,20 +39,20 @@ export default function LocaleToggle() {
         type="button"
         onClick={() => navigate("en")}
         className={`${baseBtn} ${
-          locale === "en" ? "text-zinc-950 underline" : "text-zinc-700 hover:text-zinc-950"
+          locale === "en" ? "text-foreground underline" : "text-foreground-muted hover:text-foreground"
         }`}
         aria-pressed={locale === "en"}
       >
         EN
       </button>
-      <span className="select-none text-zinc-400" aria-hidden="true">
+      <span className="select-none text-muted-soft" aria-hidden="true">
         /
       </span>
       <button
         type="button"
         onClick={() => navigate("id")}
         className={`${baseBtn} ${
-          locale === "id" ? "text-zinc-950 underline" : "text-zinc-700 hover:text-zinc-950"
+          locale === "id" ? "text-foreground underline" : "text-foreground-muted hover:text-foreground"
         }`}
         aria-pressed={locale === "id"}
       >

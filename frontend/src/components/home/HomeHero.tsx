@@ -10,16 +10,16 @@ export default function HomeHero() {
   const base = `/${locale}`;
 
   return (
-    <section className="border border-zinc-200 bg-white p-6 sm:p-10">
+    <section className="border border-border bg-background p-6 sm:p-10">
       <div className="max-w-3xl space-y-5">
         <p className="type-kicker">{copy.home.hero.kicker}</p>
         <h1 className="type-h1">{copy.home.hero.title}</h1>
         <p className="type-lede">{copy.home.hero.lede}</p>
 
-        <ul className="space-y-2 type-body text-zinc-700">
+        <ul className="space-y-2 type-body">
           {copy.home.hero.points.map((x) => (
             <li key={x} className="flex gap-3">
-              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 bg-zinc-950" />
+              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 bg-foreground" />
               <span>{x}</span>
             </li>
           ))}

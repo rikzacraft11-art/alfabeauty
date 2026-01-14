@@ -3,10 +3,20 @@
 :root {
   /* Design language: monochrome + flat + sharp */
   --background: #ffffff;
+  --panel: #fafafa; /* zinc-50 */
   --foreground: #09090b; /* zinc-950 */
+  --foreground-soft: #27272a; /* zinc-800 */
+  --foreground-muted: #3f3f46; /* zinc-700 */
   --muted: #71717a; /* zinc-500 */
+  --muted-strong: #52525b; /* zinc-600 */
+  --muted-soft: #a1a1aa; /* zinc-400 */
   --border: #e4e4e7; /* zinc-200 */
+  --border-strong: #d4d4d8; /* zinc-300 */
   --subtle: #f4f4f5; /* zinc-100 */
+
+  /* Focus ring tokens (override per-surface when needed) */
+  --focus-ring: #18181b; /* zinc-900 */
+  --focus-ring-offset: #ffffff;
 
   --radius: 0px;
   --radius-tight: 2px;
@@ -14,9 +24,15 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-panel: var(--panel);
   --color-foreground: var(--foreground);
+  --color-foreground-soft: var(--foreground-soft);
+  --color-foreground-muted: var(--foreground-muted);
   --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-muted-soft: var(--muted-soft);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-subtle: var(--subtle);
 
   --radius: var(--radius);
@@ -31,7 +47,15 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
+    --panel: #111113;
     --foreground: #ededed;
+    --foreground-soft: #e4e4e7; /* zinc-200 */
+    --foreground-muted: #d4d4d8; /* zinc-300 */
+    --muted: #71717a; /* zinc-500 */
+    --muted-strong: #a1a1aa; /* zinc-400 */
+    --muted-soft: #52525b; /* zinc-600 */
+    --focus-ring: #ededed;
+    --focus-ring-offset: #0a0a0a;
   }
 }
 
@@ -48,7 +72,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #52525b; /* zinc-600 */
+  color: var(--muted-strong);
 }
 
 .type-h1 {
@@ -82,19 +106,122 @@ body {
 .type-lede {
   font-size: 1rem;
   line-height: 1.75;
-  color: #3f3f46; /* zinc-700 */
+  color: var(--foreground-muted);
 }
 
 .type-body {
   font-size: 0.9375rem;
   line-height: 1.75;
-  color: #3f3f46; /* zinc-700 */
+  color: var(--foreground-muted);
+}
+
+/* Body rhythm variants */
+.type-body-compact {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--foreground-muted);
+}
+
+.type-body-strong {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  font-weight: 600;
+  color: inherit;
 }
 
 .type-data {
   font-size: 0.875rem;
   line-height: 1.5;
-  color: #52525b; /* zinc-600 */
+  color: var(--muted-strong);
+}
+
+.type-data-strong {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: inherit;
+}
+
+/* Inline emphasis helper (no sizing): use for <span> inside paragraphs */
+.type-strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+/* UI typography (no color): keep UI consistent across components */
+.type-ui {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+.type-ui-strong {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+.type-ui-sm {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+.type-ui-sm-strong {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+.type-ui-sm-wide {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: inherit;
+}
+
+/*
+  Navigation typography: one token for both desktop and mobile.
+  Mobile drawer needs slightly larger tap-target text; desktop uses compact sizing.
+*/
+.type-nav {
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+@media (min-width: 768px) {
+  .type-nav {
+    font-size: 0.875rem;
+    line-height: 1.2;
+  }
+}
+
+.type-brand {
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.type-promo {
+  font-size: 0.75rem;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: inherit;
 }
 
 @media (min-width: 640px) {
@@ -105,8 +232,49 @@ body {
   .type-body {
     font-size: 1rem;
   }
+
+  .type-body-compact {
+    font-size: 1rem;
+  }
+
+  .type-body-strong {
+    font-size: 1rem;
+  }
+
+  .type-ui {
+    font-size: 1rem;
+  }
+
+  .type-ui-strong {
+    font-size: 1rem;
+  }
 }
 
 a {
   text-underline-offset: 3px;
+}
+
+/*
+  UI tokens (enterprise guardrails):
+  - Use these classes to keep focus, radius, and surface behavior consistent.
+  - Prefer overriding variables (e.g. --focus-ring-offset) on surfaces rather than re-styling per-element.
+*/
+.ui-radius-tight {
+  border-radius: var(--radius-tight);
+}
+
+.ui-focus-ring {
+  outline: none;
+}
+
+.ui-focus-ring:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--focus-ring),
+    0 0 0 4px var(--focus-ring-offset);
+}
+
+/* Surface helper for dark sections (e.g. promo bar) */
+.ui-on-dark {
+  --focus-ring: #ffffff;
+  --focus-ring-offset: #000000;
 }

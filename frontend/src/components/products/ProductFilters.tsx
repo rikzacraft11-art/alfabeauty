@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import type { Audience, Product } from "@/lib/types";
 import { listProducts } from "@/lib/catalog";
 import { useLocale } from "@/components/i18n/LocaleProvider";
+import AppLink from "@/components/ui/AppLink";
 import { t } from "@/lib/i18n";
 
 function uniq(values: string[]) {
@@ -66,15 +66,15 @@ export default function ProductFilters() {
   return (
     <section className="grid gap-6 md:grid-cols-4">
       <aside className="md:col-span-1">
-        <div className="border border-zinc-200 p-5">
+        <div className="border border-border p-5">
           <div className="flex items-center justify-between">
-            <h2 className="type-data font-semibold text-zinc-900">
+            <h2 className="type-data-strong text-foreground">
               {tx.products.filters.title}
             </h2>
             <button
               type="button"
               onClick={clear}
-              className="type-data font-semibold text-zinc-900 underline"
+              className="type-data-strong text-foreground underline"
             >
               {tx.products.filters.clear}
             </button>
@@ -82,10 +82,10 @@ export default function ProductFilters() {
 
           <div className="mt-4 space-y-5">
             <div>
-              <p className="type-data font-semibold text-zinc-900">{tx.products.filters.groups.brand}</p>
+              <p className="type-data-strong text-foreground">{tx.products.filters.groups.brand}</p>
               <div className="mt-2 space-y-2">
                 {brands.map((b) => (
-                  <label key={b} className="flex items-center gap-2 type-body text-zinc-700">
+                  <label key={b} className="flex items-center gap-2 type-body">
                     <input
                       type="checkbox"
                       className="h-4 w-4"
@@ -99,12 +99,12 @@ export default function ProductFilters() {
             </div>
 
             <div>
-              <p className="type-data font-semibold text-zinc-900">
+              <p className="type-data-strong text-foreground">
                 {tx.products.filters.groups.audience}
               </p>
               <div className="mt-2 space-y-2">
                 {(["SALON", "BARBER"] as const).map((a) => (
-                  <label key={a} className="flex items-center gap-2 type-body text-zinc-700">
+                  <label key={a} className="flex items-center gap-2 type-body">
                     <input
                       type="checkbox"
                       className="h-4 w-4"
@@ -118,12 +118,12 @@ export default function ProductFilters() {
             </div>
 
             <div>
-              <p className="type-data font-semibold text-zinc-900">
+              <p className="type-data-strong text-foreground">
                 {tx.products.filters.groups.function}
               </p>
               <div className="mt-2 space-y-2">
                 {functions.map((f) => (
-                  <label key={f} className="flex items-center gap-2 type-body text-zinc-700">
+                  <label key={f} className="flex items-center gap-2 type-body">
                     <input
                       type="checkbox"
                       className="h-4 w-4"
@@ -141,26 +141,27 @@ export default function ProductFilters() {
 
       <div className="md:col-span-3">
         {filtered.length === 0 ? (
-          <div className="border border-zinc-200 bg-zinc-50 p-8">
-            <p className="type-data font-semibold text-zinc-900">
+          <div className="border border-border bg-panel p-8">
+            <p className="type-data-strong text-foreground">
               {tx.products.filters.empty.title}
             </p>
-            <p className="mt-2 type-body text-zinc-700">
+            <p className="mt-2 type-body">
               {tx.products.filters.empty.body}
             </p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p) => (
-              <Link
+              <AppLink
                 key={p.slug}
                 href={`/products/${p.slug}`}
-                className="border border-zinc-200 p-6 hover:bg-zinc-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
+                underline="none"
+                className="border border-border bg-background p-6 transition-colors hover:bg-subtle"
               >
                 <p className="type-kicker">{p.brand}</p>
-                <p className="mt-2 type-body font-semibold text-zinc-950">{p.name}</p>
+                <p className="mt-2 type-body-strong text-foreground">{p.name}</p>
                 <p className="mt-2 type-body line-clamp-3">{p.summary}</p>
-              </Link>
+              </AppLink>
             ))}
           </div>
         )}

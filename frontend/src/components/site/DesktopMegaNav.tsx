@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useLocale } from "@/components/i18n/LocaleProvider";
+import AppLink from "@/components/ui/AppLink";
 import { t } from "@/lib/i18n";
 
 type MegaLink = {
@@ -128,7 +128,7 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
 
   return (
     <div ref={rootRef} className="relative hidden md:block" onMouseLeave={() => setActiveKey(null)}>
-      <nav className="flex items-center gap-10 text-sm text-zinc-900" aria-label="Primary">
+      <nav className="flex items-center gap-10 type-nav text-foreground" aria-label="Primary">
         {items.map((item) => {
           const hasPanel = Boolean(item.links && item.links.length > 0);
           const isActive = activeKey === item.key;
@@ -138,16 +138,16 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
           return (
             <div key={item.key} className="relative" onMouseEnter={() => setActiveKey(item.key)}>
               <div className="flex items-center gap-1">
-                <Link
+                <AppLink
                   href={item.href}
                   ref={(el) => {
                     triggerLinkRefs.current[item.key] = el;
                   }}
-                  className={
+                  className={`ui-focus-ring ui-radius-tight ${
                     isActive
-                      ? "font-medium text-zinc-950 underline underline-offset-[10px]"
-                      : "font-medium hover:text-zinc-950"
-                  }
+                      ? "text-foreground underline underline-offset-[10px]"
+                      : "hover:text-foreground"
+                  }`}
                   onKeyDown={(e) => {
                     if (!hasPanel) {
                       if (e.key === "ArrowLeft") {
@@ -179,11 +179,11 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
                   }}
                 >
                   {item.label}
-                </Link>
+                </AppLink>
                 {hasPanel ? (
                   <button
                     type="button"
-                    className="inline-flex h-8 w-8 items-center justify-center text-zinc-700 hover:text-zinc-950"
+                    className="ui-focus-ring ui-radius-tight inline-flex h-8 w-8 items-center justify-center text-foreground-muted hover:text-foreground"
                     aria-label={`Open ${item.label} menu`}
                     id={triggerBtnId}
                     aria-haspopup="true"
@@ -245,37 +245,37 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
           <div
             id={`mega-${active.key}`}
             ref={panelRef}
-            className="fixed left-0 right-0 top-[108px] z-40 border-b border-zinc-200 bg-white"
+            className="fixed left-0 right-0 top-[108px] z-40 border-b border-border bg-background"
             onMouseEnter={() => setActiveKey(active.key)}
             role="region"
             aria-labelledby={`mega-trigger-${active.key}`}
           >
             <div className="mx-auto grid w-full max-w-[80rem] grid-cols-12 gap-8 px-4 py-8 sm:px-6 lg:px-10">
               <div className="col-span-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{tx.header.mega.featuredTitle}</p>
-                <p className="mt-2 text-sm leading-6 text-zinc-700">{tx.header.mega.featuredBody}</p>
+                <p className="type-kicker text-muted">{tx.header.mega.featuredTitle}</p>
+                <p className="mt-2 type-body-compact">{tx.header.mega.featuredBody}</p>
                 <div className="mt-4">
-                  <Link
+                  <AppLink
                     href={active.href}
-                    className="inline-flex text-sm font-semibold text-zinc-950 underline underline-offset-4 hover:no-underline"
+                    className="inline-flex type-data-strong text-foreground underline underline-offset-4 hover:no-underline"
                     onClick={() => setActiveKey(null)}
                   >
                     {tx.header.mega.shopAll} {active.label}
-                  </Link>
+                  </AppLink>
                 </div>
               </div>
 
               <div className="col-span-8">
                 <div className="grid grid-cols-2 gap-x-10 gap-y-3">
                   {active.links?.map((l) => (
-                    <Link
+                    <AppLink
                       key={l.href}
                       href={l.href}
-                      className="text-sm text-zinc-800 hover:text-zinc-950"
+                      className="type-data text-foreground-soft hover:text-foreground"
                       onClick={() => closePanel({ key: active.key })}
                     >
                       {l.label}
-                    </Link>
+                    </AppLink>
                   ))}
                 </div>
               </div>

@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <div className="mx-auto max-w-2xl space-y-4 text-center">
       <h1 className="type-h2">{tx.system.notFound.title}</h1>
-      <p className="type-body text-zinc-700">{tx.system.notFound.body}</p>
+      <p className="type-body">{tx.system.notFound.body}</p>
       <ButtonLink href={base}>{tx.system.notFound.backHome}</ButtonLink>
     </div>
   );

@@ -61,7 +61,8 @@ try {
       throw "next_start_exited:$code`n--- stdout (tail) ---`n$outTail`n--- stderr (tail) ---`n$errTail"
     }
     try {
-      $resp = Invoke-WebRequest -Uri "$base/" -Method GET -UseBasicParsing -TimeoutSec 2
+      # This app uses locale-prefixed routes only; / is intentionally non-routable.
+      $resp = Invoke-WebRequest -Uri "$base/en" -Method GET -UseBasicParsing -TimeoutSec 2
       break
     } catch {
       Start-Sleep -Milliseconds 500

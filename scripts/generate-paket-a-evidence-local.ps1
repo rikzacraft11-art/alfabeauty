@@ -105,7 +105,8 @@ function Assert-ExpectedNextOrFree {
 	}
 
 	try {
-		$resp = Invoke-WebRequest -Uri "http://127.0.0.1:$Port/" -UseBasicParsing -TimeoutSec 5
+		# This app uses locale-prefixed URLs only; / is intentionally non-routable.
+		$resp = Invoke-WebRequest -Uri "http://127.0.0.1:$Port/en" -UseBasicParsing -TimeoutSec 5
 		if ($resp.StatusCode -ne 200) {
 			throw "unexpected_status:$($resp.StatusCode)"
 		}

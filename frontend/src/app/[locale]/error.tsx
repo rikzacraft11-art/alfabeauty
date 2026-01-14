@@ -26,7 +26,7 @@ export default function LocaleError({
   return (
     <div className="mx-auto max-w-2xl space-y-3">
       <h1 className="type-h2">{tx.system.error.title}</h1>
-      <p className="type-body text-zinc-700">{tx.system.error.body}</p>
+      <p className="type-body">{tx.system.error.body}</p>
       <div className="flex flex-col gap-2 sm:flex-row">
         <Button type="button" onClick={() => reset()}>
           {tx.system.error.actions.tryAgain}
@@ -35,7 +35,7 @@ export default function LocaleError({
           {tx.system.error.actions.goHome}
         </ButtonLink>
       </div>
-      {error?.digest ? <p className="type-data text-zinc-500">{tx.system.error.ref}: {error.digest}</p> : null}
+      {error?.digest ? <p className="type-data text-muted-soft">{tx.system.error.ref}: {error.digest}</p> : null}
     </div>
   );
 }

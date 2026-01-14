@@ -12,11 +12,11 @@ export default function BecomePartnerContent() {
     <div className="grid gap-10 md:grid-cols-2">
       <div className="space-y-4">
         <h1 className="type-h2">{copy.becomePartner.title}</h1>
-        <p className="type-body text-zinc-700">{copy.becomePartner.lede}</p>
+        <p className="type-body">{copy.becomePartner.lede}</p>
 
-        <div className="border border-zinc-200 bg-zinc-50 p-6">
-          <p className="type-data font-semibold text-zinc-900">{copy.becomePartner.next.title}</p>
-          <ul className="mt-3 list-disc space-y-1 pl-5 type-body text-zinc-700">
+        <div className="border border-border bg-panel p-6">
+          <p className="type-data-strong text-foreground">{copy.becomePartner.next.title}</p>
+          <ul className="mt-3 list-disc space-y-1 pl-5 type-body">
             {copy.becomePartner.next.items.map((x) => (
               <li key={x}>{x}</li>
             ))}
@@ -24,7 +24,7 @@ export default function BecomePartnerContent() {
         </div>
       </div>
 
-      <div className="border border-zinc-200 p-6">
+      <div className="border border-border p-6">
         <LeadForm />
       </div>
     </div>

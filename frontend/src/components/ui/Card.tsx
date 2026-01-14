@@ -8,7 +8,7 @@ export default function Card({
   className?: string;
 }) {
   return (
-    <div className={`border border-zinc-200 bg-white ${className}`.trim()}>
+    <div className={`ui-radius-tight border border-border bg-background ${className}`.trim()}>
       {children}
     </div>
   );

@@ -39,13 +39,23 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (locale !== "en" && locale !== "id") notFound();
 
+  const skipLabel = locale === "id" ? "Lewati ke konten" : "Skip to content";
+
   return (
     <LocaleProvider defaultLocale={locale}>
-      <div className="min-h-dvh bg-white text-zinc-950">
+      <div className="min-h-dvh bg-background text-foreground">
+        <a
+          href="#main-content"
+          className="sr-only type-ui ui-focus-ring ui-radius-tight focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:border focus:border-border focus:bg-background focus:px-3 focus:py-2 focus:text-foreground"
+        >
+          {skipLabel}
+        </a>
         <StructuredData />
         <SiteHeader />
         <WebVitalsReporter />
-        <main className="mx-auto w-full max-w-[80rem] px-4 py-10 sm:px-6">{children}</main>
+        <main id="main-content" className="mx-auto w-full max-w-[80rem] px-4 py-10 sm:px-6">
+          {children}
+        </main>
         <SiteFooter />
         <WhatsAppStickyCTA />
       </div>

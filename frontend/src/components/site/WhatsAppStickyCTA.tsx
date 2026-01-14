@@ -23,7 +23,7 @@ export default function WhatsAppStickyCTA() {
       {fallbackEmail ? (
         <div className="mt-2 text-right">
           <a
-            className="type-data font-semibold text-zinc-700 underline underline-offset-2 hover:text-zinc-900"
+            className="type-data-strong text-foreground-muted underline underline-offset-2 hover:text-foreground"
             href={`mailto:${fallbackEmail}`}
             onClick={() => {
               trackEvent("cta_email_click", {

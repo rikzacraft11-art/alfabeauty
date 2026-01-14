@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
-
 import type { Product } from "@/lib/types";
 import { t } from "@/lib/i18n";
 
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import WhatsAppLink from "@/components/site/WhatsAppLink";
+import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
 import Card from "@/components/ui/Card";
 import { getButtonClassName } from "@/components/ui/Button";
@@ -23,10 +22,10 @@ export default function ProductDetailContent({ product }: Props) {
   if (!product) {
     return (
       <div className="space-y-3">
-        <p className="type-body text-zinc-700">{tx.productDetail.notFound.body}</p>
-        <Link href={`${base}/products`} className="type-body font-semibold text-zinc-900 underline">
+        <p className="type-body">{tx.productDetail.notFound.body}</p>
+        <AppLink href={`${base}/products`} underline="always" className="type-body-strong text-foreground">
           {tx.productDetail.notFound.back}
-        </Link>
+        </AppLink>
       </div>
     );
   }
@@ -35,12 +34,12 @@ export default function ProductDetailContent({ product }: Props) {
 
   return (
     <div className="space-y-8">
-      <nav className="type-body text-zinc-600">
-        <Link href={`${base}/products`} className="hover:underline">
+      <nav className="type-body">
+        <AppLink href={`${base}/products`}>
           {tx.nav.products}
-        </Link>
+        </AppLink>
         <span className="px-2">/</span>
-        <span className="text-zinc-900">{product.name}</span>
+        <span className="text-foreground">{product.name}</span>
       </nav>
 
       <header className="space-y-2">
@@ -67,7 +66,7 @@ export default function ProductDetailContent({ product }: Props) {
         </div>
 
         <aside className="space-y-4">
-          <div className="border border-zinc-200 bg-zinc-50 p-6">
+          <div className="border border-border bg-panel p-6">
             <h2 className="type-h3">{tx.productDetail.consult.title}</h2>
             <p className="mt-2 type-body">{tx.productDetail.consult.body}</p>
             <div className="mt-4 flex flex-col gap-3">
@@ -84,11 +83,11 @@ export default function ProductDetailContent({ product }: Props) {
             <h2 className="type-h3">{tx.productDetail.sections.recommendedFor}</h2>
             <ul className="mt-3 space-y-1 type-body">
               <li>
-                <span className="font-medium text-zinc-900">{tx.productDetail.labels.audience}:</span>{" "}
+                <span className="type-data-strong text-foreground">{tx.productDetail.labels.audience}:</span>{" "}
                 {product.audience.join(", ")}
               </li>
               <li>
-                <span className="font-medium text-zinc-900">{tx.productDetail.labels.functions}:</span>{" "}
+                <span className="type-data-strong text-foreground">{tx.productDetail.labels.functions}:</span>{" "}
                 {product.functions.join(", ")}
               </li>
             </ul>

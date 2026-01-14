@@ -84,6 +84,12 @@ export default function HeaderPromo() {
 
     const prev = document.activeElement as HTMLElement | null;
     const openerEl = openerRef.current;
+    const docEl = document.documentElement;
+    const prevOverflow = docEl.style.overflow;
+
+    // Prevent background scrolling while the dialog is open.
+    docEl.style.overflow = "hidden";
+
     const t0 = window.setTimeout(() => closeBtnRef.current?.focus(), 0);
 
     function onKeyDown(e: KeyboardEvent) {
@@ -120,6 +126,7 @@ export default function HeaderPromo() {
     return () => {
       window.clearTimeout(t0);
       document.removeEventListener("keydown", onKeyDown);
+      docEl.style.overflow = prevOverflow;
       // Restore focus to opener if possible.
       (openerEl ?? prev)?.focus?.();
     };
@@ -130,7 +137,7 @@ export default function HeaderPromo() {
   return (
     <div className="border-b border-black bg-black text-white">
       <div
-        className="flex h-9 w-full items-center justify-center gap-3 px-4 text-xs tracking-wide sm:px-6"
+        className="type-promo flex h-9 w-full items-center justify-center gap-3 px-4 sm:px-6"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -138,7 +145,7 @@ export default function HeaderPromo() {
         <button
           ref={openerRef}
           type="button"
-          className="whitespace-nowrap underline underline-offset-2 hover:no-underline"
+          className="ui-focus-ring ui-radius-tight whitespace-nowrap underline underline-offset-2 hover:no-underline"
           onClick={() => setModalOpen(true)}
         >
           {tx.header.promo.actions.details}
@@ -150,16 +157,16 @@ export default function HeaderPromo() {
           <div className="absolute inset-0 bg-black/50" onClick={() => setModalOpen(false)} aria-hidden="true" />
           <div
             ref={modalRef}
-            className="absolute left-1/2 top-1/2 w-[min(38rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-[2px] border border-zinc-200 bg-white p-6 text-zinc-950"
+            className="absolute left-1/2 top-1/2 w-[min(38rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 ui-radius-tight border border-border bg-background p-6 text-foreground"
           >
             <div className="flex items-start justify-between gap-6">
               <div>
-                <p className="text-2xl font-semibold tracking-tight">{current.detailsTitle}</p>
+                <p className="type-h3">{current.detailsTitle}</p>
               </div>
               <button
                 ref={closeBtnRef}
                 type="button"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-[2px] text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+                className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-muted-strong hover:bg-subtle hover:text-foreground"
                 aria-label={tx.header.promo.actions.close}
                 onClick={() => setModalOpen(false)}
               >
@@ -167,14 +174,14 @@ export default function HeaderPromo() {
               </button>
             </div>
 
-            <div className="mt-4 text-sm leading-6 text-zinc-700">
+            <div className="mt-4 type-body-compact">
               <p>{current.detailsBody}</p>
             </div>
 
             <div className="mt-6">
               <button
                 type="button"
-                className="rounded-[2px] bg-zinc-950 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-900"
+                className="type-ui-sm-strong ui-focus-ring ui-radius-tight bg-foreground px-4 py-2 text-background hover:bg-foreground/90"
                 onClick={() => setModalOpen(false)}
               >
                 {tx.header.promo.actions.close}

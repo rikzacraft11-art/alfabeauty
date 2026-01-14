@@ -12,8 +12,8 @@ export default function Pillars() {
     <section className="grid gap-4 md:grid-cols-3">
       {[copy.pillars.products, copy.pillars.education, copy.pillars.partnership].map((x) => (
         <Card key={x.title} className="p-6">
-          <h2 className="type-data font-semibold text-zinc-900">{x.title}</h2>
-          <p className="mt-2 type-body text-zinc-700">{x.body}</p>
+          <h2 className="type-data-strong text-foreground">{x.title}</h2>
+          <p className="mt-2 type-body">{x.body}</p>
         </Card>
       ))}
     </section>

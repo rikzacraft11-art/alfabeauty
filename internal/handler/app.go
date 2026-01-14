@@ -59,6 +59,11 @@ func NewApp(cfg config.Config, leadSvc *service.LeadService) *fiber.App {
 		if c.Get("X-Content-Type-Options") == "" {
 			c.Set("X-Content-Type-Options", "nosniff")
 		}
+		// This API serves JSON and does not need referrer data; use the most conservative policy.
+		// (Website HTML uses a different policy via Next.js headers.)
+		if c.Get("Referrer-Policy") == "" {
+			c.Set("Referrer-Policy", "no-referrer")
+		}
 		return c.Next()
 	})
 

@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-
 import { useLocale } from "@/components/i18n/LocaleProvider";
+import AppLink from "@/components/ui/AppLink";
 import { t } from "@/lib/i18n";
 
 export default function SiteFooter() {
@@ -11,50 +10,50 @@ export default function SiteFooter() {
   const base = `/${locale}`;
 
   return (
-    <footer className="border-t border-zinc-200 bg-white">
+    <footer className="border-t border-border bg-background">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
         <div className="space-y-2">
-          <p className="type-data font-semibold text-zinc-950">Alfa Beauty Cosmetica</p>
-          <p className="type-body text-zinc-700">{tx.footer.blurb}</p>
+          <p className="type-data-strong text-foreground">Alfa Beauty Cosmetica</p>
+          <p className="type-body">{tx.footer.blurb}</p>
         </div>
         <div className="space-y-2">
-          <p className="type-data font-semibold text-zinc-950">{tx.footer.explore}</p>
-          <ul className="space-y-1 type-body text-zinc-700">
+          <p className="type-data-strong text-foreground">{tx.footer.explore}</p>
+          <ul className="space-y-1 type-body">
             <li>
-              <Link href={`${base}/products`} className="hover:underline">
+              <AppLink href={`${base}/products`}>
                 {tx.nav.products}
-              </Link>
+              </AppLink>
             </li>
             <li>
-              <Link href={`${base}/education`} className="hover:underline">
+              <AppLink href={`${base}/education`}>
                 {tx.nav.education}
-              </Link>
+              </AppLink>
             </li>
             <li>
-              <Link href={`${base}/partnership`} className="hover:underline">
+              <AppLink href={`${base}/partnership`}>
                 {tx.nav.partnership}
-              </Link>
+              </AppLink>
             </li>
           </ul>
         </div>
         <div className="space-y-2">
-          <p className="type-data font-semibold text-zinc-950">{tx.footer.legal}</p>
-          <ul className="space-y-1 type-body text-zinc-700">
+          <p className="type-data-strong text-foreground">{tx.footer.legal}</p>
+          <ul className="space-y-1 type-body">
             <li>
-              <Link href={`${base}/privacy`} className="hover:underline">
+              <AppLink href={`${base}/privacy`}>
                 {tx.legal.privacyTitle}
-              </Link>
+              </AppLink>
             </li>
             <li>
-              <Link href={`${base}/terms`} className="hover:underline">
+              <AppLink href={`${base}/terms`}>
                 {tx.legal.termsTitle}
-              </Link>
+              </AppLink>
             </li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-zinc-200 py-6">
-        <p className="mx-auto max-w-6xl px-4 type-data text-zinc-600 sm:px-6">
+      <div className="border-t border-border py-6">
+        <p className="mx-auto max-w-6xl px-4 type-data sm:px-6">
           © {new Date().getFullYear()} Alfa Beauty Cosmetica. {tx.footer.copyrightSuffix}
         </p>
       </div>
