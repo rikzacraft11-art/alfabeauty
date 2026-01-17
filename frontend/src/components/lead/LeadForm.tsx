@@ -1,10 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-
-import { trackEvent } from "@/lib/analytics";
 import { t } from "@/lib/i18n";
-import { getCurrentPageUrl, getInitialPageUrl } from "@/lib/telemetry";
+import { useLeadForm, type SalonType } from "@/lib/useLeadForm";
 
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import Button from "@/components/ui/Button";
@@ -13,198 +10,54 @@ import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
 import WhatsAppLink from "@/components/site/WhatsAppLink";
 import { getButtonClassName } from "@/components/ui/Button";
+import {
+  IconCheckCircle as IconCheck,
+  IconAlertCircle,
+  IconChevronDown,
+} from "@/components/ui/icons";
 
-type Result =
-  | { kind: "idle" }
-  | { kind: "submitting" }
-  | { kind: "success"; id?: string }
-  | { kind: "error"; message: string };
-
-type FieldErrors = {
-  businessName?: string;
-  contactName?: string;
-  phoneWhatsApp?: string;
-  city?: string;
-  salonType?: string;
-  consent?: string;
-};
-
-function IconCheck(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" {...props}>
-      <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconAlertCircle(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <circle cx="12" cy="12" r="10" />
-      <line x1="12" y1="8" x2="12" y2="12" />
-      <line x1="12" y1="16" x2="12.01" y2="16" />
-    </svg>
-  );
-}
-
+/**
+ * LeadForm Component
+ * 
+ * Renders the partner lead capture form with:
+ * - Field validation and inline errors
+ * - Success/error state handling
+ * - Idempotent API submission
+ * - Honeypot spam protection
+ * 
+ * Uses useLeadForm hook for state management (Single Responsibility Principle)
+ */
 export default function LeadForm() {
   const { locale } = useLocale();
   const tx = t(locale);
 
-  const [businessName, setBusinessName] = useState("");
-  const [contactName, setContactName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneWhatsApp, setPhoneWhatsApp] = useState("");
-  const [city, setCity] = useState("");
-  const [salonType, setSalonType] = useState<"SALON" | "BARBER" | "BRIDAL" | "UNISEX" | "OTHER" | "">("");
-  const [consent, setConsent] = useState(false);
-
-  const [chairCount, setChairCount] = useState<string>("");
-  const [specialization, setSpecialization] = useState("");
-  const [currentBrandsUsed, setCurrentBrandsUsed] = useState("");
-  const [monthlySpendRange, setMonthlySpendRange] = useState("");
-
-  const [message, setMessage] = useState("");
-  const [company, setCompany] = useState(""); // honeypot
-  const [result, setResult] = useState<Result>({ kind: "idle" });
-  const [idemKey, setIdemKey] = useState<string | null>(null);
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [showErrors, setShowErrors] = useState(false);
-
-  // Field-level validation
-  const fieldErrors = useMemo<FieldErrors>(() => {
-    const errors: FieldErrors = {};
-    if (businessName.trim().length < 2) {
-      errors.businessName = tx.leadForm.validation.businessNameRequired;
+  // Initialize form hook with localized messages
+  const {
+    values,
+    result,
+    fieldErrors,
+    canSubmit,
+    setField,
+    markTouched,
+    handleSubmit,
+    shouldShowError,
+  } = useLeadForm(
+    // Validation messages
+    {
+      businessNameRequired: tx.leadForm.validation.businessNameRequired,
+      contactNameRequired: tx.leadForm.validation.contactNameRequired,
+      phoneRequired: tx.leadForm.validation.phoneRequired,
+      cityRequired: tx.leadForm.validation.cityRequired,
+      salonTypeRequired: tx.leadForm.validation.salonTypeRequired,
+      consentRequired: tx.leadForm.validation.consentRequired,
+    },
+    // Error messages
+    {
+      network: tx.leadForm.errors.network,
+      rateLimited: tx.leadForm.errors.rateLimited,
+      submitFailed: tx.leadForm.errors.submitFailed,
     }
-    if (contactName.trim().length < 2) {
-      errors.contactName = tx.leadForm.validation.contactNameRequired;
-    }
-    if (phoneWhatsApp.trim().length < 8) {
-      errors.phoneWhatsApp = tx.leadForm.validation.phoneRequired;
-    }
-    if (city.trim().length < 2) {
-      errors.city = tx.leadForm.validation.cityRequired;
-    }
-    if (!salonType) {
-      errors.salonType = tx.leadForm.validation.salonTypeRequired;
-    }
-    if (!consent) {
-      errors.consent = tx.leadForm.validation.consentRequired;
-    }
-    return errors;
-  }, [businessName, contactName, phoneWhatsApp, city, salonType, consent, tx]);
-
-  const canSubmit = useMemo(() => {
-    return Object.keys(fieldErrors).length === 0 && result.kind !== "submitting";
-  }, [fieldErrors, result.kind]);
-
-  const markTouched = useCallback((field: string) => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
-  }, []);
-
-  function nextIdempotencyKey(): string {
-    if (idemKey) return idemKey;
-    const next =
-      typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    setIdemKey(next);
-    return next;
-  }
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setShowErrors(true);
-
-    if (!canSubmit) {
-      // Focus first error field
-      const firstErrorField = Object.keys(fieldErrors)[0];
-      if (firstErrorField) {
-        const fieldMap: Record<string, string> = {
-          businessName: "business_name",
-          contactName: "contact_name",
-          phoneWhatsApp: "phone_whatsapp",
-          city: "city",
-          salonType: "salon_type",
-        };
-        const el = document.getElementById(fieldMap[firstErrorField] || firstErrorField);
-        el?.focus();
-      }
-      return;
-    }
-
-    setResult({ kind: "submitting" });
-
-    const chairCountValue = chairCount.trim();
-    const chairCountInt = chairCountValue ? Number.parseInt(chairCountValue, 10) : undefined;
-    const chairCountNormalized =
-      Number.isFinite(chairCountInt) && (chairCountInt as number) > 0 ? (chairCountInt as number) : undefined;
-
-    const body = {
-      business_name: businessName.trim(),
-      contact_name: contactName.trim(),
-      email: email.trim() || undefined,
-      phone_whatsapp: phoneWhatsApp.trim(),
-      city: city.trim(),
-      salon_type: salonType,
-      consent,
-      chair_count: chairCountNormalized,
-      specialization: specialization.trim() || undefined,
-      current_brands_used: currentBrandsUsed.trim() || undefined,
-      monthly_spend_range: monthlySpendRange.trim() || undefined,
-      message: message.trim() || undefined,
-      page_url_initial: getInitialPageUrl(),
-      page_url_current: getCurrentPageUrl(),
-      company: company.trim() || undefined,
-    };
-
-    const res = await fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Idempotency-Key": nextIdempotencyKey(),
-      },
-      body: JSON.stringify(body),
-    }).catch(() => null);
-
-    if (!res) {
-      trackEvent("lead_submit_error", { reason: "network" });
-      setResult({ kind: "error", message: tx.leadForm.errors.network });
-      return;
-    }
-
-    if (res.status === 202) {
-      let id: string | undefined;
-      try {
-        const json = (await res.json()) as { id?: string };
-        id = json.id;
-      } catch {
-        // honeypot spam path can be 202 with no body.
-      }
-
-      trackEvent("lead_submit_success", { id });
-      setResult({ kind: "success", id });
-      return;
-    }
-
-    if (res.status === 429) {
-      trackEvent("lead_submit_error", { reason: "rate_limited" });
-      setResult({ kind: "error", message: tx.leadForm.errors.rateLimited });
-      return;
-    }
-
-    let msg: string = tx.leadForm.errors.submitFailed;
-    try {
-      const json = (await res.json()) as { error?: string };
-      if (json.error) msg = json.error;
-    } catch {
-      // ignore
-    }
-
-    trackEvent("lead_submit_error", { reason: "server", status: res.status, message: msg });
-    setResult({ kind: "error", message: msg });
-  }
+  );
 
   // Success state - more engaging with clear next steps
   if (result.kind === "success") {
@@ -232,11 +85,8 @@ export default function LeadForm() {
     );
   }
 
-  const shouldShowError = (field: keyof FieldErrors) =>
-    (showErrors || touched[field]) && fieldErrors[field];
-
   return (
-    <form onSubmit={onSubmit} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       {/* Business Name - Required */}
       <div className="space-y-1.5">
         <label className="block type-data-strong" htmlFor="business_name">
@@ -245,8 +95,8 @@ export default function LeadForm() {
         <Input
           id="business_name"
           className="w-full"
-          value={businessName}
-          onChange={(e) => setBusinessName(e.target.value)}
+          value={values.businessName}
+          onChange={(e) => setField("businessName", e.target.value)}
           onBlur={() => markTouched("businessName")}
           error={!!shouldShowError("businessName")}
           aria-describedby={shouldShowError("businessName") ? "business_name_error" : undefined}
@@ -270,8 +120,8 @@ export default function LeadForm() {
         <Input
           id="contact_name"
           className="w-full"
-          value={contactName}
-          onChange={(e) => setContactName(e.target.value)}
+          value={values.contactName}
+          onChange={(e) => setField("contactName", e.target.value)}
           onBlur={() => markTouched("contactName")}
           error={!!shouldShowError("contactName")}
           aria-describedby={shouldShowError("contactName") ? "contact_name_error" : undefined}
@@ -297,8 +147,8 @@ export default function LeadForm() {
             id="email"
             type="email"
             className="w-full"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={values.email}
+            onChange={(e) => setField("email", e.target.value)}
             maxLength={254}
           />
         </div>
@@ -309,8 +159,8 @@ export default function LeadForm() {
           <Input
             id="phone_whatsapp"
             className="w-full"
-            value={phoneWhatsApp}
-            onChange={(e) => setPhoneWhatsApp(e.target.value)}
+            value={values.phoneWhatsApp}
+            onChange={(e) => setField("phoneWhatsApp", e.target.value)}
             onBlur={() => markTouched("phoneWhatsApp")}
             error={!!shouldShowError("phoneWhatsApp")}
             aria-describedby={shouldShowError("phoneWhatsApp") ? "phone_whatsapp_error" : undefined}
@@ -335,8 +185,8 @@ export default function LeadForm() {
           <Input
             id="city"
             className="w-full"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            value={values.city}
+            onChange={(e) => setField("city", e.target.value)}
             onBlur={() => markTouched("city")}
             error={!!shouldShowError("city")}
             aria-describedby={shouldShowError("city") ? "city_error" : undefined}
@@ -358,20 +208,11 @@ export default function LeadForm() {
           <Select
             id="salon_type"
             className="w-full"
-            value={salonType}
+            value={values.salonType}
             onChange={(e) => {
-              const v = e.target.value;
-              if (
-                v === "SALON" ||
-                v === "BARBER" ||
-                v === "BRIDAL" ||
-                v === "UNISEX" ||
-                v === "OTHER" ||
-                v === ""
-              ) {
-                setSalonType(v);
-                markTouched("salonType");
-              }
+              const v = e.target.value as SalonType;
+              setField("salonType", v);
+              markTouched("salonType");
             }}
             onBlur={() => markTouched("salonType")}
             error={!!shouldShowError("salonType")}
@@ -398,17 +239,10 @@ export default function LeadForm() {
       <details className="group border border-border bg-panel transition-colors hover:border-muted-strong">
         <summary className="cursor-pointer px-5 py-4 type-body-strong text-foreground select-none flex items-center justify-between">
           <span>{tx.leadForm.additionalDetails.summary}</span>
-          <svg
+          <IconChevronDown
             className="h-4 w-4 text-muted transition-transform group-open:rotate-180"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+            aria-hidden="true"
+          />
         </summary>
         <div className="px-5 pb-5 space-y-4 border-t border-border">
           <div className="pt-4 space-y-1.5">
@@ -419,8 +253,8 @@ export default function LeadForm() {
               id="chair_count"
               inputMode="numeric"
               className="w-full"
-              value={chairCount}
-              onChange={(e) => setChairCount(e.target.value)}
+              value={values.chairCount}
+              onChange={(e) => setField("chairCount", e.target.value)}
               placeholder={tx.leadForm.additionalDetails.chairCountPlaceholder}
             />
           </div>
@@ -432,8 +266,8 @@ export default function LeadForm() {
             <Input
               id="specialization"
               className="w-full"
-              value={specialization}
-              onChange={(e) => setSpecialization(e.target.value)}
+              value={values.specialization}
+              onChange={(e) => setField("specialization", e.target.value)}
               placeholder={tx.leadForm.additionalDetails.specializationPlaceholder}
               maxLength={200}
             />
@@ -446,8 +280,8 @@ export default function LeadForm() {
             <Input
               id="current_brands_used"
               className="w-full"
-              value={currentBrandsUsed}
-              onChange={(e) => setCurrentBrandsUsed(e.target.value)}
+              value={values.currentBrandsUsed}
+              onChange={(e) => setField("currentBrandsUsed", e.target.value)}
               maxLength={200}
             />
           </div>
@@ -459,8 +293,8 @@ export default function LeadForm() {
             <Input
               id="monthly_spend_range"
               className="w-full"
-              value={monthlySpendRange}
-              onChange={(e) => setMonthlySpendRange(e.target.value)}
+              value={values.monthlySpendRange}
+              onChange={(e) => setField("monthlySpendRange", e.target.value)}
               placeholder={tx.leadForm.additionalDetails.monthlySpendRangePlaceholder}
               maxLength={80}
             />
@@ -478,8 +312,8 @@ export default function LeadForm() {
           tabIndex={-1}
           autoComplete="off"
           className="w-full"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
+          value={values.company}
+          onChange={(e) => setField("company", e.target.value)}
           maxLength={200}
         />
       </div>
@@ -494,8 +328,8 @@ export default function LeadForm() {
           className="w-full"
           rows={4}
           maxLength={2000}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          value={values.message}
+          onChange={(e) => setField("message", e.target.value)}
         />
       </div>
 
@@ -504,12 +338,11 @@ export default function LeadForm() {
         <label className="flex items-start gap-3 type-data cursor-pointer group">
           <input
             type="checkbox"
-            className={`mt-0.5 h-4 w-4 accent-foreground transition-colors ${
-              shouldShowError("consent") ? "outline outline-2 outline-error" : ""
-            }`}
-            checked={consent}
+            className={`mt-0.5 h-4 w-4 accent-foreground transition-colors ${shouldShowError("consent") ? "outline outline-2 outline-error" : ""
+              }`}
+            checked={values.consent}
             onChange={(e) => {
-              setConsent(e.target.checked);
+              setField("consent", e.target.checked);
               markTouched("consent");
             }}
             required
@@ -525,12 +358,14 @@ export default function LeadForm() {
       </div>
 
       {/* Error Alert */}
-      {result.kind === "error" && (
-        <div role="alert" className="ui-alert-error flex items-start gap-3">
-          <IconAlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
-          <span>{result.message}</span>
-        </div>
-      )}
+      {
+        result.kind === "error" && (
+          <div role="alert" className="ui-alert-error flex items-start gap-3">
+            <IconAlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+            <span>{result.message}</span>
+          </div>
+        )
+      }
 
       {/* Submit Button with loading state */}
       <Button
@@ -543,6 +378,6 @@ export default function LeadForm() {
       >
         {tx.leadForm.actions.submit}
       </Button>
-    </form>
+    </form >
   );
 }

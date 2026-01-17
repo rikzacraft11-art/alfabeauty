@@ -61,11 +61,22 @@ async function readHealth(baseUrl: string): Promise<unknown> {
   return fetchJSON(`${baseUrl.replace(/\/$/, "")}/health`, 1200);
 }
 
-async function waitForPort(host: string, port: number, timeoutMs: number): Promise<void> {
+async function waitForPort(
+  host: string,
+  port: number,
+  timeoutMs: number,
+  proc?: { exited: boolean; exitCode?: number | null; signal?: NodeJS.Signals | null },
+): Promise<void> {
   const startedAt = Date.now();
   for (;;) {
     // Fast path
     if (await isPortOpen(host, port)) return;
+
+    if (proc?.exited) {
+      throw new Error(
+        `Lead API process exited before opening ${host}:${port} (code=${proc.exitCode ?? "?"} signal=${proc.signal ?? "?"})`,
+      );
+    }
 
     if (Date.now() - startedAt > timeoutMs) {
       throw new Error(`Timed out waiting for ${host}:${port} to be ready`);
@@ -86,7 +97,7 @@ async function waitForLeadApiHealthy(
   const host = u.hostname;
   const port = Number.parseInt(u.port || "80", 10);
 
-  await waitForPort(host, port, Math.min(timeoutMs, 30_000));
+  await waitForPort(host, port, timeoutMs, proc);
 
   for (;;) {
     if (proc?.exited) {
@@ -167,6 +178,11 @@ export default async function globalSetup() {
         HOST: process.env.HOST ?? "127.0.0.1",
         PORT: String(port),
         LEAD_API_ADMIN_TOKEN: process.env.LEAD_API_ADMIN_TOKEN ?? "dev-admin-token",
+        // E2E default: force in-memory repositories for stability.
+        // Developers may have DATABASE_URL set locally; that would otherwise
+        // switch the API to Postgres and make tests depend on a running DB.
+        // If you want DB-backed E2E runs, set E2E_DATABASE_URL explicitly.
+        DATABASE_URL: process.env.E2E_DATABASE_URL ?? "",
         // Keep tests stable (avoid rate limiting a single runner)
         LEAD_API_RATE_LIMIT_RPS: process.env.LEAD_API_RATE_LIMIT_RPS ?? "50",
       },
@@ -185,7 +201,9 @@ export default async function globalSetup() {
   });
 
   // Wait until the API is healthy.
-  const health = await waitForLeadApiHealthy(baseUrl, 30_000, proc);
+  // Windows note: initial `go run` compilation can be slow on cold caches.
+  // Give it a bit more time to avoid flaky E2E failures.
+  const health = await waitForLeadApiHealthy(baseUrl, 90_000, proc);
 
   const state: PlaywrightState = {
     createdAt: new Date().toISOString(),

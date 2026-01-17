@@ -1,0 +1,456 @@
+{
+    "seo": {
+        "aboutDescription": "About PT Alfa Beauty Cosmetica — professional beauty distribution for salons and barbershops in Indonesia.",
+        "contactDescription": "Contact Alfa Beauty Cosmetica for consultation, recommendations, and partnership inquiries.",
+        "productsDescription": "Browse our curated professional product portfolio. No public pricing — consult via WhatsApp.",
+        "educationDescription": "Training, knowledge, and event highlights for salon and barbershop professionals.",
+        "partnershipDescription": "Become a partner and get curated products, education, and technical support.",
+        "becomePartnerDescription": "Submit your details to become an Alfa Beauty partner. We will follow up within 24 hours.",
+        "privacyDescription": "Privacy Policy for Alfa Beauty Cosmetica website.",
+        "termsDescription": "Terms and conditions for using the Alfa Beauty Cosmetica website."
+    },
+    "nav": {
+        "products": "Products",
+        "education": "Education",
+        "partnership": "Partnership",
+        "about": "About",
+        "contact": "Contact"
+    },
+    "header": {
+        "announcement": "WhatsApp-first consultation — no public pricing.",
+        "quickLinkBecomePartner": "Become Partner",
+        "quickLinkContact": "Contact",
+        "promo": {
+            "rotateMs": 5000,
+            "actions": {
+                "details": "Details",
+                "close": "Close"
+            },
+            "items": [
+                {
+                    "message": "WhatsApp-first consultation — no public pricing.",
+                    "detailsTitle": "No public pricing",
+                    "detailsBody": "We do not publish public pricing on the website. Consultation, recommendations, and ordering happen via WhatsApp."
+                },
+                {
+                    "message": "Become a partner: curated products + education + technical support.",
+                    "detailsTitle": "Partnership",
+                    "detailsBody": "Submit your business details and our team will follow up within 24 hours."
+                }
+            ]
+        },
+        "mega": {
+            "shopAll": "Shop all",
+            "featuredTitle": "Featured",
+            "featuredBody": "Professional, B2B-first — no public pricing. Contact us for recommendations.",
+            "actions": {
+                "back": "Back"
+            },
+            "links": {
+                "articles": "Articles",
+                "events": "Events"
+            }
+        },
+        "actions": {
+            "openMenu": "Open menu",
+            "closeMenu": "Close menu",
+            "openSearch": "Go to Products"
+        }
+    },
+    "cta": {
+        "becomePartner": "Become Partner",
+        "whatsappConsult": "WhatsApp Consult",
+        "exploreProducts": "Explore Products",
+        "viewAll": "View All",
+        "viewDetails": "View Details",
+        "contactUs": "Contact Us"
+    },
+    "home": {
+        "hero": {
+            "kicker": "Professional B2B Beauty Distribution",
+            "title": "Products, education, and technical support for salons & barbershops.",
+            "lede": "PT Alfa Beauty is a professional beauty distribution company dedicated to providing products, education, and technical support for salons and barbershops in Indonesia.",
+            "points": [
+                "Curated portfolio: professional brands selected for consistent real‑world performance.",
+                "Education & support: practical training and technical guidance for your team.",
+                "WhatsApp-first consultation: recommendations and ordering without public pricing."
+            ],
+            "note": "No public pricing. For consultation and product recommendations, contact us via WhatsApp."
+        },
+        "productsHighlight": {
+            "title": "Featured Products",
+            "subtitle": "Catalog"
+        }
+    },
+    "about": {
+        "title": "About",
+        "body": "PT Alfa Beauty is a professional beauty distribution company dedicated to providing products, education, and technical support for salons and barbershops in Indonesia. We represent carefully selected international brands and work as a strategic partner to professionals, ensuring every product we distribute delivers consistent performance and is supported by proper technical knowledge.",
+        "mission": {
+            "title": "Our Mission",
+            "body": "To provide professional beauty partners with premium cosmetic products and comprehensive business support, enabling their success in the beauty industry."
+        },
+        "vision": {
+            "title": "Our Vision",
+            "body": "To become Indonesia's leading B2B beauty distribution platform, recognized for quality products, reliable service, and empowering partnerships."
+        },
+        "valuesTitle": "Our Values",
+        "values": {
+            "quality": {
+                "title": "Quality",
+                "body": "We curate only the finest cosmetic products that meet international standards."
+            },
+            "partnership": {
+                "title": "Partnership",
+                "body": "We grow together with our partners, providing education and continuous support."
+            },
+            "excellence": {
+                "title": "Excellence",
+                "body": "We strive for operational excellence in every aspect of our business."
+            }
+        },
+        "stats": {
+            "products": "Products",
+            "partners": "Partners",
+            "provinces": "Provinces",
+            "yearsExperience": "Years Experience"
+        },
+        "cta": {
+            "title": "Ready to Partner With Us?",
+            "body": "Join thousands of beauty professionals who trust Alfa Beauty for their business needs."
+        }
+    },
+    "contact": {
+        "title": "Contact",
+        "body": "For consultation, product recommendations, and partnership inquiries, reach us via WhatsApp.",
+        "email": "Email",
+        "whatsapp": {
+            "title": "WhatsApp",
+            "body": "Fastest response. Chat with our team directly."
+        },
+        "emailCard": {
+            "body": "For formal inquiries and documentation."
+        },
+        "location": {
+            "title": "Location",
+            "city": "Jakarta, Indonesia"
+        },
+        "hours": {
+            "title": "Business Hours",
+            "weekdays": "Mon - Fri: 09:00 - 18:00 WIB",
+            "saturday": "Sat: 09:00 - 14:00 WIB"
+        },
+        "cta": {
+            "title": "Ready to Start?",
+            "body": "Our team is ready to help you grow your beauty business. Reach out today and let's discuss how we can support your success.",
+            "button": "Start Conversation"
+        }
+    },
+    "pillars": {
+        "products": {
+            "title": "Products",
+            "body": "Curated professional brands — designed to support consistent performance in real-world use."
+        },
+        "education": {
+            "title": "Education",
+            "body": "Training and technical knowledge to help your team apply products correctly."
+        },
+        "partnership": {
+            "title": "Partnership",
+            "body": "A strategic partner for salons and barbershops — no retail gimmicks, no public pricing."
+        }
+    },
+    "partnership": {
+        "title": "Partnership",
+        "lede": "We work as a strategic partner for salons and barbershops: curated products, education, and technical support. B2B-first, professional, no retail gimmicks.",
+        "cards": {
+            "curated": {
+                "title": "Curated portfolio",
+                "body": "Access carefully selected brands supported by real-world technical knowledge."
+            },
+            "education": {
+                "title": "Education & support",
+                "body": "Training, product knowledge, and support to help your team deliver consistent results."
+            },
+            "b2b": {
+                "title": "B2B-first",
+                "body": "Designed for professionals — B2B-first, no retail gimmicks, no public pricing."
+            }
+        },
+        "readyBlock": {
+            "title": "Ready to become a partner?",
+            "body": "Submit your details and we'll follow up. We save your request before confirming success."
+        },
+        "features": [
+            "Premium curated products",
+            "Competitive B2B pricing",
+            "Professional training",
+            "Dedicated support",
+            "Marketing materials",
+            "Flexible payment terms",
+            "Loyalty rewards program",
+            "Nationwide coverage"
+        ]
+    },
+    "becomePartner": {
+        "title": "Become a Partner",
+        "lede": "Tell us a bit about your business. Our team will follow up within 24 hours.",
+        "next": {
+            "title": "What happens next",
+            "items": [
+                "We review your details and reach out via WhatsApp/phone/email.",
+                "We recommend suitable products and training options.",
+                "No public pricing — consultation happens via WhatsApp."
+            ]
+        },
+        "whyTitle": "Why Partner With Us?",
+        "whyBenefits": [
+            "Access to premium beauty brands",
+            "Competitive B2B pricing structure",
+            "Professional training & support",
+            "Flexible payment terms"
+        ],
+        "formTitle": "Partnership Application",
+        "formLede": "Fill out the form below and our team will contact you within 1-2 business days.",
+        "privacyNote": "Your information is secure. We respect your privacy and will only use your data to process your partnership application."
+    },
+    "products": {
+        "title": "Products",
+        "lede": "Curated products for salons and barbershops. No public pricing — contact us via WhatsApp for consultation and recommendations.",
+        "highlights": {
+            "title": "Featured products",
+            "lede": "A quick look at our curated portfolio.",
+            "viewAll": "View all"
+        },
+        "filters": {
+            "title": "Filters",
+            "button": "Filters",
+            "clear": "Clear",
+            "groups": {
+                "brand": "Brand",
+                "category": "Category",
+                "audience": "Audience",
+                "function": "Function"
+            },
+            "audience": {
+                "salon": "Salon",
+                "barber": "Barbershop"
+            },
+            "empty": {
+                "title": "No results",
+                "body": "Try clearing filters, or contact us on WhatsApp for recommendations."
+            }
+        }
+    },
+    "sections": {
+        "consultCta": {
+            "title": "Need help choosing products?",
+            "body": "Message us on WhatsApp for consultation, product recommendations, and ordering."
+        }
+    },
+    "legal": {
+        "privacyTitle": "Privacy Policy",
+        "termsTitle": "Terms",
+        "privacyPolicy": {
+            "intro": {
+                "prefix": "Overview",
+                "body": "This Privacy Policy explains how we collect, use, and protect information when you use this website or contact us."
+            },
+            "sections": {
+                "informationWeCollect": {
+                    "title": "Information we collect",
+                    "items": [
+                        "Information you submit via the Partnership lead form (e.g., business name, contact, WhatsApp, city).",
+                        "Basic technical/analytics data for performance and reliability (e.g., CTA clicks, RUM metrics).",
+                        "Information you provide when contacting us via WhatsApp/email."
+                    ]
+                },
+                "howWeUse": {
+                    "title": "How we use information",
+                    "items": [
+                        "To respond to product consultation requests and partnership inquiries.",
+                        "To improve the website (stability, performance, and user experience).",
+                        "To prevent spam and abuse in the lead pipeline."
+                    ]
+                },
+                "storageSecurity": {
+                    "title": "Storage & security",
+                    "body": "We store lead submissions before confirming success, and use reasonable security measures to protect information from unauthorized access."
+                },
+                "cookies": {
+                    "title": "Cookies & similar technologies",
+                    "body": "We may use cookies/similar technologies for analytics and performance. You can manage cookies via your browser settings."
+                },
+                "contact": {
+                    "title": "Contact",
+                    "body": "If you have questions about this policy, please contact us via the Contact page or WhatsApp."
+                }
+            }
+        },
+        "termsPolicy": {
+            "intro": {
+                "prefix": "Overview",
+                "body": "These Terms explain how you may use this website and its content."
+            },
+            "sections": {
+                "websiteUse": {
+                    "title": "Website use",
+                    "body": "This website provides product information, education highlights, and consultation/partnership pathways for salon & barbershop professionals."
+                },
+                "noPublicPricing": {
+                    "title": "No public pricing",
+                    "body": "We do not publish public pricing. Consultation, recommendations, and ordering happen via WhatsApp."
+                },
+                "limitations": {
+                    "title": "Limitations",
+                    "body": "Content is provided as-is. We aim for accuracy, but information may change over time."
+                },
+                "changes": {
+                    "title": "Changes",
+                    "body": "We may update these terms from time to time. The latest version will be published on this page."
+                }
+            }
+        }
+    },
+    "education": {
+        "hub": {
+            "title": "Education & Events",
+            "lede": "Concise, technical, and relevant for salon & barbershop professionals. Paket A does not include ticketing—registration happens via WhatsApp.",
+            "sections": {
+                "events": "Events",
+                "articles": "Articles"
+            },
+            "labels": {
+                "audience": "Audience"
+            },
+            "actions": {
+                "viewDetails": "View details",
+                "read": "Read"
+            },
+            "trainingTitle": "Professional Training Programs",
+            "trainingNote": "Want training for your team? Message us on WhatsApp and tell us your city and needs.",
+            "stats": {
+                "focus": "Professional Focus",
+                "languages": "Languages",
+                "upcoming": "upcoming"
+            }
+        },
+        "common": {
+            "backToEducation": "Back"
+        },
+        "event": {
+            "notFound": {
+                "title": "Event not found",
+                "body": "We couldn't find that event. Please return to Education."
+            },
+            "note": "Note: Schedules may change. Confirm availability via WhatsApp.",
+            "interested": "Interested?",
+            "contactBody": "Contact us to learn more about this event and reserve your spot."
+        },
+        "article": {
+            "notFound": {
+                "title": "Article not found",
+                "body": "We couldn't find that article. Please return to Education."
+            },
+            "footer": "Need guidance for a specific product? Send your questions via WhatsApp."
+        }
+    },
+    "productDetail": {
+        "notFound": {
+            "body": "Product not found.",
+            "back": "Back to Products"
+        },
+        "sections": {
+            "keyBenefits": "Key benefits",
+            "howToUse": "How to use",
+            "recommendedFor": "Recommended for"
+        },
+        "labels": {
+            "audience": "Audience",
+            "functions": "Functions"
+        },
+        "consult": {
+            "title": "Consult & request recommendations",
+            "body": "No public pricing. Message us on WhatsApp for suitability, usage guidance, and ordering.",
+            "prefill": "Hi Alfa Beauty, I'd like to consult about {{product}}."
+        }
+    },
+    "leadForm": {
+        "fields": {
+            "businessName": "Business name",
+            "contactName": "Contact name",
+            "emailOptional": "Email (optional)",
+            "whatsAppNumber": "WhatsApp number",
+            "city": "City",
+            "salonType": "Salon type",
+            "salonTypePlaceholder": "Select…",
+            "messageOptional": "Message (optional)"
+        },
+        "salonTypes": {
+            "salon": "Salon",
+            "barber": "Barbershop",
+            "bridal": "Bridal",
+            "unisex": "Unisex",
+            "other": "Other"
+        },
+        "additionalDetails": {
+            "summary": "Additional details (optional)",
+            "chairCount": "Chair count",
+            "chairCountPlaceholder": "e.g. 6",
+            "specialization": "Specialization",
+            "specializationPlaceholder": "e.g. coloring, keratin",
+            "currentBrandsUsed": "Current brands used",
+            "monthlySpendRange": "Monthly spend range",
+            "monthlySpendRangePlaceholder": "optional"
+        },
+        "honeypot": {
+            "companyLabel": "Company"
+        },
+        "consent": "I consent to be contacted for partnership follow-up.",
+        "validation": {
+            "businessNameRequired": "Business name is required (min 2 characters)",
+            "contactNameRequired": "Contact name is required (min 2 characters)",
+            "phoneRequired": "WhatsApp number is required (min 8 digits)",
+            "cityRequired": "City is required (min 2 characters)",
+            "salonTypeRequired": "Please select your business type",
+            "consentRequired": "Please agree to be contacted"
+        },
+        "actions": {
+            "submit": "Submit",
+            "submitting": "Submitting…"
+        },
+        "success": {
+            "title": "Thank you — we received your details.",
+            "body": "Our team will follow up. You can also message us on WhatsApp for faster consultation.",
+            "ref": "Reference",
+            "whatsappCta": "Chat on WhatsApp",
+            "whatsappPrefill": "Hi Alfa Beauty, I just submitted my partnership application and would like to discuss further."
+        },
+        "errors": {
+            "network": "Network error. Please try again.",
+            "rateLimited": "Too many requests. Please try again in a moment.",
+            "submitFailed": "Submission failed. Please try again."
+        }
+    },
+    "system": {
+        "notFound": {
+            "title": "Page not found",
+            "body": "The page you're looking for doesn't exist. Please use the navigation or go back home.",
+            "backHome": "Back to Home"
+        },
+        "error": {
+            "title": "Something went wrong",
+            "body": "Please try again. If this keeps happening, contact us via WhatsApp.",
+            "actions": {
+                "tryAgain": "Try again",
+                "goHome": "Go home"
+            },
+            "ref": "Ref"
+        }
+    },
+    "footer": {
+        "explore": "Explore",
+        "legal": "Legal",
+        "blurb": "Professional beauty distribution for salons and barbershops in Indonesia.",
+        "copyrightSuffix": "All rights reserved."
+    }
+}

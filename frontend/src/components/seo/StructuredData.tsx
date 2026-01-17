@@ -9,6 +9,7 @@ function getSiteUrl(): string {
 
 export default function StructuredData() {
   const siteUrl = getSiteUrl();
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
 
   // Keep schema minimal and factual (no pricing).
   const organization = {
@@ -16,6 +17,21 @@ export default function StructuredData() {
     "@type": "Organization",
     name: "Alfa Beauty Cosmetica",
     url: siteUrl,
+    logo: `${siteUrl}/images/logo.svg`,
+    description: "Professional beauty distribution for salons and barbershops in Indonesia.",
+    areaServed: {
+      "@type": "Country",
+      name: "Indonesia",
+    },
+    ...(whatsappNumber && {
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: whatsappNumber,
+        contactType: "sales",
+        areaServed: "ID",
+        availableLanguage: ["id", "en"],
+      },
+    }),
   };
 
   const website = {
@@ -23,6 +39,7 @@ export default function StructuredData() {
     "@type": "WebSite",
     name: "Alfa Beauty Cosmetica",
     url: siteUrl,
+    inLanguage: ["id", "en"],
   };
 
   return (

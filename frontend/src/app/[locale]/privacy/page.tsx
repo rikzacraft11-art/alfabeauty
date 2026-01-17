@@ -27,5 +27,9 @@ export async function generateMetadata({
 }
 
 export default function PrivacyPage() {
-  return <PrivacyPageContent />;
+  return (
+    <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-10 py-12">
+      <PrivacyPageContent />
+    </div>
+  );
 }

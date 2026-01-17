@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { t } from "@/lib/i18n";
 
@@ -9,34 +10,11 @@ import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
 import Card from "@/components/ui/Card";
 import { getButtonClassName } from "@/components/ui/Button";
+import { IconChevronRight, IconCheck, IconSparkle } from "@/components/ui/icons";
 
 type Props = {
   product: Product | null;
 };
-
-function IconChevronRight(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-    </svg>
-  );
-}
-
-function IconCheck(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
-    </svg>
-  );
-}
-
-function IconSparkle(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" />
-    </svg>
-  );
-}
 
 export default function ProductDetailContent({ product }: Props) {
   const { locale } = useLocale();
@@ -55,8 +33,8 @@ export default function ProductDetailContent({ product }: Props) {
             The product you&apos;re looking for may have been moved or is no longer available.
           </p>
         </div>
-        <AppLink 
-          href={`${base}/products`} 
+        <AppLink
+          href={`${base}/products`}
           className="inline-flex items-center gap-2 type-body-strong text-foreground hover:underline"
         >
           ← {tx.productDetail.notFound.back}
@@ -71,7 +49,7 @@ export default function ProductDetailContent({ product }: Props) {
     <div className="space-y-8 lg:space-y-12">
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center gap-1 type-data text-muted">
-        <AppLink 
+        <AppLink
           href={`${base}/products`}
           className="hover:text-foreground transition-colors"
         >
@@ -83,14 +61,16 @@ export default function ProductDetailContent({ product }: Props) {
 
       {/* Product Header */}
       <header className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        {/* Product Image Placeholder */}
-        <div className="aspect-square bg-subtle border border-border flex items-center justify-center">
-          <div className="text-center space-y-3 px-6">
-            <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background border border-border">
-              <IconSparkle className="h-8 w-8 text-muted" />
-            </div>
-            <p className="type-data text-muted">Product Image</p>
-          </div>
+        {/* Product Image */}
+        <div className="relative aspect-square bg-subtle border border-border overflow-hidden group">
+          <Image
+            src="/images/products/product-placeholder.jpg"
+            alt={`${product.brand} ${product.name}`}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
         </div>
 
         {/* Product Info */}
@@ -113,14 +93,14 @@ export default function ProductDetailContent({ product }: Props) {
           {/* CTA Section */}
           <div className="pt-4 space-y-4 border-t border-border">
             <div className="flex flex-col sm:flex-row gap-3">
-              <WhatsAppLink 
+              <WhatsAppLink
                 className={getButtonClassName({ variant: "primary", size: "lg" }) + " flex-1 sm:flex-none"}
                 prefill={prefill}
               >
                 {tx.cta.whatsappConsult}
               </WhatsAppLink>
-              <ButtonLink 
-                href={`${base}/partnership/become-partner`} 
+              <ButtonLink
+                href={`${base}/partnership/become-partner`}
                 variant="secondary"
                 size="lg"
                 className="flex-1 sm:flex-none"
@@ -140,7 +120,7 @@ export default function ProductDetailContent({ product }: Props) {
         {/* Benefits Card */}
         <Card className="p-6 lg:p-8 space-y-4 lg:col-span-2">
           <h2 className="type-h3 flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center bg-foreground text-background rounded-full">
+            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
               <IconCheck className="h-4 w-4" />
             </span>
             {tx.productDetail.sections.keyBenefits}
@@ -197,16 +177,16 @@ export default function ProductDetailContent({ product }: Props) {
 
       {/* Bottom CTA */}
       <section className="border-t border-border pt-8 lg:pt-12">
-        <div className="bg-foreground text-background p-6 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="ui-section-dark p-6 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="space-y-2">
-            <h3 className="type-h3 text-background">{tx.productDetail.consult.title}</h3>
-            <p className="type-body text-background/80 max-w-lg">
+            <h3 className="type-h3">{tx.productDetail.consult.title}</h3>
+            <p className="type-body opacity-80 max-w-lg">
               {tx.productDetail.consult.body}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <WhatsAppLink 
-              className="inline-flex items-center justify-center px-6 py-3 bg-background text-foreground type-body-strong hover:bg-subtle transition-colors"
+            <WhatsAppLink
+              className={getButtonClassName({ variant: "inverted", size: "lg" })}
               prefill={prefill}
             >
               {tx.cta.whatsappConsult}

@@ -28,5 +28,9 @@ export async function generateMetadata({
 
 export default function ContactPage() {
   const fallbackEmail = process.env.NEXT_PUBLIC_FALLBACK_EMAIL;
-  return <ContactContent fallbackEmail={fallbackEmail} />;
+  return (
+    <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-10 py-12">
+      <ContactContent fallbackEmail={fallbackEmail} />
+    </div>
+  );
 }

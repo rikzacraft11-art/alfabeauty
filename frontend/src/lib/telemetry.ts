@@ -1,9 +1,21 @@
+/**
+ * Telemetry utilities for RUM and analytics events.
+ * Client-side only - uses browser APIs.
+ */
+
 type DeviceType = "mobile" | "desktop" | "unknown";
 
 const INITIAL_URL_KEY = "alfab_page_url_initial";
 
+/** Check if we're in a browser environment */
+function isBrowser(): boolean {
+  return typeof window !== "undefined" && typeof navigator !== "undefined";
+}
+
 function getDeviceType(): DeviceType {
-  // Prefer UA-CH where available.
+  if (!isBrowser()) return "unknown";
+
+  // Prefer UA-CH where available
   const uaData = (navigator as unknown as { userAgentData?: { mobile?: boolean } }).userAgentData;
   if (typeof uaData?.mobile === "boolean") {
     return uaData.mobile ? "mobile" : "desktop";
@@ -16,6 +28,8 @@ function getDeviceType(): DeviceType {
 }
 
 export function getInitialPageUrl(): string {
+  if (!isBrowser()) return "";
+
   try {
     const existing = sessionStorage.getItem(INITIAL_URL_KEY);
     if (existing) return existing;
@@ -28,61 +42,112 @@ export function getInitialPageUrl(): string {
 }
 
 export function getCurrentPageUrl(): string {
+  if (!isBrowser()) return "";
   return window.location.href;
 }
 
-function sendJSONBeacon(url: string, payload: unknown): boolean {
+/**
+ * Telemetry queue for lifecycle-safe sending.
+ * ADR-0002: flush on visibilitychange→hidden (not unload)
+ */
+const telemetryQueue: Array<{ url: string; payload: unknown }> = [];
+let flushListenerRegistered = false;
+let flushScheduled = false;
+
+/**
+ * Send a JSON beacon to the server.
+ * Uses sendBeacon if available, falls back to keepalive fetch.
+ */
+function sendJSONBeacon(url: string, payload: unknown): void {
+  if (!isBrowser()) return;
+
   const body = JSON.stringify(payload);
 
-  if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+  // Playwright/WebDriver audit: prefer fetch so request bodies are observable.
+  // Some automation environments don't expose sendBeacon payloads via request.postData().
+  const isAutomated = (navigator as unknown as { webdriver?: boolean }).webdriver === true;
+
+  // Prefer sendBeacon for reliability during page unload
+  if (!isAutomated && typeof navigator.sendBeacon === "function") {
     const blob = new Blob([body], { type: "application/json" });
-    return navigator.sendBeacon(url, blob);
+    navigator.sendBeacon(url, blob);
+    return;
   }
 
-  // Fallback: fire-and-forget fetch with keepalive.
+  // Fallback: fire-and-forget fetch with keepalive
   fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body,
     keepalive: true,
   }).catch(() => {
-    // Best-effort.
-  });
-
-  return true;
-}
-
-const queue: Array<{ url: string; payload: unknown }> = [];
-let listenersInstalled = false;
-
-// If beacons fail repeatedly (rare), avoid unbounded memory growth.
-const MAX_QUEUE = 50;
-
-function installFlushOnHidden() {
-  if (listenersInstalled) return;
-  listenersInstalled = true;
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState !== "hidden") return;
-    flushQueue();
+    // Best-effort telemetry - silently ignore failures
   });
 }
 
-function flushQueue() {
-  while (queue.length > 0) {
-    const item = queue.shift();
-    if (!item) break;
-    const ok = sendJSONBeacon(item.url, item.payload);
-    if (!ok) {
-      // If beacon fails, stop flushing to avoid spinning.
-      queue.unshift(item);
-      break;
+/**
+ * Flush all queued telemetry immediately.
+ * Called on visibilitychange→hidden per ADR-0002.
+ */
+function flushTelemetryQueue(): void {
+  while (telemetryQueue.length > 0) {
+    const item = telemetryQueue.shift();
+    if (item) {
+      sendJSONBeacon(item.url, item.payload);
     }
   }
 }
 
-export function postTelemetry(path: "/api/rum" | "/api/events", payload: Record<string, unknown>) {
-  installFlushOnHidden();
+/**
+ * Schedule a near-immediate flush.
+ *
+ * We intentionally enqueue first, then flush in a microtask (or setTimeout fallback)
+ * so the visibilitychange handler can flush any remaining items without duplicates.
+ */
+function scheduleFlush(): void {
+  if (flushScheduled || !isBrowser()) return;
+  flushScheduled = true;
+
+  const run = () => {
+    flushScheduled = false;
+    flushTelemetryQueue();
+  };
+
+  // queueMicrotask is widely supported and runs before the next frame.
+  if (typeof queueMicrotask === "function") {
+    queueMicrotask(run);
+    return;
+  }
+
+  // Fallback for older environments.
+  setTimeout(run, 0);
+}
+
+/**
+ * Register visibility change listener (once).
+ * ADR-0002: flush on visibilitychange→hidden, not unload.
+ */
+function ensureFlushListener(): void {
+  if (flushListenerRegistered || !isBrowser()) return;
+  flushListenerRegistered = true;
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      flushTelemetryQueue();
+    }
+  });
+}
+
+/**
+ * Post telemetry data to the server.
+ * Enriches payload with device type, page URLs, and timestamp.
+ * Queued and flushed in a microtask for responsiveness; also flushed on
+ * visibilitychange→hidden for best-effort delivery when the tab closes.
+ */
+export function postTelemetry(path: "/api/rum" | "/api/events", payload: Record<string, unknown>): void {
+  if (!isBrowser()) return;
+
+  ensureFlushListener();
 
   const url = new URL(path, window.location.origin).toString();
   const enriched = {
@@ -93,13 +158,28 @@ export function postTelemetry(path: "/api/rum" | "/api/events", payload: Record<
     timestamp: new Date().toISOString(),
   };
 
-  const ok = sendJSONBeacon(url, enriched);
-  if (!ok) {
-    queue.push({ url, payload: enriched });
+    // Queue for a microtask flush; also flushed on visibilitychange→hidden.
+  telemetryQueue.push({ url, payload: enriched });
 
-    // Drop oldest items if the queue grows too large.
-    while (queue.length > MAX_QUEUE) {
-      queue.shift();
-    }
-  }
+    // Send near-immediately for responsiveness without risking duplicate sends on hidden.
+    scheduleFlush();
+}
+
+// Re-export analytics event types for convenience
+export type AnalyticsEventName =
+  | "cta_whatsapp_click"
+  | "cta_whatsapp_blocked" // Distinct from click: config missing, not a real click-out
+  | "cta_email_click"
+  | "lead_submit_success"
+  | "lead_submit_error";
+
+/**
+ * Track an analytics event.
+ * Wrapper around postTelemetry with typed event names.
+ */
+export function trackEvent(name: AnalyticsEventName, data?: Record<string, unknown>): void {
+  postTelemetry("/api/events", {
+    event_name: name,
+    ...(data ?? {}),
+  });
 }

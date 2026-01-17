@@ -41,5 +41,9 @@ export default async function EducationArticleDetailPage({
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
   const { slug } = await params;
-  return <EducationArticleDetailClient slug={slug} />;
+  return (
+    <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-10 py-12">
+      <EducationArticleDetailClient slug={slug} />
+    </div>
+  );
 }

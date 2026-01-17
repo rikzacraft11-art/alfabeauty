@@ -3,8 +3,16 @@
     "slug": "professional-shampoo",
     "name": "Professional Shampoo",
     "brand": "Brand A",
-    "audience": ["SALON"],
-    "functions": ["Cleansing", "Scalp Care"],
+    "audience": [
+      "SALON"
+    ],
+    "functions": [
+      "Cleansing",
+      "Scalp Care"
+    ],
+    "categories": [
+      "shampoo"
+    ],
     "summary": "A professional-grade cleansing shampoo designed for consistent results in salon routines.",
     "benefits": [
       "Balanced cleansing suitable for daily salon use",
@@ -17,8 +25,16 @@
     "slug": "barber-styling-pomade",
     "name": "Barber Styling Pomade",
     "brand": "Brand B",
-    "audience": ["BARBER"],
-    "functions": ["Styling", "Hold"],
+    "audience": [
+      "BARBER"
+    ],
+    "functions": [
+      "Styling",
+      "Hold"
+    ],
+    "categories": [
+      "styling"
+    ],
     "summary": "A professional pomade for barbershops seeking controlled hold and clean finish.",
     "benefits": [
       "Controlled hold for structured styles",
@@ -31,8 +47,17 @@
     "slug": "treatment-mask",
     "name": "Treatment Mask",
     "brand": "Brand A",
-    "audience": ["SALON", "BARBER"],
-    "functions": ["Repair", "Hydration"],
+    "audience": [
+      "SALON",
+      "BARBER"
+    ],
+    "functions": [
+      "Repair",
+      "Hydration"
+    ],
+    "categories": [
+      "treatment"
+    ],
     "summary": "An in-salon treatment mask for hydration and improved manageability.",
     "benefits": [
       "Improves manageability",
@@ -40,5 +65,116 @@
       "Designed for in-salon service routines"
     ],
     "howToUse": "After shampooing, apply to towel-dried hair. Leave for 5–10 minutes, then rinse thoroughly."
+  },
+  {
+    "slug": "keratin-smoothing-treatment",
+    "name": "Keratin Smoothing Treatment",
+    "brand": "Brand A",
+    "audience": [
+      "SALON"
+    ],
+    "functions": [
+      "Smoothing",
+      "Repair"
+    ],
+    "categories": [
+      "treatment"
+    ],
+    "summary": "Professional keratin treatment for long-lasting smoothness and frizz control.",
+    "benefits": [
+      "Reduces frizz for up to 12 weeks",
+      "Improves hair texture and shine",
+      "Suitable for all hair types"
+    ],
+    "howToUse": "Apply to clean, towel-dried hair. Process under heat for 30-45 minutes. Rinse and style."
+  },
+  {
+    "slug": "color-protection-serum",
+    "name": "Color Protection Serum",
+    "brand": "Brand C",
+    "audience": [
+      "SALON"
+    ],
+    "functions": [
+      "Color Care",
+      "Protection"
+    ],
+    "categories": [
+      "color"
+    ],
+    "summary": "Lightweight serum that extends color vibrancy and protects against fade.",
+    "benefits": [
+      "Extends color life up to 40%",
+      "UV and heat protection",
+      "Non-greasy finish"
+    ],
+    "howToUse": "Apply 2-3 drops to damp or dry hair. Focus on mid-lengths and ends. Style as usual."
+  },
+  {
+    "slug": "matte-clay-wax",
+    "name": "Matte Clay Wax",
+    "brand": "Brand B",
+    "audience": [
+      "BARBER"
+    ],
+    "functions": [
+      "Styling",
+      "Texture"
+    ],
+    "categories": [
+      "styling"
+    ],
+    "summary": "High-hold matte clay for textured, modern styles in barbershops.",
+    "benefits": [
+      "Strong hold with matte finish",
+      "Adds natural texture",
+      "Easy to wash out"
+    ],
+    "howToUse": "Rub between palms until warm. Work through dry hair for textured, defined styles."
+  },
+  {
+    "slug": "scalp-revitalizing-tonic",
+    "name": "Scalp Revitalizing Tonic",
+    "brand": "Brand A",
+    "audience": [
+      "SALON",
+      "BARBER"
+    ],
+    "functions": [
+      "Scalp Care",
+      "Treatment"
+    ],
+    "categories": [
+      "treatment"
+    ],
+    "summary": "Professional scalp treatment that promotes healthy scalp environment.",
+    "benefits": [
+      "Soothes and refreshes scalp",
+      "Supports healthy hair growth",
+      "Non-greasy formula"
+    ],
+    "howToUse": "Apply directly to scalp after washing. Massage gently. Do not rinse."
+  },
+  {
+    "slug": "volumizing-mousse",
+    "name": "Volumizing Mousse",
+    "brand": "Brand C",
+    "audience": [
+      "SALON"
+    ],
+    "functions": [
+      "Styling",
+      "Volume"
+    ],
+    "categories": [
+      "styling"
+    ],
+    "summary": "Lightweight mousse for lasting volume and body without stiffness.",
+    "benefits": [
+      "Boosts root volume",
+      "Flexible hold all day",
+      "Heat protection included"
+    ],
+    "howToUse": "Shake well. Apply to damp hair at roots. Blow dry for maximum volume."
   }
 ]

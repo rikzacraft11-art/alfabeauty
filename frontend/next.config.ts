@@ -9,7 +9,24 @@ const nextConfig: NextConfig = {
 
     // IMPORTANT: `upgrade-insecure-requests` and HSTS can break local http dev.
     // Enable them only in production.
+
+    // CSP Directives explained:
+    // - default-src 'self': fallback for all resource types
+    // - script-src: 'unsafe-inline' + 'unsafe-eval' required by Next.js
+    // - style-src: 'unsafe-inline' required by Next.js, Google Fonts for external styles
+    // - img-src: 'self' for local images, data: for base64, https: for external images
+    // - font-src: 'self' for local fonts, Google Fonts CDN
+    // - connect-src: 'self' for API calls, https: for external analytics
+    // - base-uri: prevent base tag hijacking
+    // - object-src: prevent Flash/plugin-based attacks
+    // - frame-ancestors: prevent clickjacking
     const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' https://fonts.gstatic.com",
+      "connect-src 'self' https:",
       "base-uri 'none'",
       "object-src 'none'",
       "frame-ancestors 'none'",

@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "inverted";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
@@ -8,17 +8,19 @@ const base =
 
 const variantClass: Record<ButtonVariant, string> = {
   primary:
-    "border-foreground bg-foreground text-background ui-btn-primary hover:bg-foreground-soft active:scale-[0.98]",
+    "ui-btn-primary active:scale-[0.98]",
   secondary:
-    "border-border-strong bg-background text-foreground ui-btn-secondary hover:bg-subtle hover:border-border-strong active:bg-subtle-hover active:scale-[0.98]",
+    "ui-btn-secondary active:scale-[0.98]",
+  inverted:
+    "ui-btn-inverted active:scale-[0.98]",
   ghost:
-    "border-transparent bg-transparent text-foreground hover:bg-subtle active:bg-subtle-hover",
+    "ui-btn-ghost",
 };
 
 const sizeClass: Record<ButtonSize, string> = {
-  sm: "h-9 px-3 type-data-strong",
-  md: "h-11 px-5",
-  lg: "h-12 px-6",
+  sm: "h-11 px-4 type-data-strong", // min 44px touch target
+  md: "h-12 px-5",
+  lg: "h-14 px-7",
 };
 
 export function getButtonClassName({

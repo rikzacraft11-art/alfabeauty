@@ -29,7 +29,7 @@ export async function generateMetadata({
 
 export default function ProductsPage() {
   return (
-    <div className="space-y-10">
+    <div className="mx-auto max-w-[120rem] px-4 sm:px-6 lg:px-10 py-12 space-y-10">
       <ProductsHeader />
       <ProductFilters />
     </div>

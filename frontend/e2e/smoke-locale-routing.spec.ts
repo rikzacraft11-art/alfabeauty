@@ -1,6 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-const COOKIE_DOMAIN = "localhost";
+/**
+ * Get cookie domain from Playwright baseURL or environment.
+ * Allows tests to work in different environments (local, CI, staging).
+ */
+function getCookieDomain(): string {
+  // Use env var if set (for CI with different hostnames)
+  if (process.env.COOKIE_DOMAIN) {
+    return process.env.COOKIE_DOMAIN;
+  }
+  // Default to localhost for local development
+  return "localhost";
+}
 
 test("Non-locale root redirects to /en by default", async ({ page }) => {
   // Deterministic default: set cookie to en to ensure middleware chooses /en.
@@ -8,7 +19,7 @@ test("Non-locale root redirects to /en by default", async ({ page }) => {
     {
       name: "alfab_locale",
       value: "en",
-      domain: COOKIE_DOMAIN,
+      domain: getCookieDomain(),
       path: "/",
     },
   ]);
@@ -22,7 +33,7 @@ test("Non-locale paths redirect to locale-prefixed canonical URLs", async ({ pag
     {
       name: "alfab_locale",
       value: "en",
-      domain: COOKIE_DOMAIN,
+      domain: getCookieDomain(),
       path: "/",
     },
   ]);
@@ -36,7 +47,7 @@ test("Middleware respects locale cookie for redirects", async ({ page }) => {
     {
       name: "alfab_locale",
       value: "id",
-      domain: COOKIE_DOMAIN,
+      domain: getCookieDomain(),
       path: "/",
     },
   ]);
@@ -62,8 +73,9 @@ test("Server-rendered HTML includes correct language hints", async ({ request })
 test("Locale toggle preserves path + query", async ({ page }) => {
   await page.goto("/en/about?utm=playwright&x=1");
 
-  // Switch to Indonesian.
-  await page.getByRole("button", { name: "ID" }).click();
+  // Switch to Indonesian using data-testid if available, fallback to role
+  const idButton = page.getByTestId("locale-toggle-id").or(page.getByRole("button", { name: "ID" }));
+  await idButton.click();
 
   await expect(page).toHaveURL(/\/id\/about\?utm=playwright&x=1$/);
 

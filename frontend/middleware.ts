@@ -28,6 +28,12 @@ function localeFromPathname(pathname: string): Locale | null {
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Skip public/static files (anything with an extension), otherwise the locale
+  // redirect breaks asset URLs like /images/* and Next/Image optimization.
+  if (pathname.includes(".")) {
+    return NextResponse.next();
+  }
+
   // Skip Next internals and API routes.
   if (
     pathname.startsWith("/_next") ||

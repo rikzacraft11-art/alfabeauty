@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import AppLink from "@/components/ui/AppLink";
 import { t } from "@/lib/i18n";
+import { IconChevronDown } from "@/components/ui/icons";
 
 type MegaLink = {
   href: string;
@@ -18,17 +20,20 @@ type MegaItem = {
   links?: MegaLink[];
 };
 
-function IconChevronDown(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}
+type HeaderTone = "default" | "onMedia";
 
-export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
+export default function DesktopMegaNav({
+  items,
+  tone = "default",
+  onOpenChange,
+}: {
+  items: MegaItem[];
+  tone?: HeaderTone;
+  onOpenChange?: (open: boolean) => void;
+}) {
   const { locale } = useLocale();
   const tx = t(locale);
+  const pathname = usePathname() ?? "";
 
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [openByKeyboard, setOpenByKeyboard] = useState(false);
@@ -39,6 +44,27 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
 
   const active = useMemo(() => items.find((i) => i.key === activeKey), [activeKey, items]);
   const panelOpen = Boolean(active && active.links && active.links.length > 0);
+
+  useEffect(() => {
+    onOpenChange?.(panelOpen);
+  }, [onOpenChange, panelOpen]);
+
+  const normalizePath = useCallback((path: string) => {
+    if (!path) return "/";
+    const trimmed = path.replace(/\/+$/, "");
+    return trimmed === "" ? "/" : trimmed;
+  }, []);
+
+  const isActiveHref = useCallback(
+    (href: string) => {
+      const current = normalizePath(pathname);
+      const target = normalizePath(href);
+      if (current === target) return true;
+      if (target === "/") return current === "/";
+      return current.startsWith(`${target}/`);
+    },
+    [normalizePath, pathname],
+  );
 
   const closePanel = useCallback(
     (opts?: { restoreFocus?: boolean; key?: string }) => {
@@ -56,6 +82,26 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
     },
     [activeKey],
   );
+
+  // Guard: when resizing below the desktop cutoff, ensure the (hidden) desktop nav is closed.
+  // Do this via a matchMedia callback (not synchronously in the effect body) to satisfy our lint rule.
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+
+    const media = window.matchMedia("(min-width: 992px)");
+
+    function onChange() {
+      if (!media.matches) closePanel({ restoreFocus: false });
+    }
+
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", onChange);
+      return () => media.removeEventListener("change", onChange);
+    }
+
+    media.addListener(onChange);
+    return () => media.removeListener(onChange);
+  }, [closePanel]);
 
   const focusFirstPanelLink = () => {
     const root = panelRef.current;
@@ -88,6 +134,7 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [closePanel, panelOpen]);
+
 
   useEffect(() => {
     if (!panelOpen) return;
@@ -126,12 +173,16 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
     return () => document.removeEventListener("mousedown", onDocumentClick);
   }, []);
 
+  const navTextClass = tone === "onMedia" ? "text-background" : "text-foreground";
+  const navMutedTextClass = tone === "onMedia" ? "text-background/80 hover:text-background" : "text-foreground-muted hover:text-foreground";
+
   return (
-    <div ref={rootRef} className="relative hidden md:block" onMouseLeave={() => setActiveKey(null)}>
-      <nav className="flex items-center gap-10 type-nav text-foreground" aria-label="Primary">
+    <div ref={rootRef} className="relative header-desktop-only-block" onMouseLeave={() => setActiveKey(null)}>
+      <nav className={`flex items-center gap-10 type-nav ${navTextClass}`} aria-label="Main Navigation" id="nav-main">
         {items.map((item) => {
           const hasPanel = Boolean(item.links && item.links.length > 0);
           const isActive = activeKey === item.key;
+          const isCurrent = isActiveHref(item.href);
           const triggerBtnId = `mega-trigger-${item.key}`;
           const panelId = `mega-${item.key}`;
 
@@ -143,11 +194,13 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
                   ref={(el) => {
                     triggerLinkRefs.current[item.key] = el;
                   }}
-                  className={`ui-focus-ring ui-radius-tight ${
-                    isActive
-                      ? "text-foreground underline underline-offset-[10px]"
-                      : "hover:text-foreground"
-                  }`}
+                  aria-current={isCurrent ? "page" : undefined}
+                  aria-expanded={hasPanel ? (isActive ? true : false) : undefined}
+                  aria-controls={hasPanel ? panelId : undefined}
+                  className={`ui-focus-ring ui-radius-tight ${isActive || isCurrent
+                    ? `${tone === "onMedia" ? "text-background" : "text-foreground"} underline underline-offset-[10px]`
+                    : tone === "onMedia" ? "hover:text-background" : "hover:text-foreground"
+                    }`}
                   onKeyDown={(e) => {
                     if (!hasPanel) {
                       if (e.key === "ArrowLeft") {
@@ -183,7 +236,7 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
                 {hasPanel ? (
                   <button
                     type="button"
-                    className="ui-focus-ring ui-radius-tight inline-flex h-8 w-8 items-center justify-center text-foreground-muted hover:text-foreground"
+                    className={`ui-focus-ring ui-radius-tight inline-flex h-8 w-8 items-center justify-center ${navMutedTextClass}`}
                     aria-label={`Open ${item.label} menu`}
                     id={triggerBtnId}
                     aria-haspopup="true"
@@ -245,12 +298,12 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
           <div
             id={`mega-${active.key}`}
             ref={panelRef}
-            className="fixed left-0 right-0 top-[var(--header-offset)] z-40 max-h-[calc(100dvh-var(--header-offset))] overflow-y-auto border-b border-border bg-background"
+            className="fixed left-0 right-0 top-[var(--header-offset)] z-40 max-h-[calc(var(--vh,100dvh)-var(--header-offset))] overflow-y-auto border-b border-border bg-background"
             onMouseEnter={() => setActiveKey(active.key)}
             role="region"
             aria-labelledby={`mega-trigger-${active.key}`}
           >
-            <div className="mx-auto grid w-full max-w-[80rem] grid-cols-12 gap-8 px-4 py-8 sm:px-6 lg:px-10">
+            <div className="mx-auto grid w-full max-w-[120rem] grid-cols-12 gap-8 px-4 py-8 sm:px-6 lg:px-10">
               <div className="col-span-4">
                 <p className="type-kicker text-muted">{tx.header.mega.featuredTitle}</p>
                 <p className="mt-2 type-body-compact">{tx.header.mega.featuredBody}</p>
@@ -271,7 +324,9 @@ export default function DesktopMegaNav({ items }: { items: MegaItem[] }) {
                     <AppLink
                       key={l.href}
                       href={l.href}
-                      className="type-data text-foreground-soft hover:text-foreground"
+                      aria-current={isActiveHref(l.href) ? "page" : undefined}
+                      className={`type-data ${isActiveHref(l.href) ? "text-foreground" : "text-foreground-soft hover:text-foreground"
+                        }`}
                       onClick={() => closePanel({ key: active.key })}
                     >
                       {l.label}

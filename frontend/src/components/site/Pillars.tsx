@@ -1,59 +1,158 @@
 "use client";
 
 import Card from "@/components/ui/Card";
+import AppLink from "@/components/ui/AppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { t } from "@/lib/i18n";
+import {
+  IconProducts,
+  IconEducation,
+  IconPartnership,
+  IconArrowRightSmall
+} from "@/components/ui/icons";
+import { getPillarsContent } from "@/content/homepage";
 
-function IconProducts(props: React.SVGProps<SVGSVGElement>) {
+// =============================================================================
+// Types
+// =============================================================================
+
+interface PillarCardProps {
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  title: string;
+  body: string;
+  href: string;
+  learnMoreText: string;
+}
+
+// =============================================================================
+// Constants
+// =============================================================================
+
+const PILLAR_CONFIG = [
+  { key: "products", icon: IconProducts, href: "/products" },
+  { key: "education", icon: IconEducation, href: "/education" },
+  { key: "partnership", icon: IconPartnership, href: "/partnership" },
+] as const;
+
+// =============================================================================
+// Sub-components
+// =============================================================================
+
+/**
+ * PillarCard - Individual service pillar card
+ * 
+ * Features:
+ * - Icon with hover scale animation
+ * - Hidden CTA that reveals on hover
+ * - Accessible focus states
+ */
+function PillarCard({ icon: Icon, title, body, href, learnMoreText }: PillarCardProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <path d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <AppLink
+      href={href}
+      underline="none"
+      className="block focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground ui-radius-tight"
+    >
+      <Card
+        variant="bordered"
+        className="group h-full p-5 sm:p-6 lg:p-8 hover:border-foreground 
+                           transition-all duration-300 hover:shadow-md"
+      >
+        <div className="space-y-4 sm:space-y-5">
+          {/* Icon */}
+          <div
+            className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full 
+                                   bg-foreground text-background
+                                   group-hover:scale-110 transition-transform duration-300"
+            aria-hidden="true"
+          >
+            <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+          </div>
+
+          {/* Content */}
+          <div className="space-y-2 sm:space-y-3">
+            <h3 className="type-h3 text-foreground">{title}</h3>
+            <p className="type-body line-clamp-2">{body}</p>
+          </div>
+
+          {/* CTA - Hidden until hover */}
+          <div
+            className="flex items-center gap-1.5 type-data-strong text-foreground
+                                   opacity-0 group-hover:opacity-100 
+                                   translate-y-2 group-hover:translate-y-0
+                                   transition-all duration-300"
+            aria-hidden="true"
+          >
+            <span>{learnMoreText}</span>
+            <IconArrowRightSmall className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </div>
+        </div>
+      </Card>
+    </AppLink>
   );
 }
 
-function IconEducation(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+// =============================================================================
+// Main Component
+// =============================================================================
 
-function IconPartnership(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-const icons = [IconProducts, IconEducation, IconPartnership];
-
+/**
+ * Pillars - Service offering cards
+ * 
+ * Features:
+ * - 3-column grid on desktop
+ * - Single column on mobile (mobile-first)
+ * - Animated reveal on hover
+ * 
+ * Clean Code:
+ * - Uses shared icons from @/components/ui/icons
+ * - Uses centralized content from homepage.ts
+ * - PillarCard extracted for single responsibility
+ */
 export default function Pillars() {
   const { locale } = useLocale();
   const copy = t(locale);
+  const baseUrl = `/${locale}`;
+  const content = getPillarsContent(locale);
 
-  const pillars = [copy.pillars.products, copy.pillars.education, copy.pillars.partnership];
+  const pillarsData = [
+    copy.pillars.products,
+    copy.pillars.education,
+    copy.pillars.partnership,
+  ];
 
   return (
-    <section className="grid gap-5 md:grid-cols-3 md:gap-6">
-      {pillars.map((x, i) => {
-        const Icon = icons[i];
-        return (
-          <Card key={x.title} variant="bordered" className="group p-6 hover:border-muted-strong transition-colors">
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-subtle group-hover:bg-foreground/10 transition-colors">
-                <Icon className="h-5 w-5 text-foreground" />
-              </div>
-              <div className="space-y-2">
-                <h2 className="type-body-strong text-foreground">{x.title}</h2>
-                <p className="type-body">{x.body}</p>
-              </div>
-            </div>
-          </Card>
-        );
-      })}
+    <section
+      className="space-y-6 sm:space-y-8"
+      aria-labelledby="pillars-title"
+    >
+      {/* Section Header */}
+      <div className="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-4 sm:px-0">
+        <p className="type-kicker">
+          {content.kicker}
+        </p>
+        <h2 id="pillars-title" className="type-h2">
+          {content.title}
+        </h2>
+      </div>
+
+      {/* Pillars Grid - Mobile-first: single column */}
+      <div
+        className="grid gap-4 sm:gap-5 md:grid-cols-3 md:gap-6"
+        role="list"
+      >
+        {PILLAR_CONFIG.map((config, index) => (
+          <div key={config.key} role="listitem">
+            <PillarCard
+              icon={config.icon}
+              title={pillarsData[index].title}
+              body={pillarsData[index].body}
+              href={`${baseUrl}${config.href}`}
+              learnMoreText={content.learnMore}
+            />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

@@ -39,9 +39,8 @@ export async function POST(req: Request) {
     // Telemetry should be best-effort and fast.
     signal: AbortSignal.timeout(2000),
   }).catch((err: unknown) => {
-    // Intentionally swallow errors so the client never sees 5xx for telemetry.
-    // (We still keep this handler as a hook point for future server-side logging.)
-    void err;
+    // Log error for server-side observability while keeping client error-free
+    console.error("[rum] upstream error:", err instanceof Error ? err.message : err);
     return new Response(null, { status: 204, headers: { "Cache-Control": "no-store" } });
   });
 

@@ -3,32 +3,54 @@
 :root {
   /* Design language: monochrome + flat + sharp (B2B Professional) */
   --background: #ffffff;
-  --panel: #fafafa; /* zinc-50 */
-  --panel-elevated: #ffffff; /* For cards with shadow */
-  --foreground: #09090b; /* zinc-950 */
-  --foreground-soft: #27272a; /* zinc-800 */
-  --foreground-muted: #3f3f46; /* zinc-700 */
-  --muted: #71717a; /* zinc-500 */
-  --muted-strong: #52525b; /* zinc-600 */
-  --muted-soft: #a1a1aa; /* zinc-400 */
-  --border: #e4e4e7; /* zinc-200 */
-  --border-strong: #d4d4d8; /* zinc-300 */
-  --border-focus: #18181b; /* zinc-900 - for interactive focus */
-  --subtle: #f4f4f5; /* zinc-100 */
-  --subtle-hover: #e4e4e7; /* zinc-200 - hover states */
+  --panel: #fafafa;
+  /* zinc-50 */
+  --panel-elevated: #ffffff;
+  /* For cards with shadow */
+  --foreground: #09090b;
+  /* zinc-950 */
+  --foreground-soft: #27272a;
+  /* zinc-800 */
+  --foreground-muted: #3f3f46;
+  /* zinc-700 */
+  --muted: #71717a;
+  /* zinc-500 */
+  --muted-strong: #52525b;
+  /* zinc-600 */
+  --muted-soft: #a1a1aa;
+  /* zinc-400 */
+  --border: #e4e4e7;
+  /* zinc-200 */
+  --border-strong: #d4d4d8;
+  /* zinc-300 */
+  --border-focus: #18181b;
+  /* zinc-900 - for interactive focus */
+  --subtle: #f4f4f5;
+  /* zinc-100 */
+  --subtle-hover: #e4e4e7;
+  /* zinc-200 - hover states */
 
   /* Semantic colors (minimal, B2B professional) */
-  --success: #166534; /* green-800 */
-  --success-bg: #dcfce7; /* green-100 */
-  --error: #991b1b; /* red-800 */
-  --error-bg: #fee2e2; /* red-100 */
-  --warning: #92400e; /* amber-800 */
-  --warning-bg: #fef3c7; /* amber-100 */
-  --info: #1e40af; /* blue-800 */
-  --info-bg: #dbeafe; /* blue-100 */
+  --success: #166534;
+  /* green-800 */
+  --success-bg: #dcfce7;
+  /* green-100 */
+  --error: #991b1b;
+  /* red-800 */
+  --error-bg: #fee2e2;
+  /* red-100 */
+  --warning: #92400e;
+  /* amber-800 */
+  --warning-bg: #fef3c7;
+  /* amber-100 */
+  --info: #1e40af;
+  /* blue-800 */
+  --info-bg: #dbeafe;
+  /* blue-100 */
 
   /* Focus ring tokens (override per-surface when needed) */
-  --focus-ring: #18181b; /* zinc-900 */
+  --focus-ring: #18181b;
+  /* zinc-900 */
   --focus-ring-offset: #ffffff;
 
   /* Interactive state tokens */
@@ -48,36 +70,113 @@
   --transition-slow: 250ms ease-out;
   --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --radius: 0px;
-  --radius-tight: 2px;
-  --radius-soft: 4px;
+  /* Header specific tokens (CK-style) */
+  --header-height-desktop: 88px;
+  /*
+    Reference parity (DevTools snapshots):
+    - ~425px: header top offset is 119px
+    - ~768px: header top offset is 124px
+    Our promo bar is ~22px, so the collapsed header bar targets ~97px / ~102px.
+  */
+  --header-height-mobile: 97px;
+  --header-transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Font variables (overridable). Keep builds deterministic when Google Fonts are unavailable. */
+  --font-body: ui-sans-serif;
+  --font-display: ui-serif;
+  --font-geist-mono: ui-monospace;
+}
+
+/* Tablet collapsed header is slightly taller in the reference snapshots */
+@media (min-width: 768px) {
+  :root {
+    --header-height-mobile: 102px;
+  }
+}
+
+/*
+  992px breakpoint helpers (reference uses "expand-lg" ~ 992px).
+  These avoid Tailwind-config dependency and match DevTools output from first paint.
+*/
+.header-desktop-only {
+  display: none !important;
+}
+
+.header-desktop-only-block {
+  display: none !important;
+}
+
+.header-mobile-only {
+  display: inline-flex !important;
+}
+
+.site-header-row {
+  height: var(--header-height-mobile);
+}
+
+@media (min-width: 992px) {
+  .header-desktop-only {
+    display: flex !important;
+  }
+
+  .header-desktop-only-block {
+    display: block !important;
+  }
+
+  .header-mobile-only {
+    display: none !important;
+  }
+
+  .site-header-row {
+    height: var(--header-height-desktop);
+  }
+}
+
+/**
+ * A11Y-03: Focus not obscured by sticky header.
+ * scroll-padding-top ensures anchor jumps and focus targets
+ * are not hidden behind the sticky header.
+ */
+html {
+  scroll-padding-top: calc(var(--header-height-mobile) + 16px);
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 992px) {
+  html {
+    scroll-padding-top: calc(var(--header-height-desktop) + 16px);
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-panel: var(--panel);
-  --color-panel-elevated: var(--panel-elevated);
-  --color-foreground: var(--foreground);
-  --color-foreground-soft: var(--foreground-soft);
-  --color-foreground-muted: var(--foreground-muted);
-  --color-muted: var(--muted);
-  --color-muted-strong: var(--muted-strong);
-  --color-muted-soft: var(--muted-soft);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
-  --color-border-focus: var(--border-focus);
-  --color-subtle: var(--subtle);
-  --color-subtle-hover: var(--subtle-hover);
+  /* Colors must be direct values for Tailwind v4 to generate utilities properly */
+  --color-background: #ffffff;
+  --color-panel: #fafafa;
+  --color-panel-elevated: #ffffff;
+  --color-foreground: #09090b;
+  --color-foreground-soft: #27272a;
+  --color-foreground-muted: #3f3f46;
+  --color-muted: #71717a;
+  --color-muted-strong: #52525b;
+  --color-muted-soft: #a1a1aa;
+  --color-border: #e4e4e7;
+  --color-border-strong: #d4d4d8;
+  --color-border-focus: #18181b;
+  --color-subtle: #f4f4f5;
+  --color-subtle-hover: #e4e4e7;
+
+  /* Fixed colors (theme-invariant helpers) */
+  --color-indicator-fixed: #ffffff;
 
   /* Semantic colors */
-  --color-success: var(--success);
-  --color-success-bg: var(--success-bg);
-  --color-error: var(--error);
-  --color-error-bg: var(--error-bg);
-  --color-warning: var(--warning);
-  --color-warning-bg: var(--warning-bg);
-  --color-info: var(--info);
-  --color-info-bg: var(--info-bg);
+  --color-success: #166534;
+  --color-success-bg: #dcfce7;
+  --color-error: #991b1b;
+  --color-error-bg: #fee2e2;
+  --color-warning: #92400e;
+  --color-warning-bg: #fef3c7;
+  --color-info: #1e40af;
+  --color-info-bg: #dbeafe;
 
   --radius: var(--radius);
   --radius-tight: var(--radius-tight);
@@ -101,25 +200,39 @@
     --panel: #111113;
     --panel-elevated: #18181b;
     --foreground: #ededed;
-    --foreground-soft: #e4e4e7; /* zinc-200 */
-    --foreground-muted: #d4d4d8; /* zinc-300 */
-    --muted: #71717a; /* zinc-500 */
-    --muted-strong: #a1a1aa; /* zinc-400 */
-    --muted-soft: #52525b; /* zinc-600 */
-    --border: #27272a; /* zinc-800 */
-    --border-strong: #3f3f46; /* zinc-700 */
-    --border-focus: #e4e4e7; /* zinc-200 */
-    --subtle: #18181b; /* zinc-900 */
-    --subtle-hover: #27272a; /* zinc-800 */
+    --foreground-soft: #e4e4e7;
+    /* zinc-200 */
+    --foreground-muted: #d4d4d8;
+    /* zinc-300 */
+    --muted: #71717a;
+    /* zinc-500 */
+    --muted-strong: #a1a1aa;
+    /* zinc-400 */
+    --muted-soft: #52525b;
+    /* zinc-600 */
+    --border: #27272a;
+    /* zinc-800 */
+    --border-strong: #3f3f46;
+    /* zinc-700 */
+    --border-focus: #e4e4e7;
+    /* zinc-200 */
+    --subtle: #18181b;
+    /* zinc-900 */
+    --subtle-hover: #27272a;
+    /* zinc-800 */
 
     /* Semantic (dark mode adjustments) */
-    --success: #86efac; /* green-300 */
+    --success: #86efac;
+    /* green-300 */
     --success-bg: rgba(34, 197, 94, 0.15);
-    --error: #fca5a5; /* red-300 */
+    --error: #fca5a5;
+    /* red-300 */
     --error-bg: rgba(239, 68, 68, 0.15);
-    --warning: #fcd34d; /* amber-300 */
+    --warning: #fcd34d;
+    /* amber-300 */
     --warning-bg: rgba(245, 158, 11, 0.15);
-    --info: #93c5fd; /* blue-300 */
+    --info: #93c5fd;
+    /* blue-300 */
     --info-bg: rgba(59, 130, 246, 0.15);
 
     --focus-ring: #ededed;
@@ -292,11 +405,23 @@ body {
   color: inherit;
 }
 
+/* Large status code / hero numerals (e.g., 404 page) */
+.type-error-code {
+  font-size: clamp(3.5rem, 10vw, 6rem);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: inherit;
+}
+
 .type-promo {
   font-size: 0.75rem;
-  line-height: 1;
+  /* 12px - Calvin Klein spec */
+  line-height: 1.5;
+  /* 18px at 12px font - CK uses 18px line-height */
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.0125em;
+  /* 0.2px at 16px base - CK uses 0.2px */
   color: inherit;
 }
 
@@ -394,6 +519,9 @@ a {
 
 /* Button interactive states */
 .ui-btn-primary {
+  background-color: var(--foreground);
+  border-color: var(--foreground);
+  color: var(--background);
   transition:
     background-color var(--transition-fast),
     transform var(--transition-fast),
@@ -409,6 +537,9 @@ a {
 }
 
 .ui-btn-secondary {
+  background-color: var(--background);
+  border-color: var(--border-strong);
+  color: var(--foreground);
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast),
@@ -425,6 +556,43 @@ a {
   transform: scale(0.98);
 }
 
+/* Ghost button variant */
+.ui-btn-ghost {
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--foreground);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.ui-btn-ghost:hover:not(:disabled) {
+  background-color: var(--subtle);
+}
+
+.ui-btn-ghost:active:not(:disabled) {
+  background-color: var(--subtle-hover);
+}
+
+/* Inverted button (for use on dark backgrounds) */
+.ui-btn-inverted {
+  background-color: var(--background);
+  border-color: var(--background);
+  color: var(--foreground);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.ui-btn-inverted:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.ui-btn-inverted:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
 /* Form field states (HCI: clear validation feedback) */
 .ui-input-error {
   border-color: var(--error) !important;
@@ -437,8 +605,15 @@ a {
 
 /* Skeleton loading animation */
 @keyframes skeleton-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .ui-skeleton {
@@ -448,8 +623,15 @@ a {
 
 /* Fade in animation for content */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .ui-fade-in {
@@ -458,7 +640,9 @@ a {
 
 /* Spinner animation */
 @keyframes spinner {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .ui-spinner {
@@ -523,8 +707,297 @@ a {
   color: var(--success);
 }
 
+/* ============================================
+   Dark Surface Utilities
+   These use explicit CSS custom properties to
+   ensure Tailwind v4 compatibility.
+   ============================================ */
+
+/*
+  Hero-on-media typography (video/image backgrounds)
+  Goal: keep the same readable light-on-dark text colors in BOTH light & dark modes.
+  This avoids theme variable inversion (e.g. text-background flips in dark mode).
+*/
+.ui-hero-on-media {
+  color: rgba(237, 237, 237, 1);
+}
+
+.ui-hero-on-media-strong {
+  color: rgba(237, 237, 237, 0.9);
+}
+
+.ui-hero-on-media-muted {
+  color: rgba(237, 237, 237, 0.8);
+}
+
+.ui-hero-on-media-subtle {
+  color: rgba(237, 237, 237, 0.75);
+}
+
+/* Dark section (inverted: dark background, light text) */
+.ui-section-dark {
+  background-color: var(--foreground);
+  color: var(--background);
+  --focus-ring: #ffffff;
+  --focus-ring-offset: var(--foreground);
+}
+
+/* Dark icon badge (circle with icon) */
+.ui-icon-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--foreground);
+  color: var(--background);
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+/* Size variants for icon badges */
+.ui-icon-dark-xs {
+  width: 1.5rem;
+  /* 24px */
+  height: 1.5rem;
+}
+
+.ui-icon-dark-sm {
+  width: 2rem;
+  /* 32px */
+  height: 2rem;
+}
+
+.ui-icon-dark-md {
+  width: 2.5rem;
+  /* 40px */
+  height: 2.5rem;
+}
+
+.ui-icon-dark-lg {
+  width: 3rem;
+  /* 48px */
+  height: 3rem;
+}
+
+.ui-icon-dark-xl {
+  width: 3.5rem;
+  /* 56px */
+  height: 3.5rem;
+}
+
+/* Overlay backdrop (for modals/drawers) */
+.ui-overlay {
+  background-color: rgba(9, 9, 11, 0.3);
+}
+
+/* Mobile drawer slide-from-right animation (CK-style) */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.ui-drawer-right {
+  will-change: transform;
+  animation: slideInRight var(--header-transition) forwards;
+}
+
+.ui-drawer-right-exit {
+  will-change: transform;
+  animation: slideOutRight var(--header-transition) forwards;
+}
+
+/* Drill-down submenu animations (CK-style: content slides left/right) */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.ui-drill-in {
+  animation: slideInFromRight var(--header-transition) forwards;
+}
+
+.ui-drill-back {
+  animation: slideInFromLeft var(--header-transition) forwards;
+}
+
+/* Header scroll transition (transparent → solid) */
+.ui-header-transparent {
+  background-color: transparent;
+  border-color: transparent;
+  transition: background-color var(--header-transition), border-color var(--header-transition);
+}
+
+.ui-header-solid {
+  background-color: var(--background);
+  border-color: var(--border);
+  transition: background-color var(--header-transition), border-color var(--header-transition);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ui-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .ui-section-dark {
+    /* In dark mode, invert back: light bg, dark text */
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  .ui-icon-dark {
+    background-color: var(--foreground);
+    color: var(--background);
+  }
+}
+
+/* Hover variant for subtle → darker */
+.ui-hover-darken:hover {
+  background-color: rgba(9, 9, 11, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ui-hover-darken:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Subtle decorative background (for icons, lines) */
+.ui-bg-decorative {
+  background-color: rgba(9, 9, 11, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ui-bg-decorative {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Mobile utility classes (following Calvin Klein approach) */
+.mobile-element {
+  display: none;
+}
+
+/* Alias: reference snapshots use underscore naming */
+.mobile_element {
+  display: none;
+}
+
+.desktop-element {
+  display: block;
+}
+
+/* Alias: reference snapshots use underscore naming */
+.desktop_element {
+  display: inline;
+}
+
+@media (max-width: 767px) {
+  .mobile-element {
+    display: block;
+  }
+
+  .mobile_element {
+    display: block;
+  }
+
+  .desktop-element {
+    display: none;
+  }
+
+  .desktop_element {
+    display: none;
+  }
+}
+
+/* Safe area support for notch/safe phones */
+.safe-inset {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+/* Touch-friendly tap targets (min 44px x 44px per WCAG) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container queries for intrinsically responsive components */
+@supports (container-type: inline-size) {
+  .ui-container {
+    container-type: inline-size;
+  }
+
+  /* Product card: switch to horizontal layout in wider containers */
+  @container (min-width: 400px) {
+    .ui-card-responsive {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 1rem;
+    }
+
+    .ui-card-responsive .ui-card-image {
+      aspect-ratio: 1 / 1;
+    }
+
+    .ui-card-responsive .ui-card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -537,4 +1010,49 @@ a {
     animation: none;
     opacity: 0.7;
   }
+}
+
+/* Hide scrollbar for horizontal carousel (touch-friendly) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Aspect ratio utilities for images */
+.aspect-hero {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-product {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-card {
+  aspect-ratio: 3 / 2;
+}
+
+/* Image hover zoom effect */
+.ui-img-zoom {
+  overflow: hidden;
+}
+
+.ui-img-zoom img {
+  transition: transform 0.5s ease-out;
+}
+
+.ui-img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Gradient overlays for image cards */
+.ui-gradient-bottom {
+  background: linear-gradient(to top, rgba(9, 9, 11, 0.6) 0%, transparent 50%);
+}
+
+.ui-gradient-top {
+  background: linear-gradient(to bottom, rgba(9, 9, 11, 0.6) 0%, transparent 50%);
 }

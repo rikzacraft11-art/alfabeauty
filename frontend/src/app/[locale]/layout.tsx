@@ -53,7 +53,7 @@ export default async function LocaleLayout({
         <StructuredData />
         <SiteHeader />
         <WebVitalsReporter />
-        <main id="main-content" className="mx-auto w-full max-w-[80rem] px-4 py-12 sm:px-6">
+        <main id="main-content" className="w-full">
           {children}
         </main>
         <SiteFooter />

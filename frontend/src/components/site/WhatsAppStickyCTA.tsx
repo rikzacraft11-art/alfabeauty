@@ -3,39 +3,34 @@
 import WhatsAppLink from "@/components/site/WhatsAppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getButtonClassName } from "@/components/ui/Button";
-import { trackEvent } from "@/lib/analytics";
 import { t } from "@/lib/i18n";
+import { IconWhatsApp } from "@/components/ui/icons";
 
+/**
+ * Sticky WhatsApp CTA button.
+ * Single responsive button with icon + text.
+ */
 export default function WhatsAppStickyCTA() {
-  const fallbackEmail = process.env.NEXT_PUBLIC_FALLBACK_EMAIL;
   const { locale } = useLocale();
   const copy = t(locale);
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
+    <div
+      className="fixed z-50"
+      style={{
+        bottom: "max(1rem, env(safe-area-inset-bottom, 1rem))",
+        right: "max(1rem, env(safe-area-inset-right, 1rem))",
+      }}
+    >
       <WhatsAppLink
-        className={getButtonClassName({ variant: "primary", size: "md" })}
+        className={`${getButtonClassName({ variant: "primary", size: "md" })} inline-flex items-center gap-2`}
         prefill={process.env.NEXT_PUBLIC_WHATSAPP_PREFILL}
       >
-        {copy.cta.whatsappConsult}
+        <IconWhatsApp className="h-5 w-5" aria-hidden="true" />
+        <span className="max-sm:sr-only">{copy.cta.whatsappConsult}</span>
       </WhatsAppLink>
-
-      {fallbackEmail ? (
-        <div className="text-right">
-          <a
-            className="type-data-strong text-foreground-muted underline underline-offset-2 hover:text-foreground"
-            href={`mailto:${fallbackEmail}`}
-            onClick={() => {
-              trackEvent("cta_email_click", {
-                href: `mailto:${fallbackEmail}`,
-                target: "email",
-              });
-            }}
-          >
-            {copy.cta.emailInstead}
-          </a>
-        </div>
-      ) : null}
     </div>
   );
 }
+
+

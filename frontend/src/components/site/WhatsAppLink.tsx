@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from "react";
 
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent } from "@/lib/telemetry";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 type Props = ComponentProps<"a"> & {
@@ -45,10 +45,11 @@ export default function WhatsAppLink({ prefill, href, ...props }: Props) {
       onClick={(e) => {
         if (isDisabled) {
           e.preventDefault();
-          trackEvent("cta_whatsapp_click", {
+          // Use distinct event name so SLI "WA click success" stays clean
+          trackEvent("cta_whatsapp_blocked", {
             href: finalHref,
             target: "whatsapp",
-            result: "disabled_missing_config",
+            reason: "missing_config",
           });
           props.onClick?.(e);
           return;

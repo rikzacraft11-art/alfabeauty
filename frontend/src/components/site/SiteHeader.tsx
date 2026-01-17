@@ -1,89 +1,73 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useCallback, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 import DesktopMegaNav from "@/components/site/DesktopMegaNav";
 import HeaderPromo from "@/components/site/HeaderPromo";
+import MobileDrawer from "@/components/site/MobileDrawer";
+import MobileNavMenu, { NavItem } from "@/components/site/MobileNavMenu";
 import LocaleToggle from "@/components/i18n/LocaleToggle";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
+import HamburgerIcon from "@/components/ui/HamburgerIcon";
 import { t } from "@/lib/i18n";
-
-function IconMenu(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <path d="M4 6h16" />
-      <path d="M4 12h16" />
-      <path d="M4 18h16" />
-    </svg>
-  );
-}
-
-function IconClose(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <path d="M18 6 6 18" />
-      <path d="M6 6l12 12" />
-    </svg>
-  );
-}
-
-function IconChevronRight(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <path d="m9 18 6-6-6-6" />
-    </svg>
-  );
-}
-
-function IconChevronLeft(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <path d="m15 18-6-6 6-6" />
-    </svg>
-  );
-}
-
-function lockScroll(locked: boolean) {
-  // Scroll lock that works well on mobile and avoids background scroll.
-  const el = document.documentElement;
-  if (locked) {
-    el.style.overflow = "hidden";
-  } else {
-    el.style.overflow = "";
-  }
-}
-
-function getFocusable(root: HTMLElement | null): HTMLElement[] {
-  if (!root) return [];
-  const nodes = root.querySelectorAll<HTMLElement>(
-    [
-      "a[href]",
-      "button:not([disabled])",
-      "input:not([disabled])",
-      "select:not([disabled])",
-      "textarea:not([disabled])",
-      "[tabindex]:not([tabindex='-1'])",
-    ].join(","),
-  );
-  return Array.from(nodes).filter((n) => !n.hasAttribute("disabled") && n.tabIndex !== -1);
-}
+import { useHeaderScroll } from "@/lib/useHeaderScroll";
+import { useHeaderOffset } from "@/lib/useHeaderOffset";
 
 export default function SiteHeader() {
   const { locale } = useLocale();
   const tx = t(locale);
   const base = `/${locale}`;
+  const pathname = usePathname() ?? "";
+
+  // Prevent first-paint flicker on homepage (transparent header) during hydration.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    const raf = window.requestAnimationFrame(() => setHydrated(true));
+    return () => window.cancelAnimationFrame(raf);
+  }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
-  const drawerRef = useRef<HTMLDivElement | null>(null);
-  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
 
-  const nav = useMemo(() => {
+  // Reference parity: ds-navbar-expand-lg uses ~992px cutoff for desktop nav.
+  // Close the mobile menu when resizing into desktop (do it from an external callback,
+  // not synchronously inside the effect body, to satisfy our hooks lint rule).
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+
+    const media = window.matchMedia("(min-width: 992px)");
+
+    function onChange() {
+      if (media.matches) setMenuOpen(false);
+    }
+
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", onChange);
+      return () => media.removeEventListener("change", onChange);
+    }
+
+    media.addListener(onChange);
+    return () => media.removeListener(onChange);
+  }, []);
+
+  // Extracted hooks
+  const { scrolled, headerHidden } = useHeaderScroll({ disabled: menuOpen });
+  useHeaderOffset(headerRef);
+
+  // Reference parity: mobile menu open toggles a global `menu-open` state.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.classList.toggle("menu-open", menuOpen);
+    return () => {
+      document.body.classList.remove("menu-open");
+    };
+  }, [menuOpen]);
+
+  const nav: NavItem[] = useMemo(() => {
     const productsHref = `${base}/products`;
     const educationHref = `${base}/education`;
     const educationArticlesHref = `${base}/education/articles`;
@@ -128,310 +112,138 @@ export default function SiteHeader() {
     ];
   }, [base, tx]);
 
-  useEffect(() => {
-    if (!menuOpen) return;
-
-    lockScroll(true);
-
-    const openerEl = openerRef.current;
-
-    // Focus the close button for an accessible entry point.
-    const t0 = window.setTimeout(() => {
-      closeBtnRef.current?.focus();
-    }, 0);
-
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        setMobileSubmenu(null);
-        setMenuOpen(false);
-        return;
-      }
-      if (e.key !== "Tab") return;
-
-      const focusables = getFocusable(drawerRef.current);
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-
-      const active = document.activeElement as HTMLElement | null;
-      if (!active) return;
-
-      if (e.shiftKey) {
-        if (active === first || active === drawerRef.current) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else {
-        if (active === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    }
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.clearTimeout(t0);
-      document.removeEventListener("keydown", onKeyDown);
-      lockScroll(false);
-      // Return focus to the menu opener.
-      openerEl?.focus();
-    };
-  }, [menuOpen]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 0);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+  const normalizePath = useCallback((path: string) => {
+    if (!path) return "/";
+    const trimmed = path.replace(/\/+$/, "");
+    return trimmed === "" ? "/" : trimmed;
   }, []);
 
+  const isActiveHref = useCallback(
+    (href: string) => {
+      const current = normalizePath(pathname);
+      const target = normalizePath(href);
+      if (current === target) return true;
+      if (target === "/") return current === "/";
+      return current.startsWith(`${target}/`);
+    },
+    [normalizePath, pathname],
+  );
+
+  const handleCloseMenu = useCallback(() => setMenuOpen(false), []);
+
+  // Reference parity: snapshots use `var(--vh)` (set via DevTools/runtime JS) for mega-menu heights.
+  // We mirror that behavior so viewport-dependent calc() matches what DevTools captures.
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const root = document.documentElement;
-    const headerEl = headerRef.current;
-    if (!headerEl) return;
 
-    const updateOffset = () => {
-      const height = headerEl.offsetHeight;
-      root.style.setProperty("--header-offset", `${height}px`);
+    const updateVh = () => {
+      root.style.setProperty("--vh", `${window.innerHeight}px`);
     };
 
-    updateOffset();
-
-    if (typeof ResizeObserver !== "undefined") {
-      const observer = new ResizeObserver(() => updateOffset());
-      observer.observe(headerEl);
-      return () => observer.disconnect();
-    }
-
-    window.addEventListener("resize", updateOffset);
-    return () => window.removeEventListener("resize", updateOffset);
+    updateVh();
+    window.addEventListener("resize", updateVh, { passive: true });
+    window.addEventListener("orientationchange", updateVh);
+    return () => {
+      window.removeEventListener("resize", updateVh);
+      window.removeEventListener("orientationchange", updateVh);
+    };
   }, []);
 
-  const becomePartnerHref = `${base}/partnership/become-partner`;
-  const contactHref = `${base}/contact`;
-  const productsHref = `${base}/products`;
-  const educationHref = `${base}/education`;
-  const partnershipHref = `${base}/partnership`;
+  const becomePartnerHref = nav.find((n) => n.key === "partnership")?.links?.[1]?.href ?? `${base}/partnership/become-partner`;
+
+  // Follow non-homepage behavior: always solid header.
+  // This removes the home-only transparent mode that can appear glitchy.
+  const headerTone = "default";
+  const headerBgClass = "bg-background";
+  const headerBorderClass = "border-b border-border";
+  const brandClass = "type-brand text-foreground";
+  const mobileBtnClass =
+    "header-mobile-only touch-target ui-focus-ring ui-radius-tight text-foreground-muted hover:text-foreground";
+
+  const headerTransitionClass = hydrated
+    ? "transition-[transform,background-color] duration-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)]"
+    : "";
 
   return (
-    <header
-      ref={headerRef}
-      className={"sticky top-0 z-40 bg-background"}
-      data-scrolled={scrolled ? "true" : "false"}
-    >
-      <HeaderPromo />
+    <>
+      <header
+        id="headerComponent"
+        ref={headerRef}
+        className={`sticky top-0 z-40 ${headerBgClass} ${headerTransitionClass} ${menuOpen ? "drawer-open" : ""} ${headerHidden ? "-translate-y-full" : "translate-y-0"
+          }`}
+        data-scrolled={scrolled ? "true" : "false"}
+        data-hidden={headerHidden ? "true" : "false"}
+        data-drawer-open={menuOpen ? "true" : "false"}
+      >
+        <HeaderPromo />
 
-      {/* Main nav */}
-      <div className="border-b border-border">
-        <div className="mx-auto grid h-[72px] w-full grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-start gap-4">
-            <AppLink href={base} underline="none" className="type-brand text-foreground">
-              Alfa Beauty
-            </AppLink>
-          </div>
-
-          <div className="justify-self-center">
-            <DesktopMegaNav items={nav} />
-          </div>
-
-          <div className="flex items-center justify-end gap-2">
-            {/* Desktop actions */}
-            <div className="hidden md:flex items-center gap-4">
-              <div className="border-r border-border pr-4">
-                <LocaleToggle />
+        <nav role="presentation" className={headerBorderClass}>
+          <div className="site-header-row mx-auto max-w-[120rem] w-full grid grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10">
+            <div className="flex items-center justify-start gap-4">
+              <div className="navbar-header__brand" role="heading" aria-level={1}>
+                <AppLink href={base} underline="none" className={brandClass} aria-label="Alfa Beauty Homepage">
+                  Alfa Beauty
+                </AppLink>
               </div>
-              <ButtonLink href={becomePartnerHref} size="sm">
-                {tx.cta.becomePartner}
-              </ButtonLink>
             </div>
 
-            {/* Mobile actions */}
-            <button
-              ref={openerRef}
-              type="button"
-              className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-foreground-muted hover:text-foreground md:hidden"
-              aria-label={tx.header.actions.openMenu}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-nav"
-              onClick={() => {
-                setMobileSubmenu(null);
-                setMenuOpen(true);
-              }}
-            >
-              <IconMenu className="h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-      </div>
+            <div className="justify-self-center">
+              <DesktopMegaNav items={nav} tone={headerTone} />
+            </div>
 
-      {/* Mobile full-screen drawer */}
-      {menuOpen ? (
-        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-          <div
-            className="absolute inset-0 bg-foreground/30"
-            onClick={() => {
-              setMobileSubmenu(null);
-              setMenuOpen(false);
-            }}
-            aria-hidden="true"
-          />
-          <div
-            id="mobile-nav"
-            ref={drawerRef}
-            className="absolute inset-x-0 top-0 max-h-[100dvh] overflow-auto bg-background"
-          >
-            <div className="flex h-16 items-center justify-between border-b border-border px-4 sm:px-6">
-              <AppLink
-                href={base}
-                underline="none"
-                className="type-brand text-foreground"
+            <div className="flex items-center justify-end gap-2">
+              <div className="header-desktop-only items-center gap-4">
+                <div className="border-r border-border pr-4">
+                  <LocaleToggle tone={headerTone} />
+                </div>
+                <ButtonLink href={becomePartnerHref} size="sm">
+                  {tx.cta.becomePartner}
+                </ButtonLink>
+              </div>
+
+              {/* Reference-style mobile toggle + close buttons (separate elements) */}
+              <button
+                ref={openerRef}
+                type="button"
+                className={`${mobileBtnClass} ${menuOpen ? "hidden" : "inline-flex"}`}
+                aria-label={tx.header.actions.openMenu}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-nav"
+                onClick={() => setMenuOpen(true)}
+              >
+                <HamburgerIcon isOpen={false} />
+              </button>
+
+              <button
+                type="button"
+                className={`${mobileBtnClass} ${menuOpen ? "inline-flex" : "hidden"}`}
+                aria-label={tx.header.actions.closeMenu}
+                aria-controls="mobile-nav"
                 onClick={() => setMenuOpen(false)}
               >
-                Alfa Beauty
-              </AppLink>
-              <button
-                ref={closeBtnRef}
-                type="button"
-                className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-foreground-muted hover:text-foreground"
-                aria-label={tx.header.actions.closeMenu}
-                onClick={() => {
-                  setMobileSubmenu(null);
-                  setMenuOpen(false);
-                }}
-              >
-                <IconClose className="h-5 w-5" aria-hidden="true" />
+                <HamburgerIcon isOpen={true} />
               </button>
             </div>
-
-            <div className="py-8 px-4 sm:px-6">
-              {mobileSubmenu ? (
-                <div>
-                  <button
-                    type="button"
-                    className="type-data-strong mb-6 inline-flex items-center gap-2 text-foreground"
-                    onClick={() => setMobileSubmenu(null)}
-                  >
-                    <IconChevronLeft className="h-5 w-5" aria-hidden="true" />
-                    {tx.header.mega.actions.back}
-                  </button>
-
-                  <div className="space-y-2">
-                    {nav
-                      .find((n) => n.key === mobileSubmenu)
-                      ?.links?.map((l) => (
-                        <AppLink
-                          key={l.href}
-                          href={l.href}
-                          className="type-nav flex items-center justify-between border-b border-border py-6 text-foreground"
-                          onClick={() => {
-                            setMobileSubmenu(null);
-                            setMenuOpen(false);
-                          }}
-                        >
-                          <span>{l.label}</span>
-                          <IconChevronRight className="h-6 w-6 text-muted-soft" aria-hidden="true" />
-                        </AppLink>
-                      ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {nav.map((n) => {
-                    const hasSub = Boolean(n.links && n.links.length > 0);
-                    if (hasSub) {
-                      return (
-                        <button
-                          key={n.key}
-                          type="button"
-                          className="type-nav flex w-full items-center justify-between border-b border-border py-6 text-left text-foreground"
-                          onClick={() => setMobileSubmenu(n.key)}
-                        >
-                          <span>{n.label}</span>
-                          <IconChevronRight className="h-6 w-6 text-muted-soft" aria-hidden="true" />
-                        </button>
-                      );
-                    }
-
-                    return (
-                      <AppLink
-                        key={n.key}
-                        href={n.href}
-                        className="type-nav flex items-center justify-between border-b border-border py-6 text-foreground"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        <span>{n.label}</span>
-                        <IconChevronRight className="h-6 w-6 text-muted-soft" aria-hidden="true" />
-                      </AppLink>
-                    );
-                  })}
-                </div>
-              )}
-
-              <div className="mt-10 space-y-6">
-                <div>
-                  <p className="type-data-strong text-foreground">Language</p>
-                  <div className="mt-3 inline-flex">
-                    <LocaleToggle />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <ButtonLink
-                    href={becomePartnerHref}
-                    className="w-full"
-                    size="md"
-                    prefetch={false}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {tx.cta.becomePartner}
-                  </ButtonLink>
-                  <ButtonLink
-                    href={contactHref}
-                    className="w-full"
-                    size="md"
-                    variant="secondary"
-                    prefetch={false}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {tx.nav.contact}
-                  </ButtonLink>
-                </div>
-
-                <div className="space-y-2 type-body">
-                  <p>{tx.header.announcement}</p>
-                  <p>
-                    <AppLink
-                      href={productsHref}
-                      className="type-data-strong text-foreground underline underline-offset-2 hover:no-underline"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {tx.nav.products}
-                    </AppLink>
-                    {" · "}
-                    <AppLink
-                      href={educationHref}
-                      className="type-data-strong text-foreground underline underline-offset-2 hover:no-underline"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {tx.nav.education}
-                    </AppLink>
-                    {" · "}
-                    <AppLink
-                      href={partnershipHref}
-                      className="type-data-strong text-foreground underline underline-offset-2 hover:no-underline"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {tx.nav.partnership}
-                    </AppLink>
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      ) : null}
-    </header>
+        </nav>
+      </header>
+
+      <MobileDrawer
+        isOpen={menuOpen}
+        onClose={handleCloseMenu}
+        ariaLabel="Menu"
+        openerRef={openerRef}
+      >
+        <MobileNavMenu
+          nav={nav}
+          locale={locale}
+          baseHref={base}
+          tx={tx}
+          onClose={handleCloseMenu}
+          isActiveHref={isActiveHref}
+        />
+      </MobileDrawer>
+    </>
   );
 }

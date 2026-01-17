@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { t } from "@/lib/i18n";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { IconClose } from "@/components/ui/icons";
 
 type PromoItem = {
   message: string;
@@ -25,15 +27,6 @@ function getFocusable(root: HTMLElement | null): HTMLElement[] {
     ].join(","),
   );
   return Array.from(nodes).filter((n) => !n.hasAttribute("disabled") && n.tabIndex !== -1);
-}
-
-function IconClose(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <path d="M18 6 6 18" />
-      <path d="M6 6l12 12" />
-    </svg>
-  );
 }
 
 export default function HeaderPromo() {
@@ -135,61 +128,83 @@ export default function HeaderPromo() {
   if (!current) return null;
 
   return (
-    <div className="border-b border-black bg-black text-white">
-      <div
-        className="type-promo flex h-9 w-full items-center justify-center gap-3 px-4 sm:px-6"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        <span className="line-clamp-1">{current.message}</span>
-        <button
-          ref={openerRef}
-          type="button"
-          className="ui-focus-ring ui-radius-tight whitespace-nowrap underline underline-offset-2 hover:no-underline"
-          onClick={() => setModalOpen(true)}
+    <div id="headPromoWrapper" className="border-b border-black bg-black text-white">
+      <div id="headerPromoWrapperInner" className="max-w-[120rem] mx-auto">
+        <div
+          id="headerPromo"
+          className="type-promo flex w-full items-center justify-center py-3 px-4 sm:px-6 lg:px-10"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
         >
-          {tx.header.promo.actions.details}
-        </button>
-      </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
+            <span className="offer">{current.message}</span>
 
-      {modalOpen ? (
-        <div className="fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label={current.detailsTitle}>
-          <div className="absolute inset-0 bg-black/50" onClick={() => setModalOpen(false)} aria-hidden="true" />
-          <div
-            ref={modalRef}
-            className="absolute left-1/2 top-1/2 w-[min(38rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 ui-radius-tight border border-border bg-background p-6 text-foreground"
-          >
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <p className="type-h3">{current.detailsTitle}</p>
-              </div>
-              <button
-                ref={closeBtnRef}
-                type="button"
-                className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-muted-strong hover:bg-subtle hover:text-foreground"
-                aria-label={tx.header.promo.actions.close}
-                onClick={() => setModalOpen(false)}
-              >
-                <IconClose className="h-5 w-5" aria-hidden="true" />
-              </button>
-            </div>
-
-            <div className="mt-4 type-body-compact">
-              <p>{current.detailsBody}</p>
-            </div>
-
-            <div className="mt-6">
-              <button
-                type="button"
-                className="type-ui-sm-strong ui-focus-ring ui-radius-tight bg-foreground px-4 py-2 text-background hover:bg-foreground/90"
-                onClick={() => setModalOpen(false)}
-              >
-                {tx.header.promo.actions.close}
-              </button>
-            </div>
+            {/* Reference-style inline links */}
+            <span className="desktop_element opacity-70">|</span>
+            <button
+              type="button"
+              ref={openerRef}
+              title="Opens a dialog"
+              aria-label="Details - Promos"
+              className="details_link ui-focus-ring ui-radius-tight whitespace-nowrap underline underline-offset-2 hover:no-underline"
+              onClick={() => setModalOpen(true)}
+            >
+              {tx.header.promo.actions.details}
+            </button>
+            <br className="mobile_element" role="presentation" aria-hidden="true" tabIndex={-1} />
           </div>
         </div>
-      ) : null}
+      </div>
+
+      {modalOpen && typeof document !== "undefined"
+        ? createPortal(
+          <div
+            className="fixed inset-0 z-[60]"
+            id="promo-header-details"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="promo-header-details-title"
+          >
+            <div className="absolute inset-0 bg-black/50" onClick={() => setModalOpen(false)} aria-hidden="true" />
+            <div
+              ref={modalRef}
+              className="absolute left-1/2 top-1/2 w-[min(38rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 ui-radius-tight border border-border bg-background p-6 text-foreground"
+            >
+              <div className="flex items-start justify-between gap-6">
+                <div>
+                  <div className="type-h3" id="promo-header-details-title">
+                    {current.detailsTitle}
+                  </div>
+                </div>
+                <button
+                  ref={closeBtnRef}
+                  type="button"
+                  className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center text-muted-strong hover:bg-subtle hover:text-foreground"
+                  aria-label={tx.header.promo.actions.close}
+                  onClick={() => setModalOpen(false)}
+                >
+                  <IconClose className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+
+              <div className="mt-4 type-body-compact">
+                <p>{current.detailsBody}</p>
+              </div>
+
+              <div className="mt-6">
+                <button
+                  type="button"
+                  className="ui-btn-primary type-ui-sm-strong ui-focus-ring ui-radius-tight px-4 py-2"
+                  onClick={() => setModalOpen(false)}
+                >
+                  {tx.header.promo.actions.close}
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+        : null}
     </div>
   );
 }

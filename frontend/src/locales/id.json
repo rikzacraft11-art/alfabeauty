@@ -1,0 +1,456 @@
+{
+    "seo": {
+        "aboutDescription": "Tentang PT Alfa Beauty Cosmetica — distribusi beauty profesional untuk salon dan barbershop di Indonesia.",
+        "contactDescription": "Hubungi Alfa Beauty Cosmetica untuk konsultasi, rekomendasi produk, dan pertanyaan partnership.",
+        "productsDescription": "Jelajahi portofolio produk profesional yang terkurasi. Tanpa harga publik — konsultasi via WhatsApp.",
+        "educationDescription": "Highlight training, pengetahuan, dan event untuk profesional salon dan barbershop.",
+        "partnershipDescription": "Menjadi partner untuk akses produk terkurasi, edukasi, dan dukungan teknis.",
+        "becomePartnerDescription": "Kirim data bisnis untuk menjadi partner Alfa Beauty. Tim kami akan follow up dalam 24 jam.",
+        "privacyDescription": "Kebijakan Privasi untuk website Alfa Beauty Cosmetica.",
+        "termsDescription": "Syarat dan ketentuan penggunaan website Alfa Beauty Cosmetica."
+    },
+    "nav": {
+        "products": "Produk",
+        "education": "Edukasi",
+        "partnership": "Kemitraan",
+        "about": "Tentang",
+        "contact": "Kontak"
+    },
+    "header": {
+        "announcement": "Konsultasi via WhatsApp — tanpa harga publik.",
+        "quickLinkBecomePartner": "Jadi Partner",
+        "quickLinkContact": "Kontak",
+        "promo": {
+            "rotateMs": 5000,
+            "actions": {
+                "details": "Detail",
+                "close": "Tutup"
+            },
+            "items": [
+                {
+                    "message": "Konsultasi via WhatsApp — tanpa harga publik.",
+                    "detailsTitle": "Tanpa harga publik",
+                    "detailsBody": "Kami tidak menampilkan harga publik di website. Konsultasi, rekomendasi, dan pemesanan dilakukan via WhatsApp."
+                },
+                {
+                    "message": "Jadi partner: produk terkurasi + edukasi + dukungan teknis.",
+                    "detailsTitle": "Kemitraan",
+                    "detailsBody": "Kirim detail bisnis Anda dan tim kami akan follow up dalam 24 jam."
+                }
+            ]
+        },
+        "mega": {
+            "shopAll": "Lihat semua",
+            "featuredTitle": "Unggulan",
+            "featuredBody": "Profesional, B2B-first — tanpa harga publik. Hubungi kami untuk rekomendasi.",
+            "actions": {
+                "back": "Kembali"
+            },
+            "links": {
+                "articles": "Artikel",
+                "events": "Event"
+            }
+        },
+        "actions": {
+            "openMenu": "Buka menu",
+            "closeMenu": "Tutup menu",
+            "openSearch": "Ke halaman Produk"
+        }
+    },
+    "cta": {
+        "becomePartner": "Jadi Partner",
+        "whatsappConsult": "Konsultasi WhatsApp",
+        "exploreProducts": "Lihat Produk",
+        "viewAll": "Lihat Semua",
+        "viewDetails": "Lihat Detail",
+        "contactUs": "Hubungi Kami"
+    },
+    "home": {
+        "hero": {
+            "kicker": "Distribusi Kosmetik B2B Profesional",
+            "title": "Produk, edukasi, dan dukungan teknis untuk salon & barbershop.",
+            "lede": "PT Alfa Beauty adalah perusahaan distribusi kecantikan profesional yang menyediakan produk, edukasi, dan dukungan teknis untuk salon dan barbershop di Indonesia.",
+            "points": [
+                "Portofolio terkurasi: brand profesional dipilih untuk performa konsisten di penggunaan nyata.",
+                "Edukasi & dukungan: training praktis dan panduan teknis untuk tim Anda.",
+                "Konsultasi WhatsApp: rekomendasi dan pemesanan tanpa harga publik."
+            ],
+            "note": "Tanpa harga publik. Untuk konsultasi dan rekomendasi produk, hubungi kami via WhatsApp."
+        },
+        "productsHighlight": {
+            "title": "Produk Pilihan",
+            "subtitle": "Katalog"
+        }
+    },
+    "about": {
+        "title": "Tentang",
+        "body": "PT Alfa Beauty adalah perusahaan distribusi kecantikan profesional yang menyediakan produk, edukasi, dan dukungan teknis untuk salon dan barbershop di Indonesia. Kami menghadirkan brand internasional terkurasi dan menjadi partner strategis bagi para profesional, memastikan setiap produk yang kami distribusikan konsisten performanya serta didukung pengetahuan teknis yang tepat.",
+        "mission": {
+            "title": "Misi Kami",
+            "body": "Menyediakan produk kosmetik premium dan dukungan bisnis komprehensif bagi partner kecantikan profesional, memungkinkan kesuksesan mereka di industri kecantikan."
+        },
+        "vision": {
+            "title": "Visi Kami",
+            "body": "Menjadi platform distribusi beauty B2B terdepan di Indonesia, dikenal karena produk berkualitas, layanan andal, dan kemitraan yang memberdayakan."
+        },
+        "valuesTitle": "Nilai-Nilai Kami",
+        "values": {
+            "quality": {
+                "title": "Kualitas",
+                "body": "Kami mengkurasi hanya produk kosmetik terbaik yang memenuhi standar internasional."
+            },
+            "partnership": {
+                "title": "Kemitraan",
+                "body": "Kami tumbuh bersama partner, menyediakan edukasi dan dukungan berkelanjutan."
+            },
+            "excellence": {
+                "title": "Keunggulan",
+                "body": "Kami berjuang untuk keunggulan operasional di setiap aspek bisnis kami."
+            }
+        },
+        "stats": {
+            "products": "Produk",
+            "partners": "Partner",
+            "provinces": "Provinsi",
+            "yearsExperience": "Tahun Pengalaman"
+        },
+        "cta": {
+            "title": "Siap Bermitra Dengan Kami?",
+            "body": "Bergabung dengan ribuan profesional kecantikan yang mempercayai Alfa Beauty untuk kebutuhan bisnis mereka."
+        }
+    },
+    "contact": {
+        "title": "Kontak",
+        "body": "Untuk konsultasi, rekomendasi produk, dan pertanyaan kemitraan, hubungi kami via WhatsApp.",
+        "email": "Email",
+        "whatsapp": {
+            "title": "WhatsApp",
+            "body": "Respon tercepat. Chat langsung dengan tim kami."
+        },
+        "emailCard": {
+            "body": "Untuk pertanyaan formal dan dokumentasi."
+        },
+        "location": {
+            "title": "Lokasi",
+            "city": "Jakarta, Indonesia"
+        },
+        "hours": {
+            "title": "Jam Operasional",
+            "weekdays": "Sen - Jum: 09:00 - 18:00 WIB",
+            "saturday": "Sab: 09:00 - 14:00 WIB"
+        },
+        "cta": {
+            "title": "Siap Memulai?",
+            "body": "Tim kami siap membantu mengembangkan bisnis kecantikan Anda. Hubungi hari ini dan mari diskusikan bagaimana kami dapat mendukung kesuksesan Anda.",
+            "button": "Mulai Percakapan"
+        }
+    },
+    "pillars": {
+        "products": {
+            "title": "Produk",
+            "body": "Brand profesional terkurasi — mendukung performa konsisten di penggunaan nyata."
+        },
+        "education": {
+            "title": "Edukasi",
+            "body": "Training dan pengetahuan teknis agar tim Anda menerapkan produk dengan tepat."
+        },
+        "partnership": {
+            "title": "Kemitraan",
+            "body": "Partner strategis untuk salon dan barbershop — tanpa gimmick retail, tanpa harga publik."
+        }
+    },
+    "partnership": {
+        "title": "Kemitraan",
+        "lede": "Kami bekerja sebagai partner strategis untuk salon dan barbershop: produk terkurasi, edukasi, dan dukungan teknis. B2B-first, profesional, tanpa gimmick retail.",
+        "cards": {
+            "curated": {
+                "title": "Portofolio terkurasi",
+                "body": "Akses brand terpilih yang didukung pengetahuan teknis dan pengalaman penggunaan nyata."
+            },
+            "education": {
+                "title": "Edukasi & dukungan",
+                "body": "Training, product knowledge, dan dukungan untuk membantu tim Anda memberi hasil konsisten."
+            },
+            "b2b": {
+                "title": "B2B-first",
+                "body": "Dirancang untuk profesional — B2B-first, tanpa gimmick retail, tanpa harga publik."
+            }
+        },
+        "readyBlock": {
+            "title": "Siap jadi partner?",
+            "body": "Kirim detail Anda dan tim kami akan follow up. Permintaan Anda kami simpan sebelum ditandai berhasil."
+        },
+        "features": [
+            "Produk premium pilihan",
+            "Harga B2B kompetitif",
+            "Pelatihan profesional",
+            "Dukungan khusus",
+            "Materi marketing",
+            "Pembayaran fleksibel",
+            "Program loyalitas",
+            "Jangkauan nasional"
+        ]
+    },
+    "becomePartner": {
+        "title": "Jadi Partner",
+        "lede": "Ceritakan singkat tentang bisnis Anda. Tim kami akan follow up dalam 24 jam.",
+        "next": {
+            "title": "Langkah berikutnya",
+            "items": [
+                "Kami review data Anda lalu menghubungi via WhatsApp/telepon/email.",
+                "Kami rekomendasikan produk dan opsi training yang sesuai.",
+                "Tanpa harga publik — konsultasi dilakukan via WhatsApp."
+            ]
+        },
+        "whyTitle": "Mengapa Bermitra Dengan Kami?",
+        "whyBenefits": [
+            "Akses ke brand kecantikan premium",
+            "Struktur harga B2B kompetitif",
+            "Pelatihan & dukungan profesional",
+            "Syarat pembayaran fleksibel"
+        ],
+        "formTitle": "Aplikasi Kemitraan",
+        "formLede": "Isi formulir di bawah dan tim kami akan menghubungi Anda dalam 1-2 hari kerja.",
+        "privacyNote": "Informasi Anda aman. Kami menghormati privasi Anda dan hanya menggunakan data Anda untuk memproses aplikasi kemitraan."
+    },
+    "products": {
+        "title": "Produk",
+        "lede": "Produk terkurasi untuk salon dan barbershop. Tanpa harga publik — hubungi kami via WhatsApp untuk konsultasi dan rekomendasi.",
+        "highlights": {
+            "title": "Produk pilihan",
+            "lede": "Sekilas portofolio produk terkurasi kami.",
+            "viewAll": "Lihat semua"
+        },
+        "filters": {
+            "title": "Filter",
+            "button": "Filter",
+            "clear": "Reset",
+            "groups": {
+                "brand": "Brand",
+                "category": "Kategori",
+                "audience": "Target",
+                "function": "Fungsi"
+            },
+            "audience": {
+                "salon": "Salon",
+                "barber": "Barbershop"
+            },
+            "empty": {
+                "title": "Tidak ada hasil",
+                "body": "Coba reset filter, atau hubungi kami via WhatsApp untuk rekomendasi."
+            }
+        }
+    },
+    "sections": {
+        "consultCta": {
+            "title": "Butuh bantuan memilih produk?",
+            "body": "Chat kami via WhatsApp untuk konsultasi, rekomendasi produk, dan pemesanan."
+        }
+    },
+    "legal": {
+        "privacyTitle": "Kebijakan Privasi",
+        "termsTitle": "Syarat & Ketentuan",
+        "privacyPolicy": {
+            "intro": {
+                "prefix": "Ringkasan",
+                "body": "Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi saat Anda menggunakan website ini atau menghubungi kami."
+            },
+            "sections": {
+                "informationWeCollect": {
+                    "title": "Informasi yang kami kumpulkan",
+                    "items": [
+                        "Data yang Anda kirimkan melalui form Kemitraan (mis. nama bisnis, kontak, WhatsApp, kota).",
+                        "Data teknis dasar untuk analytics/performa (mis. event klik CTA, metrik RUM).",
+                        "Informasi yang Anda kirimkan saat menghubungi kami via WhatsApp/email."
+                    ]
+                },
+                "howWeUse": {
+                    "title": "Cara kami menggunakan informasi",
+                    "items": [
+                        "Menindaklanjuti permintaan konsultasi produk dan/atau pendaftaran kemitraan.",
+                        "Meningkatkan kualitas website (stabilitas, performa, dan pengalaman pengguna).",
+                        "Mencegah spam/penyalahgunaan pada jalur lead."
+                    ]
+                },
+                "storageSecurity": {
+                    "title": "Penyimpanan & keamanan",
+                    "body": "Data lead disimpan sebelum ditandai berhasil. Kami menerapkan langkah keamanan wajar untuk melindungi data dari akses tidak sah."
+                },
+                "cookies": {
+                    "title": "Cookie & teknologi serupa",
+                    "body": "Kami dapat menggunakan cookie/teknologi serupa untuk analitik dan peningkatan performa. Anda dapat mengatur preferensi cookie melalui pengaturan browser Anda."
+                },
+                "contact": {
+                    "title": "Hubungi kami",
+                    "body": "Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami melalui halaman Contact atau WhatsApp."
+                }
+            }
+        },
+        "termsPolicy": {
+            "intro": {
+                "prefix": "Ringkasan",
+                "body": "Syarat ini menjelaskan aturan penggunaan website dan kontennya."
+            },
+            "sections": {
+                "websiteUse": {
+                    "title": "Penggunaan website",
+                    "body": "Website ini disediakan untuk informasi produk, edukasi, dan jalur konsultasi/kemitraan untuk profesional salon & barbershop."
+                },
+                "noPublicPricing": {
+                    "title": "Tidak ada harga publik",
+                    "body": "Kami tidak menampilkan harga publik. Konsultasi, rekomendasi, dan pemesanan dilakukan melalui WhatsApp."
+                },
+                "limitations": {
+                    "title": "Keterbatasan",
+                    "body": "Konten disediakan apa adanya. Kami berupaya menjaga akurasi, namun informasi dapat berubah."
+                },
+                "changes": {
+                    "title": "Perubahan",
+                    "body": "Kami dapat memperbarui syarat ini dari waktu ke waktu. Versi terbaru akan dipublikasikan di halaman ini."
+                }
+            }
+        }
+    },
+    "education": {
+        "hub": {
+            "title": "Edukasi & Event",
+            "lede": "Ringkas, teknis, dan relevan untuk profesional salon & barbershop. Tidak ada sistem tiket di Paket A—registrasi via WhatsApp.",
+            "sections": {
+                "events": "Event",
+                "articles": "Artikel"
+            },
+            "labels": {
+                "audience": "Audiens"
+            },
+            "actions": {
+                "viewDetails": "Lihat detail",
+                "read": "Baca"
+            },
+            "trainingTitle": "Program Training Profesional",
+            "trainingNote": "Ingin sesi training untuk tim Anda? Hubungi kami via WhatsApp dan sebutkan kota + kebutuhan Anda.",
+            "stats": {
+                "focus": "Fokus Profesional",
+                "languages": "Bahasa",
+                "upcoming": "mendatang"
+            }
+        },
+        "common": {
+            "backToEducation": "Kembali"
+        },
+        "event": {
+            "notFound": {
+                "title": "Event tidak ditemukan",
+                "body": "Kami tidak menemukan event tersebut. Silakan kembali ke halaman Edukasi."
+            },
+            "note": "Catatan: Jadwal dapat berubah. Konfirmasi via WhatsApp untuk slot dan ketersediaan.",
+            "interested": "Tertarik?",
+            "contactBody": "Hubungi kami untuk info lebih lanjut tentang event ini dan reservasi tempat."
+        },
+        "article": {
+            "notFound": {
+                "title": "Artikel tidak ditemukan",
+                "body": "Kami tidak menemukan artikel tersebut. Silakan kembali ke halaman Edukasi."
+            },
+            "footer": "Butuh panduan untuk produk tertentu? Kirim pertanyaan Anda via WhatsApp."
+        }
+    },
+    "productDetail": {
+        "notFound": {
+            "body": "Produk tidak ditemukan.",
+            "back": "Kembali ke Produk"
+        },
+        "sections": {
+            "keyBenefits": "Manfaat utama",
+            "howToUse": "Cara pakai",
+            "recommendedFor": "Rekomendasi"
+        },
+        "labels": {
+            "audience": "Audiens",
+            "functions": "Fungsi"
+        },
+        "consult": {
+            "title": "Konsultasi & minta rekomendasi",
+            "body": "Tanpa harga publik. Chat kami via WhatsApp untuk kecocokan, panduan pemakaian, dan pemesanan.",
+            "prefill": "Halo Alfa Beauty, saya ingin konsultasi tentang {{product}}."
+        }
+    },
+    "leadForm": {
+        "fields": {
+            "businessName": "Nama bisnis",
+            "contactName": "Nama kontak",
+            "emailOptional": "Email (opsional)",
+            "whatsAppNumber": "Nomor WhatsApp",
+            "city": "Kota",
+            "salonType": "Tipe bisnis",
+            "salonTypePlaceholder": "Pilih…",
+            "messageOptional": "Pesan (opsional)"
+        },
+        "salonTypes": {
+            "salon": "Salon",
+            "barber": "Barbershop",
+            "bridal": "Bridal",
+            "unisex": "Unisex",
+            "other": "Lainnya"
+        },
+        "additionalDetails": {
+            "summary": "Detail tambahan (opsional)",
+            "chairCount": "Jumlah kursi",
+            "chairCountPlaceholder": "contoh: 6",
+            "specialization": "Spesialisasi",
+            "specializationPlaceholder": "contoh: coloring, keratin",
+            "currentBrandsUsed": "Brand yang dipakai saat ini",
+            "monthlySpendRange": "Perkiraan belanja per bulan",
+            "monthlySpendRangePlaceholder": "opsional"
+        },
+        "honeypot": {
+            "companyLabel": "Company"
+        },
+        "consent": "Saya setuju untuk dihubungi untuk tindak lanjut kemitraan.",
+        "validation": {
+            "businessNameRequired": "Nama bisnis wajib diisi (min 2 karakter)",
+            "contactNameRequired": "Nama kontak wajib diisi (min 2 karakter)",
+            "phoneRequired": "Nomor WhatsApp wajib diisi (min 8 digit)",
+            "cityRequired": "Kota wajib diisi (min 2 karakter)",
+            "salonTypeRequired": "Pilih tipe bisnis Anda",
+            "consentRequired": "Mohon setujui untuk dihubungi"
+        },
+        "actions": {
+            "submit": "Kirim",
+            "submitting": "Mengirim…"
+        },
+        "success": {
+            "title": "Terima kasih — data Anda sudah kami terima.",
+            "body": "Tim kami akan follow up. Anda juga bisa chat via WhatsApp untuk konsultasi lebih cepat.",
+            "ref": "Referensi",
+            "whatsappCta": "Chat via WhatsApp",
+            "whatsappPrefill": "Halo Alfa Beauty, saya baru saja mengirim data kemitraan dan ingin berdiskusi lebih lanjut."
+        },
+        "errors": {
+            "network": "Koneksi bermasalah. Silakan coba lagi.",
+            "rateLimited": "Terlalu banyak permintaan. Silakan coba lagi sebentar lagi.",
+            "submitFailed": "Pengiriman gagal. Silakan coba lagi."
+        }
+    },
+    "system": {
+        "notFound": {
+            "title": "Halaman tidak ditemukan",
+            "body": "Halaman yang Anda cari tidak tersedia. Gunakan navigasi atau kembali ke beranda.",
+            "backHome": "Kembali ke Beranda"
+        },
+        "error": {
+            "title": "Terjadi kendala",
+            "body": "Silakan coba lagi. Jika masih terjadi, hubungi kami via WhatsApp.",
+            "actions": {
+                "tryAgain": "Coba lagi",
+                "goHome": "Ke beranda"
+            },
+            "ref": "Ref"
+        }
+    },
+    "footer": {
+        "explore": "Jelajahi",
+        "legal": "Legal",
+        "blurb": "Distribusi kecantikan profesional untuk salon dan barbershop di Indonesia.",
+        "copyrightSuffix": "Hak cipta dilindungi."
+    }
+}

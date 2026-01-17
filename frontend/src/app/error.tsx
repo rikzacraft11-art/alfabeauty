@@ -27,7 +27,7 @@ export default function GlobalError({
         <Button type="button" onClick={() => reset()}>
           Try again
         </Button>
-        <ButtonLink href="/en" variant="secondary">
+        <ButtonLink href="/" variant="secondary">
           Go home
         </ButtonLink>
       </div>

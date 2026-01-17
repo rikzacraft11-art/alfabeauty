@@ -1,221 +1,319 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
-import type { Audience, Product } from "@/lib/types";
-import { listProducts } from "@/lib/catalog";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLocale } from "@/components/i18n/LocaleProvider";
-import AppLink from "@/components/ui/AppLink";
 import { t } from "@/lib/i18n";
-
-function uniq(values: string[]) {
-  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b));
-}
-
-function matches(p: Product, selected: Filters) {
-  if (selected.brands.size > 0 && !selected.brands.has(p.brand)) return false;
-  if (selected.audiences.size > 0 && !p.audience.some((a) => selected.audiences.has(a))) return false;
-  if (selected.functions.size > 0 && !p.functions.some((f) => selected.functions.has(f))) return false;
-  return true;
-}
-
-type Filters = {
-  brands: Set<string>;
-  functions: Set<string>;
-  audiences: Set<Audience>;
-};
-
-function IconSearch(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.35-4.35" strokeLinecap="round" />
-    </svg>
-  );
-}
+import { useProductFilters } from "@/lib/useProductFilters";
+import { getCategoryLabel } from "@/content/homepage";
+import FilterPill from "@/components/ui/FilterPill";
+import FilterCheckbox from "@/components/ui/FilterCheckbox";
+import ProductCard from "@/components/products/ProductCard";
+import { IconSearch, IconChevronDown } from "@/components/ui/icons";
 
 export default function ProductFilters() {
   const { locale } = useLocale();
   const tx = t(locale);
   const base = `/${locale}`;
+  const searchParams = useSearchParams();
 
-  const all = useMemo(() => listProducts(), []);
+  // Use the extracted hook for filter logic
+  const {
+    filters,
+    filtered,
+    hasFilters,
+    availableBrands,
+    availableCategories,
+    availableFunctions,
+    toggle,
+    clear,
+  } = useProductFilters();
 
-  const brands = useMemo(() => uniq(all.map((p) => p.brand)), [all]);
-  const functions = useMemo(() => uniq(all.flatMap((p) => p.functions)), [all]);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const [filters, setFilters] = useState<Filters>({
-    brands: new Set(),
-    functions: new Set(),
-    audiences: new Set(),
-  });
+  // Deep-link support: allow /products?category=styling etc.
+  useEffect(() => {
+    const categories = searchParams.getAll("category");
+    const brands = searchParams.getAll("brand");
+    const functions = searchParams.getAll("function");
+    const audiences = searchParams.getAll("audience");
 
-  const filtered = useMemo(() => all.filter((p) => matches(p, filters)), [all, filters]);
+    const hasQueryFilters =
+      categories.length > 0 ||
+      brands.length > 0 ||
+      functions.length > 0 ||
+      audiences.length > 0;
 
-  const hasFilters = filters.brands.size > 0 || filters.functions.size > 0 || filters.audiences.size > 0;
+    if (!hasQueryFilters) return;
 
-  const toggle = (key: keyof Filters, value: string) => {
-    setFilters((prev) => {
-      const next = {
-        brands: new Set(prev.brands),
-        functions: new Set(prev.functions),
-        audiences: new Set(prev.audiences),
-      };
-      const set = next[key] as Set<string>;
-      if (set.has(value)) set.delete(value);
-      else set.add(value);
-      return next;
-    });
-  };
+    clear();
 
-  const clear = () =>
-    setFilters({
-      brands: new Set(),
-      functions: new Set(),
-      audiences: new Set(),
-    });
+    for (const c of categories) {
+      if (availableCategories.includes(c)) toggle("categories", c);
+    }
+    for (const b of brands) {
+      if (availableBrands.includes(b)) toggle("brands", b);
+    }
+    for (const f of functions) {
+      if (availableFunctions.includes(f)) toggle("functions", f);
+    }
+    for (const a of audiences) {
+      if (a === "SALON" || a === "BARBER") toggle("audiences", a);
+    }
+  }, [
+    searchParams,
+    availableBrands,
+    availableCategories,
+    availableFunctions,
+    clear,
+    toggle,
+  ]);
 
   return (
-    <section className="grid gap-8 md:grid-cols-4">
-      {/* Filter Sidebar */}
-      <aside className="md:col-span-1">
-        <div className="border border-border bg-panel p-6 sticky top-24">
-          <div className="flex items-center justify-between">
-            <h2 className="type-data-strong text-foreground">{tx.products.filters.title}</h2>
-            {hasFilters && (
-              <button
-                type="button"
-                onClick={clear}
-                className="type-data text-muted hover:text-foreground underline decoration-dotted underline-offset-4 transition-colors"
-              >
-                {tx.products.filters.clear}
-              </button>
-            )}
-          </div>
-
-          <div className="mt-5 space-y-5">
-            {/* Brand Filter */}
-            <div>
-              <p className="type-data-strong text-foreground">{tx.products.filters.groups.brand}</p>
-              <div className="mt-2 space-y-1.5">
-                {brands.map((b) => (
-                  <label
-                    key={b}
-                    className="group flex items-center gap-2.5 py-1 type-data cursor-pointer hover:text-foreground transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 accent-foreground transition-shadow focus:ring-2 focus:ring-border-strong focus:ring-offset-1"
-                      checked={filters.brands.has(b)}
-                      onChange={() => toggle("brands", b)}
-                    />
-                    <span className={filters.brands.has(b) ? "text-foreground type-data-strong" : "text-muted-strong"}>
-                      {b}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Audience Filter */}
-            <div>
-              <p className="type-data-strong text-foreground">{tx.products.filters.groups.audience}</p>
-              <div className="mt-2 space-y-1.5">
-                {(["SALON", "BARBER"] as const).map((a) => (
-                  <label
-                    key={a}
-                    className="group flex items-center gap-2.5 py-1 type-data cursor-pointer hover:text-foreground transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 accent-foreground transition-shadow focus:ring-2 focus:ring-border-strong focus:ring-offset-1"
-                      checked={filters.audiences.has(a)}
-                      onChange={() => toggle("audiences", a)}
-                    />
-                    <span className={filters.audiences.has(a) ? "text-foreground type-data-strong" : "text-muted-strong"}>
-                      {a === "SALON"
-                        ? tx.products.filters.audience.salon
-                        : tx.products.filters.audience.barber}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Function Filter */}
-            <div>
-              <p className="type-data-strong text-foreground">{tx.products.filters.groups.function}</p>
-              <div className="mt-2 space-y-1.5">
-                {functions.map((f) => (
-                  <label
-                    key={f}
-                    className="group flex items-center gap-2.5 py-1 type-data cursor-pointer hover:text-foreground transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 accent-foreground transition-shadow focus:ring-2 focus:ring-border-strong focus:ring-offset-1"
-                      checked={filters.functions.has(f)}
-                      onChange={() => toggle("functions", f)}
-                    />
-                    <span className={filters.functions.has(f) ? "text-foreground type-data-strong" : "text-muted-strong"}>
-                      {f}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
+    <section>
+      {/* Brand Filter Pills - Quick filter bar (Desktop) */}
+      <div className="hidden md:block mb-8 border-b border-border pb-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <FilterPill
+            label={locale === "id" ? "Semua" : "All"}
+            active={!hasFilters}
+            onClick={clear}
+          />
+          {availableBrands.map((b) => (
+            <FilterPill
+              key={b}
+              label={b}
+              active={filters.brands.has(b)}
+              onClick={() => toggle("brands", b)}
+            />
+          ))}
         </div>
-      </aside>
+      </div>
 
-      {/* Product Grid */}
-      <div className="md:col-span-3">
-        {/* Results count */}
-        {hasFilters && (
-          <p className="type-data text-muted mb-4">
-            {filtered.length} {filtered.length === 1 ? "product" : "products"}
-          </p>
-        )}
+      {/* Mobile Filter Toggle Button */}
+      <div className="md:hidden mb-6 flex items-center justify-between">
+        <p className="type-data text-muted">
+          {filtered.length} {filtered.length === 1 ? "product" : "products"}
+        </p>
+        <button
+          type="button"
+          onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+          className="touch-target inline-flex items-center gap-2 type-data-strong text-foreground border border-border bg-panel px-3 py-2 ui-radius-tight hover:bg-subtle transition-colors"
+          aria-expanded={mobileFiltersOpen}
+        >
+          {tx.products.filters.button}
+          <IconChevronDown
+            className={`h-4 w-4 transition-transform ${mobileFiltersOpen ? "rotate-180" : ""}`}
+            aria-hidden="true"
+          />
+        </button>
+      </div>
 
-        {filtered.length === 0 ? (
-          /* Empty State */
-          <div className="border border-border bg-panel p-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-subtle">
-              <IconSearch className="h-6 w-6 text-muted" />
+      {/* Collapsible Mobile Filters */}
+      {mobileFiltersOpen && (
+        <div className="md:hidden mb-6 border border-border bg-panel p-4 ui-radius-tight space-y-5">
+          {/* Category Filter */}
+          {availableCategories.length > 0 && (
+            <div>
+              <p className="type-data-strong text-foreground">{tx.products.filters.groups.category}</p>
+              <div className="mt-2 space-y-1.5">
+                {availableCategories.map((c) => (
+                  <FilterCheckbox
+                    key={c}
+                    label={getCategoryLabel(locale, c)}
+                    checked={filters.categories.has(c)}
+                    onChange={() => toggle("categories", c)}
+                  />
+                ))}
+              </div>
             </div>
-            <p className="mt-4 type-body-strong text-foreground">{tx.products.filters.empty.title}</p>
-            <p className="mt-2 type-body max-w-sm mx-auto">{tx.products.filters.empty.body}</p>
+          )}
+
+          {/* Brand Filter */}
+          <div>
+            <p className="type-data-strong text-foreground">{tx.products.filters.groups.brand}</p>
+            <div className="mt-2 space-y-1.5">
+              {availableBrands.map((b) => (
+                <FilterCheckbox
+                  key={b}
+                  label={b}
+                  checked={filters.brands.has(b)}
+                  onChange={() => toggle("brands", b)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Audience Filter */}
+          <div>
+            <p className="type-data-strong text-foreground">{tx.products.filters.groups.audience}</p>
+            <div className="mt-2 space-y-1.5">
+              <FilterCheckbox
+                label={tx.products.filters.audience.salon}
+                checked={filters.audiences.has("SALON")}
+                onChange={() => toggle("audiences", "SALON")}
+              />
+              <FilterCheckbox
+                label={tx.products.filters.audience.barber}
+                checked={filters.audiences.has("BARBER")}
+                onChange={() => toggle("audiences", "BARBER")}
+              />
+            </div>
+          </div>
+
+          {/* Function Filter */}
+          <div>
+            <p className="type-data-strong text-foreground">{tx.products.filters.groups.function}</p>
+            <div className="mt-2 space-y-1.5">
+              {availableFunctions.map((f) => (
+                <FilterCheckbox
+                  key={f}
+                  label={f}
+                  checked={filters.functions.has(f)}
+                  onChange={() => toggle("functions", f)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {hasFilters && (
             <button
               type="button"
               onClick={clear}
-              className="mt-4 type-data-strong text-foreground underline decoration-dotted underline-offset-4"
+              className="w-full type-data-strong text-center text-muted hover:text-foreground underline decoration-dotted underline-offset-4 transition-colors py-2"
             >
               {tx.products.filters.clear}
             </button>
+          )}
+        </div>
+      )}
+
+      {/* Grid: Desktop Sidebar + Content */}
+      <div className="grid gap-8 md:grid-cols-4">
+        {/* Desktop Filter Sidebar */}
+        <aside className="hidden md:block md:col-span-1">
+          <div className="border border-border bg-panel p-6 sticky top-24">
+            <div className="flex items-center justify-between">
+              <h2 className="type-data-strong text-foreground">{tx.products.filters.title}</h2>
+              {hasFilters && (
+                <button
+                  type="button"
+                  onClick={clear}
+                  className="type-data text-muted hover:text-foreground underline decoration-dotted underline-offset-4 transition-colors"
+                >
+                  {tx.products.filters.clear}
+                </button>
+              )}
+            </div>
+
+            <div className="mt-5 space-y-5">
+              {/* Category Filter */}
+              {availableCategories.length > 0 && (
+                <div>
+                  <p className="type-data-strong text-foreground">{tx.products.filters.groups.category}</p>
+                  <div className="mt-2 space-y-1.5">
+                    {availableCategories.map((c) => (
+                      <FilterCheckbox
+                        key={c}
+                        label={getCategoryLabel(locale, c)}
+                        checked={filters.categories.has(c)}
+                        onChange={() => toggle("categories", c)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Brand Filter */}
+              <div>
+                <p className="type-data-strong text-foreground">{tx.products.filters.groups.brand}</p>
+                <div className="mt-2 space-y-1.5">
+                  {availableBrands.map((b) => (
+                    <FilterCheckbox
+                      key={b}
+                      label={b}
+                      checked={filters.brands.has(b)}
+                      onChange={() => toggle("brands", b)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Audience Filter */}
+              <div>
+                <p className="type-data-strong text-foreground">{tx.products.filters.groups.audience}</p>
+                <div className="mt-2 space-y-1.5">
+                  <FilterCheckbox
+                    label={tx.products.filters.audience.salon}
+                    checked={filters.audiences.has("SALON")}
+                    onChange={() => toggle("audiences", "SALON")}
+                  />
+                  <FilterCheckbox
+                    label={tx.products.filters.audience.barber}
+                    checked={filters.audiences.has("BARBER")}
+                    onChange={() => toggle("audiences", "BARBER")}
+                  />
+                </div>
+              </div>
+
+              {/* Function Filter */}
+              <div>
+                <p className="type-data-strong text-foreground">{tx.products.filters.groups.function}</p>
+                <div className="mt-2 space-y-1.5">
+                  {availableFunctions.map((f) => (
+                    <FilterCheckbox
+                      key={f}
+                      label={f}
+                      checked={filters.functions.has(f)}
+                      onChange={() => toggle("functions", f)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-        ) : (
-          /* Product Cards */
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p) => (
-              <AppLink
-                key={p.slug}
-                href={`${base}/products/${p.slug}`}
-                underline="none"
-                className="ui-interactive-card group border border-border bg-panel p-6"
+        </aside>
+
+        {/* Product Grid */}
+        <div className="md:col-span-3">
+          {/* Results count */}
+          {hasFilters && (
+            <p className="type-data text-muted mb-4 hidden md:block">
+              {filtered.length} {filtered.length === 1 ? "product" : "products"}
+            </p>
+          )}
+
+          {filtered.length === 0 ? (
+            /* Empty State */
+            <div className="border border-border bg-panel p-8 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-subtle">
+                <IconSearch className="h-6 w-6 text-muted" />
+              </div>
+              <p className="mt-4 type-body-strong text-foreground">{tx.products.filters.empty.title}</p>
+              <p className="mt-2 type-body max-w-sm mx-auto">{tx.products.filters.empty.body}</p>
+              <button
+                type="button"
+                onClick={clear}
+                className="mt-4 type-data-strong text-foreground underline decoration-dotted underline-offset-4"
               >
-                <p className="type-kicker text-muted group-hover:text-muted-strong transition-colors">{p.brand}</p>
-                <p className="mt-2 type-body-strong text-foreground">{p.name}</p>
-                <p className="mt-2 type-body line-clamp-3">{p.summary}</p>
-                <span className="mt-4 inline-flex items-center gap-1 type-data-strong text-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                  View details
-                  <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="currentColor">
-                    <path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L7.44 7.5 4.22 4.28a.75.75 0 0 1 1.06-1.06l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </AppLink>
-            ))}
-          </div>
-        )}
+                {tx.products.filters.clear}
+              </button>
+            </div>
+          ) : (
+            /* Product Cards */
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((p, i) => (
+                <ProductCard
+                  key={p.slug}
+                  product={p}
+                  href={`${base}/products/${p.slug}`}
+                  index={i}
+                  viewDetailsLabel={tx.cta.viewDetails}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

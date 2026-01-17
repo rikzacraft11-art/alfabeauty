@@ -1,44 +1,150 @@
 "use client";
 
+import Image from "next/image";
 import WhatsAppLink from "@/components/site/WhatsAppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { t } from "@/lib/i18n";
 import { getButtonClassName } from "@/components/ui/Button";
 import ButtonLink from "@/components/ui/ButtonLink";
+import { IconWhatsApp, IconCheck } from "@/components/ui/icons";
+import { getCtaBenefits, getCtaKicker } from "@/content/homepage";
 
-function IconWhatsApp(props: React.SVGProps<SVGSVGElement>) {
+// =============================================================================
+// Types
+// =============================================================================
+
+interface BenefitItemProps {
+  text: string;
+}
+
+// =============================================================================
+// Sub-components
+// =============================================================================
+
+/**
+ * BenefitItem - Single benefit with checkmark icon
+ */
+function BenefitItem({ text }: BenefitItemProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
+    <li className="flex gap-3 items-start">
+      <span
+        className="mt-0.5 flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-background"
+        aria-hidden="true"
+      >
+        <IconCheck className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+      </span>
+      <span className="type-body text-foreground-muted">
+        {text}
+      </span>
+    </li>
   );
 }
 
-export default function CTASection() {
+/**
+ * CTAContent - Left side content (text, benefits, buttons)
+ */
+function CTAContent() {
   const { locale } = useLocale();
   const copy = t(locale);
-  const base = `/${locale}`;
+  const baseUrl = `/${locale}`;
+  const benefits = getCtaBenefits(locale);
+  const kickerText = getCtaKicker(locale);
 
   return (
-    <section className="border border-border bg-panel">
-      <div className="p-6 sm:p-10">
-        <div className="grid gap-6 md:grid-cols-2 md:items-center">
-          <div className="space-y-3">
-            <h2 className="type-h3">{copy.sections.consultCta.title}</h2>
-            <p className="type-body max-w-lg">{copy.sections.consultCta.body}</p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
-            <WhatsAppLink
-              className={getButtonClassName({ variant: "primary", size: "lg", className: "gap-2" })}
-            >
-              <IconWhatsApp className="h-5 w-5" />
-              {copy.cta.whatsappConsult}
-            </WhatsAppLink>
-            <ButtonLink href={`${base}/partnership/become-partner`} variant="secondary" size="lg">
-              {copy.cta.becomePartner}
-            </ButtonLink>
-          </div>
+    <div className="p-5 sm:p-8 lg:p-12 xl:p-16 flex flex-col justify-center order-2 lg:order-1">
+      <div className="max-w-lg space-y-5 sm:space-y-6">
+        {/* Kicker */}
+        <p className="type-kicker inline-flex items-center gap-3">
+          <span className="h-px w-6 sm:w-8 bg-foreground" aria-hidden="true" />
+          {kickerText}
+        </p>
+
+        {/* Headline */}
+        <h2 className="type-h2">{copy.sections.consultCta.title}</h2>
+
+        {/* Body */}
+        <p className="type-lede">{copy.sections.consultCta.body}</p>
+
+        {/* Benefits List */}
+        <ul className="space-y-2 sm:space-y-3" role="list">
+          {benefits.map((benefit) => (
+            <BenefitItem key={benefit} text={benefit} />
+          ))}
+        </ul>
+
+        {/* CTAs - Stack on mobile, inline on tablet+ */}
+        <div className="flex flex-col gap-3 sm:flex-row pt-2 sm:pt-4">
+          <WhatsAppLink
+            className={getButtonClassName({
+              variant: "primary",
+              size: "lg",
+              className: "gap-2 justify-center"
+            })}
+          >
+            <IconWhatsApp className="h-5 w-5" />
+            {copy.cta.whatsappConsult}
+          </WhatsAppLink>
+          <ButtonLink
+            href={`${baseUrl}/partnership/become-partner`}
+            variant="secondary"
+            size="lg"
+            className="justify-center"
+          >
+            {copy.cta.becomePartner}
+          </ButtonLink>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * CTAImage - Right side lifestyle image
+ */
+function CTAImage() {
+  return (
+    <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[400px] xl:min-h-[500px] order-1 lg:order-2">
+      <Image
+        src="/images/partnership/partner-lifestyle.jpg"
+        alt="Professional hairstylist working in a modern salon"
+        fill
+        className="object-cover"
+        sizes="(max-width: 1024px) 100vw, 50vw"
+      />
+    </div>
+  );
+}
+
+// =============================================================================
+// Main Component
+// =============================================================================
+
+/**
+ * CTASection - Partnership call-to-action section
+ * 
+ * Features:
+ * - Two-column layout (image + content)
+ * - Image on top for mobile (visual hierarchy)
+ * - Benefits list with checkmarks
+ * - WhatsApp + secondary CTA buttons
+ * 
+ * Clean Code:
+ * - Uses shared icons from @/components/ui/icons
+ * - Uses centralized content from homepage.ts
+ * - Sub-components for single responsibility
+ */
+export default function CTASection() {
+  return (
+    <section
+      className="border border-border bg-background overflow-hidden"
+      aria-labelledby="cta-section-title"
+    >
+      <h2 id="cta-section-title" className="sr-only">
+        Partnership Opportunity
+      </h2>
+      <div className="grid lg:grid-cols-2">
+        <CTAContent />
+        <CTAImage />
       </div>
     </section>
   );

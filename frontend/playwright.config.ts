@@ -2,7 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 
 const htmlReportDir = process.env.PLAYWRIGHT_HTML_REPORT_DIR ?? "playwright-report";
 const outputDir = process.env.PLAYWRIGHT_OUTPUT_DIR ?? "test-results";
-const reuseExistingServer = process.env.PLAYWRIGHT_REUSE_EXISTING_SERVER === "true" ? true : !process.env.CI;
+// Default to a fresh production-like server to make middleware/redirect behavior deterministic.
+// Reuse only when explicitly requested.
+const reuseExistingServer = process.env.PLAYWRIGHT_REUSE_EXISTING_SERVER === "true";
 const skipWebServer = process.env.PLAYWRIGHT_SKIP_WEBSERVER === "true";
 
 // Paket A quality gate: Playwright smoke tests for

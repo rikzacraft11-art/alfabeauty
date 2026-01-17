@@ -83,6 +83,7 @@ Blueprint dianggap “approved” hanya bila ada sign-off eksplisit + evidence.
 - Core Web Vitals RUM wiring (field/RUM; p75-ready)
 - **Option B lead pipeline** (persisted, anti-spam, export protected)
 - Runbook + production checklist
+- **i18n (bilingual EN/ID)**
 
 ### Out of scope (Paket A)
 
@@ -246,24 +247,31 @@ Paket A bisa diimplementasikan dengan 2 pendekatan:
   - `GET /api/public/events`
   - `POST /api/public/partner-leads`
 
-#### Partner lead payload (example)
+#### Partner lead payload (actual contract)
+
+Frontend sends a **flat** payload to `/api/leads` (Next.js proxy), which forwards to Lead API:
 
 ```json
 {
-  "meta": {"timestamp": "ISO8601", "source": "website"},
-  "lead": {
-    "business_name": "Barber X",
-    "contact_name": "Andi",
-    "phone_whatsapp": "+62812...",
-    "city": "Surabaya",
-    "salon_type": "BARBER",
-    "chair_count": 6,
-    "specialization": "coloring, keratin",
-    "preferred_contact": "WHATSAPP",
-    "consent": true
-  }
+  "business_name": "Barber X",
+  "contact_name": "Andi",
+  "phone_whatsapp": "+62812...",
+  "city": "Surabaya",
+  "salon_type": "BARBER",
+  "consent": true,
+  "chair_count": 6,
+  "specialization": "coloring, keratin",
+  "current_brands_used": "Brand A, Brand B",
+  "monthly_spend_range": "5-10jt",
+  "email": "andi@example.com",
+  "message": "Interested in partnership",
+  "page_url_initial": "https://...",
+  "page_url_current": "https://...",
+  "company": ""
 }
 ```
+
+> **Note:** Optional fields (`chair_count`, `specialization`, etc.) may be omitted if empty. The `company` field is a honeypot for anti-spam.
 
 ---
 
@@ -892,7 +900,12 @@ Operational policy:
 - Token-first design system minimal (CSS variables)
 - Default utility-first (mis. Tailwind), CSS Modules hanya untuk pengecualian
 - No runtime CSS-in-JS overhead
-- Folder architecture: `components/ui`, `components/sections`, `components/forms`
+- Folder architecture:
+  - `components/ui` — primitives, icons, buttons, links
+  - `components/site` — layout: SiteHeader, SiteFooter, MobileDrawer, etc.
+  - `components/home`, `components/products`, `components/education` — page-specific sections
+  - `components/lead` — form components
+  - `components/i18n`, `components/seo` — cross-cutting concerns
 - A11y baseline baked-in (WCAG 2.2 risk areas)
 - Performance guardrails: `next/font`, `next/image`
 

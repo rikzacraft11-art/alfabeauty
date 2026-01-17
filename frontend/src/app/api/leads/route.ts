@@ -3,9 +3,13 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-// Lead API (Option B) accepts the Partner Profiling payload (preferred) and a
-// limited legacy shape (for transition). This route is a thin proxy; validation
-// lives in the Lead API.
+/**
+ * Lead API (Option B) accepts the Partner Profiling payload (preferred) and a
+ * limited legacy shape (for transition). This route is a thin proxy; validation
+ * lives in the Lead API.
+ *
+ * See Paket A §4 IDD for payload contract.
+ */
 type LeadRequestPartnerProfiling = {
   business_name: string;
   contact_name: string;
@@ -100,6 +104,8 @@ export async function POST(req: Request) {
     signal: AbortSignal.timeout(8000),
   }).catch((err: unknown) => {
     const msg = err instanceof Error ? err.message : "upstream_error";
+    // Log error for server-side observability
+    console.error("[leads] upstream error:", msg);
     return new Response(JSON.stringify({ error: "lead_api_unreachable", detail: msg }), {
       status: 502,
       headers: {
