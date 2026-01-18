@@ -120,7 +120,11 @@ export function ScrollDots({
                         key={i}
                         type="button"
                         onClick={() => onSelect(i)}
-                        className={`h-2.5 w-2.5 rounded-none ring-1 ${c.ring} transition-colors ${isActive ? c.dotActive : c.dot} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black`}
+                        className={`
+                            h-1.5 rounded-full transition-all duration-300 ease-out
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/60
+                            ${isActive ? `w-6 ${c.dotActive}` : `w-1.5 ${c.dot} hover:opacity-80`}
+                        `}
                         aria-label={`Slide ${i + 1}`}
                         aria-current={isActive ? "true" : "false"}
                     />

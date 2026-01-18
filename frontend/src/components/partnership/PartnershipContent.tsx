@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import ButtonLink from "@/components/ui/ButtonLink";
 import Card from "@/components/ui/Card";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import { t } from "@/lib/i18n";
 import {
   IconCube,
@@ -63,34 +64,44 @@ export default function PartnershipContent() {
       </header>
 
       {/* Benefits Grid */}
-      <section className="grid gap-6 md:grid-cols-3">
-        {cards.map((card, idx) => {
-          const Icon = ICONS[idx];
-          return (
-            <Card key={card.title} className="p-8 space-y-4 group hover:border-muted-strong transition-colors">
-              <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background group-hover:scale-105 transition-transform">
-                <Icon className="h-7 w-7" />
-              </span>
-              <h2 className="type-h3">{card.title}</h2>
-              <p className="type-body text-muted-strong">{card.body}</p>
-            </Card>
-          );
-        })}
-      </section>
+      <ScrollReveal>
+        <section className="grid gap-6 md:grid-cols-3">
+          {cards.map((card, idx) => {
+            const Icon = ICONS[idx];
+            return (
+              <Card key={card.title} className="p-8 space-y-4 group hover:border-muted-strong transition-colors">
+                {/* Numbered badge */}
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background group-hover:scale-105 transition-transform">
+                    <Icon className="h-7 w-7" />
+                  </span>
+                  <span className="type-h2 font-mono text-muted-soft">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h2 className="type-h3">{card.title}</h2>
+                <p className="type-body text-muted-strong">{card.body}</p>
+              </Card>
+            );
+          })}
+        </section>
+      </ScrollReveal>
 
       {/* Features List */}
-      <section className="border-y border-border py-12">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {copy.partnership.features.map((feature) => (
-            <div key={feature} className="flex items-center gap-3">
-              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-                <IconCheck className="h-3.5 w-3.5" />
-              </span>
-              <span className="type-body">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ScrollReveal>
+        <section className="border-y border-border py-12">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {copy.partnership.features.map((feature) => (
+              <div key={feature} className="flex items-center gap-3">
+                <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                  <IconCheck className="h-3.5 w-3.5" />
+                </span>
+                <span className="type-body">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* CTA Section */}
       <section className="ui-section-dark p-8 lg:p-12">

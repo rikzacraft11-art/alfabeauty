@@ -22,6 +22,7 @@ interface PillarCardProps {
   body: string;
   href: string;
   learnMoreText: string;
+  index: number;
 }
 
 // =============================================================================
@@ -42,11 +43,14 @@ const PILLAR_CONFIG = [
  * PillarCard - Individual service pillar card
  * 
  * Features:
+ * - Numbered badge for visual hierarchy (enterprise pattern)
  * - Icon with hover scale animation
  * - Hidden CTA that reveals on hover
  * - Accessible focus states
  */
-function PillarCard({ icon: Icon, title, body, href, learnMoreText }: PillarCardProps) {
+function PillarCard({ icon: Icon, title, body, href, learnMoreText, index }: PillarCardProps) {
+  const number = String(index + 1).padStart(2, "0");
+
   return (
     <AppLink
       href={href}
@@ -56,8 +60,16 @@ function PillarCard({ icon: Icon, title, body, href, learnMoreText }: PillarCard
       <Card
         variant="bordered"
         className="group h-full p-5 sm:p-6 lg:p-8 hover:border-foreground 
-                           transition-all duration-300 hover:shadow-md"
+                           transition-all duration-300 hover:shadow-md relative"
       >
+        {/* Number badge - enterprise visual pattern */}
+        <span
+          className="absolute top-4 right-4 type-data text-muted-soft font-mono"
+          aria-hidden="true"
+        >
+          {number}
+        </span>
+
         <div className="space-y-4 sm:space-y-5">
           {/* Icon */}
           <div
@@ -149,6 +161,7 @@ export default function Pillars() {
               body={pillarsData[index].body}
               href={`${baseUrl}${config.href}`}
               learnMoreText={content.learnMore}
+              index={index}
             />
           </div>
         ))}

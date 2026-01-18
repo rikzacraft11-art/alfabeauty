@@ -4,17 +4,13 @@ export type ButtonVariant = "primary" | "secondary" | "ghost" | "inverted";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "type-ui-sm-strong ui-focus-ring ui-radius-tight relative inline-flex items-center justify-center gap-2 border select-none disabled:cursor-not-allowed disabled:opacity-50";
+  "type-ui-sm-strong ui-focus-ring ui-radius-none relative inline-flex items-center justify-center gap-2 border select-none disabled:cursor-not-allowed disabled:opacity-50";
 
 const variantClass: Record<ButtonVariant, string> = {
-  primary:
-    "ui-btn-primary active:scale-[0.98]",
-  secondary:
-    "ui-btn-secondary active:scale-[0.98]",
-  inverted:
-    "ui-btn-inverted active:scale-[0.98]",
-  ghost:
-    "ui-btn-ghost",
+  primary: "ui-btn-primary",
+  secondary: "ui-btn-secondary",
+  inverted: "ui-btn-inverted",
+  ghost: "ui-btn-ghost",
 };
 
 const sizeClass: Record<ButtonSize, string> = {

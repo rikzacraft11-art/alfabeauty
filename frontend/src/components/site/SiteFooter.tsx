@@ -29,6 +29,12 @@ export default function SiteFooter() {
           <div className="sm:col-span-2 lg:col-span-1 space-y-4">
             <p className="type-brand text-foreground">Alfa Beauty</p>
             <p className="type-body max-w-xs">{tx.footer.blurb}</p>
+
+            {/* Trust badge */}
+            <p className="type-data text-muted-soft uppercase tracking-wider">
+              {locale === "id" ? "500+ Partner Salon di Indonesia" : "500+ Salon Partners in Indonesia"}
+            </p>
+
             <div className="flex items-center gap-4 pt-2">
               <WhatsAppLink
                 className="ui-focus-ring ui-radius-tight inline-flex h-10 w-10 items-center justify-center border border-border bg-background text-foreground hover:bg-subtle hover:border-muted-strong transition-colors"

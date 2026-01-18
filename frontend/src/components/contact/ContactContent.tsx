@@ -4,6 +4,7 @@ import WhatsAppLink from "@/components/site/WhatsAppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getButtonClassName } from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import { t } from "@/lib/i18n";
 import { IconWhatsApp, IconMail, IconLocation, IconClock } from "@/components/ui/icons";
 
@@ -14,82 +15,87 @@ export default function ContactContent({ fallbackEmail }: { fallbackEmail?: stri
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <header className="space-y-6 text-center max-w-3xl mx-auto">
+      <header className="space-y-6 text-center max-w-3xl mx-auto animate-fade-in">
         <p className="type-kicker">{copy.nav.contact}</p>
         <h1 className="type-h1">{copy.contact.title}</h1>
         <p className="type-body text-muted-strong">{copy.contact.body}</p>
       </header>
 
       {/* Contact Methods Grid */}
-      <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* WhatsApp Card */}
-        <Card className="p-8 space-y-4 hover:border-muted-strong transition-colors group">
-          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-            <IconWhatsApp className="h-7 w-7" />
-          </span>
-          <div className="space-y-2">
-            <h2 className="type-h3">{copy.contact.whatsapp.title}</h2>
-            <p className="type-body text-muted-strong">
-              {copy.contact.whatsapp.body}
-            </p>
-          </div>
-          <WhatsAppLink className={getButtonClassName({ variant: "primary", size: "md" }) + " w-full"}>
-            {copy.cta.whatsappConsult}
-          </WhatsAppLink>
-        </Card>
-
-        {/* Email Card */}
-        {fallbackEmail && (
+      <ScrollReveal>
+        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* WhatsApp Card */}
           <Card className="p-8 space-y-4 hover:border-muted-strong transition-colors group">
             <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-              <IconMail className="h-7 w-7" />
+              <IconWhatsApp className="h-7 w-7" />
             </span>
             <div className="space-y-2">
-              <h2 className="type-h3">{copy.contact.email}</h2>
+              <h2 className="type-h3">{copy.contact.whatsapp.title}</h2>
               <p className="type-body text-muted-strong">
-                {copy.contact.emailCard.body}
+                {copy.contact.whatsapp.body}
               </p>
             </div>
-            <a
-              className={getButtonClassName({ variant: "secondary", size: "md" }) + " w-full"}
-              href={`mailto:${fallbackEmail}`}
-            >
-              {fallbackEmail}
-            </a>
+            <WhatsAppLink className={getButtonClassName({ variant: "primary", size: "md" }) + " w-full gap-2"}>
+              <IconWhatsApp className="h-4 w-4" />
+              {copy.cta.whatsappConsult}
+            </WhatsAppLink>
           </Card>
-        )}
 
-        {/* Location Card */}
-        <Card className="p-8 space-y-4 hover:border-muted-strong transition-colors group">
-          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-            <IconLocation className="h-7 w-7" />
-          </span>
-          <div className="space-y-2">
-            <h2 className="type-h3">{copy.contact.location.title}</h2>
-            <p className="type-body text-muted-strong">
-              {copy.contact.location.city}
-            </p>
-            <p className="type-data text-muted">
-              PT Alfa Beauty Cosmetica
-            </p>
-          </div>
-        </Card>
-      </section>
+          {/* Email Card */}
+          {fallbackEmail && (
+            <Card className="p-8 space-y-4 hover:border-muted-strong transition-colors group">
+              <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                <IconMail className="h-7 w-7" />
+              </span>
+              <div className="space-y-2">
+                <h2 className="type-h3">{copy.contact.email}</h2>
+                <p className="type-body text-muted-strong">
+                  {copy.contact.emailCard.body}
+                </p>
+              </div>
+              <a
+                className={getButtonClassName({ variant: "secondary", size: "md" }) + " w-full"}
+                href={`mailto:${fallbackEmail}`}
+              >
+                {fallbackEmail}
+              </a>
+            </Card>
+          )}
+
+          {/* Location Card */}
+          <Card className="p-8 space-y-4 hover:border-muted-strong transition-colors group">
+            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+              <IconLocation className="h-7 w-7" />
+            </span>
+            <div className="space-y-2">
+              <h2 className="type-h3">{copy.contact.location.title}</h2>
+              <p className="type-body text-muted-strong">
+                {copy.contact.location.city}
+              </p>
+              <p className="type-data text-muted">
+                PT Alfa Beauty Cosmetica
+              </p>
+            </div>
+          </Card>
+        </section>
+      </ScrollReveal>
 
       {/* Business Hours */}
-      <section className="border-t border-b border-border py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-center">
-          <div className="flex items-center gap-3">
-            <IconClock className="h-5 w-5 text-muted" />
-            <span className="type-data-strong">{copy.contact.hours.title}</span>
+      <ScrollReveal>
+        <section className="border-t border-b border-border py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-center">
+            <div className="flex items-center gap-3">
+              <IconClock className="h-5 w-5 text-muted" />
+              <span className="type-data-strong">{copy.contact.hours.title}</span>
+            </div>
+            <div className="flex items-center gap-6 type-body text-muted-strong">
+              <span>{copy.contact.hours.weekdays}</span>
+              <span className="hidden sm:inline">|</span>
+              <span>{copy.contact.hours.saturday}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-6 type-body text-muted-strong">
-            <span>{copy.contact.hours.weekdays}</span>
-            <span className="hidden sm:inline">|</span>
-            <span>{copy.contact.hours.saturday}</span>
-          </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* CTA Section */}
       <section className="ui-section-dark p-8 lg:p-12 text-center">

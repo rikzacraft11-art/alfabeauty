@@ -4,50 +4,284 @@ import * as React from "react";
 import Image from "next/image";
 import AppLink from "@/components/ui/AppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
-import { categories, getCategoryLabel, getCategoryStripTitle } from "@/content/homepage";
-import { ScrollProgressBar } from "@/components/ui/ScrollIndicators";
+import { categories, getCategoryLabel, getCategoryDescription, getCategoryStripTitle } from "@/content/homepage";
 
 // =============================================================================
 // Types
 // =============================================================================
 
-interface CategoryCardProps {
+interface CategoryItem {
+    key: string;
     image: string;
     label: string;
+    description: string;
     href: string;
 }
 
+interface HighlightPosition {
+    left: number;
+    width: number;
+}
+
 // =============================================================================
-// Sub-components
+// Custom Hook: useNavigationHighlight
 // =============================================================================
 
-/**
- * CategoryCard - Individual category with image and label
- * Touch-friendly: minimum 140px width on mobile
- */
-function CategoryCard({ image, label, href }: CategoryCardProps) {
+function useNavigationHighlight(containerRef: React.RefObject<HTMLDivElement | null>) {
+    const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
+    const [highlightPos, setHighlightPos] = React.useState<HighlightPosition>({ left: 0, width: 0 });
+    const [dropdownLeft, setDropdownLeft] = React.useState(0);
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    const itemRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+
+    const calculatePositions = React.useCallback((index: number) => {
+        const container = containerRef.current;
+        const item = itemRefs.current[index];
+        if (!container || !item) return;
+
+        const containerRect = container.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+        const relativeLeft = itemRect.left - containerRect.left;
+
+        setHighlightPos({
+            left: relativeLeft,
+            width: itemRect.width,
+        });
+        setDropdownLeft(relativeLeft + itemRect.width / 2);
+    }, [containerRef]);
+
+    const handleItemHover = React.useCallback((index: number) => {
+        setActiveIndex(index);
+        setIsVisible(true);
+        calculatePositions(index);
+    }, [calculatePositions]);
+
+    const handleContainerLeave = React.useCallback(() => {
+        setIsVisible(false);
+        setActiveIndex(null);
+    }, []);
+
+    const handleDropdownEnter = React.useCallback(() => {
+        // Keep visible when mouse enters dropdown
+        setIsVisible(true);
+    }, []);
+
+    const registerItemRef = React.useCallback((index: number, el: HTMLDivElement | null) => {
+        itemRefs.current[index] = el;
+    }, []);
+
+    return {
+        activeIndex,
+        highlightPos,
+        dropdownLeft,
+        isVisible,
+        handleItemHover,
+        handleContainerLeave,
+        handleDropdownEnter,
+        registerItemRef,
+    };
+}
+
+// =============================================================================
+// Sub-Components
+// =============================================================================
+
+interface SlidingHighlightProps {
+    position: HighlightPosition;
+    isVisible: boolean;
+}
+
+function SlidingHighlight({ position, isVisible }: SlidingHighlightProps) {
     return (
-        <AppLink
-            href={href}
-            underline="none"
-            className="group block w-[140px] sm:w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground/60"
-        >
-            {/* 4:3 aspect ratio image */}
-            <div className="relative aspect-[4/3] overflow-hidden border border-border">
-                <Image
-                    src={image}
-                    alt={label}
-                    fill
-                    sizes="(max-width: 640px) 140px, 16vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-            </div>
-            <div className="py-3 text-center">
-                <span className="type-data text-muted-strong group-hover:text-foreground transition-colors">
-                    {label}
+        <div
+            className="absolute -bottom-3 h-px bg-foreground pointer-events-none 
+                       transition-all duration-300 ease-out"
+            style={{
+                left: position.left,
+                width: position.width,
+                opacity: isVisible ? 1 : 0,
+            }}
+            aria-hidden="true"
+        />
+    );
+}
+
+interface CategoryLinkItemProps {
+    item: CategoryItem;
+    isActive: boolean;
+    onHover: () => void;
+    registerRef: (el: HTMLDivElement | null) => void;
+}
+
+function CategoryLinkItem({ item, isActive, onHover, registerRef }: CategoryLinkItemProps) {
+    return (
+        <div ref={registerRef} onMouseEnter={onHover}>
+            <AppLink
+                href={item.href}
+                underline="none"
+                className="flex items-center gap-2 py-2"
+            >
+                <span className={`text-sm sm:text-base font-medium transition-colors duration-200
+                    ${isActive ? 'text-foreground' : 'text-foreground/50'}`}>
+                    {item.label}
                 </span>
-            </div>
-        </AppLink>
+
+                <ArrowIcon isActive={isActive} />
+            </AppLink>
+        </div>
+    );
+}
+
+interface ArrowIconProps {
+    isActive: boolean;
+}
+
+function ArrowIcon({ isActive }: ArrowIconProps) {
+    return (
+        <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`transition-all duration-200
+                ${isActive
+                    ? 'text-foreground opacity-100 translate-x-0'
+                    : 'text-foreground/30 opacity-0 -translate-x-1'}`}
+            aria-hidden="true"
+        >
+            <path d="M5 12h14" />
+            <path d="M12 5l7 7-7 7" />
+        </svg>
+    );
+}
+
+interface CategoryPreviewDropdownProps {
+    items: CategoryItem[];
+    activeIndex: number | null;
+    leftPosition: number;
+    isVisible: boolean;
+    locale: string;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+}
+
+function CategoryPreviewDropdown({
+    items,
+    activeIndex,
+    leftPosition,
+    isVisible,
+    locale,
+    onMouseEnter,
+    onMouseLeave,
+}: CategoryPreviewDropdownProps) {
+    const activeItem = activeIndex !== null ? items[activeIndex] : null;
+
+    return (
+        <div
+            className="absolute top-full pt-4 z-50
+                       transition-all duration-300 ease-out"
+            style={{
+                left: leftPosition,
+                opacity: isVisible ? 1 : 0,
+                transform: `translateX(-50%) translateY(${isVisible ? '0' : '8px'})`,
+                pointerEvents: isVisible ? 'auto' : 'none',
+            }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+        >
+            <AppLink
+                href={activeItem?.href ?? '#'}
+                underline="none"
+                className="block pointer-events-auto"
+            >
+                <div className="relative w-[260px] h-[340px] sm:w-[300px] sm:h-[400px] overflow-hidden">
+                    {/* Stacked images with cross-fade */}
+                    {items.map((item, index) => (
+                        <CrossFadeImage
+                            key={item.key}
+                            src={item.image}
+                            alt={item.label}
+                            isActive={activeIndex === index}
+                        />
+                    ))}
+
+                    <GradientOverlay />
+
+                    {/* Stacked typography with cross-fade */}
+                    {items.map((item, index) => (
+                        <PreviewContent
+                            key={item.key}
+                            label={item.label}
+                            description={item.description}
+                            isActive={activeIndex === index}
+                            locale={locale}
+                        />
+                    ))}
+                </div>
+            </AppLink>
+        </div>
+    );
+}
+
+interface CrossFadeImageProps {
+    src: string;
+    alt: string;
+    isActive: boolean;
+}
+
+function CrossFadeImage({ src, alt, isActive }: CrossFadeImageProps) {
+    return (
+        <div className={`absolute inset-0 transition-opacity duration-300
+            ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+            <Image
+                src={src}
+                alt={alt}
+                fill
+                sizes="300px"
+                className="object-cover"
+            />
+        </div>
+    );
+}
+
+function GradientOverlay() {
+    return (
+        <div
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"
+            aria-hidden="true"
+        />
+    );
+}
+
+interface PreviewContentProps {
+    label: string;
+    description: string;
+    isActive: boolean;
+    locale: string;
+}
+
+function PreviewContent({ label, description, isActive, locale }: PreviewContentProps) {
+    return (
+        <div className={`absolute inset-x-0 bottom-0 p-5 sm:p-6 transition-opacity duration-300
+            ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+            <h3 className="text-white text-lg sm:text-xl font-medium tracking-wide mb-2">
+                {label}
+            </h3>
+            <p className="text-white/60 text-sm leading-relaxed mb-4">
+                {description}
+            </p>
+            <span className="inline-flex items-center gap-2 text-white/80 text-xs uppercase tracking-[0.2em]">
+                {locale === "id" ? "Jelajahi" : "Explore"}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </span>
+        </div>
     );
 }
 
@@ -55,118 +289,68 @@ function CategoryCard({ image, label, href }: CategoryCardProps) {
 // Main Component
 // =============================================================================
 
-/**
- * HeroImageStrip - Category navigation strip
- * 
- * Features:
- * - Horizontal scroll on mobile (touch-friendly)
- * - Grid layout on desktop (6 columns)
- * - Mobile-first responsive design
- * 
- * Clean Code:
- * - Uses centralized content from homepage.ts
- * - CategoryCard extracted for reusability
- */
 export default function HeroImageStrip() {
     const { locale } = useLocale();
-    const baseUrl = `/${locale}`;
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const sectionTitle = getCategoryStripTitle(locale);
 
-    const scrollRef = React.useRef<HTMLDivElement>(null);
-    const [progress, setProgress] = React.useState(0);
-    const [thumbRatio, setThumbRatio] = React.useState(1);
+    const {
+        activeIndex,
+        highlightPos,
+        dropdownLeft,
+        isVisible,
+        handleItemHover,
+        handleContainerLeave,
+        handleDropdownEnter,
+        registerItemRef,
+    } = useNavigationHighlight(containerRef);
 
-    const update = React.useCallback(() => {
-        const el = scrollRef.current;
-        if (!el) return;
-
-        // Use item geometry so the indicator reflects the snapped card paging,
-        // not raw scrollWidth (which is distorted by container padding/gaps).
-        const items = Array.from(el.querySelectorAll<HTMLElement>("[data-strip-item='true']"));
-        if (items.length === 0) return;
-
-        const total = items.length;
-
-        // Determine the scroll step based on actual offsets.
-        const step = items.length > 1
-            ? Math.max(1, items[1].offsetLeft - items[0].offsetLeft)
-            : Math.max(1, items[0].offsetWidth);
-
-        const visibleCount = Math.max(1, Math.floor(el.clientWidth / step));
-        const maxIndex = Math.max(0, total - visibleCount);
-
-        const rawIndex = Math.round(el.scrollLeft / step);
-        const index = Math.min(maxIndex, Math.max(0, rawIndex));
-
-        const p = maxIndex > 0 ? index / maxIndex : 0;
-        const ratio = Math.min(1, visibleCount / total);
-
-        setThumbRatio(ratio);
-        setProgress(p);
-    }, []);
-
-    React.useEffect(() => {
-        const el = scrollRef.current;
-        if (!el) return;
-
-        const raf = window.requestAnimationFrame(() => update());
-        el.addEventListener("scroll", update, { passive: true });
-        window.addEventListener("resize", update);
-
-        return () => {
-            window.cancelAnimationFrame(raf);
-            el.removeEventListener("scroll", update);
-            window.removeEventListener("resize", update);
-        };
-    }, [update]);
+    // Transform categories to include computed properties
+    const categoryItems: CategoryItem[] = React.useMemo(() =>
+        categories.map(cat => ({
+            key: cat.key,
+            image: cat.image,
+            label: getCategoryLabel(locale, cat.key),
+            description: getCategoryDescription(locale, cat.key),
+            href: `/${locale}/products?category=${cat.key}`,
+        })), [locale]
+    );
 
     return (
-        <section
-            className="bg-background py-6 sm:py-8 lg:py-10"
-            aria-labelledby="category-strip-title"
-        >
-            {/* Boxed container */}
-            <div className="mx-auto max-w-[120rem] px-4 sm:px-6 lg:px-10">
-                {/* Section header */}
-                <p
-                    id="category-strip-title"
-                    className="type-kicker text-center mb-4 sm:mb-6"
-                >
-                    {sectionTitle}
-                </p>
+        <section className="relative bg-background" aria-labelledby="category-hero-title">
+            <div className="border-y border-border">
+                <div className="mx-auto max-w-[120rem] px-6 sm:px-10 lg:px-16 py-5 sm:py-6">
 
-                {/* Mobile: horizontal scroll, Desktop: 6-column grid */}
-                <div ref={scrollRef} className="overflow-x-auto sm:overflow-x-visible scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
+                    <h2 id="category-hero-title" className="sr-only">{sectionTitle}</h2>
+
                     <div
-                        className="grid grid-flow-col auto-cols-[140px] sm:grid-flow-row sm:auto-cols-auto sm:grid-cols-6 gap-3 sm:gap-4"
-                        role="list"
-                        aria-label={sectionTitle}
+                        ref={containerRef}
+                        className="relative flex flex-wrap items-center justify-center gap-x-8 gap-y-3 sm:gap-x-12 lg:gap-x-16"
+                        onMouseLeave={handleContainerLeave}
                     >
-                        {categories.map((cat) => (
-                            <div key={cat.key} role="listitem" className="snap-start" data-strip-item="true">
-                                <CategoryCard
-                                    image={cat.image}
-                                    label={getCategoryLabel(locale, cat.key)}
-                                    href={`${baseUrl}/products?category=${cat.key}`}
-                                />
-                            </div>
+                        <SlidingHighlight position={highlightPos} isVisible={isVisible} />
+
+                        {categoryItems.map((item, index) => (
+                            <CategoryLinkItem
+                                key={item.key}
+                                item={item}
+                                isActive={activeIndex === index}
+                                onHover={() => handleItemHover(index)}
+                                registerRef={(el) => registerItemRef(index, el)}
+                            />
                         ))}
+
+                        <CategoryPreviewDropdown
+                            items={categoryItems}
+                            activeIndex={activeIndex}
+                            leftPosition={dropdownLeft}
+                            isVisible={isVisible}
+                            locale={locale}
+                            onMouseEnter={handleDropdownEnter}
+                            onMouseLeave={handleContainerLeave}
+                        />
                     </div>
                 </div>
-
-                {/* Scroll indicator (mobile-only) */}
-                {thumbRatio < 1 ? (
-                    <ScrollProgressBar
-                        progress={progress}
-                        thumbRatio={thumbRatio}
-                        tone="light"
-                        thickness="thin"
-                        trackClassName="bg-foreground/[0.18]"
-                        thumbClassName="bg-indicator-fixed"
-                        ariaLabel={locale === "id" ? "Posisi gulir" : "Scroll position"}
-                        className="mt-4 sm:hidden"
-                    />
-                ) : null}
             </div>
         </section>
     );

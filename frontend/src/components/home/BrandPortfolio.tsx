@@ -11,6 +11,7 @@ import { ScrollProgressBar } from "@/components/ui/ScrollIndicators";
 
 interface BrandLogoProps {
     name: string;
+    logo?: string;
 }
 
 // =============================================================================
@@ -18,16 +19,34 @@ interface BrandLogoProps {
 // =============================================================================
 
 /**
- * BrandLogo - Placeholder for brand logo
- * In production, replace with actual SVG/PNG logos
+ * BrandLogo - Brand logo with fallback to text
+ * Uses external CDN for logo images
  */
-function BrandLogo({ name }: BrandLogoProps) {
+function BrandLogo({ name, logo }: BrandLogoProps) {
+    if (logo) {
+        return (
+            <div
+                className="flex h-full w-full items-center justify-center px-4 py-2"
+                title={name}
+            >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src={logo}
+                    alt={name}
+                    className="h-8 sm:h-10 lg:h-12 w-auto max-w-[120px] sm:max-w-[140px] object-contain transition-all duration-300 hover:scale-105"
+                    loading="lazy"
+                />
+            </div>
+        );
+    }
+
+    // Fallback to text
     return (
         <div
-            className="flex h-full w-full items-center justify-center px-4"
+            className="flex h-full w-full items-center justify-center px-6"
             title={name}
         >
-            <span className="type-ui-strong text-foreground-muted whitespace-nowrap">
+            <span className="type-h3 text-foreground whitespace-nowrap tracking-tight">
                 {name}
             </span>
         </div>
@@ -98,6 +117,11 @@ export default function BrandPortfolio() {
                 <h2 id="brand-portfolio-title" className="type-h3">
                     {content.title}
                 </h2>
+                {content.subtitle && (
+                    <p className="mt-2 type-body text-muted">
+                        {content.subtitle}
+                    </p>
+                )}
             </div>
 
             {/* Brand Strip */}
@@ -123,10 +147,10 @@ export default function BrandPortfolio() {
                             <div
                                 key={brand.slug}
                                 role="listitem"
-                                className="h-16 sm:h-20 lg:h-24 w-36 sm:w-auto bg-background flex items-center justify-center
-                                           hover:bg-subtle transition-colors cursor-default"
+                                className="h-20 sm:h-24 lg:h-28 w-36 sm:w-auto bg-background flex items-center justify-center
+                                           hover:bg-subtle transition-all duration-200 cursor-default"
                             >
-                                <BrandLogo name={brand.name} />
+                                <BrandLogo name={brand.name} logo={brand.logo} />
                             </div>
                         ))}
                     </div>

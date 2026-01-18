@@ -85,12 +85,29 @@
   --font-body: ui-sans-serif;
   --font-display: ui-serif;
   --font-geist-mono: ui-monospace;
+
+  /* 
+    Section spacing tokens (intermediate-level consistency)
+    Uses fluid values for smooth scaling without jump
+  */
+  --section-overlap: clamp(2.5rem, 4vw, 3.5rem);
+  --section-padding-y: clamp(3rem, 5vw, 5rem);
+  --section-padding-x: clamp(1rem, 3vw, 2.5rem);
+  --card-padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 /* Tablet collapsed header is slightly taller in the reference snapshots */
 @media (min-width: 768px) {
   :root {
     --header-height-mobile: 102px;
+  }
+}
+
+/* Desktop: Increase section overlap for dramatic hero overlay (~25% of hero) */
+@media (min-width: 1024px) {
+  :root {
+    --section-overlap: 10rem;
+    /* 160px - approximately 1/4 of hero height */
   }
 }
 
@@ -264,6 +281,46 @@ body {
   color: var(--muted-strong);
 }
 
+/* Hero headline - larger than H1, designed to stay on one line */
+.type-hero {
+  font-family: var(--font-display), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  /* clamp(min, preferred, max) - max value IS the upper bound */
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-synthesis: none;
+  white-space: nowrap;
+}
+
+/* Allow wrap on very small screens to prevent overflow */
+@media (max-width: 374px) {
+  .type-hero {
+    white-space: normal;
+    font-size: 2rem;
+  }
+}
+
+/* Hero kicker - uppercase label above headline */
+.type-hero-kicker {
+  font-size: clamp(0.6875rem, 1vw, 0.75rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* Hero body - description text */
+.type-hero-body {
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+}
+
+/* Hero note - small supporting text */
+.type-hero-note {
+  font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
+  line-height: 1.5;
+}
+
 .type-h1 {
   font-family: var(--font-display), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: clamp(2rem, 5vw, 3.5rem);
@@ -287,6 +344,15 @@ body {
   font-family: var(--font-display), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-synthesis: none;
+}
+
+.type-h4 {
+  font-family: var(--font-display), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  line-height: 1.25;
   font-weight: 400;
   letter-spacing: 0;
   font-synthesis: none;
@@ -464,6 +530,11 @@ a {
   border-radius: var(--radius-tight);
 }
 
+/* Sharp corners for CK-style buttons */
+.ui-radius-none {
+  border-radius: 0;
+}
+
 .ui-focus-ring {
   outline: none;
   transition: box-shadow var(--transition-fast);
@@ -517,61 +588,42 @@ a {
   box-shadow: var(--shadow-md);
 }
 
-/* Button interactive states */
+/* Button interactive states (CK-style: clean, minimal) */
 .ui-btn-primary {
   background-color: var(--foreground);
-  border-color: var(--foreground);
+  border-color: transparent;
+  /* CK: no visible border on primary */
   color: var(--background);
-  transition:
-    background-color var(--transition-fast),
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+  transition: background-color 0.2s ease;
 }
 
 .ui-btn-primary:hover:not(:disabled) {
   background-color: var(--foreground-soft);
 }
 
-.ui-btn-primary:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
+/* CK-style: Ghost with border, inverts on hover */
 .ui-btn-secondary {
-  background-color: var(--background);
-  border-color: var(--border-strong);
+  background-color: transparent;
+  border-color: var(--foreground);
   color: var(--foreground);
-  transition:
-    background-color var(--transition-fast),
-    border-color var(--transition-fast),
-    transform var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .ui-btn-secondary:hover:not(:disabled) {
-  background-color: var(--subtle);
-  border-color: var(--border-strong);
+  background-color: var(--foreground);
+  color: var(--background);
 }
 
-.ui-btn-secondary:active:not(:disabled) {
-  background-color: var(--subtle-hover);
-  transform: scale(0.98);
-}
-
-/* Ghost button variant */
+/* Ghost button variant (minimal, for tertiary actions) */
 .ui-btn-ghost {
   border-color: transparent;
   background-color: transparent;
   color: var(--foreground);
-  transition:
-    background-color var(--transition-fast),
-    transform var(--transition-fast);
+  transition: background-color 0.2s ease;
 }
 
 .ui-btn-ghost:hover:not(:disabled) {
   background-color: var(--subtle);
-}
-
-.ui-btn-ghost:active:not(:disabled) {
-  background-color: var(--subtle-hover);
 }
 
 /* Inverted button (for use on dark backgrounds) */
@@ -579,18 +631,50 @@ a {
   background-color: var(--background);
   border-color: var(--background);
   color: var(--foreground);
-  transition:
-    background-color var(--transition-fast),
-    transform var(--transition-fast),
-    opacity var(--transition-fast);
+  transition: opacity 0.2s ease;
 }
 
 .ui-btn-inverted:hover:not(:disabled) {
   opacity: 0.9;
 }
 
-.ui-btn-inverted:active:not(:disabled) {
-  transform: scale(0.98);
+/* CK-style text CTA (editorial underlined links) */
+.ui-cta-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-thickness 0.2s ease;
+  color: inherit;
+}
+
+.ui-cta-text:hover {
+  text-decoration-thickness: 2px;
+}
+
+/*
+  Carousel card - CSS-first responsive widths
+  Expert practice: use clamp() instead of JS breakpoint calculations
+*/
+.carousel-card {
+  flex-shrink: 0;
+  width: clamp(15rem, 75vw, 18rem);
+  /* 240px–288px on mobile */
+}
+
+@media (min-width: 640px) {
+  .carousel-card {
+    width: clamp(14rem, 30vw, 16.25rem);
+    /* 224px–260px on sm+ */
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-card {
+    width: 16.25rem;
+    /* 260px fixed on desktop */
+  }
 }
 
 /* Form field states (HCI: clear validation feedback) */
@@ -1055,4 +1139,187 @@ a {
 
 .ui-gradient-top {
   background: linear-gradient(to bottom, rgba(9, 9, 11, 0.6) 0%, transparent 50%);
+}
+
+/* =============================================================================
+   Scroll-Reveal Animations (Enterprise Polish)
+   ============================================================================= */
+
+/* Intersection Observer based reveal - add JS hook to trigger */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children for cascade effect */
+.reveal-stagger>* {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.reveal-stagger.visible>*:nth-child(1) {
+  transition-delay: 0ms;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger.visible>*:nth-child(2) {
+  transition-delay: 100ms;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger.visible>*:nth-child(3) {
+  transition-delay: 200ms;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger.visible>*:nth-child(4) {
+  transition-delay: 300ms;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger.visible>*:nth-child(5) {
+  transition-delay: 400ms;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger.visible>*:nth-child(6) {
+  transition-delay: 500ms;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade-in variants */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-delay-1 {
+  animation: fadeIn 0.6s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-3 {
+  animation: fadeIn 0.6s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================================================
+   Hero Text Accessibility (WCAG AA Contrast)
+   ============================================================================= */
+
+/* Enhanced text shadow for readability on video/image backgrounds */
+.ui-text-shadow {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ui-text-shadow-strong {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Scrim overlay for hero sections */
+.ui-scrim {
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.6) 100%);
+}
+
+.ui-scrim-light {
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* =============================================================================
+   Visual Intensity Tokens (Enterprise Section Differentiation)
+   ============================================================================= */
+
+/* High intensity sections - larger padding, bolder typography */
+.section-intensity-high {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (min-width: 640px) {
+  .section-intensity-high {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-intensity-high {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* Number badge styling for enterprise lists */
+.ui-number-badge {
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--muted-soft);
+}
+
+/* Pulse animation for attention-grabbing elements */
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
 }

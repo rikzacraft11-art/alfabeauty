@@ -72,26 +72,51 @@ function CTAContent() {
           ))}
         </ul>
 
-        {/* CTAs - Stack on mobile, inline on tablet+ */}
-        <div className="flex flex-col gap-3 sm:flex-row pt-2 sm:pt-4">
+        {/* CTA - Focus on WhatsApp as primary conversion */}
+        <div className="flex flex-col gap-4 pt-2 sm:pt-4">
+          {/* Professional qualifier - reduces anxiety */}
+          <p className="type-data-strong text-foreground">
+            {locale === "id"
+              ? "Untuk salon & barbershop profesional"
+              : "For professional salons & barbershops"}
+          </p>
+
           <WhatsAppLink
+            prefill={locale === "id"
+              ? "Halo, saya tertarik untuk bermitra dengan Alfa Beauty. Mohon informasi lebih lanjut."
+              : "Hello, I'm interested in partnering with Alfa Beauty. Please share more information."
+            }
             className={getButtonClassName({
               variant: "primary",
               size: "lg",
-              className: "gap-2 justify-center"
+              className: "gap-2 justify-center w-full sm:w-auto"
             })}
           >
             <IconWhatsApp className="h-5 w-5" />
             {copy.cta.whatsappConsult}
           </WhatsAppLink>
-          <ButtonLink
+
+          {/* Secondary: text link (differentiated from Hero) */}
+          <a
             href={`${baseUrl}/partnership/become-partner`}
-            variant="secondary"
-            size="lg"
-            className="justify-center"
+            className="type-ui text-foreground-muted hover:text-foreground underline underline-offset-4 transition-colors text-center sm:text-left"
           >
-            {copy.cta.becomePartner}
-          </ButtonLink>
+            {locale === "id" ? "Atau daftar sebagai partner" : "Or register as a partner"} →
+          </a>
+
+          {/* Response time promise + partner count - reduces no-pricing anxiety */}
+          <div className="space-y-1">
+            <p className="type-data text-foreground-muted text-center sm:text-left">
+              {locale === "id"
+                ? "⚡ Respon cepat dalam 1 jam kerja"
+                : "⚡ Fast response within 1 business hour"}
+            </p>
+            <p className="type-data text-muted text-center sm:text-left">
+              {locale === "id"
+                ? "Bergabung dengan 500+ salon partner di seluruh Indonesia"
+                : "Join 500+ salon partners across Indonesia"}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -134,13 +159,16 @@ function CTAImage() {
  * - Sub-components for single responsibility
  */
 export default function CTASection() {
+  const { locale } = useLocale();
+  const srTitle = locale === "id" ? "Kesempatan Kemitraan" : "Partnership Opportunity";
+
   return (
     <section
       className="border border-border bg-background overflow-hidden"
       aria-labelledby="cta-section-title"
     >
       <h2 id="cta-section-title" className="sr-only">
-        Partnership Opportunity
+        {srTitle}
       </h2>
       <div className="grid lg:grid-cols-2">
         <CTAContent />

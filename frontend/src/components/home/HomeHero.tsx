@@ -2,79 +2,14 @@
 
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import ButtonLink from "@/components/ui/ButtonLink";
+import TextLink from "@/components/ui/TextLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
-import {
-  IconArrowRight,
-  IconShield,
-  IconTruck,
-  IconAcademic
-} from "@/components/ui/icons";
-import { getHeroContent, getTrustIndicators } from "@/content/homepage";
+import { getHeroContent } from "@/content/homepage";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
-
-// =============================================================================
-// Types
-// =============================================================================
-
-interface TrustItemProps {
-  icon: React.ReactNode;
-  text: string;
-}
 
 // =============================================================================
 // Sub-components (Single Responsibility)
 // =============================================================================
-
-/**
- * TrustItem - Individual trust indicator with icon and text
- */
-function TrustItem({ icon, text }: TrustItemProps) {
-  return (
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-2 py-3 sm:px-6 sm:py-5 text-center">
-      <span className="text-foreground shrink-0" aria-hidden="true">
-        {icon}
-      </span>
-      <span className="type-data text-muted-strong">{text}</span>
-    </div>
-  );
-}
-
-/**
- * TrustBar - Full trust indicator bar below hero
- * Responsive: stacks on mobile, horizontal on desktop
- */
-function TrustBar() {
-  const { locale } = useLocale();
-  const indicators = getTrustIndicators(locale);
-
-  const icons = {
-    authentic: <IconShield className="h-5 w-5" />,
-    delivery: <IconTruck className="h-5 w-5" />,
-    education: <IconAcademic className="h-5 w-5" />,
-  };
-
-  return (
-    <div className="border-y border-border bg-background">
-      <div className="max-w-[120rem] mx-auto">
-        <div
-          className="grid grid-cols-3 divide-x divide-border"
-          role="list"
-          aria-label={locale === "id" ? "Keunggulan kami" : "Our advantages"}
-        >
-          {indicators.map((item) => (
-            <div key={item.key} role="listitem">
-              <TrustItem
-                icon={icons[item.key as keyof typeof icons]}
-                text={item.text}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /**
  * HeroVideo - Background video with fallback image
@@ -131,48 +66,45 @@ function HeroContent() {
   const content = getHeroContent(locale);
 
   return (
-    <div className="absolute inset-0 flex items-center">
+    <div className="absolute inset-0 flex items-end pb-12 sm:pb-16 lg:pb-20">
       <div className="w-full max-w-[120rem] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="max-w-sm sm:max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
           {/* Kicker */}
-          <p className="type-kicker ui-hero-on-media-strong">
+          <p className="type-hero-kicker ui-hero-on-media-strong animate-fade-in">
             {content.kicker}
           </p>
 
-          {/* Headline - h1 for SEO */}
-          <h1 className="type-h1 ui-hero-on-media">
+          {/* Headline - uses dedicated hero typography for larger sizing */}
+          <h1 className="type-hero ui-hero-on-media animate-fade-in-delay-1">
             {content.headline}
           </h1>
 
           {/* Description */}
-          <p className="type-body ui-hero-on-media-muted max-w-md">
+          <p className="type-hero-body ui-hero-on-media-muted max-w-md animate-fade-in-delay-2">
             {content.description}
           </p>
 
-          {/* CTA Button */}
+          {/* CK-style CTAs - Editorial underlined text links (no buttons) */}
           <div className="pt-2 sm:pt-3 space-y-3">
-            <div className="flex flex-row gap-3 items-center">
-              <ButtonLink
-                href={`${base}/products`}
-                variant="primary"
-                size="lg"
-                className="group inline-flex items-center justify-center gap-2 flex-1 sm:flex-none"
-              >
-                {content.ctaPrimary}
-                <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </ButtonLink>
-
-              <ButtonLink
+            <div className="flex flex-row gap-6 items-center">
+              {/* PRIMARY CTA - Become Partner */}
+              <TextLink
                 href={`${base}/partnership/become-partner`}
-                variant="secondary"
-                size="lg"
-                className="inline-flex items-center justify-center flex-1 sm:flex-none"
+                onDark
               >
                 {content.ctaSecondary}
-              </ButtonLink>
+              </TextLink>
+
+              {/* SECONDARY - Explore Brands */}
+              <TextLink
+                href={`${base}/products`}
+                onDark
+              >
+                {content.ctaPrimary}
+              </TextLink>
             </div>
 
-            <p className="type-data ui-hero-on-media-subtle max-w-md">
+            <p className="type-hero-note ui-hero-on-media-subtle max-w-md">
               {content.note}
             </p>
           </div>
@@ -225,13 +157,15 @@ export default function HomeHero() {
     >
       {/* Video/Image Background - Full bleed */}
       {/* 
-        Smart responsive aspect ratio:
-        - Mobile (default): 9/16 portrait - fits phone screens
-        - Tablet (sm+): 4/3 - balanced view
-        - Desktop (lg+): 16/9 - cinematic widescreen
-        This approach ensures video fills container without white space on any device.
+        Simplified responsive approach (Clean Code):
+        - Mobile (<640px): Fixed height 70vh for reliable portrait display
+        - Tablet+ (≥640px): 16/9 widescreen ratio for all larger screens
+        
+        This 2-state approach eliminates the jarring 639→640 and 1023→1024 jumps
+        by using consistent height on mobile and consistent ratio on desktop.
+        The video's object-cover handles natural cropping at all sizes.
       */}
-      <div className="relative w-full aspect-[9/16] sm:aspect-[4/3] lg:aspect-[16/9] max-h-[85vh]">
+      <div className="relative w-full h-[70vh] sm:h-auto sm:aspect-[16/9] max-h-[85vh]">
         <HeroVideo
           videoRef={videoRef}
           videoError={videoError}
@@ -252,9 +186,6 @@ export default function HomeHero() {
         {/* Content Overlay */}
         <HeroContent />
       </div>
-
-      {/* Trust Indicator Bar */}
-      <TrustBar />
     </section>
   );
 }

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import SiteFooter from "@/components/site/SiteFooter";
 import SiteHeader from "@/components/site/SiteHeader";
 import WhatsAppStickyCTA from "@/components/site/WhatsAppStickyCTA";
+import CookieConsent from "@/components/site/CookieConsent";
+import BackToTop from "@/components/ui/BackToTop";
 import WebVitalsReporter from "@/components/analytics/WebVitalsReporter";
 import StructuredData from "@/components/seo/StructuredData";
 import { LocaleProvider } from "@/components/i18n/LocaleProvider";
@@ -58,6 +60,8 @@ export default async function LocaleLayout({
         </main>
         <SiteFooter />
         <WhatsAppStickyCTA />
+        <BackToTop />
+        <CookieConsent />
       </div>
     </LocaleProvider>
   );

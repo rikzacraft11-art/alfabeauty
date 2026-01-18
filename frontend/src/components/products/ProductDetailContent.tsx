@@ -10,7 +10,8 @@ import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
 import Card from "@/components/ui/Card";
 import { getButtonClassName } from "@/components/ui/Button";
-import { IconChevronRight, IconCheck, IconSparkle } from "@/components/ui/icons";
+import { IconChevronRight, IconCheck, IconSparkle, IconWhatsApp } from "@/components/ui/icons";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 type Props = {
   product: Product | null;
@@ -23,14 +24,17 @@ export default function ProductDetailContent({ product }: Props) {
 
   if (!product) {
     return (
-      <div className="flex min-h-[40vh] flex-col items-center justify-center space-y-6 text-center">
+      <div className="flex min-h-[40vh] flex-col items-center justify-center space-y-6 text-center animate-fade-in">
         <div className="h-16 w-16 rounded-full bg-subtle flex items-center justify-center">
           <IconSparkle className="h-8 w-8 text-muted" />
         </div>
         <div className="space-y-2">
           <h2 className="type-h3">{tx.productDetail.notFound.body}</h2>
           <p className="type-body text-muted max-w-md">
-            The product you&apos;re looking for may have been moved or is no longer available.
+            {locale === "id"
+              ? "Produk yang Anda cari mungkin telah dipindahkan atau tidak tersedia lagi."
+              : "The product you're looking for may have been moved or is no longer available."
+            }
           </p>
         </div>
         <AppLink
@@ -116,84 +120,89 @@ export default function ProductDetailContent({ product }: Props) {
       </header>
 
       {/* Product Details Grid */}
-      <section className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-        {/* Benefits Card */}
-        <Card className="p-6 lg:p-8 space-y-4 lg:col-span-2">
-          <h2 className="type-h3 flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-              <IconCheck className="h-4 w-4" />
-            </span>
-            {tx.productDetail.sections.keyBenefits}
-          </h2>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {product.benefits.map((benefit) => (
-              <li key={benefit} className="flex items-start gap-3 type-body">
-                <IconCheck className="h-5 w-5 text-foreground shrink-0 mt-0.5" />
-                <span>{benefit}</span>
-              </li>
-            ))}
-          </ul>
-        </Card>
+      <ScrollReveal>
+        <section className="grid gap-6 lg:grid-cols-3 lg:gap-8">
+          {/* Benefits Card */}
+          <Card className="p-6 lg:p-8 space-y-4 lg:col-span-2">
+            <h2 className="type-h3 flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                <IconCheck className="h-4 w-4" />
+              </span>
+              {tx.productDetail.sections.keyBenefits}
+            </h2>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {product.benefits.map((benefit) => (
+                <li key={benefit} className="flex items-start gap-3 type-body">
+                  <IconCheck className="h-5 w-5 text-foreground shrink-0 mt-0.5" />
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
+          </Card>
 
-        {/* Recommended For Card */}
-        <Card className="p-6 lg:p-8 space-y-4 bg-subtle">
-          <h2 className="type-h3">{tx.productDetail.sections.recommendedFor}</h2>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <p className="type-data-strong text-foreground uppercase">
-                {tx.productDetail.labels.audience}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {product.audience.map((aud) => (
-                  <span key={aud} className="inline-flex px-2.5 py-1 bg-background border border-border type-data">
-                    {aud}
-                  </span>
-                ))}
+          {/* Recommended For Card */}
+          <Card className="p-6 lg:p-8 space-y-4 bg-subtle">
+            <h2 className="type-h3">{tx.productDetail.sections.recommendedFor}</h2>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="type-data-strong text-foreground uppercase">
+                  {tx.productDetail.labels.audience}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {product.audience.map((aud) => (
+                    <span key={aud} className="inline-flex px-2.5 py-1 bg-background border border-border type-data">
+                      {aud}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <p className="type-data-strong text-foreground uppercase">
+                  {tx.productDetail.labels.functions}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {product.functions.map((fn) => (
+                    <span key={fn} className="inline-flex px-2.5 py-1 bg-background border border-border type-data">
+                      {fn}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="space-y-2">
-              <p className="type-data-strong text-foreground uppercase">
-                {tx.productDetail.labels.functions}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {product.functions.map((fn) => (
-                  <span key={fn} className="inline-flex px-2.5 py-1 bg-background border border-border type-data">
-                    {fn}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Card>
+          </Card>
 
-        {/* How To Use Card */}
-        <Card className="p-6 lg:p-8 space-y-4 lg:col-span-3">
-          <h2 className="type-h3">{tx.productDetail.sections.howToUse}</h2>
-          <div className="prose prose-neutral max-w-none">
-            <p className="type-body whitespace-pre-line">{product.howToUse}</p>
-          </div>
-        </Card>
-      </section>
+          {/* How To Use Card */}
+          <Card className="p-6 lg:p-8 space-y-4 lg:col-span-3">
+            <h2 className="type-h3">{tx.productDetail.sections.howToUse}</h2>
+            <div className="prose prose-neutral max-w-none">
+              <p className="type-body whitespace-pre-line">{product.howToUse}</p>
+            </div>
+          </Card>
+        </section>
+      </ScrollReveal>
 
       {/* Bottom CTA */}
-      <section className="border-t border-border pt-8 lg:pt-12">
-        <div className="ui-section-dark p-6 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div className="space-y-2">
-            <h3 className="type-h3">{tx.productDetail.consult.title}</h3>
-            <p className="type-body opacity-80 max-w-lg">
-              {tx.productDetail.consult.body}
-            </p>
+      <ScrollReveal>
+        <section className="border-t border-border pt-8 lg:pt-12">
+          <div className="ui-section-dark p-6 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="space-y-2">
+              <h3 className="type-h3">{tx.productDetail.consult.title}</h3>
+              <p className="type-body opacity-80 max-w-lg">
+                {tx.productDetail.consult.body}
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <WhatsAppLink
+                className={getButtonClassName({ variant: "inverted", size: "lg" }) + " gap-2"}
+                prefill={prefill}
+              >
+                <IconWhatsApp className="h-5 w-5" />
+                {tx.cta.whatsappConsult}
+              </WhatsAppLink>
+            </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <WhatsAppLink
-              className={getButtonClassName({ variant: "inverted", size: "lg" })}
-              prefill={prefill}
-            >
-              {tx.cta.whatsappConsult}
-            </WhatsAppLink>
-          </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
     </div>
   );
 }

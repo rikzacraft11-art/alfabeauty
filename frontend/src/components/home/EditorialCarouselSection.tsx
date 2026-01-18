@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, useId, type CSSProperties } from "react";
+import { useRef, useState, useEffect, useCallback, useId } from "react";
 import Image from "next/image";
 import AppLink from "@/components/ui/AppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
@@ -15,8 +15,7 @@ import type { Product } from "@/lib/types";
 // =============================================================================
 
 const SPECS = {
-    productCardWidth: 220,   // Desktop product card width (LekkerHome: ~240px, 4 cards fit)
-    productGap: 16,          // Gap between product cards
+    productGap: 16, // Gap between product cards (matches Tailwind gap-4)
 } as const;
 
 // =============================================================================
@@ -30,6 +29,7 @@ interface EditorialCarouselSectionProps {
     kicker?: string;
     title: string;
     description?: string;
+    badge?: string; // Optional badge text (e.g., "Free for Partners")
     variant?: "light" | "dark";
     maxItems?: number;
     ctaHref?: string;
@@ -39,7 +39,6 @@ interface EditorialCarouselSectionProps {
 interface ProductCardProps {
     product: Product;
     baseUrl: string;
-    cardWidth: number;
     isDark: boolean;
 }
 
@@ -64,36 +63,8 @@ function useCarousel(itemCount: number) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
-    const [cardWidth, setCardWidth] = useState<number>(SPECS.productCardWidth);
     const [progress, setProgress] = useState(0);
     const [thumbRatio, setThumbRatio] = useState(1);
-
-    const getCardWidth = useCallback(() => {
-        const el = scrollRef.current;
-        if (!el) return SPECS.productCardWidth;
-
-        const containerWidth = el.clientWidth;
-
-        // Mobile-first responsive breakpoints (LekkerHome approach)
-        if (containerWidth <= 480) {
-            // Small mobile: 1 card with peek (~85% of container)
-            return containerWidth * 0.85;
-        }
-        if (containerWidth <= 640) {
-            // Large mobile: 1.5 cards visible
-            return (containerWidth - SPECS.productGap) / 1.5;
-        }
-        if (containerWidth <= 768) {
-            // Small tablet: 2 cards visible
-            return (containerWidth - SPECS.productGap) / 2;
-        }
-        if (containerWidth <= 1024) {
-            // Large tablet: 3 cards visible
-            return (containerWidth - SPECS.productGap * 2) / 3;
-        }
-        // Desktop: 4+ cards visible using fixed width
-        return SPECS.productCardWidth;
-    }, []);
 
     const updateScrollState = useCallback(() => {
         const el = scrollRef.current;
@@ -122,37 +93,34 @@ function useCarousel(itemCount: number) {
         const el = scrollRef.current;
         if (!el) return;
 
-        const updateState = () => {
-            setCardWidth(getCardWidth());
-            updateScrollState();
-        };
-
-        updateState();
-        window.addEventListener("resize", updateState);
+        updateScrollState();
+        window.addEventListener("resize", updateScrollState);
         el.addEventListener("scroll", updateScrollState, { passive: true });
 
         return () => {
-            window.removeEventListener("resize", updateState);
+            window.removeEventListener("resize", updateScrollState);
             el.removeEventListener("scroll", updateScrollState);
         };
-    }, [getCardWidth, updateScrollState]);
+    }, [updateScrollState]);
 
     const scroll = useCallback((direction: "left" | "right") => {
         const el = scrollRef.current;
         if (!el) return;
 
+        // Get actual card width from first card element (CSS-controlled)
+        const firstCard = el.querySelector<HTMLElement>("[data-carousel-card]");
+        const cardWidth = firstCard?.offsetWidth ?? 260;
         const scrollAmount = cardWidth + SPECS.productGap;
         el.scrollBy({
             left: direction === "left" ? -scrollAmount : scrollAmount,
             behavior: "smooth",
         });
-    }, [cardWidth]);
+    }, []);
 
     return {
         scrollRef,
         canScrollLeft,
         canScrollRight,
-        cardWidth,
         progress,
         thumbRatio,
         scroll,
@@ -203,16 +171,20 @@ function CarouselArrow({ direction, onClick, visible, className, ariaLabel, topC
  * ProductCard - Individual product in carousel
  * LekkerHome approach: fixed aspect images + fixed min-height text block
  * Mobile-first: touch-friendly with proper spacing
+ * Enhanced: audience badge + benefit snippet per UX research
  */
-function ProductCard({ product, baseUrl, cardWidth, isDark }: ProductCardProps) {
+function ProductCard({ product, baseUrl, isDark }: ProductCardProps) {
+    // Get primary audience for badge
+    const primaryAudience = product.audience?.[0];
+    // Get first benefit as snippet
+    const benefitSnippet = product.benefits?.[0];
+
     return (
         <AppLink
             href={`${baseUrl}/products/${product.slug}`}
             underline="none"
-            className={`group flex-shrink-0 snap-start ui-radius-tight overflow-hidden flex flex-col h-full ${isDark ? "bg-background/[0.08]" : "bg-foreground/[0.04]"}`}
-            style={{
-                width: cardWidth,
-            }}
+            className={`group carousel-card snap-start ui-radius-tight overflow-hidden flex flex-col h-full ${isDark ? "bg-background/[0.08]" : "bg-foreground/[0.04]"}`}
+            data-carousel-card
         >
             {/* Product Image - Fixed 1:1 aspect ratio (LekkerHome: uniform image heights) */}
             <div className="relative aspect-square overflow-hidden flex-shrink-0">
@@ -223,16 +195,33 @@ function ProductCard({ product, baseUrl, cardWidth, isDark }: ProductCardProps) 
                     sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 260px"
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
+                {/* Audience badge */}
+                {primaryAudience && (
+                    <span
+                        className={`absolute top-2 left-2 type-data px-2 py-1 ui-radius-tight ${isDark
+                            ? "bg-background text-foreground"
+                            : "bg-foreground text-background"
+                            }`}
+                    >
+                        {primaryAudience}
+                    </span>
+                )}
             </div>
 
             {/* Product Info - Fixed min-height for consistent card alignment */}
-            <div className="p-3 flex flex-col min-h-[4.5rem]">
+            <div className="p-3 flex flex-col min-h-[5.5rem]">
                 <p className={`type-data-strong uppercase mb-1 ${isDark ? "text-background/75" : "text-foreground-muted"}`}>
                     {product.brand}
                 </p>
                 <h3 className={`type-body-strong line-clamp-2 ${isDark ? "text-background" : "text-foreground"}`}>
                     {product.name}
                 </h3>
+                {/* Benefit snippet for decision support */}
+                {benefitSnippet && (
+                    <p className={`type-data mt-1 line-clamp-1 ${isDark ? "text-background/60" : "text-muted"}`}>
+                        {benefitSnippet}
+                    </p>
+                )}
             </div>
         </AppLink>
     );
@@ -245,6 +234,7 @@ function SectionHeader({
     kicker,
     title,
     description,
+    badge,
     isDark,
     titleId,
     ctaHref,
@@ -253,13 +243,24 @@ function SectionHeader({
     kicker?: string;
     title: string;
     description?: string;
+    badge?: string;
     isDark: boolean;
     titleId?: string;
     ctaHref?: string;
     ctaLabel?: string;
 }) {
     return (
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="text-center" style={{ marginBottom: "var(--card-padding)" }}>
+            {/* Badge (e.g., "Free for Partners") */}
+            {badge && (
+                <span className={`inline-block mb-3 px-3 py-1 type-data-strong ui-radius-tight ${isDark
+                    ? "bg-background text-foreground"
+                    : "bg-foreground text-background"
+                    }`}>
+                    {badge}
+                </span>
+            )}
+
             {kicker && (
                 <p className="type-kicker mb-2 sm:mb-3">
                     {kicker}
@@ -323,6 +324,7 @@ export default function EditorialCarouselSection({
     kicker,
     title,
     description,
+    badge,
     variant = "dark",
     maxItems = 8,
     ctaHref,
@@ -339,7 +341,7 @@ export default function EditorialCarouselSection({
 
     const isDark = variant === "dark";
 
-    const { scrollRef, canScrollLeft, canScrollRight, cardWidth, progress: productProgress, thumbRatio: productThumbRatio, scroll } = useCarousel(products.length);
+    const { scrollRef, canScrollLeft, canScrollRight, progress: productProgress, thumbRatio: productThumbRatio, scroll } = useCarousel(products.length);
 
     const galleryImages = (() => {
         if (heroImages && heroImages.length > 0) return heroImages;
@@ -448,7 +450,7 @@ export default function EditorialCarouselSection({
             {/* Hero Image - Contained, responsive aspect ratio */}
             <div className="px-4 sm:px-6 lg:px-10">
                 <div
-                    className="relative mx-auto overflow-hidden ui-radius-tight max-w-[120rem] aspect-[1.6/1]"
+                    className="relative mx-auto overflow-hidden ui-radius-tight max-w-[120rem] aspect-[1.6/1] lg:aspect-[2.5/1]"
                 >
                     {/* Horizontally scrollable hero gallery (snap) */}
                     <div
@@ -507,14 +509,14 @@ export default function EditorialCarouselSection({
                         className="hidden sm:flex"
                     />
 
-                    {/* Dot indicators */}
+                    {/* Dot indicators - positioned above overlap zone */}
                     <ScrollDots
                         count={galleryImages.length}
                         activeIndex={heroActiveIndex}
                         onSelect={scrollHeroToIndex}
                         tone="onImage"
                         ariaLabel={locale === "id" ? "Navigasi galeri" : "Gallery navigation"}
-                        className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-none bg-foreground/[0.45] px-3 py-2 backdrop-blur-sm"
+                        className="absolute bottom-[calc(var(--section-overlap)+1rem)] left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
                     />
                 </div>
             </div>
@@ -522,14 +524,16 @@ export default function EditorialCarouselSection({
             {/* Content Card - Overlaps hero */}
             <div className="relative px-4 sm:px-6 lg:px-10">
                 <div
-                    className={`relative mx-auto ui-radius-tight max-w-[68.75rem] -mt-10 sm:-mt-12 lg:-mt-14 ${isDark ? "ui-section-dark" : "bg-subtle"}`}
+                    className={`relative mx-auto ui-radius-tight max-w-[68.75rem] ${isDark ? "ui-section-dark" : "bg-subtle"}`}
+                    style={{ marginTop: "calc(-1 * var(--section-overlap))" }}
                 >
-                    <div className="p-6 sm:p-8 lg:p-10">
+                    <div style={{ padding: "var(--card-padding)" }}>
                         {/* Section Header */}
                         <SectionHeader
                             kicker={kicker}
                             title={title}
                             description={description}
+                            badge={badge}
                             isDark={isDark}
                             titleId={titleId}
                             ctaHref={ctaHref}
@@ -541,23 +545,20 @@ export default function EditorialCarouselSection({
                             className="relative"
                             role="region"
                             aria-label={locale === "id" ? "Produk pilihan" : "Featured products"}
-                            style={{
-                                "--editorial-carousel-arrow-y": `${Math.round(cardWidth / 2)}px`,
-                            } as CSSProperties}
                         >
-                            {/* Navigation Arrows */}
+                            {/* Navigation Arrows - positioned at 1/4 height (center of card image) */}
                             <CarouselArrow
                                 direction="left"
                                 onClick={() => scroll("left")}
                                 visible={canScrollLeft}
-                                topClassName="top-[var(--editorial-carousel-arrow-y)] -translate-y-1/2"
+                                topClassName="top-1/4"
                                 className="hidden sm:flex"
                             />
                             <CarouselArrow
                                 direction="right"
                                 onClick={() => scroll("right")}
                                 visible={canScrollRight}
-                                topClassName="top-[var(--editorial-carousel-arrow-y)] -translate-y-1/2"
+                                topClassName="top-1/4"
                                 className="hidden sm:flex"
                             />
 
@@ -584,7 +585,6 @@ export default function EditorialCarouselSection({
                                         <ProductCard
                                             product={product}
                                             baseUrl={baseUrl}
-                                            cardWidth={cardWidth}
                                             isDark={isDark}
                                         />
                                     </div>

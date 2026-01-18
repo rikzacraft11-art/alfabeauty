@@ -10,7 +10,11 @@
     "lint:links": "node scripts/lint-links.mjs",
     "lint:tokens": "node scripts/lint-tokens.mjs",
     "lint:summary": "node scripts/lint-summary.mjs",
-    "lint": "npm run lint:typography && npm run lint:links && npm run lint:tokens && eslint",
+    "lint:hero-freeze": "node scripts/lint-hero-freeze.mjs",
+    "lint:button-freeze": "node scripts/lint-button-freeze.mjs",
+    "lint:carousel-freeze": "node scripts/lint-carousel-freeze.mjs",
+    "lint:category-card-freeze": "node scripts/lint-category-card-freeze.mjs",
+    "lint": "npm run lint:typography && npm run lint:links && npm run lint:tokens && npm run lint:hero-freeze && npm run lint:button-freeze && npm run lint:carousel-freeze && npm run lint:category-card-freeze && eslint",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"

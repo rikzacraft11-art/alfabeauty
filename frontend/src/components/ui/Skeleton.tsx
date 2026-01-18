@@ -106,3 +106,38 @@ export function FormFieldSkeleton() {
     </div>
   );
 }
+
+/**
+ * Pre-built skeleton for testimonial cards
+ */
+export function TestimonialSkeleton() {
+  return (
+    <div className="border border-border p-6 ui-radius space-y-4">
+      <Skeleton className="h-8 w-8 rounded" />
+      <Skeleton variant="text" lines={3} />
+      <div className="flex items-center gap-4 pt-4 border-t border-border">
+        <Skeleton variant="avatar" />
+        <div className="space-y-2 flex-1">
+          <Skeleton variant="text" className="w-24" />
+          <Skeleton variant="text" className="w-16" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Pre-built skeleton for stats bar
+ */
+export function StatsSkeleton() {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="text-center space-y-2">
+          <Skeleton className="h-12 w-20 mx-auto rounded" />
+          <Skeleton variant="text" className="w-24 mx-auto" />
+        </div>
+      ))}
+    </div>
+  );
+}
