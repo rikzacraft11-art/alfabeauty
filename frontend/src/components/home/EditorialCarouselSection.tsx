@@ -193,7 +193,7 @@ function ProductCard({ product, baseUrl, isDark }: ProductCardProps) {
                     alt={`${product.brand} ${product.name}`}
                     fill
                     sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 260px"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    className="object-cover img-curated transition-cinematic group-hover:scale-105"
                 />
                 {/* Audience badge */}
                 {primaryAudience && (
@@ -318,7 +318,7 @@ function SectionHeader({
  * - Sub-components for single responsibility
  */
 export default function EditorialCarouselSection({
-    heroImage = "/images/hero/hero-salon.jpg",
+    heroImage,
     heroImages,
     heroAlt = "Lifestyle editorial",
     kicker,
@@ -343,16 +343,19 @@ export default function EditorialCarouselSection({
 
     const { scrollRef, canScrollLeft, canScrollRight, progress: productProgress, thumbRatio: productThumbRatio, scroll } = useCarousel(products.length);
 
+    // Determine if we should show the hero gallery
+    const hasHeroImage = heroImage || (heroImages && heroImages.length > 0);
+
     const galleryImages = (() => {
         if (heroImages && heroImages.length > 0) return heroImages;
-
-        // Default: reuse existing available local assets to enable a real gallery.
-        // If only one image is desired, pass heroImages={[heroImage]}.
-        const defaults = [
-            heroImage,
-            "/images/partnership/partner-lifestyle.jpg",
-        ];
-        return Array.from(new Set(defaults));
+        if (heroImage) {
+            const defaults = [
+                heroImage,
+                "/images/partnership/partner-lifestyle.jpg",
+            ];
+            return Array.from(new Set(defaults));
+        }
+        return [];
     })();
 
     const heroScrollRef = useRef<HTMLDivElement>(null);
@@ -444,88 +447,90 @@ export default function EditorialCarouselSection({
 
     return (
         <section
-            className="relative py-12 sm:py-16 lg:py-20"
+            className={`relative ${hasHeroImage ? 'py-12 sm:py-16 lg:py-20' : 'lg:-mt-24 pt-0 pb-12 sm:pb-16 lg:pb-20'}`}
             aria-labelledby={titleId}
         >
-            {/* Hero Image - Contained, responsive aspect ratio */}
-            <div className="px-4 sm:px-6 lg:px-10">
-                <div
-                    className="relative mx-auto overflow-hidden ui-radius-tight max-w-[120rem] aspect-[1.6/1] lg:aspect-[2.5/1]"
-                >
-                    {/* Horizontally scrollable hero gallery (snap) */}
+            {/* Hero Image - Only render if heroImage is provided */}
+            {hasHeroImage && (
+                <div className="px-4 sm:px-6 lg:px-10">
                     <div
-                        ref={heroScrollRef}
-                        className="flex h-full w-full overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth"
-                        role="list"
-                        aria-label={locale === "id" ? "Galeri editorial" : "Editorial gallery"}
-                        tabIndex={galleryImages.length > 1 ? 0 : -1}
-                        onKeyDown={(event) => {
-                            if (galleryImages.length <= 1) return;
-                            if (event.key === "ArrowLeft") {
-                                event.preventDefault();
-                                scrollHero("left");
-                            }
-                            if (event.key === "ArrowRight") {
-                                event.preventDefault();
-                                scrollHero("right");
-                            }
-                        }}
+                        className="relative mx-auto overflow-hidden ui-radius-tight max-w-[120rem] aspect-[1.6/1] lg:aspect-[2.5/1]"
                     >
-                        {galleryImages.map((src, idx) => (
-                            <div
-                                key={`${src}-${idx}`}
-                                role="listitem"
-                                data-hero-slide="true"
-                                className="relative h-full w-full flex-shrink-0 snap-start"
-                                aria-label={`${idx + 1} / ${galleryImages.length}`}
-                            >
-                                <Image
-                                    src={src}
-                                    alt={heroAlt}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1920px) 96vw, 1920px"
-                                    priority={idx === 0}
-                                />
-                            </div>
-                        ))}
+                        {/* Horizontally scrollable hero gallery (snap) */}
+                        <div
+                            ref={heroScrollRef}
+                            className="flex h-full w-full overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth"
+                            role="list"
+                            aria-label={locale === "id" ? "Galeri editorial" : "Editorial gallery"}
+                            tabIndex={galleryImages.length > 1 ? 0 : -1}
+                            onKeyDown={(event) => {
+                                if (galleryImages.length <= 1) return;
+                                if (event.key === "ArrowLeft") {
+                                    event.preventDefault();
+                                    scrollHero("left");
+                                }
+                                if (event.key === "ArrowRight") {
+                                    event.preventDefault();
+                                    scrollHero("right");
+                                }
+                            }}
+                        >
+                            {galleryImages.map((src, idx) => (
+                                <div
+                                    key={`${src}-${idx}`}
+                                    role="listitem"
+                                    data-hero-slide="true"
+                                    className="relative h-full w-full flex-shrink-0 snap-start"
+                                    aria-label={`${idx + 1} / ${galleryImages.length}`}
+                                >
+                                    <Image
+                                        src={src}
+                                        alt={heroAlt}
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1920px) 96vw, 1920px"
+                                        priority={idx === 0}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Hero navigation arrows (desktop only; swipe on mobile) */}
+                        <CarouselArrow
+                            direction="left"
+                            onClick={() => scrollHero("left")}
+                            visible={canHeroScrollLeft}
+                            ariaLabel={locale === "id" ? "Sebelumnya" : "Previous"}
+                            topClassName="top-1/2 -translate-y-1/2"
+                            className="hidden sm:flex"
+                        />
+                        <CarouselArrow
+                            direction="right"
+                            onClick={() => scrollHero("right")}
+                            visible={canHeroScrollRight}
+                            ariaLabel={locale === "id" ? "Berikutnya" : "Next"}
+                            topClassName="top-1/2 -translate-y-1/2"
+                            className="hidden sm:flex"
+                        />
+
+                        {/* Dot indicators - positioned above overlap zone */}
+                        <ScrollDots
+                            count={galleryImages.length}
+                            activeIndex={heroActiveIndex}
+                            onSelect={scrollHeroToIndex}
+                            tone="onImage"
+                            ariaLabel={locale === "id" ? "Navigasi galeri" : "Gallery navigation"}
+                            className="absolute bottom-[calc(var(--section-overlap)+1rem)] left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
+                        />
                     </div>
-
-                    {/* Hero navigation arrows (desktop only; swipe on mobile) */}
-                    <CarouselArrow
-                        direction="left"
-                        onClick={() => scrollHero("left")}
-                        visible={canHeroScrollLeft}
-                        ariaLabel={locale === "id" ? "Sebelumnya" : "Previous"}
-                        topClassName="top-1/2 -translate-y-1/2"
-                        className="hidden sm:flex"
-                    />
-                    <CarouselArrow
-                        direction="right"
-                        onClick={() => scrollHero("right")}
-                        visible={canHeroScrollRight}
-                        ariaLabel={locale === "id" ? "Berikutnya" : "Next"}
-                        topClassName="top-1/2 -translate-y-1/2"
-                        className="hidden sm:flex"
-                    />
-
-                    {/* Dot indicators - positioned above overlap zone */}
-                    <ScrollDots
-                        count={galleryImages.length}
-                        activeIndex={heroActiveIndex}
-                        onSelect={scrollHeroToIndex}
-                        tone="onImage"
-                        ariaLabel={locale === "id" ? "Navigasi galeri" : "Gallery navigation"}
-                        className="absolute bottom-[calc(var(--section-overlap)+1rem)] left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
-                    />
                 </div>
-            </div>
+            )}
 
             {/* Content Card - Overlaps hero */}
             <div className="relative px-4 sm:px-6 lg:px-10">
                 <div
-                    className={`relative mx-auto ui-radius-tight max-w-[68.75rem] ${isDark ? "ui-section-dark" : "bg-subtle"}`}
-                    style={{ marginTop: "calc(-1 * var(--section-overlap))" }}
+                    className={`relative mx-auto ui-radius-tight max-w-[68.75rem] shadow-sm border-t border-border/20 ${isDark ? "ui-section-dark" : "bg-subtle"}`}
+                    style={hasHeroImage ? { marginTop: "calc(-1 * var(--section-overlap))" } : undefined}
                 >
                     <div style={{ padding: "var(--card-padding)" }}>
                         {/* Section Header */}

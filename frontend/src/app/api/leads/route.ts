@@ -1,12 +1,11 @@
-import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 
 /**
  * Lead API (Option B) accepts the Partner Profiling payload (preferred) and a
- * limited legacy shape (for transition). This route is a thin proxy; validation
- * lives in the Lead API.
+ * limited legacy shape (for transition).
  *
  * See Paket A §4 IDD for payload contract.
  */
@@ -45,20 +44,16 @@ function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
 
-export async function POST(req: Request) {
-  const baseUrl = process.env.LEAD_API_BASE_URL;
-  if (!baseUrl) {
-    return NextResponse.json(
-      { error: "lead_api_not_configured" },
-      { status: 500, headers: { "Cache-Control": "no-store" } },
-    );
-  }
+function isPartnerPayload(p: LeadRequest): p is LeadRequestPartnerProfiling {
+  return "business_name" in p && "contact_name" in p;
+}
 
+export async function POST(req: Request) {
   const ct = req.headers.get("content-type") ?? "";
   if (!ct.toLowerCase().startsWith("application/json")) {
     return NextResponse.json(
       { error: "content_type_must_be_application_json" },
-      { status: 415, headers: { "Cache-Control": "no-store" } },
+      { status: 415, headers: { "Cache-Control": "no-store" } }
     );
   }
 
@@ -66,64 +61,77 @@ export async function POST(req: Request) {
   try {
     const parsed: unknown = await req.json();
     if (!isPlainObject(parsed)) {
-      return NextResponse.json(
-        { error: "invalid_json" },
-        { status: 400, headers: { "Cache-Control": "no-store" } },
-      );
+      throw new Error("Invalid object");
     }
     payload = parsed as LeadRequest;
   } catch {
     return NextResponse.json(
       { error: "invalid_json" },
-      { status: 400, headers: { "Cache-Control": "no-store" } },
+      { status: 400, headers: { "Cache-Control": "no-store" } }
     );
   }
 
-  // Forward to Lead API Option B.
-  const url = `${baseUrl.replace(/\/$/, "")}/api/v1/leads`;
-  const idempotencyKey = req.headers.get("Idempotency-Key") || randomUUID();
+  // Anti-spam: Honeypot check
+  if (payload.company) {
+    // Silent success for bots
+    return NextResponse.json(
+      { status: "ok" },
+      { status: 200, headers: { "Cache-Control": "no-store" } }
+    );
+  }
 
-  // Forward selected client context headers so the Lead API can:
-  // - capture meaningful user agent
-  // - apply rate limiting / IP signals correctly when TRUSTED_PROXIES is configured
-  const ua = req.headers.get("user-agent");
-  const xff = req.headers.get("x-forwarded-for");
-  const xri = req.headers.get("x-real-ip");
+  // Prepare DB record
+  const ip =
+    req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") || "";
+  const ua = req.headers.get("user-agent") || "";
 
-  const upstream = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Idempotency-Key": idempotencyKey,
-      ...(ua ? { "User-Agent": ua } : {}),
-      ...(xff ? { "X-Forwarded-For": xff } : {}),
-      ...(xri ? { "X-Real-IP": xri } : {}),
-    },
-    body: JSON.stringify(payload),
-    // Keep a reasonable timeout so UI can show actionable feedback.
-    signal: AbortSignal.timeout(8000),
-  }).catch((err: unknown) => {
-    const msg = err instanceof Error ? err.message : "upstream_error";
-    // Log error for server-side observability
-    console.error("[leads] upstream error:", msg);
-    return new Response(JSON.stringify({ error: "lead_api_unreachable", detail: msg }), {
-      status: 502,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store",
-      },
-    });
-  });
+  const dbRecord: any = {
+    ip_address: ip.substring(0, 45), // IPv6 max length
+    user_agent: ua.substring(0, 255),
+    raw: payload,
+  };
 
-  // Pass through status + JSON body, but always no-store.
-  const text = await upstream.text();
-  const contentType = upstream.headers.get("Content-Type") ?? "application/json; charset=utf-8";
+  if (isPartnerPayload(payload)) {
+    dbRecord.name = payload.contact_name;
+    dbRecord.phone = payload.phone_whatsapp;
+    dbRecord.email = payload.email || "";
+    dbRecord.message = payload.message || "";
+    dbRecord.page_url_initial = payload.page_url_initial || "";
+    dbRecord.page_url_current = payload.page_url_current || "";
+  } else {
+    // Legacy
+    dbRecord.name = payload.name;
+    dbRecord.phone = payload.phone || "";
+    dbRecord.email = payload.email || "";
+    dbRecord.message = payload.message || "";
+    dbRecord.page_url_initial = payload.page_url_initial || "";
+    dbRecord.page_url_current = payload.page_url_current || "";
+  }
 
-  return new Response(text, {
-    status: upstream.status,
-    headers: {
-      "Content-Type": contentType,
-      "Cache-Control": "no-store",
-    },
-  });
+  try {
+    const { error } = await supabaseAdmin().from("leads").insert(dbRecord);
+
+    if (error) {
+      console.error("[leads] Supabase error:", error);
+      return NextResponse.json(
+        { error: "persistence_failed" },
+        { status: 500, headers: { "Cache-Control": "no-store" } }
+      );
+    }
+
+    // TODO: Send Email Notification (via SMTP or Supabase Edge Function)
+    // For now, we rely on persistence.
+
+    return NextResponse.json(
+      { status: "ok" },
+      { status: 201, headers: { "Cache-Control": "no-store" } }
+    );
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "internal_error";
+    console.error("[leads] Handler error:", msg);
+    return NextResponse.json(
+      { error: "internal_error" },
+      { status: 500, headers: { "Cache-Control": "no-store" } }
+    );
+  }
 }

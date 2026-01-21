@@ -158,11 +158,11 @@ export function postTelemetry(path: "/api/rum" | "/api/events", payload: Record<
     timestamp: new Date().toISOString(),
   };
 
-    // Queue for a microtask flush; also flushed on visibilitychange→hidden.
+  // Queue for a microtask flush; also flushed on visibilitychange→hidden.
   telemetryQueue.push({ url, payload: enriched });
 
-    // Send near-immediately for responsiveness without risking duplicate sends on hidden.
-    scheduleFlush();
+  // Send near-immediately for responsiveness without risking duplicate sends on hidden.
+  scheduleFlush();
 }
 
 // Re-export analytics event types for convenience
@@ -173,13 +173,21 @@ export type AnalyticsEventName =
   | "lead_submit_success"
   | "lead_submit_error";
 
+import { sendGAEvent } from "@next/third-parties/google";
+
 /**
  * Track an analytics event.
  * Wrapper around postTelemetry with typed event names.
+ * Also sends to Google Analytics 4 via @next/third-parties.
  */
 export function trackEvent(name: AnalyticsEventName, data?: Record<string, unknown>): void {
+  // 1. Send to internal telemetry API (RUM/Events)
   postTelemetry("/api/events", {
     event_name: name,
     ...(data ?? {}),
   });
+
+  // 2. Send to Google Analytics 4
+  // sendGAEvent uses window.gtag internally if initialized
+  sendGAEvent("event", name, data ?? {});
 }

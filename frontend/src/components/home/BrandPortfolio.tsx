@@ -33,7 +33,7 @@ function BrandLogo({ name, logo }: BrandLogoProps) {
                 <img
                     src={logo}
                     alt={name}
-                    className="h-8 sm:h-10 lg:h-12 w-auto max-w-[120px] sm:max-w-[140px] object-contain transition-all duration-300 hover:scale-105"
+                    className="h-8 sm:h-10 lg:h-12 w-auto max-w-[120px] sm:max-w-[140px] object-contain transition-cinematic hover:scale-105"
                     loading="lazy"
                 />
             </div>
@@ -106,7 +106,7 @@ export default function BrandPortfolio() {
 
     return (
         <section
-            className="py-6 sm:py-8 lg:py-12"
+            className="section-py-md"
             aria-labelledby="brand-portfolio-title"
         >
             {/* Section Header */}
@@ -148,7 +148,7 @@ export default function BrandPortfolio() {
                                 key={brand.slug}
                                 role="listitem"
                                 className="h-20 sm:h-24 lg:h-28 w-36 sm:w-auto bg-background flex items-center justify-center
-                                           hover:bg-subtle transition-all duration-200 cursor-default"
+                                           hover:bg-subtle transition-cinematic cursor-default"
                             >
                                 <BrandLogo name={brand.name} logo={brand.logo} />
                             </div>

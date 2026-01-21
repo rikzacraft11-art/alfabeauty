@@ -33,7 +33,7 @@ function HeroVideo({
         alt="Professional salon interior"
         fill
         priority
-        className="object-cover"
+        className="object-cover img-curated"
         sizes="100vw"
       />
     );
@@ -66,8 +66,8 @@ function HeroContent() {
   const content = getHeroContent(locale);
 
   return (
-    <div className="absolute inset-0 flex items-end pb-12 sm:pb-16 lg:pb-20">
-      <div className="w-full max-w-[120rem] mx-auto px-4 sm:px-6 lg:px-10">
+    <div className="absolute inset-0 flex items-end section-py-lg">
+      <div className="w-full container-2xl px-4 sm:px-6 lg:px-10">
         <div className="max-w-sm sm:max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
           {/* Kicker */}
           <p className="type-hero-kicker ui-hero-on-media-strong animate-fade-in">

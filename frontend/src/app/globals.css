@@ -119,6 +119,88 @@
   --service-overlay-subtle: linear-gradient(135deg,
       rgba(0, 0, 0, 0.3) 0%,
       rgba(0, 0, 0, 0.1) 100%);
+
+  /* ==========================================================================
+     CK-B2B Design System Tokens (Stark Minimalism + Functional Structure)
+     ========================================================================== */
+
+  /* 
+    Spacing Scale (9-step geometric progression)
+    Based on 4px base with 1.5x multiplier for generous whitespace
+  */
+  --space-1: 0.25rem;
+  /* 4px - micro */
+  --space-2: 0.5rem;
+  /* 8px - small */
+  --space-3: 1rem;
+  /* 16px - base */
+  --space-4: 1.5rem;
+  /* 24px - medium */
+  --space-5: 2rem;
+  /* 32px - large */
+  --space-6: 3rem;
+  /* 48px - xl */
+  --space-7: 4rem;
+  /* 64px - 2xl */
+  --space-8: 6rem;
+  /* 96px - 3xl */
+  --space-9: 8rem;
+  /* 128px - 4xl */
+
+  /* 
+    Section Rhythm Tokens (CK Negative Space Philosophy)
+    Generous vertical spacing for "breathing" layouts
+  */
+  --section-py-sm: clamp(2rem, 4vw, 3rem);
+  --section-py-md: clamp(3rem, 6vw, 5rem);
+  --section-py-lg: clamp(4rem, 8vw, 7rem);
+  --section-py-xl: clamp(6rem, 10vw, 10rem);
+
+  /* Container Max-Widths */
+  --container-sm: 42rem;
+  /* 672px - content */
+  --container-md: 64rem;
+  /* 1024px - standard */
+  --container-lg: 80rem;
+  /* 1280px - wide */
+  --container-xl: 96rem;
+  /* 1536px - full */
+  --container-2xl: 120rem;
+  /* 1920px - ultra */
+
+  /* 
+    Image Treatment Filters (CK Curated Gallery)
+    Creates unified "studio lighting" across all images
+  */
+  --img-filter-curated: grayscale(5%) contrast(1.02) brightness(1.02);
+  --img-filter-editorial: grayscale(10%) contrast(1.05) brightness(1.01);
+  --img-filter-dramatic: grayscale(15%) contrast(1.1) brightness(0.98);
+
+  /* Image Overlay Tints */
+  --img-tint-light: rgba(0, 0, 0, 0.02);
+  --img-tint-medium: rgba(0, 0, 0, 0.05);
+  --img-tint-dark: rgba(0, 0, 0, 0.08);
+
+  /* 
+    Transition Tokens (Extended for Cinematic Feel)
+  */
+  --transition-instant: 50ms ease-out;
+  --transition-micro: 100ms ease-out;
+  --transition-quick: 150ms ease-out;
+  --transition-normal: 300ms ease-out;
+  --transition-smooth: 500ms ease-out;
+  --transition-cinematic: 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-dramatic: 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Nav Gap Tokens (CK Stark Spacing) */
+  --nav-gap-sm: 1.5rem;
+  /* 24px */
+  --nav-gap-md: 2.5rem;
+  /* 40px */
+  --nav-gap-lg: 3.5rem;
+  /* 56px */
+  --nav-gap-xl: 5rem;
+  /* 80px */
 }
 
 /* Tablet collapsed header is slightly taller in the reference snapshots */
@@ -1383,4 +1465,213 @@ a {
 
 .animate-pulse-soft {
   animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* =============================================================================
+   CK-B2B Design System Utilities
+   ============================================================================= */
+
+/* 
+  Image Treatment Classes (CK Curated Gallery)
+  Apply consistent "studio lighting" across all images
+*/
+.img-curated {
+  filter: var(--img-filter-curated);
+}
+
+.img-curated::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--img-tint-light);
+  pointer-events: none;
+}
+
+.img-editorial {
+  filter: var(--img-filter-editorial);
+}
+
+.img-dramatic {
+  filter: var(--img-filter-dramatic);
+}
+
+/* Image Frame Variants (CK Stark Framing) */
+.img-frame {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-tight);
+}
+
+.img-frame-subtle {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-tight);
+}
+
+.img-frame-inset {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-tight);
+}
+
+/* 
+  Section Spacing Utilities (CK Negative Space)
+  Generous vertical rhythm for "breathing" layouts
+*/
+.section-py-sm {
+  padding-top: var(--section-py-sm);
+  padding-bottom: var(--section-py-sm);
+}
+
+.section-py-md {
+  padding-top: var(--section-py-md);
+  padding-bottom: var(--section-py-md);
+}
+
+.section-py-lg {
+  padding-top: var(--section-py-lg);
+  padding-bottom: var(--section-py-lg);
+}
+
+.section-py-xl {
+  padding-top: var(--section-py-xl);
+  padding-bottom: var(--section-py-xl);
+}
+
+/* Container Utilities */
+.container-sm {
+  max-width: var(--container-sm);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-md {
+  max-width: var(--container-md);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-lg {
+  max-width: var(--container-lg);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-xl {
+  max-width: var(--container-xl);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-2xl {
+  max-width: var(--container-2xl);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 
+  Typography - CK Stark Minimalism
+  Light weight, wide tracking, uppercase for labels
+*/
+.type-nav-minimal {
+  font-size: 0.8125rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.type-kicker-subtle {
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.type-label-stark {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+/* Transition Utilities */
+.transition-cinematic {
+  transition: all var(--transition-cinematic);
+}
+
+.transition-dramatic {
+  transition: all var(--transition-dramatic);
+}
+
+/* Gap Utilities using Design Tokens */
+.gap-nav-sm {
+  gap: var(--nav-gap-sm);
+}
+
+.gap-nav-md {
+  gap: var(--nav-gap-md);
+}
+
+.gap-nav-lg {
+  gap: var(--nav-gap-lg);
+}
+
+.gap-nav-xl {
+  gap: var(--nav-gap-xl);
+}
+
+/* Spacing Utilities */
+.space-y-section {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(var(--section-py-md) * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(var(--section-py-md) * var(--tw-space-y-reverse));
+}
+
+/* CK Hover Effects */
+.hover-lift {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.hover-scale {
+  transition: transform var(--transition-normal);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Discord-style Sibling Fade (utility version) */
+.sibling-fade-container:hover>* {
+  opacity: 0.4;
+  filter: blur(1px);
+  transition: all var(--transition-normal);
+}
+
+.sibling-fade-container:hover>*:hover {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* Focus States with Design Tokens */
+.focus-minimal:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--border-focus);
+}
+
+/* Aspect Ratios for CK-style Wide Images */
+.aspect-cinema {
+  aspect-ratio: 21 / 9;
+}
+
+.aspect-ultrawide {
+  aspect-ratio: 32 / 9;
+}
+
+.aspect-editorial {
+  aspect-ratio: 16 / 6;
 }

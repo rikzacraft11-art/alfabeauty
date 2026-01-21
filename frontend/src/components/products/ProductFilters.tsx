@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { t } from "@/lib/i18n";
@@ -30,44 +30,6 @@ export default function ProductFilters() {
   } = useProductFilters();
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
-  // Deep-link support: allow /products?category=styling etc.
-  useEffect(() => {
-    const categories = searchParams.getAll("category");
-    const brands = searchParams.getAll("brand");
-    const functions = searchParams.getAll("function");
-    const audiences = searchParams.getAll("audience");
-
-    const hasQueryFilters =
-      categories.length > 0 ||
-      brands.length > 0 ||
-      functions.length > 0 ||
-      audiences.length > 0;
-
-    if (!hasQueryFilters) return;
-
-    clear();
-
-    for (const c of categories) {
-      if (availableCategories.includes(c)) toggle("categories", c);
-    }
-    for (const b of brands) {
-      if (availableBrands.includes(b)) toggle("brands", b);
-    }
-    for (const f of functions) {
-      if (availableFunctions.includes(f)) toggle("functions", f);
-    }
-    for (const a of audiences) {
-      if (a === "SALON" || a === "BARBER") toggle("audiences", a);
-    }
-  }, [
-    searchParams,
-    availableBrands,
-    availableCategories,
-    availableFunctions,
-    clear,
-    toggle,
-  ]);
 
   return (
     <section>

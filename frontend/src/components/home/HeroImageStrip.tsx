@@ -25,7 +25,7 @@ interface CategoryItem {
 
 function useBannerNavigation() {
     const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
-    const [isVisible, setIsVisible] = React.useState(false);
+    const [isHovering, setIsHovering] = React.useState(false);
 
     const closeTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -35,30 +35,29 @@ function useBannerNavigation() {
             closeTimeoutRef.current = null;
         }
         setActiveIndex(index);
-        setIsVisible(true);
+        setIsHovering(true);
     }, []);
 
     const handleContainerLeave = React.useCallback(() => {
         closeTimeoutRef.current = setTimeout(() => {
-            setIsVisible(false);
+            setIsHovering(false);
             setActiveIndex(null);
-        }, 100);
+        }, 150);
     }, []);
 
-    const handleBannerEnter = React.useCallback(() => {
+    const handleContainerEnter = React.useCallback(() => {
         if (closeTimeoutRef.current) {
             clearTimeout(closeTimeoutRef.current);
             closeTimeoutRef.current = null;
         }
-        setIsVisible(true);
     }, []);
 
     return {
         activeIndex,
-        isVisible,
+        isHovering,
         handleItemHover,
         handleContainerLeave,
-        handleBannerEnter,
+        handleContainerEnter,
     };
 }
 
@@ -66,39 +65,69 @@ function useBannerNavigation() {
 // Sub-Components
 // =============================================================================
 
-interface VerticalNavLinkProps {
+interface NavItemProps {
     item: CategoryItem;
     isActive: boolean;
+    isContainerHovered: boolean;
     onHover: () => void;
 }
 
-function VerticalNavLink({ item, isActive, onHover }: VerticalNavLinkProps) {
+/**
+ * NavItem with Discord-style hover effect:
+ * - When container is NOT hovered: all items normal
+ * - When container IS hovered: 
+ *   - Active item: full opacity, no blur
+ *   - Siblings: reduced opacity, slight blur
+ */
+function NavItem({ item, isActive, isContainerHovered, onHover }: NavItemProps) {
+    // Calculate styles based on hover state
+    const getItemStyles = () => {
+        if (!isContainerHovered) {
+            // Default state: all items normal
+            return "opacity-100 blur-0 scale-100";
+        }
+
+        if (isActive) {
+            // Hovered item: stays prominent
+            return "opacity-100 blur-0 scale-100";
+        }
+
+        // Sibling items: fade and blur (Discord effect)
+        return "opacity-30 blur-[1.5px] scale-100";
+    };
+
     return (
-        <div onMouseEnter={onHover}>
+        <div
+            onMouseEnter={onHover}
+            className="relative"
+        >
             <AppLink
                 href={item.href}
                 underline="none"
-                className="group flex items-center gap-3 py-2"
-                aria-current={isActive ? 'true' : undefined}
+                className={`
+                    block py-3 px-1
+                    transition-cinematic
+                    ${getItemStyles()}
+                `}
             >
-                <span className={`type-heading-sm transition-colors duration-200
-                    ${isActive
-                        ? 'text-foreground font-medium'
-                        : 'text-foreground/40 hover:text-foreground'
-                    }`}>
+                <span className="type-nav-minimal">
                     {item.label}
                 </span>
-
-                {/* Connecting line that appears on hover */}
-                <div className={`h-px flex-1 max-w-[4rem] transition-all duration-300 ease-out
-                    ${isActive
-                        ? 'bg-foreground/30 opacity-100 scale-x-100'
-                        : 'bg-transparent opacity-0 scale-x-0'
-                    }`}
-                    style={{ transformOrigin: 'left' }}
-                    aria-hidden="true"
-                />
             </AppLink>
+
+            {/* Active Indicator (line below text) */}
+            <div
+                className={`
+                    absolute bottom-0 left-1/2 -translate-x-1/2
+                    h-[2px] bg-foreground rounded-full
+                    transition-cinematic
+                    ${isActive && isContainerHovered
+                        ? 'w-full opacity-100'
+                        : 'w-0 opacity-0'
+                    }
+                `}
+                aria-hidden="true"
+            />
         </div>
     );
 }
@@ -106,62 +135,81 @@ function VerticalNavLink({ item, isActive, onHover }: VerticalNavLinkProps) {
 interface ExploreBannerProps {
     items: CategoryItem[];
     activeIndex: number | null;
-    isVisible: boolean;
+    isHovering: boolean;
     defaultBanner: string;
-    onMouseEnter: () => void;
-    onMouseLeave: () => void;
+    locale: string;
 }
 
 function ExploreBanner({
     items,
     activeIndex,
-    isVisible,
+    isHovering,
     defaultBanner,
-    onMouseEnter,
-    onMouseLeave,
+    locale,
 }: ExploreBannerProps) {
     const activeItem = activeIndex !== null ? items[activeIndex] : null;
 
     return (
-        <div
-            className="relative flex-1 aspect-[16/10] overflow-hidden ui-radius-tight bg-subtle"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-        >
-            {/* Default banner (always rendered as base layer) */}
+        <div className="relative w-full aspect-cinema overflow-hidden ui-radius-tight img-frame-inset container-2xl">
+            {/* Default Banner (Base Layer) */}
             <Image
                 src={defaultBanner}
                 alt="Explore All Products"
                 fill
-                sizes="(max-width: 1024px) 100vw, 70vw"
-                className={`object-cover transition-opacity duration-500 ease-out
-                    ${isVisible && activeItem ? 'opacity-0' : 'opacity-100'}`}
+                sizes="100vw"
+                className={`
+                    object-cover img-curated
+                    transition-dramatic
+                    ${isHovering && activeItem
+                        ? 'opacity-0 scale-105'
+                        : 'opacity-100 scale-100'
+                    }
+                `}
                 priority
             />
 
-            {/* Category-specific banners (crossfade on hover) */}
+            {/* Category Banners (Dynamic Layer) */}
             {items.map((item, index) => (
                 <Image
                     key={item.key}
                     src={item.exploreBanner}
                     alt={item.label}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 70vw"
-                    className={`object-cover transition-opacity duration-500 ease-out
-                        ${isVisible && activeIndex === index ? 'opacity-100' : 'opacity-0'}`}
+                    sizes="100vw"
+                    className={`
+                        object-cover img-curated
+                        transition-dramatic
+                        ${isHovering && activeIndex === index
+                            ? 'opacity-100 scale-100'
+                            : 'opacity-0 scale-105'
+                        }
+                    `}
                 />
             ))}
 
-            {/* Subtle gradient overlay for depth */}
+            {/* Cinematic Gradient Overlay + CK Subtle Tint */}
             <div
-                className="absolute inset-0 bg-gradient-to-r from-background/5 to-transparent pointer-events-none"
+                className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"
+                aria-hidden="true"
+            />
+            <div
+                className="absolute inset-0 bg-black/[0.03] pointer-events-none"
                 aria-hidden="true"
             />
 
-            {/* Context Label (bottom-left) */}
+            {/* Context Label (Bottom Left) */}
             <div className="absolute bottom-6 left-8 z-10">
-                <p className="text-white backdrop-blur-md bg-black/10 px-3 py-1.5 rounded text-sm font-medium tracking-wide">
-                    {isVisible && activeItem ? activeItem.label : (useLocale().locale === 'id' ? 'Semua Kategori' : 'All Categories')}
+                <p className={`
+                    type-kicker-subtle text-white/90 
+                    backdrop-blur-md bg-black/20 
+                    px-4 py-2 rounded
+                    transition-cinematic
+                    ${isHovering
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-2 opacity-70'
+                    }
+                `}>
+                    {activeItem?.description || (locale === 'id' ? 'Koleksi Profesional' : 'Professional Collection')}
                 </p>
             </div>
         </div>
@@ -208,10 +256,10 @@ export default function HeroImageStrip() {
 
     const {
         activeIndex,
-        isVisible,
+        isHovering,
         handleItemHover,
         handleContainerLeave,
-        handleBannerEnter,
+        handleContainerEnter,
     } = useBannerNavigation();
 
     // Transform categories to include computed properties
@@ -227,60 +275,69 @@ export default function HeroImageStrip() {
     );
 
     return (
-        <section className="relative bg-background" aria-labelledby="category-hero-title">
+        <section
+            className="relative bg-background border-t border-border"
+            aria-labelledby="category-hero-title"
+        >
             <h2 id="category-hero-title" className="sr-only">{sectionTitle}</h2>
 
-            {/* Mobile: Grid layout with visible thumbnails */}
-            <div className="lg:hidden border-y border-border">
-                <div className="py-6 sm:py-8">
-                    <p className="px-4 sm:px-6 mb-5 type-data uppercase text-foreground/50 tracking-wider">
-                        {locale === 'id' ? 'Telusuri Kategori' : 'Browse Categories'}
-                    </p>
-                    <div className="px-4 sm:px-6">
-                        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 sm:gap-4">
-                            {categoryItems.map((item) => (
-                                <MobileCategoryCard key={item.key} item={item} />
-                            ))}
-                        </div>
-                    </div>
+            {/* ===================== MOBILE VIEW ===================== */}
+            <div className="lg:hidden py-8">
+                <p className="px-6 mb-5 type-data uppercase text-foreground/50 tracking-wider">
+                    {locale === 'id' ? 'Telusuri Kategori' : 'Browse Categories'}
+                </p>
+                <div className="px-6 grid grid-cols-3 gap-3">
+                    {categoryItems.map((item) => (
+                        <MobileCategoryCard key={item.key} item={item} />
+                    ))}
                 </div>
             </div>
 
-            {/* Desktop: Vertical navigation with dynamic banner */}
-            <div className="hidden lg:block border-y border-border">
-                <div className="mx-auto max-w-[120rem] px-6 sm:px-10 lg:px-16 py-10 lg:py-14">
-                    <div
-                        className="flex gap-10 lg:gap-20"
-                        onMouseLeave={handleContainerLeave}
-                    >
-                        {/* Left: Vertical text navigation */}
-                        <div className="w-48 lg:w-64 flex-shrink-0 flex flex-col justify-center">
-                            <p className="type-data uppercase text-foreground/50 mb-8 tracking-wider">
-                                {locale === 'id' ? 'Jelajahi Produk' : 'Explore Products'}
-                            </p>
-                            <nav className="flex flex-col gap-2">
-                                {categoryItems.map((item, index) => (
-                                    <VerticalNavLink
-                                        key={item.key}
-                                        item={item}
-                                        isActive={activeIndex === index}
-                                        onHover={() => handleItemHover(index)}
-                                    />
-                                ))}
-                            </nav>
-                        </div>
+            {/* ===================== DESKTOP VIEW ===================== */}
+            <div className="hidden lg:block container-2xl section-py-md">
+                {/* Navigation Container */}
+                <div
+                    className="flex flex-col items-center"
+                    onMouseEnter={handleContainerEnter}
+                    onMouseLeave={handleContainerLeave}
+                >
+                    {/* Kicker Text - B2B Formal */}
+                    <p className="type-kicker-subtle mb-6">
+                        {locale === 'id' ? 'Jelajahi Produk' : 'Explore Products'}
+                    </p>
 
-                        {/* Right: Dynamic banner image */}
-                        <ExploreBanner
-                            items={categoryItems}
-                            activeIndex={activeIndex}
-                            isVisible={isVisible}
-                            defaultBanner={defaultExploreBanner}
-                            onMouseEnter={handleBannerEnter}
-                            onMouseLeave={handleContainerLeave}
-                        />
-                    </div>
+                    {/* 
+                        DISCORD-STYLE NAVIGATION
+                        ========================
+                        The magic happens via state passed to NavItem:
+                        - isContainerHovered: tells each item if the nav area is being hovered
+                        - isActive: tells each item if IT is the one being hovered
+                        
+                        Result:
+                        - All items blur/fade when container is hovered
+                        - Only the active item stays sharp
+                    */}
+                    <nav className="flex items-center justify-center gap-nav-lg lg:gap-nav-xl mb-8">
+                        {categoryItems.map((item, index) => (
+                            <NavItem
+                                key={item.key}
+                                item={item}
+                                isActive={activeIndex === index}
+                                isContainerHovered={isHovering}
+                                onHover={() => handleItemHover(index)}
+                            />
+                        ))}
+                    </nav>
                 </div>
+
+                {/* Dynamic Banner */}
+                <ExploreBanner
+                    items={categoryItems}
+                    activeIndex={activeIndex}
+                    isHovering={isHovering}
+                    defaultBanner={defaultExploreBanner}
+                    locale={locale}
+                />
             </div>
         </section>
     );

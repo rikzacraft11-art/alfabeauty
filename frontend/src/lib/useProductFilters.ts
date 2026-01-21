@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useCallback } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import type { Audience, Product } from "@/lib/types";
 import { listProducts } from "@/lib/catalog";
 
@@ -67,6 +68,12 @@ function uniq(values: string[]): string[] {
  * ```
  */
 export function useProductFilters() {
+    const searchParams = useSearchParams();
+    // Use window.history.replaceState directly to avoid Next.js router overhead for shallow updates if preferred,
+    // but router.replace with scroll: false is standard.
+    const router = useRouter();
+    const pathname = usePathname();
+
     // Load all products once
     const allProducts = useMemo(() => listProducts(), []);
 
@@ -86,32 +93,46 @@ export function useProductFilters() {
         [allProducts]
     );
 
-    // Filter state
-    const [filters, setFilters] = useState<ProductFilters>(EMPTY_FILTERS);
+    // Filter state derived from URL
+    const filters = useMemo((): ProductFilters => {
+        return {
+            brands: new Set(searchParams.getAll("brand")),
+            categories: new Set(searchParams.getAll("category")),
+            functions: new Set(searchParams.getAll("function")),
+            audiences: new Set(searchParams.getAll("audience") as Audience[]),
+        };
+    }, [searchParams]);
 
-    // Toggle a filter value on/off
+    // Toggle a filter value by updating URL
     const toggle = useCallback((key: keyof ProductFilters, value: string) => {
-        setFilters((prev) => {
-            const next: ProductFilters = {
-                brands: new Set(prev.brands),
-                categories: new Set(prev.categories),
-                functions: new Set(prev.functions),
-                audiences: new Set(prev.audiences),
-            };
-            const set = next[key] as Set<string>;
-            if (set.has(value)) {
-                set.delete(value);
-            } else {
-                set.add(value);
-            }
-            return next;
-        });
-    }, []);
+        const current = new URLSearchParams(searchParams.toString());
+
+        // Map logical keys to URL param keys
+        const paramKeyMap: Record<keyof ProductFilters, string> = {
+            brands: "brand",
+            categories: "category",
+            functions: "function",
+            audiences: "audience",
+        };
+        const paramKey = paramKeyMap[key];
+
+        // Manual toggle logic for URLSearchParams
+        const values = current.getAll(paramKey);
+        current.delete(paramKey);
+
+        if (values.includes(value)) {
+            values.filter(v => v !== value).forEach(v => current.append(paramKey, v));
+        } else {
+            [...values, value].forEach(v => current.append(paramKey, v));
+        }
+
+        router.replace(`${pathname}?${current.toString()}`, { scroll: false });
+    }, [searchParams, router, pathname]);
 
     // Clear all filters
     const clear = useCallback(() => {
-        setFilters(EMPTY_FILTERS);
-    }, []);
+        router.replace(pathname, { scroll: false });
+    }, [router, pathname]);
 
     // Filtered product list
     const filtered = useMemo(

@@ -24,10 +24,8 @@ param(
 	# Headers capture runs a Next.js production server temporarily.
 	[int]$HeadersPort = 3001,
 
-	# Telemetry smoke runs Go Lead API + Next.js production server temporarily.
-	[int]$TelemetryFrontendPort = 3001,
-	[int]$TelemetryLeadApiPort = 8083,
-	[string]$TelemetryAdminToken = "local-dev-token"
+	# Headers capture runs a Next.js production server temporarily.
+	[int]$HeadersPort = 3001
 )
 
 $ErrorActionPreference = 'Stop'
@@ -119,29 +117,7 @@ function Assert-ExpectedNextOrFree {
 	}
 }
 
-function Assert-ExpectedLeadApiOrFree {
-	param(
-		[Parameter(Mandatory = $true)][int]$Port
-	)
 
-	$conn = Get-ListenConn $Port
-	if (-not $conn) {
-		return $false
-	}
-
-	try {
-		$resp = Invoke-WebRequest -Uri "http://127.0.0.1:$Port/health" -UseBasicParsing -TimeoutSec 5
-		if ($resp.StatusCode -ne 200) {
-			throw "unexpected_status:$($resp.StatusCode)"
-		}
-		if ($resp.Content -match '"status"\s*:\s*"ok"') {
-			return $true
-		}
-		throw "health_not_ok"
-	} catch {
-		throw "port_in_use:$Port (Lead API) but /health is not ok. Stop the process and retry. Details: $($_.Exception.Message)"
-	}
-}
 
 function Update-UatIndex {
 	param(
@@ -203,15 +179,8 @@ $commit = Try-GetGitCommit $repoRoot
 
 # --- 1) Playwright smoke tests -> evidence pack ---
 $playwrightWebPort = 3000
-$leadApiPort = 8082
-$reuseNext = Assert-ExpectedNextOrFree -Port $playwrightWebPort
-$reuseLeadApi = Assert-ExpectedLeadApiOrFree -Port $leadApiPort
-
 if ($reuseNext) {
 	Write-Host "[e2e] reusing existing Next.js dev server on :$playwrightWebPort" -ForegroundColor Yellow
-}
-if ($reuseLeadApi) {
-	Write-Host "[e2e] reusing existing Lead API on :$leadApiPort" -ForegroundColor Yellow
 }
 
 $reportDirBase = Join-Path $uatDir "${RunDate}_playwright-report"
@@ -303,13 +272,6 @@ if (-not $SkipHeaders) {
 	& (Join-Path $repoRoot 'scripts\\capture-website-headers-local.ps1') -Port $headersPortToUse | Out-Host
 }
 
-# --- 4) Telemetry proxy smoke (optional) ---
-if (-not $SkipTelemetry) {
-	$telemetryFrontendPortToUse = Resolve-FreePort -Preferred $TelemetryFrontendPort -Min 3100 -Max 3199 -Label 'telemetry frontend'
-	$telemetryLeadApiPortToUse = Resolve-FreePort -Preferred $TelemetryLeadApiPort -Min 8200 -Max 8299 -Label 'telemetry lead api'
 
-	Write-Host "[rum] running telemetry proxy smoke..." -ForegroundColor Cyan
-	& (Join-Path $repoRoot 'scripts\\smoke-frontend-telemetry-proxy.ps1') -FrontendPort $telemetryFrontendPortToUse -LeadApiPort $telemetryLeadApiPortToUse -AdminToken $TelemetryAdminToken | Out-Host
-}
 
 Write-Host "[done] Paket A evidence generated." -ForegroundColor Green

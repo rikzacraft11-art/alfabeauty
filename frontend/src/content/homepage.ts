@@ -137,26 +137,6 @@ export function getCategoryStripTitle(locale: Locale) {
     return locale === "id" ? "Telusuri Kategori" : "Explore by Category";
 }
 
-// =============================================================================
-// Bento Grid Default Items
-// =============================================================================
-
-export const bentoGridLabels = {
-    en: {
-        professionalSalon: "Professional Salon",
-        styling: "Styling",
-        treatment: "Treatment",
-    },
-    id: {
-        professionalSalon: "Salon Profesional",
-        styling: "Styling",
-        treatment: "Treatment",
-    },
-} as const;
-
-export function getBentoGridLabels(locale: Locale) {
-    return bentoGridLabels[locale];
-}
 
 // =============================================================================
 // Brand Portfolio

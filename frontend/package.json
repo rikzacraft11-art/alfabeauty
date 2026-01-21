@@ -20,6 +20,8 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
+    "@next/third-parties": "^16.1.4",
+    "@supabase/supabase-js": "^2.91.0",
     "framer-motion": "^12.27.0",
     "next": "16.1.1",
     "react": "19.2.3",

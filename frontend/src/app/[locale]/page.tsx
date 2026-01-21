@@ -4,7 +4,7 @@ import HomeHero from "@/components/home/HomeHero";
 import HeroImageStrip from "@/components/home/HeroImageStrip";
 import BrandPortfolio from "@/components/home/BrandPortfolio";
 import EditorialCarouselSection from "@/components/home/EditorialCarouselSection";
-import { ServicesExperience } from "@/components/organisms";
+import { ServicesExperience } from "@/components/services-experience";
 import type { Locale } from "@/lib/i18n";
 import { getEditorialSection } from "@/content/homepage";
 
@@ -47,8 +47,8 @@ export default async function LocalizedHome({
       <HeroImageStrip />
 
       {/* Editorial + Carousel Section - Featured Products (core e-catalog value) */}
+      {/* NOTE: heroImage removed - this section now visually attaches to HeroImageStrip's dynamic banner */}
       <EditorialCarouselSection
-        heroImage="/images/hero/hero-salon.jpg"
         kicker={productsSection.kicker}
         title={productsSection.title}
         description={productsSection.description}
