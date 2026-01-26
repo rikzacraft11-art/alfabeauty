@@ -88,14 +88,22 @@ function convertToCSV(leads: Record<string, unknown>[]): string {
     // Define columns to export
     const columns = [
         "id",
+        "created_at",
         "name",
         "phone",
         "email",
         "message",
+        // Partner Profiling Fields (extracted from raw)
+        "business_name",
+        "salon_type",
+        "chair_count",
+        "specialization",
+        "current_brands_used",
+        "monthly_spend_range",
+        "city",
+        // Tech info
         "ip_address",
-        "page_url_initial",
         "page_url_current",
-        "created_at",
     ];
 
     // Header row
@@ -103,10 +111,20 @@ function convertToCSV(leads: Record<string, unknown>[]): string {
 
     // Data rows
     const rows = leads.map((lead) => {
+        const raw = lead.raw as Record<string, unknown> || {};
+
         return columns
             .map((col) => {
-                const value = lead[col];
+                // Check top-level first, then raw
+                let value = lead[col];
+
+                // If not found in top-level, check raw for specific partner fields
+                if (value === undefined && col in raw) {
+                    value = raw[col];
+                }
+
                 if (value === null || value === undefined) return "";
+
                 // Escape quotes and wrap in quotes if contains comma or quote
                 const str = String(value);
                 if (str.includes(",") || str.includes('"') || str.includes("\n")) {

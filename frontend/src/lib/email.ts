@@ -1,41 +1,43 @@
-/**
- * Email Notification Utility
- * 
- * Sends lead notification emails via SMTP using nodemailer.
- * Configured via environment variables.
- * 
- * See Paket A §9 DoD: Email notifikasi terkirim ke inbox internal
- */
-
 import nodemailer from "nodemailer";
 
-type LeadRecord = Record<string, unknown>;
+const SMTP_HOST = process.env.SMTP_HOST;
+const SMTP_PORT = Number(process.env.SMTP_PORT || "587");
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS;
+const SMTP_FROM = process.env.SMTP_FROM || '"Alfa Beauty Website" <noreply@alfabeauty.co.id>';
+const SMTP_TO = process.env.SMTP_TO; // Internal inbox
 
-const SMTP_ENABLED = process.env.SMTP_ENABLED === "true";
-const SMTP_HOST = process.env.SMTP_HOST || "";
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || "587", 10);
-const SMTP_USER = process.env.SMTP_USER || "";
-const SMTP_PASS = process.env.SMTP_PASS || "";
-const SMTP_FROM = process.env.SMTP_FROM || "noreply@alfabeautycosmetica.com";
-const SMTP_TO = process.env.SMTP_TO || "";
+// Check if SMTP is configured
+const SMTP_ENABLED = Boolean(SMTP_HOST && SMTP_USER && SMTP_PASS && SMTP_TO);
 
-// Lazy-initialized transporter (singleton)
+export type LeadRecord = {
+    name: string;
+    phone: string;
+    email: string;
+    message: string;
+    ip_address: string;
+    page_url_current: string;
+    page_url_initial: string;
+    raw: unknown;
+};
+
+/**
+ * Singleton transporter
+ */
 let transporter: nodemailer.Transporter | null = null;
 
-function getTransporter(): nodemailer.Transporter | null {
-    if (!SMTP_ENABLED || !SMTP_HOST) {
-        return null;
-    }
+function getTransporter() {
+    if (!SMTP_ENABLED) return null;
 
     if (!transporter) {
         transporter = nodemailer.createTransport({
             host: SMTP_HOST,
             port: SMTP_PORT,
-            secure: SMTP_PORT === 465,
-            auth: SMTP_USER && SMTP_PASS ? {
+            secure: SMTP_PORT === 465, // true for 465, false for other ports
+            auth: {
                 user: SMTP_USER,
                 pass: SMTP_PASS,
-            } : undefined,
+            },
         });
     }
 
@@ -48,7 +50,10 @@ function getTransporter(): nodemailer.Transporter | null {
  */
 export async function sendLeadNotification(lead: LeadRecord): Promise<void> {
     if (!SMTP_ENABLED) {
-        console.log("[email] SMTP not enabled, skipping notification");
+        // Only log in dev to avoid noise
+        if (process.env.NODE_ENV !== "production") {
+            console.log("[email] SMTP not enabled, skipping notification");
+        }
         return;
     }
 
@@ -94,13 +99,19 @@ function formatLeadEmail(lead: LeadRecord): string {
         `Email: ${lead.email || "-"}`,
         `Message: ${lead.message || "-"}`,
         "",
-        "--- Additional Info ---",
+        "--- Partner Profile ---",
+        `Business: ${(lead.raw as any).business_name || "-"}`,
+        `City: ${(lead.raw as any).city || "-"}`,
+        `Type: ${(lead.raw as any).salon_type || "-"}`,
+        `Chair Count: ${(lead.raw as any).chair_count || "-"}`,
+        `Specialization: ${(lead.raw as any).specialization || "-"}`,
+        `Brands: ${(lead.raw as any).current_brands_used || "-"}`,
+        `Spend: ${(lead.raw as any).monthly_spend_range || "-"}`,
+        "",
+        "--- Tech Info ---",
         `IP: ${lead.ip_address || "-"}`,
         `Source: ${lead.page_url_current || "-"}`,
         `Initial Page: ${lead.page_url_initial || "-"}`,
-        "",
-        "--- Raw Data ---",
-        JSON.stringify(lead.raw, null, 2),
     ];
 
     return lines.join("\n");
@@ -151,29 +162,28 @@ function formatLeadEmailHtml(lead: LeadRecord): string {
         ${raw.salon_type ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Type</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.salon_type))}</td></tr>` : ""}
         ${raw.chair_count ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Chairs</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.chair_count))}</td></tr>` : ""}
         ${raw.specialization ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Specialization</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.specialization))}</td></tr>` : ""}
-        ${raw.current_brands_used ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Current Brands</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.current_brands_used))}</td></tr>` : ""}
-        ${raw.monthly_spend_range ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Monthly Spend</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.monthly_spend_range))}</td></tr>` : ""}
+        ${raw.current_brands_used ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Brands</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.current_brands_used))}</td></tr>` : ""}
+        ${raw.monthly_spend_range ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Spend</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.monthly_spend_range))}</td></tr>` : ""}
     </table>
     ` : ""}
-    
-    <p style="color: #95a5a6; font-size: 12px; margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee;">
-        IP: ${escapeHtml(String(lead.ip_address || "-"))}<br>
-        Source: ${escapeHtml(String(lead.page_url_current || "-"))}
-    </p>
+
+    <div style="margin-top: 30px; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
+        <p>Source: ${escapeHtml(String(lead.page_url_current || "-"))}</p>
+        <p>IP: ${escapeHtml(String(lead.ip_address || "unknown"))}</p>
+    </div>
 </body>
 </html>
-    `.trim();
+    `;
 }
 
 /**
- * Escape HTML special characters
+ * Basic HTML escape to prevent injection in email body
  */
-function escapeHtml(str: string): string {
-    return str
+function escapeHtml(unsafe: string): string {
+    return unsafe
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-

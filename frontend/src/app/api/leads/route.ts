@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
-import { sendLeadNotification } from "@/lib/email";
+import { sendLeadNotification, type LeadRecord } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -171,6 +171,27 @@ export async function POST(req: Request) {
     );
   }
 
+  // SEC-01 Server-side validation (Length limits)
+  const MAX_TEXT_LEN = 255;
+  const MAX_MSG_LEN = 2000;
+
+  if (isPartnerPayload(payload)) {
+    if (payload.business_name.length > MAX_TEXT_LEN) {
+      return NextResponse.json({ error: "business_name_too_long" }, { status: 400 });
+    }
+    if (payload.contact_name.length > MAX_TEXT_LEN) {
+      return NextResponse.json({ error: "contact_name_too_long" }, { status: 400 });
+    }
+  } else {
+    if (payload.name.length > MAX_TEXT_LEN) {
+      return NextResponse.json({ error: "name_too_long" }, { status: 400 });
+    }
+  }
+
+  if (payload.message && payload.message.length > MAX_MSG_LEN) {
+    return NextResponse.json({ error: "message_too_long" }, { status: 400 });
+  }
+
   const ua = req.headers.get("user-agent") || "";
 
   const dbRecord: Record<string, unknown> = {
@@ -209,7 +230,8 @@ export async function POST(req: Request) {
 
     // Send email notification (fail-safe: log error, don't block)
     try {
-      await sendLeadNotification(dbRecord);
+      // safe cast: we populated required fields above
+      await sendLeadNotification(dbRecord as unknown as LeadRecord);
     } catch (emailErr) {
       console.error("[leads] Email notification failed:", emailErr);
       // Don't return error - lead is already saved in Supabase

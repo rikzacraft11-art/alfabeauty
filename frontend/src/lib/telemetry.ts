@@ -140,29 +140,16 @@ function ensureFlushListener(): void {
 
 /**
  * Post telemetry data to the server.
- * Enriches payload with device type, page URLs, and timestamp.
- * Queued and flushed in a microtask for responsiveness; also flushed on
- * visibilitychange→hidden for best-effort delivery when the tab closes.
+ * 
+ * NOTE: Internal telemetry endpoints (/api/rum, /api/events) were removed
+ * as they forwarded to a non-existent Go backend.
+ * This function is now a no-op. Events are sent to GA4 via trackEvent().
+ * 
+ * @deprecated Use trackEvent() which sends to GA4 directly.
  */
-export function postTelemetry(path: "/api/rum" | "/api/events", payload: Record<string, unknown>): void {
-  if (!isBrowser()) return;
-
-  ensureFlushListener();
-
-  const url = new URL(path, window.location.origin).toString();
-  const enriched = {
-    ...payload,
-    device_type: getDeviceType(),
-    page_url_initial: getInitialPageUrl(),
-    page_url_current: getCurrentPageUrl(),
-    timestamp: new Date().toISOString(),
-  };
-
-  // Queue for a microtask flush; also flushed on visibilitychange→hidden.
-  telemetryQueue.push({ url, payload: enriched });
-
-  // Send near-immediately for responsiveness without risking duplicate sends on hidden.
-  scheduleFlush();
+export function postTelemetry(_path: "/api/rum" | "/api/events", _payload: Record<string, unknown>): void {
+  // No-op: Internal telemetry endpoints removed.
+  // Events are tracked via GA4 in trackEvent().
 }
 
 // Re-export analytics event types for convenience

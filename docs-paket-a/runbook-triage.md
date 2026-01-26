@@ -41,7 +41,7 @@ Tujuan: memastikan request submit benar-benar sampai ke server dan tidak gagal.
 - Klasifikasikan hasil:
   - **2xx**: submit diterima (lanjut cek deliverability SMTP / mailbox)
   - **4xx**: biasanya validation/rate limit
-  - **5xx**: error server / konfigurasi
+  - **5xx**: error server (Node.js runtime crash, Supabase connection error)
 
 Jika tersedia metrik, lihat tren:
 - lonjakan 4xx/5xx pada endpoint lead submit
@@ -89,9 +89,9 @@ Catatan: konfigurasi sensitif (password/token) **tidak** boleh ditaruh di repo; 
 
 ## 4) Lokasi implementasi (untuk developer)
 
-- Routing endpoint lead submit: `internal/handler/app.go` (route `/api/v1/leads`)
-- Service handler lead submit: `internal/service/lead_service.go`
-- Pengiriman email SMTP: `internal/notify/email_sender.go`
+- Routing endpoint lead submit: `frontend/src/app/api/leads/route.ts`
+- Service handler lead submit: `frontend/src/app/api/leads/route.ts` (inline handler)
+- Pengiriman email SMTP: `frontend/src/lib/email.ts`
 
 ---
 

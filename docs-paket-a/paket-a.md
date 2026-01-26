@@ -1,9 +1,10 @@
 # Paket A — Website B2B + Lead Capture (WhatsApp + Become Partner)
 ## PT. Alfa Beauty Cosmetica
 
-**Version:** 4.0 (Supabase DB + email notifikasi + export CSV + CMS free tier; tanpa admin dashboard kompleks; tanpa RUM khusus)  
-**Date:** January 20, 2026  
-**Scope:** Website Paket A + **Become Partner lead persistence di Supabase + email notifikasi + export CSV**  
+**Version:** 4.1 (Hybrid Next.js + Supabase DB + email notifikasi; Audit Ready)
+**Date:** January 26, 2026
+**Scope:** Website Paket A + **Become Partner lead persistence di Supabase + email notifikasi + export CSV**
+**Architecture Note:** Project ini menggunakan **Hybrid Architecture** (Next.js App Router dengan `runtime='nodejs'`), bukan murni Static Website. Hal ini diperlukan untuk fitur validasi server-side dan API routes.
 
 Dokumen ini adalah **spesifikasi implementasi + kontrak penerimaan (UAT/DoD)** untuk Paket A.
 
@@ -1119,3 +1120,14 @@ Dokumen berikut **disupersede** oleh dokumen ini (untuk traceability):
 | `docs-paket-a/_deprecated/dev/asvs_v5_traceability.md` | §16 |
 | `docs-paket-a/_deprecated/prod/system_diagrams.md` | §3 |
 | `docs-paket-a/_deprecated/dev/ai_workflow_productivity.md` | §17 |
+
+---
+
+## 19. Governance Log (COBIT Compliance)
+
+**Objective:** Audit trail for critical business decisions and sign-offs.
+
+| Date | Event | Who | Status | Evidence |
+|---|---|---|---|---|
+| 2026-01-20 | Blueprint Created | Vendor | DRAFT | - |
+| 2026-01-26 | Framework Critique (ITIL/COBIT/TOGAF) | AntiGravity Agent | REVIEW | `implementation_plan.md` |
