@@ -80,6 +80,36 @@
   */
   --header-height-mobile: 97px;
   --header-transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0s;
+    --transition-base: 0s;
+    --transition-slow: 0s;
+    --transition-spring: 0s;
+    --header-transition: 0s;
+    --service-transition-duration: 0s;
+    --service-transition-fast: 0s;
+    --transition-instant: 0s;
+    --transition-micro: 0s;
+    --transition-quick: 0s;
+    --transition-normal: 0s;
+    --transition-smooth: 0s;
+    --transition-cinematic: 0s;
+    --transition-dramatic: 0s;
+    --scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
   /* Font variables (overridable). Keep builds deterministic when Google Fonts are unavailable. */
   --font-body: ui-sans-serif;

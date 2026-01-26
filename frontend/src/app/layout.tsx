@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import OfflineIndicator from "@/components/site/OfflineIndicator";
+import CookieConsent from "@/components/site/CookieConsent";
 import JsonLd from "@/components/site/JsonLd";
 import { env } from "@/lib/env";
 import "./globals.css";
@@ -87,6 +88,7 @@ export default async function RootLayout({
         </a>
         <JsonLd />
         {children}
+        <CookieConsent />
       </body>
       <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID ?? ""} />
     </html>
