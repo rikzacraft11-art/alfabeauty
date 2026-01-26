@@ -48,7 +48,7 @@ export default function SiteFooter() {
     setEmailError(error);
     if (!error) {
       // TODO: Handle subscription
-      console.log("Subscribe:", email);
+      // TODO: Implement newsletter subscription API
       setEmail("");
       setEmailTouched(false);
     }

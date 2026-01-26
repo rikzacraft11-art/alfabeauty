@@ -176,5 +176,94 @@
       "Heat protection included"
     ],
     "howToUse": "Shake well. Apply to damp hair at roots. Blow dry for maximum volume."
+  },
+  {
+    "slug": "argan-repair-oil",
+    "name": "Argan Repair Oil",
+    "brand": "Brand C",
+    "audience": [
+      "SALON",
+      "BARBER"
+    ],
+    "functions": [
+      "Repair",
+      "Shine"
+    ],
+    "categories": [
+      "treatment"
+    ],
+    "summary": "Lightweight argan-based oil for instant shine and frizz control.",
+    "benefits": [
+      "Instant shine without heaviness",
+      "Controls frizz and flyaways",
+      "Heat protection up to 230°C"
+    ],
+    "howToUse": "Apply 1-2 drops to damp or dry hair. Focus on mid-lengths and ends. Can be used as a finishing touch."
+  },
+  {
+    "slug": "beard-grooming-oil",
+    "name": "Beard Grooming Oil",
+    "brand": "Brand B",
+    "audience": [
+      "BARBER"
+    ],
+    "functions": [
+      "Grooming",
+      "Conditioning"
+    ],
+    "categories": [
+      "grooming"
+    ],
+    "summary": "Premium beard oil for softening and conditioning facial hair.",
+    "benefits": [
+      "Softens coarse beard hair",
+      "Moisturizes skin underneath",
+      "Light masculine scent"
+    ],
+    "howToUse": "Apply 3-5 drops to palms. Massage into beard from roots to tips. Use daily for best results."
+  },
+  {
+    "slug": "professional-bleach-powder",
+    "name": "Professional Bleach Powder",
+    "brand": "Brand A",
+    "audience": [
+      "SALON"
+    ],
+    "functions": [
+      "Lightening",
+      "Color"
+    ],
+    "categories": [
+      "color"
+    ],
+    "summary": "High-performance bleach powder for professional lightening services.",
+    "benefits": [
+      "Up to 9 levels of lift",
+      "Anti-yellow technology",
+      "Dust-free formula"
+    ],
+    "howToUse": "Mix with developer at recommended ratio. Apply to dry hair. Process and rinse. For professional use only."
+  },
+  {
+    "slug": "oxidizing-developer-30vol",
+    "name": "Oxidizing Developer 30 Vol",
+    "brand": "Brand A",
+    "audience": [
+      "SALON"
+    ],
+    "functions": [
+      "Color",
+      "Developer"
+    ],
+    "categories": [
+      "color"
+    ],
+    "summary": "Professional-grade hydrogen peroxide developer for color and lightening.",
+    "benefits": [
+      "Consistent viscosity for even application",
+      "Compatible with all professional color lines",
+      "Creamy texture for precise mixing"
+    ],
+    "howToUse": "Mix with color or bleach at recommended ratio. Apply immediately. For professional use only."
   }
 ]

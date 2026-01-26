@@ -15,14 +15,24 @@ export const runtime = "nodejs";
  */
 
 const ADMIN_TOKEN = process.env.LEAD_API_ADMIN_TOKEN || "";
+const EXPORT_LIMIT = 1000; // Pagination limit to prevent timeout
 
 export async function GET(req: Request) {
-    // Validate admin token
+    // Validate admin token - MUST be non-empty and match
     const token =
         req.headers.get("x-admin-token") ||
         req.headers.get("authorization")?.replace("Bearer ", "");
 
-    if (!ADMIN_TOKEN || token !== ADMIN_TOKEN) {
+    // Security: Require ADMIN_TOKEN to be configured AND non-empty
+    if (!ADMIN_TOKEN || ADMIN_TOKEN.length < 8) {
+        console.error("[leads/export] LEAD_API_ADMIN_TOKEN not configured or too short");
+        return NextResponse.json(
+            { error: "service_not_configured" },
+            { status: 503, headers: { "Cache-Control": "no-store" } }
+        );
+    }
+
+    if (!token || token !== ADMIN_TOKEN) {
         return NextResponse.json(
             { error: "unauthorized" },
             { status: 401, headers: { "Cache-Control": "no-store" } }
@@ -30,11 +40,12 @@ export async function GET(req: Request) {
     }
 
     try {
-        // Fetch all leads from Supabase
+        // Fetch leads with pagination to prevent timeout
         const { data, error } = await supabaseAdmin()
             .from("leads")
             .select("*")
-            .order("created_at", { ascending: false });
+            .order("created_at", { ascending: false })
+            .limit(EXPORT_LIMIT);
 
         if (error) {
             console.error("[leads/export] Supabase error:", error);

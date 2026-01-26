@@ -5,12 +5,21 @@ import { sendLeadNotification } from "@/lib/email";
 export const runtime = "nodejs";
 
 /**
- * Simple in-memory rate limiter
+ * Simple in-memory rate limiter (fallback)
+ * Note: This is not persistent across serverless instances.
+ * For production at scale, use Upstash/Vercel KV.
  * Limits: 5 requests per minute per IP
  */
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 5;
+
+/**
+ * Idempotency cache (in-memory fallback)
+ * Stores processed idempotency keys to prevent duplicate submissions
+ */
+const idempotencyCache = new Map<string, { processedAt: number; result: unknown }>();
+const IDEMPOTENCY_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -28,6 +37,30 @@ function checkRateLimit(ip: string): boolean {
 
   record.count++;
   return true;
+}
+
+/**
+ * Check idempotency - return cached result if key was already processed
+ */
+function checkIdempotency(key: string | null): { cached: boolean; result?: unknown } {
+  if (!key) return { cached: false };
+
+  const now = Date.now();
+  const record = idempotencyCache.get(key);
+
+  if (record && now - record.processedAt < IDEMPOTENCY_TTL_MS) {
+    return { cached: true, result: record.result };
+  }
+
+  return { cached: false };
+}
+
+/**
+ * Store idempotency result
+ */
+function storeIdempotency(key: string | null, result: unknown): void {
+  if (!key) return;
+  idempotencyCache.set(key, { processedAt: Date.now(), result });
 }
 
 /**
@@ -94,6 +127,16 @@ export async function POST(req: Request) {
           "Retry-After": "60",
         },
       }
+    );
+  }
+
+  // Idempotency check - return cached result if already processed
+  const idempotencyKey = req.headers.get("idempotency-key");
+  const idempotencyResult = checkIdempotency(idempotencyKey);
+  if (idempotencyResult.cached) {
+    return NextResponse.json(
+      idempotencyResult.result,
+      { status: 202, headers: { "Cache-Control": "no-store", "X-Idempotent-Replay": "true" } }
     );
   }
 
@@ -172,9 +215,13 @@ export async function POST(req: Request) {
       // Don't return error - lead is already saved in Supabase
     }
 
+    // Store idempotency result for future duplicate requests
+    const successResult = { status: "accepted" };
+    storeIdempotency(idempotencyKey, successResult);
+
     return NextResponse.json(
-      { status: "ok" },
-      { status: 201, headers: { "Cache-Control": "no-store" } }
+      successResult,
+      { status: 202, headers: { "Cache-Control": "no-store" } }
     );
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "internal_error";

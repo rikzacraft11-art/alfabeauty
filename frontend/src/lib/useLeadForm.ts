@@ -240,13 +240,14 @@ export function useLeadForm(
             return;
         }
 
-        if (res.status === 202) {
+        // Handle both 202 (new API) and 201 (legacy) as success
+        if (res.status === 202 || res.status === 201) {
             let id: string | undefined;
             try {
                 const json = (await res.json()) as { id?: string };
                 id = json.id;
             } catch {
-                // honeypot spam path can be 202 with no body
+                // honeypot spam path can return with no parseable body
             }
 
             trackEvent("lead_submit_success", { id });
