@@ -6,6 +6,16 @@ const nextConfig: NextConfig = {
   compress: true, // Performance: Enable Gzip/Brotli
   reactStrictMode: true, // Quality: Catch double-renders
 
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.brandfetch.io",
+      },
+    ],
+  },
+
   async headers() {
     // Paket A §15 — Website (HTML) security headers baseline.
     // Note: CSP here is intentionally minimal to avoid breaking Next.js runtime.

@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = (env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
   const locales: Array<"en" | "id"> = ["en", "id"];
-  const staticRoutes = ["", "/products", "/education", "/partnership", "/partnership/become-partner", "/about", "/contact", "/privacy", "/terms"];
+  const staticRoutes = ["", "/products", "/education", "/partnership", "/partnership/become-partner", "/about", "/contact", "/privacy", "/terms", "/security-policy"];
 
   const now = new Date();
 

@@ -14,15 +14,27 @@ export function middleware(request: NextRequest) {
     // We do NOT use suffix rewriting (.en) as it fights the framework.
 
     // 1. Root Redirect
-    // If user hits /, redirect to /id (default)
     if (pathname === "/") {
         const url = request.nextUrl.clone();
         url.pathname = "/id";
         return NextResponse.redirect(url);
     }
 
-    // 2. Strict Locale Enforcement
-    // Pass headers (including Trace ID)
+    // 2. Locale Enforcement (Resilience)
+    // Check if path starts with a supported locale
+    const pathnameIsMissingLocale = ["/en", "/id"].every(
+        (locale) => !pathname.startsWith(`${locale}/`) && pathname !== locale
+    );
+
+    // Redirect if locale is missing (e.g. /products -> /id/products)
+    // Exception: Explicit API routes or known public files (handled by matcher config)
+    if (pathnameIsMissingLocale) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/id${pathname.startsWith("/") ? "" : "/"}${pathname}`;
+        return NextResponse.redirect(url);
+    }
+
+    // 3. Pass headers (including Trace ID)
     requestHeaders.set("Server-Timing", `trace;desc="${requestId}"`);
     return NextResponse.next({
         request: {

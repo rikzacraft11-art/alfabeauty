@@ -130,7 +130,7 @@ export async function POST(req: Request) {
   // Get IP for rate limiting
   const ip =
     req.headers.get("x-real-ip") ||
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     "unknown";
 
   // Rate limit check

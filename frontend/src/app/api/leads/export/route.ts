@@ -146,5 +146,5 @@ function convertToCSV(leads: Record<string, unknown>[]): string {
  */
 function getDateString(): string {
     const now = new Date();
-    return now.toISOString().split("T")[0];
+    return now.toISOString().split("T")[0] ?? new Date().toISOString();
 }

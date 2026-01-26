@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import OfflineIndicator from "@/components/site/OfflineIndicator";
 import CookieConsent from "@/components/site/CookieConsent";
+import ServiceWorkerRegister from "@/components/site/ServiceWorkerRegister";
 import JsonLd from "@/components/site/JsonLd";
 import { env } from "@/lib/env";
 import "./globals.css";
@@ -75,8 +76,8 @@ export default async function RootLayout({
   const lang = localeHeader === "id" || localeHeader === "en" ? localeHeader : "en";
 
   return (
-    <html lang={lang} suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+    <html lang={lang} suppressHydrationWarning className={`${inter.variable}`}>
+      <body className="antialiased">
         {/* Offline Indicator (ITIL/UX) */}
         <OfflineIndicator />
         {/* Skip Link for Accessibility (WCAG 2.4.1) */}
@@ -89,6 +90,7 @@ export default async function RootLayout({
         <JsonLd />
         {children}
         <CookieConsent />
+        <ServiceWorkerRegister />
       </body>
       <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID ?? ""} />
     </html>

@@ -111,6 +111,8 @@
   }
 }
 
+
+:root {
   /* Font variables (overridable). Keep builds deterministic when Google Fonts are unavailable. */
   --font-body: ui-sans-serif;
   --font-display: ui-serif;

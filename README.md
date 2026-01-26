@@ -1,22 +1,26 @@
 # PT. Alfa Beauty Cosmetica B2B Platform
 
-Website B2B + Lead Capture untuk PT. Alfa Beauty Cosmetica
+![CI Status](https://github.com/niana24/rid/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/badge/license-Proprietary-red)
+![Node Version](https://img.shields.io/badge/node-22.x-green)
+
+Website B2B + Lead Capture untuk PT. Alfa Beauty Cosmetica.
 
 ## Tech Stack
 
-- **Frontend:** Next.js 16.x + React + TypeScript 5.9
-- **Runtime:** Node.js 24.x (Active LTS; fallback 22.x)
-- **Database:** Supabase (lead persistence)
-- **CMS:** Headless CMS (free tier)
+- **Frontend:** Next.js 16.x + React + TypeScript
+- **Runtime:** Node.js 22.x (LTS)
+- **Database:** Supabase (PostgreSQL)
+- **CMS:** Headless CMS (via Git/JSON)
 - **Analytics:** GA4 + Google Search Console
-- **Hosting:** Vercel Free/Hobby
+- **Hosting:** Vercel
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js 24.x (atau 22.x)
-- npm
+- Node.js 22.x
+- npm 10.x
 
 ### Development
 
@@ -27,10 +31,11 @@ npm run dev      # Start development server
 npm run build    # Build production
 npm run lint     # Run linting
 npm run test:unit # Run unit tests
-npm run type-check # Run TypeScript check
+npm run test:e2e  # Run smoke tests
 ```
 
 ## Contributing
+
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 **Domain:**
@@ -45,9 +50,11 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 │   ├── public/         # Static assets
 │   ├── e2e/            # End-to-end tests (Playwright)
 │   └── scripts/        # Build/utility scripts
-├── docs-paket-a/       # Documentation
-│   ├── paket-a.md      # Technical spec
-│   └── proposal.md     # Commercial proposal
+├── docs/               # Documentation (Single Source of Truth)
+│   ├── adr/            # Architecture Decisions
+│   ├── governance/     # Policies (DoD, Retention)
+│   ├── runbooks/       # Operational Procedures
+│   └── infrastructure.md
 └── scripts/            # Root-level scripts
 ```
 
@@ -58,25 +65,14 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 - **WhatsApp CTA:** Deep link + fallback
 - **Bilingual:** ID/EN untuk semua halaman
 - **SEO:** Meta, sitemap, robots, OpenGraph/Twitter, JSON-LD
-- **Analytics:** Event tracking (klik WA, submit lead)
-
-## Lead Pipeline
-
-```
-Form Submit → Server Validation → Supabase (DB) → Email Notification
-                                      ↓
-                              Export CSV (Owner/PIC)
-```
-
-## Environment Variables
-
-Lihat `frontend/.env.example` untuk konfigurasi yang dibutuhkan.
+- **PWA:** Installable, Offline capabilities
 
 ## Documentation
 
-- [Paket A (technical spec)](docs-paket-a/paket-a.md) — acuan teknis implementasi
-- [Proposal (commercial)](docs-paket-a/proposal.md) — acuan komersial (scope, UAT, biaya)
-- [Docs entry](docs-paket-a/README.md)
+- [Infrastructure](docs/infrastructure.md) — Technical spec & scaling
+- [Architecture](docs/architecture.md) — System diagrams
+- [Definition of Done](docs/governance/definition-of-done.md) — Quality standards
+- [Security Policy](frontend/src/app/%5Blocale%5D/security-policy/page.tsx) — Vulnerability disclosure
 
 ## License
 

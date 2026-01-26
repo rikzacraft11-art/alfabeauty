@@ -68,6 +68,7 @@ export default function PartnershipContent() {
         <section className="grid gap-6 md:grid-cols-3">
           {cards.map((card, idx) => {
             const Icon = ICONS[idx];
+            if (!Icon) return null;
             return (
               <Card key={card.title} className="p-8 space-y-4 group hover:border-muted-strong transition-colors">
                 {/* Numbered badge */}
