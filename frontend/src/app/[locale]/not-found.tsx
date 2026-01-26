@@ -47,7 +47,7 @@ export default function NotFound() {
         className="mt-16 pt-10 border-t border-border/50"
         aria-label={locale === "id" ? "Tautan berguna" : "Helpful links"}
       >
-        <p className="type-data text-muted mb-6 uppercase tracking-wider">
+        <p className="type-ui-sm-wide text-muted mb-6 uppercase">
           {locale === "id" ? "Coba halaman ini:" : "Try these pages:"}
         </p>
         <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 type-body-compact">

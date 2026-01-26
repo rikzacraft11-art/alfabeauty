@@ -56,14 +56,68 @@ export async function submitLead(formData: LeadRequest) {
   const ip = headerStore.get("x-real-ip") || headerStore.get("x-forwarded-for") || "unknown";
   const userAgent = headerStore.get("user-agent") || "unknown";
 
-  // Rate Limit check (Simple In-Memory for now, same as route.ts)
-  // Note: For actions, we might want to use a centralized limiter service if this becomes high traffic.
-  // We'll skip complex in-memory rate limiting here for simplicity as actions are less prone to bot spam than public GET/POST endpoints, 
-  // but we should still implement it if needed. The honeypot protects us well.
+  // Rate Limiter Strategy (In-Memory Token Bucket Lite)
+  // Prevents spam while avoiding external dependencies like Redis for this scale.
+  const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 Hour
+  const RATE_LIMIT_MAX = 5; // 5 submissions per IP per hour
 
-  // 1. Validation
+  class RateLimiter {
+    private hits = new Map<string, { count: number; expires: number }>();
+    private cleanupInterval: NodeJS.Timeout;
+
+    constructor() {
+      // Auto-cleanup every hour to prevent memory leaks
+      this.cleanupInterval = setInterval(() => this.cleanup(), RATE_LIMIT_WINDOW);
+    }
+
+    check(ip: string): boolean {
+      const now = Date.now();
+      const record = this.hits.get(ip);
+
+      if (record) {
+        if (now > record.expires) {
+          // Expired, reset
+          this.hits.set(ip, { count: 1, expires: now + RATE_LIMIT_WINDOW });
+          return true;
+        }
+        if (record.count >= RATE_LIMIT_MAX) {
+          return false; // Limit exceeded
+        }
+        // Increment
+        record.count++;
+        return true;
+      }
+
+      // New IP
+      this.hits.set(ip, { count: 1, expires: now + RATE_LIMIT_WINDOW });
+      return true;
+    }
+
+    private cleanup() {
+      const now = Date.now();
+      for (const [ip, record] of this.hits.entries()) {
+        if (now > record.expires) {
+          this.hits.delete(ip);
+        }
+      }
+    }
+  }
+
+  // Singleton instance
+  const limiter = new RateLimiter();
+
+  // ... inside submitLead function ...
+  // check(ip) implementation follows
+
+  // 1. Rate Check
+  if (!limiter.check(ip)) {
+    logger.warn("[Action] Rate limit exceeded", { ip });
+    return { success: false, error: "rate_limited" };
+  }
+
+  // 2. Validation
   const result = leadSchema.safeParse(formData);
-  
+
   if (!result.success) {
     const flattened = result.error.flatten();
     logger.warn("[Action] Validation failed", { errors: flattened.fieldErrors });

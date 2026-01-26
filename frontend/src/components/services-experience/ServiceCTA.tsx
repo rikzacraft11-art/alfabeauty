@@ -14,7 +14,7 @@
 'use client';
 
 import { memo } from 'react';
-import Link from 'next/link';
+import AppLink from '@/components/ui/AppLink';
 import { motion, type Variants } from 'framer-motion';
 
 // =============================================================================
@@ -116,21 +116,21 @@ export const ServiceCTA = memo(function ServiceCTA({
     group
     inline-flex items-center gap-3
     px-8 py-4
-    bg-white/10 hover:bg-white/20
+    bg-indicator-fixed/10 hover:bg-indicator-fixed/20
     backdrop-blur-sm
-    border border-white/30 hover:border-white/50
-    text-white
+    border border-indicator-fixed/30 hover:border-indicator-fixed/50
+    text-indicator-fixed
     type-ui
     transition-all duration-300
-    focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-indicator-fixed/50
     ${className}
   `;
 
     if (skipAnimation) {
         return (
-            <Link href={fullHref} className={baseClasses}>
+            <AppLink href={fullHref} className={baseClasses}>
                 {buttonContent}
-            </Link>
+            </AppLink>
         );
     }
 
@@ -147,9 +147,9 @@ export const ServiceCTA = memo(function ServiceCTA({
                 delay: delay / 1000,
             }}
         >
-            <Link href={fullHref} className={baseClasses}>
+            <AppLink href={fullHref} className={baseClasses}>
                 {buttonContent}
-            </Link>
+            </AppLink>
         </motion.div>
     );
 });

@@ -82,7 +82,7 @@ const REDUNDANCY_PATTERNS = [
   // Nested links (accessibility issue)
   {
     name: "Nested link components",
-    re: /<AppLink[^>]*>[^]*<AppLink|<ButtonLink[^>]*>[^]*<ButtonLink|<TextLink[^>]*>[^]*<TextLink/g,
+    re: /<AppLink[^>]*>(?:(?!<\/AppLink>)[^])*<AppLink|<ButtonLink[^>]*>(?:(?!<\/ButtonLink>)[^])*<ButtonLink|<TextLink[^>]*>(?:(?!<\/TextLink>)[^])*<TextLink/g,
     fix: "Links should not be nested (accessibility issue)",
     severity: "error",
   },

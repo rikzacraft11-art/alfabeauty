@@ -23,11 +23,11 @@ export default function WhatsAppStickyCTA() {
       }}
     >
       <WhatsAppLink
-        className="inline-flex items-center gap-2 h-12 px-5 bg-[#25D366] hover:bg-[#20bf5b] text-white rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 font-medium"
+        className="inline-flex items-center gap-2 h-12 px-5 bg-whatsapp text-background rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 type-ui"
         prefill={process.env.NEXT_PUBLIC_WHATSAPP_PREFILL}
       >
         <IconWhatsApp className="h-5 w-5" aria-hidden="true" />
-        <span className="max-sm:sr-only font-semibold tracking-wide">{copy.cta.whatsappConsult}</span>
+        <span className="max-sm:sr-only type-ui-strong">{copy.cta.whatsappConsult}</span>
       </WhatsAppLink>
     </div>
   );

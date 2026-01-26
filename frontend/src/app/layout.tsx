@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import OfflineIndicator from "@/components/site/OfflineIndicator";
-import CookieConsent from "@/components/site/CookieConsent";
 import ServiceWorkerRegister from "@/components/site/ServiceWorkerRegister";
 import JsonLd from "@/components/site/JsonLd";
 import { env } from "@/lib/env";
@@ -72,16 +71,9 @@ export default async function RootLayout({
       <body className="antialiased">
         {/* Offline Indicator (ITIL/UX) */}
         <OfflineIndicator />
-        {/* Skip Link for Accessibility (WCAG 2.4.1) */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-foreground focus:text-background focus:rounded"
-        >
-          Skip to main content
-        </a>
+        {/* Skip Link moved to [locale]/layout.tsx for localization */}
         <JsonLd />
         {children}
-        <CookieConsent />
         <ServiceWorkerRegister />
       </body>
       <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID ?? ""} />

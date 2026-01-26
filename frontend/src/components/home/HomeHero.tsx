@@ -67,7 +67,7 @@ function HeroContent() {
 
   return (
     <div className="absolute inset-0 flex items-end section-py-lg">
-      <div className="w-full container-2xl px-4 sm:px-6 lg:px-10">
+      <div className="w-full container-2xl px-4 sm:px-6 lg:px-10 mx-auto max-w-[120rem]">
         <div className="max-w-sm sm:max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
           {/* Kicker */}
           <p className="type-hero-kicker ui-hero-on-media-strong animate-fade-in">

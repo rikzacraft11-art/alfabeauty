@@ -27,13 +27,27 @@ export default function GlobalError({
             <p className="type-body text-muted-strong">
               A critical error occurred. We apologize for the inconvenience.
             </p>
+            {error.digest && (
+              <div className="mt-4 p-3 bg-subtle rounded text-xs font-mono text-muted text-left">
+                <p>Error ID: <span className="select-all">{error.digest}</span></p>
+                <p>Please quote this ID when contacting support.</p>
+              </div>
+            )}
           </div>
-          <button
-            onClick={() => reset()}
-            className="ui-btn-primary ui-radius-tight px-6 py-2.5"
-          >
-            Try again
-          </button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <button
+              onClick={() => reset()}
+              className="ui-btn-primary ui-radius-tight px-6 py-2.5"
+            >
+              Try again
+            </button>
+            <a
+              href={`mailto:support@alfabeauty.co.id?subject=System%20Error%20Report&body=Error%20ID:%20${error.digest || 'Unknown'}`}
+              className="px-6 py-2.5 text-sm font-medium text-muted-strong hover:text-foreground transition-colors"
+            >
+              Contact Support
+            </a>
+          </div>
         </div>
       </body>
     </html>

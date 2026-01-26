@@ -69,9 +69,7 @@ export const ServiceTitle = memo(function ServiceTitle({
     const baseClasses = `
     block
     text-white
-    uppercase
-    font-light
-    tracking-[0.15em]
+    type-service-title
     ${className}
   `;
 

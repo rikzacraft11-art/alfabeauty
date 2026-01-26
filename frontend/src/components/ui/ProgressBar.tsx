@@ -54,13 +54,13 @@ export const ProgressBar = memo(function ProgressBar({
             aria-valuemin={0}
             aria-valuemax={100}
             aria-label={ariaLabel}
-            className={`relative overflow-hidden bg-white/20 ${className}`}
+            className={`relative overflow-hidden bg-indicator-fixed/20 ${className}`}
             style={{ height: `${height}px` }}
         >
             <div
                 className={`
           absolute inset-y-0 left-0 
-          bg-white
+          bg-indicator-fixed
           ${animated ? 'transition-all duration-300 ease-out' : ''}
         `}
                 style={{ width: `${percentage}%` }}

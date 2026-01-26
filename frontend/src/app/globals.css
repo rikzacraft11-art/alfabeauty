@@ -355,9 +355,12 @@ html {
   --color-indicator-fixed: #ffffff;
 
   /* Semantic colors */
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #20bf5b;
   --color-success: #166534;
   --color-success-bg: #dcfce7;
-  --color-error: #991b1b;
+  --color-error: #ef4444;
+  /* red-500 */
   --color-error-bg: #fee2e2;
   --color-warning: #92400e;
   --color-warning-bg: #fef3c7;
@@ -667,6 +670,54 @@ body {
   letter-spacing: 0.0125em;
   /* 0.2px at 16px base - CK uses 0.2px */
   color: inherit;
+}
+
+.type-service-title {
+  letter-spacing: 0.15em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.type-service-number {
+  font-family: var(--font-mono);
+  font-weight: 200;
+  letter-spacing: 0.1em;
+}
+
+.type-service-tagline {
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.type-footer-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  /* tracking-wider */
+}
+
+.type-footer-brand {
+  font-size: 1.125rem;
+  /* text-lg */
+  font-weight: 600;
+  /* font-semibold */
+  letter-spacing: -0.025em;
+  /* tracking-tight */
+}
+
+.type-legal {
+  font-size: 11px;
+}
+
+.type-footer-link {
+  font-size: 13px;
+}
+
+.type-ui-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 @media (min-width: 640px) {

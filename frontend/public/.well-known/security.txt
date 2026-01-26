@@ -1,5 +1,3 @@
-Contact: mailto:security@alfabeautycosmetica.com
-Expires: 2027-01-01T00:00:00.000Z
-Preferred-Languages: en, id
-Policy: https://alfabeauty.co.id/security-policy
-Hiring: https://alfabeauty.co.id/careers
+Contact: mailto:security@alfabeauty.co.id
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: id, en

@@ -116,12 +116,12 @@ export const ServiceNav = memo(function ServiceNav({
             pointer-events-auto
             w-14 h-14
             flex items-center justify-center
-            bg-white/5 hover:bg-white/10
+            bg-indicator-fixed/5 hover:bg-indicator-fixed/10
             backdrop-blur-sm
-            border border-white/10 hover:border-white/20
-            text-white
+            border border-indicator-fixed/10 hover:border-indicator-fixed/20
+            text-background
             transition-all duration-300
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-indicator-fixed/50
             ${!canGoPrev ? 'opacity-30 cursor-not-allowed' : ''}
           `}
                     aria-label="Previous service"
@@ -138,12 +138,12 @@ export const ServiceNav = memo(function ServiceNav({
             pointer-events-auto
             w-14 h-14
             flex items-center justify-center
-            bg-white/5 hover:bg-white/10
+            bg-indicator-fixed/5 hover:bg-indicator-fixed/10
             backdrop-blur-sm
-            border border-white/10 hover:border-white/20
-            text-white
+            border border-indicator-fixed/10 hover:border-indicator-fixed/20
+            text-indicator-fixed
             transition-all duration-300
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-indicator-fixed/50
             ${!canGoNext ? 'opacity-30 cursor-not-allowed' : ''}
           `}
                     aria-label="Next service"
@@ -169,11 +169,11 @@ export const ServiceNav = memo(function ServiceNav({
 
                 {/* Counter */}
                 <div
-                    className="flex items-center gap-3 type-data text-white/40"
+                    className="flex items-center gap-3 type-data text-indicator-fixed/40"
                     aria-hidden="true"
                 >
                     <span className="font-mono">{String(current).padStart(2, '0')}</span>
-                    <span className="w-8 h-px bg-white/20" />
+                    <span className="w-8 h-px bg-indicator-fixed/20" />
                     <span className="font-mono">{String(total).padStart(2, '0')}</span>
                 </div>
             </div>

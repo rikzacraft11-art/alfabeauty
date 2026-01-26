@@ -28,9 +28,12 @@ function localeFromPathname(pathname: string): Locale | null {
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Skip public/static files (anything with an extension), otherwise the locale
-  // redirect breaks asset URLs like /images/* and Next/Image optimization.
-  if (pathname.includes(".")) {
+  // Scale Architecture: Precise Static Exclusion
+  // Prevent catching legitimate slugs with dots (e.g. /blog/version-2.0)
+  // while still skipping assets.
+  const staticFileRegex = /\.(?:jpg|jpeg|png|gif|svg|ico|webp|js|css|woff2?|map|json|xml|txt)$/i;
+
+  if (staticFileRegex.test(pathname)) {
     return NextResponse.next();
   }
 
@@ -52,11 +55,26 @@ export function middleware(req: NextRequest) {
     const requestHeaders = new Headers(req.headers);
     requestHeaders.set("x-alfab-locale", locale);
 
-    return NextResponse.next({
+    const response = NextResponse.next({
       request: {
         headers: requestHeaders,
       },
     });
+
+    // ITIL 4 / COBIT 2019 Security Compliance
+    response.headers.set("X-Frame-Options", "DENY");
+    response.headers.set("X-Content-Type-Options", "nosniff");
+    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    response.headers.set(
+      "Content-Security-Policy",
+      "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self';"
+    );
+    response.headers.set(
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains; preload"
+    );
+
+    return response;
   }
 
   const locale = chooseLocale(req);

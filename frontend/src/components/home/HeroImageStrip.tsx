@@ -283,7 +283,7 @@ export default function HeroImageStrip() {
 
             {/* ===================== MOBILE VIEW ===================== */}
             <div className="lg:hidden py-8">
-                <p className="px-6 mb-5 type-data uppercase text-foreground/50 tracking-wider">
+                <p className="px-6 mb-5 type-ui-sm-wide uppercase text-foreground/50">
                     {locale === 'id' ? 'Telusuri Kategori' : 'Browse Categories'}
                 </p>
                 <div className="px-6 grid grid-cols-3 gap-3">
@@ -294,7 +294,7 @@ export default function HeroImageStrip() {
             </div>
 
             {/* ===================== DESKTOP VIEW ===================== */}
-            <div className="hidden lg:block container-2xl section-py-md">
+            <div className="hidden lg:block container-2xl section-py-md mx-auto max-w-[120rem]">
                 {/* Navigation Container */}
                 <div
                     className="flex flex-col items-center"

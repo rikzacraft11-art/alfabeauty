@@ -6,7 +6,7 @@ const config: Config = {
         "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
-    darkMode: "class", // Enforce class-based dark mode (User Request: Stabilize Theme)
+    darkMode: "media", // Enforce system-based dark mode (Matches globals.css @media)
     theme: {
         extend: {},
     },

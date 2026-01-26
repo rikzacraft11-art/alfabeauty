@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   // Hardening (Phase 16)
@@ -39,7 +40,7 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https:",
+      "img-src 'self' data: blob: https://cdn.brandfetch.io https://*.supabase.co https://placehold.co",
       "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self' https:",
       "base-uri 'none'",
@@ -69,4 +70,25 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
+// Wrap the base config with Bundle Analyzer
+const nextConfigWithAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+})(nextConfig);
+
+// Conditional Sentry Configuration (Phase 10 CSI)
+// Only enable Sentry build plugin if we have an Auth Token (CI/Prod).
+// This prevents local build crashes when you don't have the token.
+const isSentryEnabled = !!process.env.SENTRY_AUTH_TOKEN;
+
+export default isSentryEnabled
+  ? withSentryConfig(nextConfigWithAnalyzer, {
+    org: "alfa-beauty-cosmetica",
+    project: "frontend",
+    silent: !process.env.CI,
+    tunnelRoute: "/monitoring",
+    disableLogger: true,
+    automaticVercelMonitors: true,
+  })
+  : nextConfigWithAnalyzer;

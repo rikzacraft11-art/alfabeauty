@@ -69,7 +69,7 @@ export const NavigationDot = memo(function NavigationDot({
         flex flex-col items-center gap-2
         py-2 px-1
         focus:outline-none
-        focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
+        focus-visible:ring-2 focus-visible:ring-indicator-fixed/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
         disabled:opacity-50 disabled:cursor-not-allowed
         ${className}
       `}
@@ -81,8 +81,8 @@ export const NavigationDot = memo(function NavigationDot({
             block rounded-full
             transition-all duration-300
             ${isActive
-                            ? 'bg-white scale-100'
-                            : 'bg-white/40 scale-75 group-hover:bg-white/60 group-hover:scale-90'
+                            ? 'bg-indicator-fixed scale-100'
+                            : 'bg-indicator-fixed/40 scale-75 group-hover:bg-indicator-fixed/60 group-hover:scale-90'
                         }
           `}
                     style={{
@@ -95,7 +95,7 @@ export const NavigationDot = memo(function NavigationDot({
                 {isActive && (
                     <motion.span
                         layoutId="service-nav-ring"
-                        className="absolute inset-0 -m-1 border border-white/50 rounded-full"
+                        className="absolute inset-0 -m-1 border border-indicator-fixed/50 rounded-full"
                         transition={{
                             type: 'spring',
                             bounce: 0.2,
@@ -109,9 +109,9 @@ export const NavigationDot = memo(function NavigationDot({
             {showLabel && (
                 <span
                     className={`
-            type-data uppercase tracking-wider
+            type-ui-sm-wide uppercase
             transition-colors duration-300
-            ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}
+            ${isActive ? 'text-indicator-fixed' : 'text-indicator-fixed/40 group-hover:text-indicator-fixed/60'}
           `}
                 >
                     {label}

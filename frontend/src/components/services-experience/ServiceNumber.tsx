@@ -72,7 +72,7 @@ export const ServiceNumber = memo(function ServiceNumber({
             <span
                 className={`
           block
-          font-mono font-extralight
+          type-service-number
           text-white/20
           select-none
           ${className}
@@ -80,7 +80,6 @@ export const ServiceNumber = memo(function ServiceNumber({
                 style={{
                     fontSize: 'var(--service-number-size, clamp(4rem, 15vw, 10rem))',
                     lineHeight: 1,
-                    letterSpacing: '0.1em',
                 }}
                 aria-hidden="true"
             >
@@ -93,7 +92,7 @@ export const ServiceNumber = memo(function ServiceNumber({
         <motion.span
             className={`
         block
-        font-mono font-extralight
+        type-service-number
         text-white/20
         select-none
         ${className}
@@ -101,7 +100,6 @@ export const ServiceNumber = memo(function ServiceNumber({
             style={{
                 fontSize: 'var(--service-number-size, clamp(4rem, 15vw, 10rem))',
                 lineHeight: 1,
-                letterSpacing: '0.1em',
             }}
             aria-hidden="true"
             variants={numberVariants}

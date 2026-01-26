@@ -112,7 +112,7 @@ export const ServiceContent = memo(function ServiceContent({
 
                 {/* Tagline */}
                 <motion.p
-                    className="type-body-large text-white/50 uppercase tracking-[0.2em]"
+                    className="type-service-tagline text-white/50"
                     initial={{ y: yOffset, opacity: 0 }}
                     animate={{ y: 0, opacity: 1, transition: { ...smoothTransition, delay: (STAGGER_BASE * 2) / 1000 } }}
                     exit={{ y: exitYOffset, opacity: 0, transition: fastTransition }}

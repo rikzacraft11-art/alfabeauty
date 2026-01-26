@@ -11,7 +11,7 @@ describe('Structured Logger', () => {
         logger.info("Test Message");
 
         expect(consoleSpy).toHaveBeenCalled();
-        const output = consoleSpy.mock.calls[0][0];
+        const output = String(consoleSpy.mock.calls[0]?.[0]);
         const json = JSON.parse(output);
 
         expect(json.level).toBe("info");
@@ -23,7 +23,7 @@ describe('Structured Logger', () => {
         const consoleSpy = vi.spyOn(console, 'log');
         logger.warn("Warning", { user_id: 123 });
 
-        const json = JSON.parse(consoleSpy.mock.calls[0][0]);
+        const json = JSON.parse(String(consoleSpy.mock.calls[0]?.[0]));
         expect(json.context.user_id).toBe(123);
     });
 });

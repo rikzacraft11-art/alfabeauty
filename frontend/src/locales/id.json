@@ -239,61 +239,62 @@
         "termsTitle": "Syarat & Ketentuan",
         "privacyPolicy": {
             "intro": {
-                "prefix": "Ringkasan",
-                "body": "Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi saat Anda menggunakan website ini atau menghubungi kami."
+                "prefix": "Tanggal Efektif: 1 Januari 2026.",
+                "body": "PT. Alfa Beauty Cosmetica ('kami') berkomitmen melindungi data pribadi Anda sesuai dengan Undang-Undang Pelindungan Data Pribadi (UU No. 27 Tahun 2022). Kebijakan ini menjelaskan cara kami memproses informasi Anda."
             },
             "sections": {
                 "informationWeCollect": {
-                    "title": "Informasi yang kami kumpulkan",
+                    "title": "1. Pengumpulan Data",
                     "items": [
-                        "Data yang Anda kirimkan melalui form Kemitraan (mis. nama bisnis, kontak, WhatsApp, kota).",
-                        "Data teknis dasar untuk analytics/performa (mis. event klik CTA, metrik RUM).",
-                        "Informasi yang Anda kirimkan saat menghubungi kami via WhatsApp/email."
+                        "Data Identitas: Nama usaha, nama kontak, kota, dan tipe salon.",
+                        "Data Kontak: Nomor WhatsApp dan alamat email.",
+                        "Data Teknis: Alamat IP, tipe browser, dan metrik interaksi (via Vercel dan Sentry)."
                     ]
                 },
                 "howWeUse": {
-                    "title": "Cara kami menggunakan informasi",
+                    "title": "2. Tujuan Pemrosesan",
                     "items": [
-                        "Menindaklanjuti permintaan konsultasi produk dan/atau pendaftaran kemitraan.",
-                        "Meningkatkan kualitas website (stabilitas, performa, dan pengalaman pengguna).",
-                        "Mencegah spam/penyalahgunaan pada jalur lead."
+                        "Memproses aplikasi kemitraan dan memverifikasi legitimasi usaha.",
+                        "Memfasilitasi konsultasi B2B dan pemesanan produk via WhatsApp.",
+                        "Mematuhi kewajiban hukum (misal: pelaporan pajak).",
+                        "Meningkatkan keamanan dan performa platform."
                     ]
                 },
                 "storageSecurity": {
-                    "title": "Penyimpanan & keamanan",
-                    "body": "Data lead disimpan sebelum ditandai berhasil. Kami menerapkan langkah keamanan wajar untuk melindungi data dari akses tidak sah."
+                    "title": "3. Penyimpanan & Retensi",
+                    "body": "Data Anda disimpan secara aman di infrastruktur Supabase (AWS). Kami menyimpan data kemitraan selama hubungan bisnis berlangsung atau sesuai ketentuan hukum Indonesia (minimal 5 tahun untuk catatan keuangan)."
                 },
                 "cookies": {
-                    "title": "Cookie & teknologi serupa",
-                    "body": "Kami dapat menggunakan cookie/teknologi serupa untuk analitik dan peningkatan performa. Anda dapat mengatur preferensi cookie melalui pengaturan browser Anda."
+                    "title": "4. Cookie & Analitik",
+                    "body": "Kami menggunakan cookie esensial untuk fungsi situs dan analitik guna memahami pola penggunaan. Anda dapat menonaktifkan cookie di pengaturan browser Anda."
                 },
                 "contact": {
-                    "title": "Hubungi kami",
-                    "body": "Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami melalui halaman Contact atau WhatsApp."
+                    "title": "5. Hak Pengguna (UU PDP)",
+                    "body": "Berdasarkan UU PDP, Anda berhak mengakses, mengoreksi, atau menghapus data pribadi Anda. Untuk menggunakan hak ini, silakan hubungi Petugas Pelindungan Data kami di: security@alfabeauty.co.id."
                 }
             }
         },
         "termsPolicy": {
             "intro": {
-                "prefix": "Ringkasan",
-                "body": "Syarat ini menjelaskan aturan penggunaan website dan kontennya."
+                "prefix": "Persetujuan.",
+                "body": "Dengan mengakses website ini, Anda menyetujui Syarat & Ketentuan ini. Jika tidak setuju, mohon segera hentikan penggunaan."
             },
             "sections": {
                 "websiteUse": {
-                    "title": "Penggunaan website",
-                    "body": "Website ini disediakan untuk informasi produk, edukasi, dan jalur konsultasi/kemitraan untuk profesional salon & barbershop."
+                    "title": "1. Platform B2B",
+                    "body": "Platform ini ditujukan khusus untuk salon profesional, barbershop, dan distributor kecantikan di Indonesia. Tidak untuk ritel konsumen umum."
                 },
                 "noPublicPricing": {
-                    "title": "Tidak ada harga publik",
-                    "body": "Kami tidak menampilkan harga publik. Konsultasi, rekomendasi, dan pemesanan dilakukan melalui WhatsApp."
+                    "title": "2. Harga & Pemesanan",
+                    "body": "Kami tidak mempublikasikan daftar harga publik untuk melindungi mitra B2B kami. Harga final dikonfirmasi hanya melalui faktur resmi via WhatsApp."
                 },
                 "limitations": {
-                    "title": "Keterbatasan",
-                    "body": "Konten disediakan apa adanya. Kami berupaya menjaga akurasi, namun informasi dapat berubah."
+                    "title": "3. Penyangkalan Jaminan",
+                    "body": "Konten disediakan 'sebagaimana adanya'. Meski kami berupaya akurat, kami tidak menjamin deskripsi produk atau konten edukasi bebas dari kesalahan."
                 },
                 "changes": {
-                    "title": "Perubahan",
-                    "body": "Kami dapat memperbarui syarat ini dari waktu ke waktu. Versi terbaru akan dipublikasikan di halaman ini."
+                    "title": "4. Batasan Tanggung Jawab",
+                    "body": "PT. Alfa Beauty Cosmetica tidak bertanggung jawab atas kerugian tidak langsung akibat penggunaan website ini. Tanggung jawab kami terbatas sejauh yang diizinkan hukum Indonesia."
                 }
             }
         }

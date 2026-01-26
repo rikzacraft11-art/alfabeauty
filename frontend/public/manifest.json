@@ -22,5 +22,11 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ]
+    ],
+    "categories": [
+        "business",
+        "beauty",
+        "shopping"
+    ],
+    "orientation": "portrait"
 }

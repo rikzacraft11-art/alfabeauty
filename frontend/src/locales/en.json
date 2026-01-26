@@ -236,64 +236,65 @@
     },
     "legal": {
         "privacyTitle": "Privacy Policy",
-        "termsTitle": "Terms",
+        "termsTitle": "Terms of Service",
         "privacyPolicy": {
             "intro": {
-                "prefix": "Overview",
-                "body": "This Privacy Policy explains how we collect, use, and protect information when you use this website or contact us."
+                "prefix": "Effective Date: January 1, 2026.",
+                "body": "PT. Alfa Beauty Cosmetica ('we', 'our') is committed to protecting your personal data in compliance with the Personal Data Protection Law (UU No. 27 of 2022). This policy explains how we process your information."
             },
             "sections": {
                 "informationWeCollect": {
-                    "title": "Information we collect",
+                    "title": "1. Data Collection",
                     "items": [
-                        "Information you submit via the Partnership lead form (e.g., business name, contact, WhatsApp, city).",
-                        "Basic technical/analytics data for performance and reliability (e.g., CTA clicks, RUM metrics).",
-                        "Information you provide when contacting us via WhatsApp/email."
+                        "Identity Data: Business name, contact person, city, and salon type.",
+                        "Contact Data: WhatsApp number and email address.",
+                        "Technical Data: IP address, browser type, and interaction metrics (via Vercel and Sentry)."
                     ]
                 },
                 "howWeUse": {
-                    "title": "How we use information",
+                    "title": "2. Purpose of Processing",
                     "items": [
-                        "To respond to product consultation requests and partnership inquiries.",
-                        "To improve the website (stability, performance, and user experience).",
-                        "To prevent spam and abuse in the lead pipeline."
+                        "To process partnership applications and verify business legitimacy.",
+                        "To facilitate B2B consultation and product ordering via WhatsApp.",
+                        "To comply with legal obligations (e.g., tax reporting).",
+                        "To improve platform security and performance."
                     ]
                 },
                 "storageSecurity": {
-                    "title": "Storage & security",
-                    "body": "We store lead submissions before confirming success, and use reasonable security measures to protect information from unauthorized access."
+                    "title": "3. Storage & Retention",
+                    "body": "Your data is stored securely in Supabase (AWS) infrastructure. We retain partnership data as long as the business relationship exists or as required by Indonesian law (minimum 5 years for financial records)."
                 },
                 "cookies": {
-                    "title": "Cookies & similar technologies",
-                    "body": "We may use cookies/similar technologies for analytics and performance. You can manage cookies via your browser settings."
+                    "title": "4. Cookies & Analytics",
+                    "body": "We use essential cookies for site functionality and analytics to understand usage patterns. You may disable cookies in your browser settings."
                 },
                 "contact": {
-                    "title": "Contact",
-                    "body": "If you have questions about this policy, please contact us via the Contact page or WhatsApp."
+                    "title": "5. User Rights (UU PDP)",
+                    "body": "Under UU PDP, you have the right to access, correct, or delete your personal data. To exercise these rights, please contact our Data Protection Officer at: security@alfabeauty.co.id."
                 }
             }
         },
         "termsPolicy": {
             "intro": {
-                "prefix": "Overview",
-                "body": "These Terms explain how you may use this website and its content."
+                "prefix": "Agreement.",
+                "body": "By accessing this website, you agree to these Terms of Service. If you do not agree, please discontinue use immediately."
             },
             "sections": {
                 "websiteUse": {
-                    "title": "Website use",
-                    "body": "This website provides product information, education highlights, and consultation/partnership pathways for salon & barbershop professionals."
+                    "title": "1. B2B Platform",
+                    "body": "This platform is intended solely for professional salons, barbershops, and beauty distributors in Indonesia. It is not for general consumer retail."
                 },
                 "noPublicPricing": {
-                    "title": "No public pricing",
-                    "body": "We do not publish public pricing. Consultation, recommendations, and ordering happen via WhatsApp."
+                    "title": "2. Pricing & Ordering",
+                    "body": "We do not publish public price lists to protect our B2B partners. Final pricing is confirmed only via official WhatsApp invoices or Facture."
                 },
                 "limitations": {
-                    "title": "Limitations",
-                    "body": "Content is provided as-is. We aim for accuracy, but information may change over time."
+                    "title": "3. Disclaimer of Warranties",
+                    "body": "The content is provided 'as is'. While we strive for accuracy, we do not warrant that product descriptions or educational content are error-free."
                 },
                 "changes": {
-                    "title": "Changes",
-                    "body": "We may update these terms from time to time. The latest version will be published on this page."
+                    "title": "4. Limitation of Liability",
+                    "body": "PT. Alfa Beauty Cosmetica shall not be liable for any indirect damages arising from the use of this website. Our liability is limited to the extent permitted by Indonesian law."
                 }
             }
         }
