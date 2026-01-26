@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 
+import { env } from "@/lib/env";
 import { allProductSlugs } from "@/lib/catalog";
 import { listArticles, listEvents } from "@/lib/education";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  const siteUrl = (env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
   const locales: Array<"en" | "id"> = ["en", "id"];
   const staticRoutes = ["", "/products", "/education", "/partnership", "/partnership/become-partner", "/about", "/contact", "/privacy", "/terms"];

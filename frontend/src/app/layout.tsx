@@ -2,9 +2,9 @@ import { Inter } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import CookieConsent from "@/components/site/CookieConsent";
 import OfflineIndicator from "@/components/site/OfflineIndicator";
 import JsonLd from "@/components/site/JsonLd";
+import { env } from "@/lib/env";
 import "./globals.css";
 
 // Optimize Font Loading (Phase 23)
@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
     default: "Alfa Beauty Cosmetica — Professional Beauty Distribution",
     template: "%s — Alfa Beauty Cosmetica",
@@ -88,7 +88,7 @@ export default async function RootLayout({
         <JsonLd />
         {children}
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ""} />
+      <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID ?? ""} />
     </html>
   );
 }

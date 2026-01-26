@@ -19,7 +19,9 @@ BACKUP_FILE="${BACKUP_DIR}/leads-backup-${DATE_STR}.csv"
 
 # Load environment variables from .env if it exists
 if [ -f "${SCRIPT_DIR}/../frontend/.env" ]; then
-    export $(grep -v '^#' "${SCRIPT_DIR}/../frontend/.env" | xargs)
+    set -a
+    source "${SCRIPT_DIR}/../frontend/.env"
+    set +a
 fi
 
 # Validate required env vars

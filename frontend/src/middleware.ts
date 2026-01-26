@@ -23,6 +23,7 @@ export function middleware(request: NextRequest) {
 
     // 2. Strict Locale Enforcement
     // Pass headers (including Trace ID)
+    requestHeaders.set("Server-Timing", `trace;desc="${requestId}"`);
     return NextResponse.next({
         request: {
             headers: requestHeaders,
