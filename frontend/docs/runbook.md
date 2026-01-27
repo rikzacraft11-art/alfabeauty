@@ -62,6 +62,20 @@ Ensure these keys are present in the Production Environment:
 - **Diagnosis**: Check Logs for `[ERROR]`.
 - **Fix**: Verify Supabase connection string. If Mock mode, verify `logger.info` is outputting.
 
+### Scenario C: Rate Limit Triggered (429)
+
+- **Trigger**: User reports "Too Many Requests" or `api/health` monitoring fails.
+- **Cause**: IP Address has exceeded 100 requests/minute (Token Bucket).
+- **Resolution**:
+    1. Check `x-forwarded-for` in logs.
+    2. If legitimate traffic (NAT/Office), consider whitelisting in `src/app/api/health/route.ts`.
+
+### Scenario D: System Error with Correlation ID
+
+- **Trigger**: User reports error code `digest: <ID>`.
+- **Diagnosis**: Search logs for `requestId: <ID>` or `digest: <ID>`.
+- **Action**: The ID correlates the User UI error to the specific Backend Log entry.
+
 ### Scenario C: CI/CD Build Failure
 
 - **Trigger**: GitHub Action fails on `build` job.

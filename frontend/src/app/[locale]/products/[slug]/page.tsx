@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 
 import ProductDetailContent from "@/components/products/ProductDetailContent";
+import ProductSchema from "@/components/seo/ProductSchema";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import { getProductBySlug, listProducts } from "@/lib/catalog";
 import type { Locale } from "@/lib/i18n";
+import { t } from "@/lib/i18n";
 
 export function generateStaticParams(): Array<{ locale: Locale; slug: string }> {
   const slugs = listProducts().map((p) => p.slug);
@@ -61,10 +64,20 @@ export default async function ProductDetailPage({
 }: {
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const p = getProductBySlug(slug);
+  const tx = t(locale);
+
+  const breadcrumbs = [
+    { name: tx.nav ? tx.nav.home : "Home", url: `/${locale}` },
+    { name: tx.nav ? tx.nav.products : "Products", url: `/${locale}/products` },
+    { name: p ? p.name : slug, url: `/${locale}/products/${slug}` },
+  ];
+
   return (
     <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-10 py-12">
+      <BreadcrumbSchema items={breadcrumbs} />
+      {p && <ProductSchema product={p} />}
       <ProductDetailContent product={p ?? null} />
     </div>
   );

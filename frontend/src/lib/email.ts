@@ -1,6 +1,12 @@
 import nodemailer from "nodemailer";
+import crypto from "crypto";
 import { logger } from "@/lib/logger";
 import { env } from "@/lib/env";
+import { LeadRecord } from "@/lib/types";
+import { formatLeadEmail, formatLeadEmailHtml } from "@/lib/templates/lead-email";
+
+// Re-export type if needed, or consumers should import from types
+export type { LeadRecord };
 
 const SMTP_HOST = env.SMTP_HOST;
 const SMTP_PORT = Number(env.SMTP_PORT || "587");
@@ -11,17 +17,6 @@ const SMTP_TO = env.SMTP_TO; // Internal inbox
 
 // Check if SMTP is configured
 const SMTP_ENABLED = Boolean(SMTP_HOST && SMTP_USER && SMTP_PASS && SMTP_TO);
-
-export type LeadRecord = {
-    name: string;
-    phone: string;
-    email: string;
-    message: string;
-    ip_address: string;
-    page_url_current: string;
-    page_url_initial: string;
-    raw: unknown;
-};
 
 /**
  * Singleton transporter
@@ -54,7 +49,7 @@ export async function sendLeadNotification(lead: LeadRecord): Promise<void> {
     if (!SMTP_ENABLED) {
         // Only log in dev to avoid noise
         if (process.env.NODE_ENV !== "production") {
-            
+            // console.log("SMTP not enabled, skipping email. Lead:", lead.name); 
         }
         return;
     }
@@ -75,7 +70,7 @@ export async function sendLeadNotification(lead: LeadRecord): Promise<void> {
     const htmlBody = formatLeadEmailHtml(lead);
 
     try {
-        const info = await mailer.sendMail({
+        await mailer.sendMail({
             from: SMTP_FROM,
             to: SMTP_TO,
             subject,
@@ -85,114 +80,17 @@ export async function sendLeadNotification(lead: LeadRecord): Promise<void> {
     } catch (err) {
         logger.error("Failed to send notification", { error: String(err) });
 
-        // TOGAF Remediation: Log this as a "Dead Letter" event for observability
-        // COBIT Remediation: Redact PII (Name/Email) to prevent privacy leaks in logs.
+        // TOGAF/COBIT Remediation: Cryptographic Hash of PII
+        // This allows correlating the log with the database (if needed) without exposing the name in plain text.
+        const nameHash = lead.name
+            ? crypto.createHash("sha256").update(lead.name).digest("hex")
+            : "null";
+
         logger.error("dead_letter_event", {
             recipient: "REDACTED",
-            lead_name_hash: lead.name ? "SHA256(REDACTED)" : "null",
+            lead_name_hash: `sha256:${nameHash}`,
             timestamp: new Date().toISOString()
         });
         // Don't throw - lead is already saved, email is best-effort but traced.
     }
-}
-
-/**
- * Format lead data into email body
- */
-function formatLeadEmail(lead: LeadRecord): string {
-    const lines: string[] = [
-        "=== New Lead Notification ===",
-        "",
-        `Name: ${lead.name || "-"}`,
-        `Phone: ${lead.phone || "-"}`,
-        `Email: ${lead.email || "-"}`,
-        `Message: ${lead.message || "-"}`,
-        "",
-        "--- Partner Profile ---",
-        `Business: ${(lead.raw as any).business_name || "-"}`,
-        `City: ${(lead.raw as any).city || "-"}`,
-        `Type: ${(lead.raw as any).salon_type || "-"}`,
-        `Chair Count: ${(lead.raw as any).chair_count || "-"}`,
-        `Specialization: ${(lead.raw as any).specialization || "-"}`,
-        `Brands: ${(lead.raw as any).current_brands_used || "-"}`,
-        `Spend: ${(lead.raw as any).monthly_spend_range || "-"}`,
-        "",
-        "--- Tech Info ---",
-        `IP: ${lead.ip_address || "-"}`,
-        `Source: ${lead.page_url_current || "-"}`,
-        `Initial Page: ${lead.page_url_initial || "-"}`,
-    ];
-
-    return lines.join("\n");
-}
-
-/**
- * Format lead data into HTML email body
- */
-function formatLeadEmailHtml(lead: LeadRecord): string {
-    const raw = lead.raw as Record<string, unknown> | undefined;
-
-    return `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>New Lead Notification</title>
-</head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
-        🎉 New Lead: ${escapeHtml(String(lead.name || "Unknown"))}
-    </h2>
-    
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-        <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; width: 140px;">Name</td>
-            <td style="padding: 10px; border-bottom: 1px solid #eee;">${escapeHtml(String(lead.name || "-"))}</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Phone</td>
-            <td style="padding: 10px; border-bottom: 1px solid #eee;">${escapeHtml(String(lead.phone || "-"))}</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Email</td>
-            <td style="padding: 10px; border-bottom: 1px solid #eee;">${escapeHtml(String(lead.email || "-"))}</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Message</td>
-            <td style="padding: 10px; border-bottom: 1px solid #eee;">${escapeHtml(String(lead.message || "-"))}</td>
-        </tr>
-    </table>
-    
-    ${raw ? `
-    <h3 style="color: #7f8c8d; margin-top: 30px;">Partner Profile Data</h3>
-    <table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px;">
-        ${raw.business_name ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold; width: 140px;">Business</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.business_name))}</td></tr>` : ""}
-        ${raw.city ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">City</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.city))}</td></tr>` : ""}
-        ${raw.salon_type ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Type</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.salon_type))}</td></tr>` : ""}
-        ${raw.chair_count ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Chairs</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.chair_count))}</td></tr>` : ""}
-        ${raw.specialization ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Specialization</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.specialization))}</td></tr>` : ""}
-        ${raw.current_brands_used ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Brands</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.current_brands_used))}</td></tr>` : ""}
-        ${raw.monthly_spend_range ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Spend</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(String(raw.monthly_spend_range))}</td></tr>` : ""}
-    </table>
-    ` : ""}
-
-    <div style="margin-top: 30px; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
-        <p>Source: ${escapeHtml(String(lead.page_url_current || "-"))}</p>
-        <p>IP: ${escapeHtml(String(lead.ip_address || "unknown"))}</p>
-    </div>
-</body>
-</html>
-    `;
-}
-
-/**
- * Basic HTML escape to prevent injection in email body
- */
-function escapeHtml(unsafe: string): string {
-    return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }

@@ -15,3 +15,14 @@ export type Product = {
   benefits: string[];
   howToUse: string;
 };
+
+export type LeadRecord = {
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+  ip_address: string;
+  page_url_current: string;
+  page_url_initial: string;
+  raw: unknown;
+};

@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import OfflineIndicator from "@/components/site/OfflineIndicator";
 import ServiceWorkerRegister from "@/components/site/ServiceWorkerRegister";
-import JsonLd from "@/components/site/JsonLd";
 import { env } from "@/lib/env";
 import "./globals.css";
 
@@ -72,7 +71,6 @@ export default async function RootLayout({
         {/* Offline Indicator (ITIL/UX) */}
         <OfflineIndicator />
         {/* Skip Link moved to [locale]/layout.tsx for localization */}
-        <JsonLd />
         {children}
         <ServiceWorkerRegister />
       </body>

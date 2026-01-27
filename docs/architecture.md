@@ -52,3 +52,12 @@ graph TB
 - **Database:** Supabase (PostgreSQL).
 - **Validation:** Zod (Strict Schema).
 - **Monitoring:** Sentry, Vercel Analytics.
+
+## 4. Strategic Alignment
+
+This architecture is governed by the [2026 Strategic Framework](../docs/strategy-2026.md), aligning with:
+
+- **ITIL 4**: For Service Level Management (Availability).
+- **COBIT 2019**: For Governance and Data Protection (UU PDP).
+- **TOGAF**: For Modular, Decoupled Architecture.
+- **Jamstack**: For Performance and Operational Efficiency.
