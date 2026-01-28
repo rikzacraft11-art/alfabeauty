@@ -15,12 +15,12 @@ export default function SecurityPolicyPage() {
         <section className="space-y-4 mb-10">
           <h2 className="type-h2">Vulnerability Disclosure</h2>
           <p className="type-body">
-            Alfa Beauty Cosmetica is committed to ensuring the safety and security of our partners. 
+            Alfa Beauty Cosmetica is committed to ensuring the safety and security of our partners.
             We welcome feedback from security researchers to help us improve our security posture.
           </p>
           <p className="type-body">
-            If you believe you have discovered a vulnerability, please report it to us via email 
-            at <a href="mailto:security@alfabeautycosmetica.com" className="text-foreground underline">security@alfabeautycosmetica.com</a>.
+            If you believe you have discovered a vulnerability, please report it to us via email
+            at <a href="mailto:security@alfabeauty.co.id" className="text-foreground underline">security@alfabeauty.co.id</a>.
           </p>
         </section>
 
@@ -37,8 +37,8 @@ export default function SecurityPolicyPage() {
         <section className="space-y-4 mb-10">
           <h2 className="type-h2">Safe Harbor</h2>
           <p className="type-body">
-            We will not pursue legal action against researchers who report vulnerabilities 
-            in good faith and in accordance with this policy. We are committed to working 
+            We will not pursue legal action against researchers who report vulnerabilities
+            in good faith and in accordance with this policy. We are committed to working
             with you to verify and resolve the issue promptly.
           </p>
         </section>
@@ -46,7 +46,7 @@ export default function SecurityPolicyPage() {
         <section className="space-y-4">
           <h2 className="type-h2">Response Timeline</h2>
           <p className="type-body">
-            We aim to acknowledge receipt of your report within 24 hours and evaluate the severity 
+            We aim to acknowledge receipt of your report within 24 hours and evaluate the severity
             within 5 business days.
           </p>
         </section>

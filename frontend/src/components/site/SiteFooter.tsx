@@ -25,7 +25,7 @@ export default function SiteFooter() {
   const { locale, setLocale } = useLocale();
   const tx = t(locale);
   const base = `/${locale}`;
-  const contactEmail = process.env.NEXT_PUBLIC_FALLBACK_EMAIL ?? "alfabeautycosmeticaa@gmail.com";
+  const contactEmail = process.env.NEXT_PUBLIC_FALLBACK_EMAIL ?? "contact@alfabeauty.co.id";
   const [langOpen, setLangOpen] = useState(false);
   const [state, formAction, isPending] = useActionState(subscribe, null);
 
