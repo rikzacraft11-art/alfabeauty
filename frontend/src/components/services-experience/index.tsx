@@ -60,23 +60,7 @@ const DEFAULT_AUTO_ADVANCE_INTERVAL = 8000; // 8 seconds
 /**
  * Hook to detect reduced motion preference
  */
-function useReducedMotion(): boolean {
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => {
-            setPrefersReducedMotion(e.matches);
-        };
-
-        mediaQuery.addEventListener('change', handler);
-        return () => mediaQuery.removeEventListener('change', handler);
-    }, []);
-
-    return prefersReducedMotion;
-}
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * Hook for swipe gesture detection

@@ -77,7 +77,7 @@ export default function MobileDrawer({
 
     return (
         <div
-            className={`fixed inset-x-0 top-[var(--header-offset)] z-50 h-[calc(var(--vh,100dvh)-var(--header-offset))] transform-gpu transition-[transform,opacity] duration-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${motionClass}`}
+            className={`fixed inset-x-0 top-[var(--header-offset)] z-40 h-[calc(var(--vh,100dvh)-var(--header-offset))] transform-gpu transition-[transform,opacity] duration-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${motionClass}`}
             data-drawer-open={visible ? "true" : "false"}
         >
             <nav

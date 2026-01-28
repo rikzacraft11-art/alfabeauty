@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 // =============================================================================
 // Discord-Style Image Transition
@@ -20,6 +21,8 @@ export function ImageTransition({
     alt,
     activeKey,
 }: ImageTransitionProps) {
+    const isReducedMotion = useReducedMotion();
+
     return (
         <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -27,7 +30,7 @@ export function ImageTransition({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.1 }}
+                transition={{ duration: isReducedMotion ? 0 : 0.2 }}
                 className="absolute inset-0 z-0"
             >
                 <Image
@@ -61,19 +64,21 @@ export function ContentTransition({
     activeKey,
     ctaText
 }: ContentTransitionProps) {
+    const isReducedMotion = useReducedMotion();
+
     return (
         <AnimatePresence mode="wait" initial={false}>
             <motion.div
                 key={activeKey}
-                initial={{ opacity: 0, y: 6 }}
+                initial={{ opacity: 0, y: isReducedMotion ? 0 : 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{
-                    opacity: { duration: 0.08 },
+                transition={isReducedMotion ? { duration: 0 } : {
+                    opacity: { duration: 0.2 },
                     y: {
                         type: "spring",
-                        stiffness: 500,
-                        damping: 35,
+                        stiffness: 300,
+                        damping: 30,
                     },
                 }}
                 className="absolute inset-x-0 bottom-0 p-5 sm:p-6 z-10"

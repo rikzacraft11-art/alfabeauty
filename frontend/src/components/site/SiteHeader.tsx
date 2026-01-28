@@ -152,14 +152,25 @@ export default function SiteHeader() {
 
   const becomePartnerHref = nav.find((n) => n.key === "partnership")?.links?.[1]?.href ?? `${base}/partnership/become-partner`;
 
-  // Follow non-homepage behavior: always solid header.
-  // This removes the home-only transparent mode that can appear glitchy.
-  const headerTone = "default";
-  const headerBgClass = "bg-background";
-  const headerBorderClass = "border-b border-border";
-  const brandClass = "type-brand text-foreground";
-  const mobileBtnClass =
-    "header-mobile-only touch-target ui-focus-ring ui-radius-tight text-foreground-muted hover:text-foreground";
+  // Restore transparent header on home (Phase 12 Request)
+  const isHome = pathname === "/" || pathname === `/${locale}`;
+  const useTransparent = isHome && !scrolled && !menuOpen;
+
+  const headerTone = useTransparent ? "onMedia" : "default";
+
+  // If transparent, use transparent bg + white text (onMedia)
+  // If solid, use background bg + foreground text (default)
+  const headerBgClass = useTransparent
+    ? "bg-transparent border-transparent ui-header-transparent"
+    : "bg-background border-b border-border ui-header-solid";
+
+  const brandClass = useTransparent
+    ? "type-brand text-background"
+    : "type-brand text-foreground";
+
+  const mobileBtnClass = useTransparent
+    ? "header-mobile-only touch-target ui-focus-ring ui-radius-tight text-white hover:text-white/80"
+    : "header-mobile-only touch-target ui-focus-ring ui-radius-tight text-foreground-muted hover:text-foreground";
 
   const headerTransitionClass = hydrated
     ? "transition-[transform,background-color] duration-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)]"
@@ -170,7 +181,7 @@ export default function SiteHeader() {
       <header
         id="headerComponent"
         ref={headerRef}
-        className={`sticky top-0 z-40 ${headerBgClass} ${headerTransitionClass} ${menuOpen ? "drawer-open" : ""} ${headerHidden ? "-translate-y-full" : "translate-y-0"
+        className={`sticky top-0 z-50 ${headerBgClass} ${headerTransitionClass} ${menuOpen ? "drawer-open" : ""} ${headerHidden ? "-translate-y-full" : "translate-y-0"
           }`}
         data-scrolled={scrolled ? "true" : "false"}
         data-hidden={headerHidden ? "true" : "false"}
@@ -178,7 +189,7 @@ export default function SiteHeader() {
       >
         <HeaderPromo />
 
-        <nav role="presentation" className={headerBorderClass}>
+        <nav role="presentation">
           <div className="site-header-row mx-auto max-w-[120rem] w-full grid grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10">
             <div className="flex items-center justify-start gap-4">
               <div className="navbar-header__brand" role="heading" aria-level={1}>
@@ -197,7 +208,7 @@ export default function SiteHeader() {
                 <div className="border-r border-border pr-4">
                   <LocaleToggle tone={headerTone} />
                 </div>
-                <ButtonLink href={becomePartnerHref} size="sm">
+                <ButtonLink href={becomePartnerHref} size="sm" variant={headerTone === "onMedia" ? "inverted" : "primary"}>
                   {tx.cta.becomePartner}
                 </ButtonLink>
               </div>

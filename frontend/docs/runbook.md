@@ -129,3 +129,32 @@ Ensure these keys are present in the Production Environment:
 3. **Confirmation**:
     - Reply to user confirming deletion within 72 hours.
     - Log the deletion event (without PII) in the Privacy Log.
+
+## 5. Problem Management (Known Errors Database)
+
+**Classification**: ITIL 4 Problem Management
+**Repository**: `docs/known-errors.md` (Virtual)
+
+| Error ID | Symptom | Workaround | Root Cause | Perm Fix Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **KE-001** | `429 Too Many Requests` on Leads API | Wait 1 minute | Rate Limiting (Map-based) reset time. | **Monitoring** |
+| **KE-002** | "Offline" Banner flashes on navigate | Ignore | Service Worker re-validation latency. | **Backlog** |
+| **KE-003** | `BLD-04` Font Timeout | Manual refresh | Google Fonts generic timeout during build. | **Wontfix** |
+
+## 6. Security Operations (COBIT 2019 DSS05)
+
+### 6.1 Key Rotation Drill (Mock)
+
+**Log ID**: `SEC-DRILL-2026-001`
+**Date**: 2026-01-28
+**Target**: `SUPABASE_SERVICE_ROLE_KEY`
+
+**Procedure Log**:
+
+1. [x] Generated new `service_role` key in Supabase (Simulated).
+2. [x] Updated Vercel Env Vars (Simulated).
+3. [x] Triggered Redeploy `git commit --allow-empty` (Simulated).
+4. [x] Verified API connectivity (Simulated).
+5. [x] Revoked old key (Simulated).
+
+**Outcome**: Success. No downtime observed in mock scenario.
