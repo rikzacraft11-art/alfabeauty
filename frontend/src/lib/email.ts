@@ -12,7 +12,7 @@ const SMTP_HOST = env.SMTP_HOST;
 const SMTP_PORT = Number(env.SMTP_PORT || "587");
 const SMTP_USER = env.SMTP_USER;
 const SMTP_PASS = env.SMTP_PASS;
-const SMTP_FROM = env.SMTP_FROM || '"Alfa Beauty Website" <noreply@alfabeauty.co.id>';
+const SMTP_FROM = env.SMTP_FROM || '"Alfa Beauty Website" <alfabeautycosmeticaa@gmail.com>';
 const SMTP_TO = env.SMTP_TO; // Internal inbox
 
 // Check if SMTP is configured

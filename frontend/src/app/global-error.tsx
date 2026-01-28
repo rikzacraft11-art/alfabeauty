@@ -44,7 +44,7 @@ export default function GlobalError({
               Try again
             </button>
             <a
-              href={`mailto:support@alfabeauty.co.id?subject=System%20Error%20Report&body=Error%20ID:%20${error.digest}%0D%0ATimestamp:%20${new Date().toISOString()}%0D%0A%0D%0APlease%20describe%20what%20you%20were%20doing:`}
+              href={`mailto:alfabeautycosmeticaa@gmail.com?subject=System%20Error%20Report&body=Error%20ID:%20${error.digest}%0D%0ATimestamp:%20${new Date().toISOString()}%0D%0A%0D%0APlease%20describe%20what%20you%20were%20doing:`}
               className="px-6 py-2.5 type-ui-sm-strong text-muted-strong hover:text-foreground transition-colors"
             >
               Contact Support

@@ -20,7 +20,7 @@ export default function SecurityPolicyPage() {
           </p>
           <p className="type-body">
             If you believe you have discovered a vulnerability, please report it to us via email
-            at <a href="mailto:security@alfabeauty.co.id" className="text-foreground underline">security@alfabeauty.co.id</a>.
+            at <a href="mailto:alfabeautycosmeticaa@gmail.com" className="text-foreground underline">alfabeautycosmeticaa@gmail.com</a>.
           </p>
         </section>
 

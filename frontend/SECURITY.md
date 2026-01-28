@@ -16,7 +16,7 @@ We take the security of our B2B platform and partner data very seriously (COBIT 
 If you discover a security vulnerability, please follow these steps:
 
 1. **Do not** open a public GitHub issue.
-2. Email our security team at [security@alfabeauty.co.id](mailto:security@alfabeauty.co.id).
+2. Email our security team at [alfabeautycosmeticaa@gmail.com](mailto:alfabeautycosmeticaa@gmail.com).
 3. Include a description of the vulnerability and steps to reproduce it.
 
 ### Response SLA

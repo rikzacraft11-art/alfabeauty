@@ -112,7 +112,7 @@ Ensure these keys are present in the Production Environment:
 **Regulation**: UU PDP (Indonesia) / GDPR.
 
 1. **Request Receipt**:
-    - Channel: Email to `privacy@alfabeauty.co.id` or Support Ticket.
+    - Channel: Email to `alfabeautycosmeticaa@gmail.com` or Support Ticket.
     - Verification: Verify identity via Email Confirmation loop.
 
 2. **Execution (Supabase)**:
