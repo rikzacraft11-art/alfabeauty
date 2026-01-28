@@ -99,7 +99,7 @@ const REDUNDANCY_PATTERNS = [
   // Duplicate exact tokens
   {
     name: "Duplicate token",
-    re: /\b(text-foreground|bg-background|bg-panel|border-border)\b[^"]*\b\1\b/g,
+    re: /(?<![-\w])(text-foreground|bg-background|bg-panel|border-border)(?![-\w])[^"]*(?<![-\w])\1(?![-\w])/g,
     fix: "Remove duplicate token",
   },
   // Conflicting hover states
@@ -135,8 +135,10 @@ function lint() {
       re.lastIndex = 0;
       let match;
       while ((match = re.exec(raw)) !== null) {
+        const line = raw.substring(0, match.index).split("\n").length;
         violations.push({
           file: rel(file),
+          line,
           rule: name,
           token: match[0],
           context: takeContext(raw, match.index),
@@ -152,8 +154,10 @@ function lint() {
       re.lastIndex = 0;
       let match;
       while ((match = re.exec(raw)) !== null) {
+        const line = raw.substring(0, match.index).split("\n").length;
         redundancies.push({
           file: rel(file),
+          line,
           rule: name,
           context: takeContext(raw, match.index, 100),
           fix,
@@ -176,8 +180,8 @@ function lint() {
   // Redundancy warnings (not blocking, but important)
   if (redundancies.length > 0) {
     console.log(`\n⚠️  ${redundancies.length} redundancy warning(s):`);
-    for (const r of redundancies.slice(0, 5)) {
-      console.log(`   - ${r.file}`);
+    for (const r of redundancies.slice(0, 15)) {
+      console.log(`   - ${r.file}:${r.line}`);
       console.log(`     Issue: ${r.rule}`);
       console.log(`     Fix: ${r.fix}`);
     }

@@ -39,6 +39,7 @@ export function getEventBySlug(locale: Locale, slug: string): EducationEvent | n
 
 export function calculateReadTime(content: string[]): number {
   const text = content.join(" ");
+  if (!text.trim()) return 0;
   const wpm = 200;
   const words = text.trim().split(/\s+/).length;
   return Math.ceil(words / wpm);

@@ -220,7 +220,7 @@ export default function DesktopMegaNav({
                     ? `${tone === "onMedia" ? "text-background" : "text-foreground"} underline underline-offset-[10px]`
                     : isActive
                       ? `${tone === "onMedia" ? "text-background" : "text-foreground"}`
-                      : tone === "onMedia" ? "text-background/80 hover:text-background" : "text-foreground/70 hover:text-foreground"
+                      : tone === "onMedia" ? "text-background/80 hover:text-background" : "text-foreground-muted hover:text-foreground"
                     }`}
                   onKeyDown={(e) => {
                     if (!hasPanel) {
@@ -358,7 +358,7 @@ export default function DesktopMegaNav({
                         className={`py-1.5 type-body transition-colors duration-150
                           ${isActiveHref(l.href)
                             ? "text-foreground"
-                            : "text-foreground/60 hover:text-foreground"
+                            : "text-foreground-muted hover:text-foreground"
                           }`}
                         onClick={() => closePanel({ key: active.key })}
                       >

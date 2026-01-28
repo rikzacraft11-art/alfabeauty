@@ -55,9 +55,9 @@ graph TB
 
 ## 4. Strategic Alignment
 
-This architecture is governed by the [2026 Strategic Framework](../docs/strategy-2026.md), aligning with:
+This architecture is governed by the [2026 Strategic Framework](../docs/strategy-2026.md), aligning with the **Three Pillars** strategy:
 
-- **ITIL 4**: For Service Level Management (Availability).
+- **Jamstack 2.0**: For Performance and Operational Efficiency (Architecture).
+- **ITIL 4 Lite**: For Service Level Management (Availability).
+- **Scrum**: For iterative feature delivery.
 - **COBIT 2019**: For Governance and Data Protection (UU PDP).
-- **TOGAF**: For Modular, Decoupled Architecture.
-- **Jamstack**: For Performance and Operational Efficiency.

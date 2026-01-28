@@ -1,95 +1,86 @@
-# Strategic Framework Alignment 2026
+# Implementasi Framework Strategis 2026
 
 ## PT. Alfa Beauty Cosmetica (B2B Platform)
 
-**Version:** 1.0
-**Date:** January 27, 2026
-**Scope:** Governance & Architecture Strategy
+**Versi:** 2.0
+**Tanggal:** 27 Januari 2026
+**Cakupan:** Tata Kelola & Strategi Arsitektur
 
-This document formalizes the strategic alignment of the **Alfa Beauty B2B Platform** with four key enterprise frameworks: **ITIL 4**, **COBIT 2019**, **TOGAF**, and **Jamstack/DevOps**.
+Implementasi keempat framework (**ITIL 4**, **COBIT**, **TOGAF**, dan **Jamstack/DevOps**) pada proyek **PT. Alfa Beauty Cosmetica** adalah langkah yang sangat tepat, namun perlu disesuaikan dengan skala operasional B2B agar tidak terjadi *over-engineering*.
 
-This strategy ensures the platform remains scalable, compliant, and operationally excellent without over-engineering (`Right-Sized Governance`).
-
----
-
-### 1. ITIL 4 (Service Management)
-
-**Focus:** Availability & Incident Management.
-**Rationale:** In B2B, platform availability directly impacts revenue and partner trust.
-
-| Practice | Implementation Strategy |
-|---|---|
-| **Service Level Management** | **99.9% Uptime Goal.** leveraging Vercel's Edge Network. Fallback plans for API outages (e.g., cached products). |
-| **Incident Management** | **Fail-Open Design.** If Supabase is down, the static parts of the site (Catalog) must remain accessible. |
-| **Change Enablement** | **Preview Deployments.** Every code change is verified in a Vercel Preview environment before Production merge. |
-
-### 2. COBIT 2019 (Governance & Compliance)
-
-**Focus:** Data Protection (UU PDP) & Access Control.
-**Rationale:** Handling partner data (Lead Capture) requires strict privacy controls and legal compliance.
-
-| Objective | Implementation Strategy |
-|---|---|
-| **DSS05 (Managed Security Services)** | **Identity Management.** Strict separation of duties. Supabase `service_role` keys are never exposed to the client. |
-| **MEA01 (Monitor, Evaluate and Assess)** | **Audit Trails.** All lead submissions are logged with timestamp and origin. PII in logs is hashed (SHA-256). |
-| **AP013 (Manage Security)** | **Zero Trust.** All API endpoints validate input (Zod) and enforce rate limits (Token Bucket) regardless of source. |
-
-### 3. TOGAF (Enterprise Architecture)
-
-**Focus:** Integration & Structural Consistency.
-**Rationale:** Ensures the "Hybrid" architecture (Next.js + Supabase) remains clean and modular as the business scales.
-
-| Context | Implementation Strategy |
-|---|---|
-| **Business Architecture** | **B2B-First.** The system is designed for decision support (Catalog) and lead generation, not retail transactional. |
-| **Data Architecture** | **Single Source of Truth.** Product data resides in the Codebase/CMS; Lead data resides in Supabase. No data duplication. |
-| **Technology Architecture** | **Composability.** Frontend (Next.js) is decoupled from Backend (Supabase). This allows independent scaling or replacement. |
-
-### 4. Jamstack / DevOps (Technical Efficiency)
-
-**Focus:** Automation, Performance, and Security.
-**Rationale:** Use modern tooling to reduce operational overhead ("Serverless Ops").
-
-| Pillar | Implementation Strategy |
-|---|---|
-| **Pre-rendering** | **Static Generation.** Catalog pages are pre-rendered for maximum speed (LCP) and SEO. |
-| **Decoupling** | **API-First.** All dynamic functionality (Leads) is handled via server-side APIs, keeping the client lightweight. |
-| **GitOps** | **Automated Pipelines.** `git push` triggers Build -> Test -> Deploy. No manual FTP or server config. |
+Berikut adalah analisis ketepatan implementasi untuk masing-masing framework pada tech stack Anda di tahun 2026:
 
 ---
 
-### 5. Implementation Roadmap (2026)
+### 1. ITIL 4 (Manajemen Layanan B2B)
 
-To execute this strategy without bloat, we adhere to the **"Three Pillars"** approach:
+**Status: Sangat Tepat.**
+Karena ini adalah platform B2B, ketersediaan (*availability*) adalah segalanya bagi klien bisnis.
 
-#### Pillar 1: Agile (Scrum)
+- **Penerapan:** Gunakan praktik **Service Level Management** untuk memastikan website selalu dapat diakses saat klien ingin melakukan input lead. Karena Anda menggunakan *Vercel Free*, ITIL membantu Anda menyusun rencana cadangan jika terjadi limitasi trafik pada tier gratis.
+- **Aksi:** Tetapkan prosedur "Incident Management" jika API Supabase atau Headless CMS mengalami gangguan.
 
-- **Methodology:** 2-Week Sprints.
-- **Tooling:** GitHub Projects / Linear.
-- **Goal:** Rapid iteration on feature requests (e.g., new product categories).
+### 2. COBIT 2019 (Tata Kelola Data & Kepatuhan)
 
-#### Pillar 2: Jamstack 2.0 (Architecture)
+**Status: Sangat Tepat (Kritis untuk B2B).**
+Platform B2B mengumpulkan data bisnis (Lead Capture). Di tahun 2026, regulasi perlindungan data (seperti UU PDP di Indonesia) sangat ketat.
 
-- **Stack:** Next.js 16 + Vercel + Supabase.
-- **Goal:** maintain < 2.5s LCP on mobile 4G networks.
+- **Penerapan:** Gunakan COBIT untuk memastikan alur data dari **Next.js** ke **Supabase** terlindungi secara hukum. COBIT membantu Anda mengatur siapa yang memiliki akses ke data lead di dashboard Supabase.
+- **Aksi:** Audit secara berkala akses pengguna pada akun Vercel dan Supabase Anda.
 
-#### Pillar 3: ITIL Lite (Operations)
+### 3. TOGAF (Arsitektur Terintegrasi)
 
-- **Scope:** Incident Management + Change Management ONLY.
-- **Goal:** Zero "surprise" downtime. All deployments are visibly tracked.
+**Status: Tepat (Fokus pada Integrasi).**
+Proyek Anda melibatkan banyak komponen terpisah: Next.js (Frontend), Supabase (Database), dan Headless CMS.
+
+- **Penerapan:** TOGAF memastikan bahwa integrasi antara **Headless CMS** dan **Next.js 16.x** tidak berantakan di masa depan saat produk kosmetik bertambah banyak. Ini membantu mendefinisikan standar struktur data produk agar konsisten.
+- **Aksi:** Buat diagram "Information Systems Architecture" yang memetakan bagaimana data mengalir dari CMS ke tampilan katalog produk.
+
+### 4. Jamstack/DevOps (Efisiensi Teknis)
+
+**Status: Sangat Tepat (Wajib).**
+Tech stack Anda (Next.js + Vercel + Headless CMS) adalah perwujudan modern dari Jamstack.
+
+- **Penerapan:** Memastikan proses pengembangan berjalan otomatis. Setiap kali Anda mengubah deskripsi produk di CMS, website harus otomatis melakukan *re-build* atau menggunakan **Incremental Static Regeneration (ISR)** di Next.js.
+- **Aksi:** Optimalkan penggunaan Vercel Deployment Pipelines agar setiap perubahan kode diuji secara otomatis sebelum *live*.
 
 ---
 
-### Approval
+### Tiga Pilar Utama (Strategi 2026)
 
-- **Approved By:** CTO / Head of Engineering
-- **Date:** January 2026
+Untuk proyek **PT. Alfa Beauty Cosmetica** dengan skala B2B Platform (Next.js 16 + Supabase + Vercel), framework yang **paling tepat dan tidak berlebihan** untuk Anda terapkan di tahun 2026 adalah kombinasi dari **tiga pilar utama** berikut ini:
 
-### Verification Record
+#### 1. Agile Framework: SCRUM (Metodologi Pengembangan)
 
-| Phase | Framework | Status | Evidence |
-| :--- | :--- | :--- | :--- |
-| **Phase 22** | ITIL/COBIT | **PASS** | Rate Limiting on `api/health` confirmed. |
-| **Phase 22** | TOGAF | **PASS** | Security Headers consolidated in `next.config.ts`. |
-| **Phase 23** | Jamstack | **PASS** | Dependency audit complete (all critical). |
-| **Phase 23** | ITIL | **PASS** | Incident Management workflow (Email+ID) verified. |
+Mengingat ini adalah platform B2B yang biasanya memiliki kebutuhan fitur yang terus berkembang (misal: penambahan katalog kosmetik atau perubahan skema lead), **Scrum** adalah yang paling tepat.
+
+- **Alasan:** Memungkinkan Anda merilis fitur secara bertahap (sprint). Anda bisa meluncurkan fitur *Landing Page* terlebih dahulu, baru kemudian modul *Lead Capture*.
+- **Penerapan di 2026:** Gunakan tools seperti Linear atau Trello untuk mengelola *backlog* fitur Next.js Anda.
+
+#### 2. Technical Framework: JAMSTACK 2.0 (Arsitektur Web)
+
+Karena tech stack Anda menggunakan Next.js dan Headless CMS, Anda secara otomatis berada di jalur **Jamstack**. Ini adalah framework arsitektur paling tepat untuk website kosmetik yang membutuhkan visual tinggi namun harus tetap ringan.
+
+- **Alasan:** Memisahkan *Frontend* (Next.js), *Database* (Supabase), dan *Content* (Headless CMS) membuat website Anda tidak bisa "down" secara total jika salah satu bagian bermasalah.
+- **Manfaat:** Kecepatan akses yang luar biasa (skor LCP tinggi di Google) yang sangat krusial untuk citra brand kecantikan (*premium feel*).
+
+#### 3. Service Framework: ITIL 4 - Fokus pada "Change Management"
+
+Untuk proyek skala menengah ini, jangan terapkan seluruh ITIL, cukup ambil bagian **Change Management** dan **Incident Management**.
+
+- **Alasan:** Di dunia B2B, jika form *Lead Capture* error selama 1 jam, Anda bisa kehilangan calon distributor besar.
+- **Penerapan:** Pastikan setiap perubahan kode (misal: update Node.js 24) diuji di *Preview Deployment* Vercel sebelum digabung ke *Main Branch*. Gunakan Sentry untuk memantau error secara real-time.
+
+---
+
+### Strategi Implementasi Paling Tepat
+
+| **Kategori** | **Framework Pilihan** | **Alasan Untuk Alfa Beauty** |
+| --- | --- | --- |
+| **Manajemen Proyek** | **Scrum** | Agar tim bisa cepat merespon tren pasar kosmetik yang berubah-ubah. |
+| **Arsitektur** | **Jamstack** | Menjamin website aman dari serangan hacker dan sangat cepat diakses dari HP. |
+| **Operasional** | **DevOps** | Automasi integrasi antara Next.js dan Supabase agar tidak ada input data yang hilang. |
+| **Keamanan** | **ISO 27001 (Lite)** | Memastikan data mitra bisnis di Supabase tidak bocor ke kompetitor. |
+
+**Rekomendasi Utama:**
+Fokuslah pada **DevOps + Jamstack**. Mengapa? Karena tech stack Anda (Next.js 16 + Vercel) dirancang khusus untuk bekerja maksimal dalam framework tersebut. Gunakan **Vercel** untuk mengotomatiskan *deployment* (DevOps) dan **Supabase** untuk mengelola data secara terstruktur, maka sisi operasional (ITIL) akan berjalan dengan sendirinya secara lebih ringan.

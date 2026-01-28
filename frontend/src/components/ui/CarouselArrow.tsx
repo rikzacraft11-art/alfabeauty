@@ -34,7 +34,7 @@ export function CarouselArrow({ direction, onClick, visible, className, ariaLabe
                 bg-background/[0.92] text-foreground
                 shadow-md
                 transition-all duration-200
-                hover:scale-105 hover:bg-background
+                hover:scale-105 hover:opacity-100
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-foreground/60
                 ${className ?? ""}
             `}
