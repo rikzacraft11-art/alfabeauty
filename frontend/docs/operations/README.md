@@ -1,46 +1,73 @@
-# Operations Manual (ITIL 4)
+# Operations Handbook (ITIL 4)
 
-**Status**: Active
-**Scope**: Runbooks, Disaster Recovery, and Maintenance for Alfa Beauty B2B.
-
----
-
-## 1. Core Operating Procedures
-
-| Document | Purpose |
-| :--- | :--- |
-| **[Disaster Recovery Plan (DRP)](drp.md)** | Strategies for handling outages (RTO/RPO). |
-| **[Service Catalogue](service-catalogue.md)** | List of all technical services and their SLAs. |
-| **[Monitoring Guide](monitoring.md)** | Sentry, Vercel, and Alerting setup. |
-| **[Email Deliverability](email-deliverability.md)** | SPF/DKIM and Fallback mechanisms. |
+**Framework**: ITIL 4 (Service Management) & ISO 22301 (Business Continuity)
+**Scope**: Ongoing maintenance, monitoring, and incident response for Alfa Beauty B2B.
 
 ---
 
-## 2. Standard Operating Procedures (Runbooks)
+## 1. Service Catalogue (Request Fulfillment)
 
-Detailed step-by-step guides for specific tasks:
+**Base URL**: `https://alfabeauty.co.id/api`
 
-- **[Incident Response](runbooks/incident-response.md)**: How to handle P1/P2 incidents.
-- **[Restore Procedure](runbooks/restore-procedure.md)**: Rollback and DB Restore.
-- **[Data Deletion](runbooks/data-deletion.md)**: Handling GDPR/privacy requests.
-- **[Key Rotation](runbooks/key-rotation.md)**: Security maintenance.
-- **[Sentry Setup](runbooks/sentry-slack-setup.md)**: Configuring observability.
-
----
-
-## 3. Known Errors Database (KEDB)
-
-**Framework**: ITIL 4 Problem Management
-
-| Error ID | Symptom | Workaround | Root Cause | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **KE-001** | `429 Too Many Requests` on Leads API | Wait 1 minute | Rate Limiting (Map-based) reset time. | **Monitoring** |
-| **KE-002** | "Offline" Banner flashes on navigate | Ignore | Service Worker re-validation latency. | **Backlog** |
-| **KE-003** | `BLD-04` Font Timeout | Manual refresh | Google Fonts generic timeout during build. | **Wontfix** |
+| Service | Endpoint | SLA (P95) | Dependencies |
+| :--- | :--- | :--- | :--- |
+| **Lead Capture** | `/leads` | < 1000ms | Supabase, Resend |
+| **Product List** | `/products` | < 500ms | Supabase, Redis (Cache) |
+| **Health Check** | `/health` | < 200ms | None |
+| **Analytics** | `/rum` | Async | Vercel Analytics |
 
 ---
 
-## 4. Reports & Templates
+## 2. Monitoring & Observability (Event Management)
 
-- **[Post-Mortem Template](templates/post-mortem.md)**: For incident reviews.
-- **[Reports Archive](reports/)**: Historical test reports.
+**Tools**:
+
+* **Errors**: Sentry (DSN configured in `sentry.server.config.ts`).
+* **Vitals**: Vercel Analytics (LCP, CLS, INP).
+* **Uptime**: UptimeRobot (checking `/api/health`).
+
+**Thresholds**:
+
+* **Sev1 (Critical)**: Global outage, Lead Form broken. -> Alert Slack immediately.
+* **Sev2 (High)**: API > 5s latency, Elevated error rate (>5%).
+
+---
+
+## 3. Incident Response (Incident Management)
+
+**Workflow**:
+
+1. **Detect**: Alert fires (Slack/Sentry).
+2. **Classify**: Sev1 (Immediate) vs Sev2 (Next Day).
+3. **Contain**:
+    * If DB down -> Enable "Maintenance Mode" (Env Var).
+    * If Bad Deploy -> Vercel "Instant Rollback".
+4. **Resolve**: Fix root cause.
+5. **Review**: Post-Mortem (RCA) required for Sev1.
+
+---
+
+## 4. Disaster Recovery (ISO 22301)
+
+### Database Restore
+
+* **RPO (Point of Loss)**: < 24 Hours (Daily Backup) or < 1 min (PITR - Enterprise).
+* **RTO (Time to Recovery)**: < 60 Minutes.
+* **Procedure**:
+    1. Login to Supabase Dashboard.
+    2. Go to **Database > Backups**.
+    3. Select latest valid snapshot.
+    4. Click **Restore**.
+
+### Key Rotation
+
+* **Trigger**: Suspected leak or Staff Offboarding.
+* **Procedure**:
+    1. Regenerate `SUPABASE_SERVICE_ROLE_KEY` in Supabase.
+    2. Update Vercel Environment Variables.
+    3. Redeploy latest commit to propagate new keys.
+
+### Data Deletion (Privacy)
+
+* **Routine**: Logs deleted after 90 days.
+* **User Request**: Execute `DELETE FROM leads WHERE email = $1`.
