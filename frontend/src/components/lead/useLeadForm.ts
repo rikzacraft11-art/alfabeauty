@@ -127,7 +127,6 @@ export function useLeadForm(
     const [result, setResult] = useState<SubmitResult>({ kind: "idle" });
     const [touched, setTouched] = useState<Record<string, boolean>>({});
     const [showErrors, setShowErrors] = useState(false);
-    const [idemKey, setIdemKey] = useState<string | null>(null);
 
     const fieldErrors = useMemo<FieldErrors>(() => {
         const errors: FieldErrors = {};
@@ -173,15 +172,7 @@ export function useLeadForm(
         [showErrors, touched, fieldErrors]
     );
 
-    const getIdempotencyKey = useCallback((): string => {
-        if (idemKey) return idemKey;
-        const next =
-            typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
-                ? crypto.randomUUID()
-                : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-        setIdemKey(next);
-        return next;
-    }, [idemKey]);
+
 
     const focusFirstError = useCallback(() => {
         const firstErrorField = Object.keys(fieldErrors)[0];
@@ -250,9 +241,9 @@ export function useLeadForm(
             }
 
             if (res.warning === "persistence_failed") {
-                 // Fallback success
-                 setResult({ kind: "success", id: "OFFLINE_SAVED" });
-                 return;
+                // Fallback success
+                setResult({ kind: "success", id: "OFFLINE_SAVED" });
+                return;
             }
 
             const msg = res.error === "validation_error" ? "Please check your inputs." : errorMessages.submitFailed;
@@ -263,7 +254,7 @@ export function useLeadForm(
             trackEvent("lead_submit_error", { reason: "network" });
             setResult({ kind: "error", message: errorMessages.network });
         }
-    }, [canSubmit, values, errorMessages, getIdempotencyKey, focusFirstError]);
+    }, [canSubmit, values, errorMessages, focusFirstError]);
 
     return {
         values,

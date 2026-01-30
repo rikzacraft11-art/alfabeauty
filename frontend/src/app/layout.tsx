@@ -1,4 +1,3 @@
-import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -17,7 +16,6 @@ export default async function RootLayout({
   const localeHeader = h.get("x-alfab-locale");
   // Security (Phase 5): Get CSP Nonce for inline scripts
   // Note: We don't strictly use it in <Script> here yet, but it's available for children.
-  const nonce = h.get("x-nonce");
   const lang = localeHeader === "id" || localeHeader === "en" ? localeHeader : "en";
 
   return (

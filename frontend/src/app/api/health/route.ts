@@ -37,7 +37,7 @@ export async function GET() {
     try {
         // 2. Check Verification (Deep Ping)
         // HEAD request to 'leads' table (lightweight)
-        const { error, count } = await supabaseAdmin()
+        const { error } = await supabaseAdmin()
             .from("leads")
             .select("*", { count: "exact", head: true });
 

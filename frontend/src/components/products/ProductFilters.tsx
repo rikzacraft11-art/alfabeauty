@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { t } from "@/lib/i18n";
 import { useProductFilters } from "@/lib/useProductFilters";
@@ -15,7 +15,6 @@ export default function ProductFilters() {
   const { locale } = useLocale();
   const tx = t(locale);
   const base = `/${locale}`;
-  const searchParams = useSearchParams();
 
   // Use the extracted hook for filter logic
   /* Search Debounce Logic */

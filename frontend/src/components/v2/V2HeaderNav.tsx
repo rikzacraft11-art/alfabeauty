@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
+import ButtonLink from "@/components/ui/ButtonLink";
 import MagneticButton from "@/components/ui/MagneticButton";
 import LocaleToggle from "@/components/i18n/LocaleToggle";
 
@@ -44,9 +45,9 @@ export default function V2HeaderNav() {
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="flex items-center justify-between h-20">
                         {/* Logo */}
-                        <Link href="/" className="type-footer-brand text-foreground">
+                        <AppLink href="/" className="type-footer-brand text-foreground">
                             ALFA BEAUTY
-                        </Link>
+                        </AppLink>
 
                         {/* Desktop Navigation */}
                         <nav className="hidden lg:flex items-center gap-8">
@@ -125,13 +126,13 @@ export default function V2HeaderNav() {
                             animate={isMobileOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                             transition={{ delay: i * 0.1, duration: 0.4 }}
                         >
-                            <Link
+                            <AppLink
                                 href={link.href}
                                 onClick={() => setIsMobileOpen(false)}
                                 className="type-h2 text-foreground block py-4 border-b border-border"
                             >
                                 {link.label}
-                            </Link>
+                            </AppLink>
                         </motion.div>
                     ))}
 
@@ -141,13 +142,14 @@ export default function V2HeaderNav() {
                         transition={{ delay: 0.4, duration: 0.4 }}
                         className="mt-8"
                     >
-                        <Link
+                        <ButtonLink
                             href="#partner"
+                            variant="primary"
                             onClick={() => setIsMobileOpen(false)}
-                            className="ui-btn-primary w-full py-4 text-center type-body rounded-full block"
+                            className="w-full py-4 text-center type-body rounded-full block"
                         >
                             Become Partner
-                        </Link>
+                        </ButtonLink>
                     </motion.div>
                 </nav>
             </motion.div>

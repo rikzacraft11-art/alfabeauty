@@ -6,7 +6,7 @@ import type { Locale } from "@/lib/i18n";
 
 type Ctx = {
   locale: Locale;
-  setLocale: (l: Locale) => void;
+  setLocale: (_l: Locale) => void;
 };
 
 const LocaleContext = createContext<Ctx | null>(null);

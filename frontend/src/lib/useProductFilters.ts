@@ -18,12 +18,7 @@ export type ProductFilters = {
 /**
  * Initial empty filter state
  */
-const EMPTY_FILTERS: ProductFilters = {
-    brands: new Set(),
-    categories: new Set(),
-    functions: new Set(),
-    audiences: new Set(),
-};
+
 
 /**
  * Check if a product matches the current filters

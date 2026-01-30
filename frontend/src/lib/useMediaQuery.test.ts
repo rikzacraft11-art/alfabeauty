@@ -1,5 +1,5 @@
 
-import { renderHook, act } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useMediaQuery } from "./useMediaQuery";
 
@@ -15,8 +15,8 @@ describe("useMediaQuery", () => {
             onchange: null,
             addListener: vi.fn(), // Deprecated
             removeListener: vi.fn(), // Deprecated
-            addEventListener: vi.fn((event, callback) => {
-                listeners[event] = callback;
+            addEventListener: vi.fn((event, _callback) => {
+                listeners[event] = _callback;
             }),
             removeEventListener: vi.fn((event, callback) => {
                 delete listeners[event];

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
+import ButtonLink from "@/components/ui/ButtonLink";
 
 const MEGA_MENU_DATA = {
     products: {
@@ -126,12 +127,12 @@ export default function MegaMenu() {
                                             <ul className="space-y-3">
                                                 {section.links.map((link) => (
                                                     <li key={link.href}>
-                                                        <Link
+                                                        <AppLink
                                                             href={link.href}
                                                             className="type-body text-foreground hover:text-foreground-muted transition-colors"
                                                         >
                                                             {link.label}
-                                                        </Link>
+                                                        </AppLink>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -153,12 +154,13 @@ export default function MegaMenu() {
                                         <p className="type-body text-muted mb-6">
                                             Discover our complete range of professional solutions.
                                         </p>
-                                        <Link
+                                        <ButtonLink
                                             href={MEGA_MENU_DATA[activeMenu].cta.href}
-                                            className="ui-btn-primary px-6 py-3 type-nav rounded-full inline-block transition-all duration-[var(--transition-elegant)]"
+                                            variant="primary"
+                                            className="px-6 py-3 type-nav rounded-full inline-block transition-all duration-[var(--transition-elegant)]"
                                         >
                                             {MEGA_MENU_DATA[activeMenu].cta.label}
-                                        </Link>
+                                        </ButtonLink>
                                     </div>
                                 </motion.div>
                             </div>

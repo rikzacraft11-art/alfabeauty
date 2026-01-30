@@ -1,8 +1,9 @@
 import StaggerReveal from "@/components/ui/StaggerReveal";
 import HeroParallax from "@/components/ui/HeroParallax";
 import ParallaxImage from "@/components/ui/ParallaxImage";
-import Link from "next/link";
-import { type Locale } from "@/lib/i18n";
+import AppLink from "@/components/ui/AppLink";
+import ButtonLink from "@/components/ui/ButtonLink";
+
 
 /**
  * V2 Homepage
@@ -128,10 +129,10 @@ export default function HomePage() {
                 { name: "Montibello", country: "Spain", slug: "montibello" },
                 { name: "Gamma+ Professional", country: "Italy", slug: "gammaplus" },
               ].map((brand) => (
-                <Link
+                <AppLink
                   key={brand.name}
                   href={`/products?brand=${brand.slug}`}
-                  className="group p-8 rounded-2xl bg-background transition-all duration-[var(--transition-elegant)] hover:scale-105"
+                  className="group p-8 rounded-2xl bg-background transition-all duration-[var(--transition-elegant)] hover:scale-105 block"
                   style={{ boxShadow: "var(--shadow-elegant)" }}
                 >
                   <div className="aspect-video flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-lg mb-4">
@@ -139,7 +140,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="type-h4 text-foreground">{brand.name}</h3>
                   <p className="type-data text-muted">{brand.country}</p>
-                </Link>
+                </AppLink>
               ))}
             </div>
           </StaggerReveal>
@@ -174,12 +175,13 @@ export default function HomePage() {
 
               {/* CTA Button - DEV-20 */}
               <div className="mt-8">
-                <Link
+                <ButtonLink
                   href="/education"
-                  className="ui-btn-primary px-8 py-4 type-nav rounded-full inline-block transition-all duration-[var(--transition-elegant)]"
+                  variant="primary"
+                  className="px-8 py-4 type-nav rounded-full inline-block transition-all duration-[var(--transition-elegant)]"
                 >
                   Explore Our Programs
-                </Link>
+                </ButtonLink>
               </div>
             </StaggerReveal>
 
@@ -241,12 +243,13 @@ export default function HomePage() {
 
             {/* CTA */}
             <div className="text-center mt-12">
-              <a
+              <ButtonLink
                 href="/partnership"
-                className="ui-btn-primary px-10 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
+                variant="primary"
+                className="px-10 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)] inline-block"
               >
                 Become a Partner
-              </a>
+              </ButtonLink>
             </div>
           </StaggerReveal>
         </div>

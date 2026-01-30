@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 
 type MarqueeProps = {
     children: ReactNode;
-    speed?: number; // pixels per second
     pauseOnHover?: boolean;
     className?: string;
 };
@@ -16,7 +15,6 @@ type MarqueeProps = {
  */
 export default function Marquee({
     children,
-    speed = 50,
     pauseOnHover = true,
     className = "",
 }: MarqueeProps) {

@@ -1,5 +1,5 @@
 import StaggerReveal from "@/components/ui/StaggerReveal";
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
 
 /**
  * Event Detail Page
@@ -31,7 +31,7 @@ const MOCK_EVENT = {
     image: "/images/events/color-workshop.jpg",
 };
 
-export default function EventDetailPage({ params }: { params: { slug: string } }) {
+export default function EventDetailPage() {
     // In production, fetch event by params.slug
     const event = MOCK_EVENT;
 
@@ -40,13 +40,13 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
             <div className="container mx-auto px-6 lg:px-12">
                 <StaggerReveal delay={0.1} staggerDelay={0.1}>
                     {/* Back Link */}
-                    <Link
+                    <AppLink
                         href="/education"
                         className="inline-flex items-center gap-2 type-data text-muted hover:text-foreground transition-colors mb-8"
                     >
                         <span>←</span>
                         <span>Back to Education</span>
-                    </Link>
+                    </AppLink>
 
                     {/* Event Header */}
                     <div className="grid lg:grid-cols-2 gap-12 mb-16">

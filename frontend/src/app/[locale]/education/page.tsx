@@ -1,5 +1,5 @@
 import StaggerReveal from "@/components/ui/StaggerReveal";
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
 import { t } from "@/lib/i18n";
 import { listEvents, listArticles, calculateReadTime } from "@/lib/education";
 
@@ -62,17 +62,17 @@ export default async function EducationPage({
         <section className="mb-24">
           <div className="flex items-center justify-between mb-8">
             <h2 className="type-h2 text-foreground">{dict.education.hub.sections.events}</h2>
-            <Link href={`/${locale}/education/events`} className="type-nav text-muted hover:text-foreground transition-colors">
+            <AppLink href={`/${locale}/education/events`} className="type-nav text-muted hover:text-foreground transition-colors">
               {dict.education.hub.actions.viewAll}
-            </Link>
+            </AppLink>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.slice(0, 3).map((event) => (
-              <Link
+              <AppLink
                 key={event.slug}
                 href={`/${locale}/education/events/${event.slug}`}
-                className="group p-6 rounded-2xl bg-panel transition-all duration-[var(--transition-elegant)] hover:scale-[1.02]"
+                className="group p-6 rounded-2xl bg-panel transition-all duration-[var(--transition-elegant)] hover:scale-[1.02] block"
                 style={{ boxShadow: "var(--shadow-elegant)" }}
               >
                 {/* Event Type Badge */}
@@ -91,7 +91,7 @@ export default async function EducationPage({
                   <p>📅 {new Date(event.date).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                   <p>📍 {event.city}</p>
                 </div>
-              </Link>
+              </AppLink>
             ))}
           </div>
         </section>
@@ -100,14 +100,14 @@ export default async function EducationPage({
         <section>
           <div className="flex items-center justify-between mb-8">
             <h2 className="type-h2 text-foreground">{dict.education.hub.sections.articles}</h2>
-            <Link href={`/${locale}/education/articles`} className="type-nav text-muted hover:text-foreground transition-colors">
+            <AppLink href={`/${locale}/education/articles`} className="type-nav text-muted hover:text-foreground transition-colors">
               {dict.education.hub.actions.viewAll}
-            </Link>
+            </AppLink>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {articles.slice(0, 2).map((article) => (
-              <Link
+              <AppLink
                 key={article.slug}
                 href={`/${locale}/education/articles/${article.slug}`}
                 className="group"
@@ -138,7 +138,7 @@ export default async function EducationPage({
                 <p className="type-body text-muted line-clamp-2">
                   {article.excerpt}
                 </p>
-              </Link>
+              </AppLink>
             ))}
           </div>
         </section>

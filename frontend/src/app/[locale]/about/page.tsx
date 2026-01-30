@@ -1,4 +1,5 @@
 import StaggerReveal from "@/components/ui/StaggerReveal";
+import ButtonLink from "@/components/ui/ButtonLink";
 
 /**
  * About Page
@@ -87,12 +88,13 @@ export default function AboutPage() {
             <p className="type-body text-muted mb-8">
               Join our network of professional salons and distributors.
             </p>
-            <a
+            <ButtonLink
               href="/partnership"
-              className="ui-btn-primary px-8 py-4 type-nav rounded-full inline-block"
+              variant="primary"
+              className="px-8 py-4 type-nav rounded-full inline-block transition-all duration-[var(--transition-elegant)]"
             >
               Become a Partner
-            </a>
+            </ButtonLink>
           </StaggerReveal>
         </section>
       </div>

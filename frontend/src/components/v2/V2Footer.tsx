@@ -1,4 +1,4 @@
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
 
 const SOCIAL_LINKS = [
     { name: "Instagram", href: "https://instagram.com/alfabeauty", icon: "instagram" },
@@ -31,9 +31,9 @@ export default function V2Footer() {
                 <div className="grid lg:grid-cols-4 gap-12">
                     {/* Brand Column */}
                     <div className="lg:col-span-2">
-                        <Link href="/" className="type-footer-brand text-foreground block mb-4">
+                        <AppLink href="/" className="type-footer-brand text-foreground block mb-4">
                             ALFA BEAUTY
-                        </Link>
+                        </AppLink>
                         <p className="type-body text-muted max-w-md mb-6">
                             PT Alfa Beauty Cosmetica — Your trusted partner for professional haircare distribution in Indonesia.
                         </p>
@@ -74,13 +74,13 @@ export default function V2Footer() {
                         <h3 className="type-h4 text-foreground mb-4">Quick Links</h3>
                         <nav className="space-y-3">
                             {SITEMAP.map((link) => (
-                                <Link
+                                <AppLink
                                     key={link.href}
                                     href={link.href}
                                     className="type-body text-muted hover:text-foreground transition-colors block"
                                 >
                                     {link.title}
-                                </Link>
+                                </AppLink>
                             ))}
                         </nav>
                     </div>
@@ -90,13 +90,13 @@ export default function V2Footer() {
                         <h3 className="type-h4 text-foreground mb-4">Legal</h3>
                         <nav className="space-y-3">
                             {LEGAL.map((link) => (
-                                <Link
+                                <AppLink
                                     key={link.href}
                                     href={link.href}
                                     className="type-body text-muted hover:text-foreground transition-colors block"
                                 >
                                     {link.title}
-                                </Link>
+                                </AppLink>
                             ))}
                         </nav>
                     </div>

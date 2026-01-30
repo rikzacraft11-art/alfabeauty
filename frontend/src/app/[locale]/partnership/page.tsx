@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import StaggerReveal from "@/components/ui/StaggerReveal";
 import { useTranslations } from "@/hooks/useTranslations";
 import { useLeadForm, type SalonType } from "@/components/lead/useLeadForm";
-import WhatsAppLink from "@/components/ui/WhatsAppLink";
-import { getButtonClassName } from "@/components/ui/Button";
 
 /**
  * Partnership Page

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { useLocale } from "@/components/i18n/LocaleProvider";
+
 
 export const metadata: Metadata = {
   title: "Security Policy",

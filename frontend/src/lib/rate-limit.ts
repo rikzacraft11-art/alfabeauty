@@ -6,6 +6,7 @@ interface RateLimitConfig {
 }
 
 declare global {
+    // eslint-disable-next-line no-unused-vars
     var rateLimitMap: Map<string, { count: number; expires: number }> | undefined;
 }
 
