@@ -1,17 +1,18 @@
 "use client";
 
 import { getEventBySlug } from "@/lib/education";
-import { t, formatDate } from "@/lib/i18n";
+import { useTranslations } from "@/hooks/useTranslations";
+import { formatDate } from "@/lib/i18n";
 
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
 import Card from "@/components/ui/Card";
-import { IconChevronRight, IconCalendar, IconMapPin, IconUsers } from "@/components/ui/icons";
+import { IconChevronRight, IconCalendar, IconMapPin, IconDocument, IconUsers } from "@/components/ui/icons";
 
 export default function EducationEventDetailClient({ slug }: { slug: string }) {
   const { locale } = useLocale();
-  const tx = t(locale);
+  const tx = useTranslations();
   const base = `/${locale}`;
   const event = slug ? getEventBySlug(locale, slug) : null;
 
@@ -66,6 +67,10 @@ export default function EducationEventDetailClient({ slug }: { slug: string }) {
             </div>
             <h1 className="type-h1">{event.title}</h1>
             <p className="type-body text-muted-strong">{event.excerpt}</p>
+            <div className="flex items-center gap-3 type-data text-muted">
+              <IconDocument className="h-4 w-4" />
+              <span>{event.type}</span>
+            </div>
             <div className="flex items-center gap-2 type-data text-muted">
               <IconUsers className="h-4 w-4" />
               <span>{tx.education.hub.labels.audience}: {event.audience.join(", ")}</span>

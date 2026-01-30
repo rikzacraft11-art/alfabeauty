@@ -26,7 +26,7 @@ export default function ErrorPage({
         showHome={true}
       />
       {error?.digest && (
-        <div className="fixed bottom-4 right-4 text-xs text-muted opacity-50 font-mono">
+        <div className="fixed bottom-4 right-4 type-legal text-muted opacity-50 font-mono">
           Ref: {error.digest}
         </div>
       )}

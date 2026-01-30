@@ -2,27 +2,34 @@
   {
     "slug": "fundamentals-of-professional-haircare",
     "title": "Fundamentals of Professional Haircare",
+    "brand": "Alfaparf Milano",
     "excerpt": "A practical session on consultation, product selection, and service quality for salons and barbershops.",
     "date": "2026-02-05",
     "city": "Jakarta",
-    "audience": ["Salon", "Barbershop"],
+    "audience": [
+      "Salon",
+      "Barbershop"
+    ],
     "cta_label": "Request seat via WhatsApp",
     "body": [
       "This session is designed for working professionals. We focus on decision support: consultation flow, diagnosing needs, and selecting the right professional products.",
-      "No ticketing system is provided in Paket A. To register, contact our team via WhatsApp and mention the event name and your city." 
+      "No ticketing system is provided in Paket A. To register, contact our team via WhatsApp and mention the event name and your city."
     ]
   },
   {
     "slug": "color-care-and-aftercare",
     "title": "Color Care & Aftercare Essentials",
+    "brand": "Farmavita",
     "excerpt": "Technical tips to maintain results, reduce damage, and improve client satisfaction post-service.",
     "date": "2026-02-20",
     "city": "Surabaya",
-    "audience": ["Salon"],
+    "audience": [
+      "Salon"
+    ],
     "cta_label": "Ask for schedule",
     "body": [
       "We cover the core principles of aftercare: wash routines, conditioning strategy, and client education to protect results.",
-      "Bring your typical service cases and we will recommend a structured approach." 
+      "Bring your typical service cases and we will recommend a structured approach."
     ]
   }
 ]

@@ -37,6 +37,8 @@ export async function generateMetadata({
 
 
 
+import EventSchema from "@/components/seo/EventSchema";
+
 export default async function EducationEventDetailPage({
   params,
 }: {
@@ -53,6 +55,7 @@ export default async function EducationEventDetailPage({
 
   return (
     <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-10 py-12">
+      <EventSchema event={event} />
       <EducationEventDetailClient slug={slug} />
     </div>
   );

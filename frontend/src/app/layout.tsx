@@ -2,10 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import OfflineIndicator from "@/components/site/OfflineIndicator";
-import ServiceWorkerRegister from "@/components/site/ServiceWorkerRegister";
 import { env } from "@/lib/env";
-import { fontSans, fontSerif, fontPrint } from "@/lib/fonts";
+import { fontSans, fontSerif } from "@/lib/fonts"; // Removed fontPrint if unused
 import "./globals.css";
 
 // Metadata and Viewport omitted...
@@ -24,12 +22,9 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} suppressHydrationWarning>
-      <body className={`antialiased ${fontSans.variable} ${fontSerif.variable} ${fontPrint.variable}`}>
-        {/* Offline Indicator (ITIL/UX) */}
-        <OfflineIndicator />
+      <body className={`antialiased ${fontSans.variable} ${fontSerif.variable}`}>
         {/* Skip Link moved to [locale]/layout.tsx for localization */}
         {children}
-        <ServiceWorkerRegister />
         <Analytics />
       </body>
       <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID ?? ""} />

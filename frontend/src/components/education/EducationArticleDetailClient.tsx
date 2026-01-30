@@ -1,8 +1,7 @@
 "use client";
 
 import { getArticleBySlug } from "@/lib/education";
-import { t } from "@/lib/i18n";
-
+import { useTranslations } from "@/hooks/useTranslations";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
@@ -11,7 +10,7 @@ import { IconChevronRight, IconDocument } from "@/components/ui/icons";
 
 export default function EducationArticleDetailClient({ slug }: { slug: string }) {
   const { locale } = useLocale();
-  const tx = t(locale);
+  const tx = useTranslations();
   const base = `/${locale}`;
   const article = slug ? getArticleBySlug(locale, slug) : null;
 
@@ -57,7 +56,7 @@ export default function EducationArticleDetailClient({ slug }: { slug: string })
             <div className="flex items-center gap-3 type-data text-muted">
               <span>{article.date}</span>
               <span>•</span>
-              <span>{article.readTime} min read</span>
+              <span>{article.readTime} {tx.education.article.meta.readTime}</span>
             </div>
             <h1 className="type-h1">{article.title}</h1>
             <p className="type-body text-muted-strong">{article.excerpt}</p>
@@ -81,7 +80,7 @@ export default function EducationArticleDetailClient({ slug }: { slug: string })
           <Card className="p-6 space-y-4 sticky top-24">
             <h2 className="type-h3">{tx.education.hub.sections.articles}</h2>
             <p className="type-body text-muted-strong">
-              Explore more educational content from our beauty experts.
+              {tx.education.article.sidebar.body}
             </p>
             <ButtonLink href={`${base}/education`} variant="secondary" size="sm">
               {tx.education.common.backToEducation}

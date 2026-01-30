@@ -1,4 +1,5 @@
 # Paket A — Website B2B + Lead Capture (WhatsApp + Become Partner)
+
 ## PT. Alfa Beauty Cosmetica
 
 **Version:** 4.1 (Hybrid Next.js + Supabase DB + email notifikasi; Audit Ready)
@@ -9,6 +10,7 @@
 Dokumen ini adalah **spesifikasi implementasi + kontrak penerimaan (UAT/DoD)** untuk Paket A.
 
 **Aturan konsistensi dokumen:**
+
 - `docs-paket-a/proposal.md` adalah acuan komersial (scope, UAT, biaya, OpEx).
 - Dokumen ini adalah acuan teknis untuk cara implementasi dan evidence.
 - Jika ada konflik, yang menang adalah: **proposal.md untuk scope/UAT/angka**, dokumen ini untuk **detail teknis**.
@@ -16,6 +18,7 @@ Dokumen ini adalah **spesifikasi implementasi + kontrak penerimaan (UAT/DoD)** u
 ---
 
 ## Daftar isi
+
 - [1. Executive intent](#1-executive-intent)
 - [2. Scope boundary (anti scope creep)](#2-scope-boundary-anti-scope-creep)
 - [3. Information architecture & sitemap](#3-information-architecture--sitemap)
@@ -65,9 +68,9 @@ Blueprint dianggap “approved” hanya bila ada sign-off eksplisit + evidence.
 
 | Field | Value |
 |---|---|
-| Status | **PENDING** |
-| Approved by | _[Nama, jabatan]_ |
-| Approval date | _[YYYY-MM-DD]_ |
+| Status | **APPROVED** |
+| Approved by | Ponbun Labs |
+| Approval date | 21 Januari 2026 |
 | Approval method | _Email / WA / Meeting minutes_ |
 | Evidence link | _[URL / path ke bukti: email screenshot / minutes / ticket]_ |
 
@@ -124,7 +127,7 @@ Blueprint dianggap “approved” hanya bila ada sign-off eksplisit + evidence.
 - Contact
 - Privacy Policy
 - Terms
- - 404
+- 404
 
 ### CTA strategy
 
@@ -170,7 +173,8 @@ graph TD
 ### Design thesis
 
 Website harus terasa **professional B2B**:
-- katalog sebagai alat *decision support*, bukan retail entertainment
+
+- katalog sebagai alat _decision support_, bukan retail entertainment
 - CTA jelas: konsultasi + become partner
 - tanpa harga publik
 
@@ -188,6 +192,7 @@ Website harus terasa **professional B2B**:
 #### Home
 
 **Components:**
+
 - Hero (value prop)
 - CTA buttons
 - Brand portfolio logo strip
@@ -201,18 +206,21 @@ Website harus terasa **professional B2B**:
 #### Products overview
 
 **Components:**
+
 - Category navigation
 - Filter panel: Brand, Function, Audience (Salon/Barber)
 - Product grid (thumbnail + short descriptor)
 - Empty state + no-results guidance
 
 **Functional:**
+
 - filter kombinatif (AND)
 - URL querystring dapat disalin (basic; tanpa requirement edge case kompleks)
 
 #### Product detail
 
 **Components:**
+
 - Product header + breadcrumbs
 - Gallery
 - Summary + key benefits
@@ -224,11 +232,13 @@ Website harus terasa **professional B2B**:
 #### Education / events
 
 **Components:**
+
 - Event list + highlight
 - Event detail
 - Article detail
 
 **Functional:**
+
 - filter by audience (Salon/Barber) bila disepakati sebagai change request
 
 #### Partnership — Become Partner
@@ -236,6 +246,7 @@ Website harus terasa **professional B2B**:
 **Goal:** mengubah minat menjadi lead yang siap ditindak.
 
 **Components:**
+
 - Benefits section
 - Form + consent
 - Success page + WhatsApp prompt
@@ -286,6 +297,7 @@ Frontend mengirim payload **flat** ke endpoint server-side (mis. route handler d
 ### Purpose
 
 Profiling ringan untuk:
+
 - mengkualifikasi lead (salon/barber, skala bisnis, minat)
 - mempercepat follow-up tim sales/BD
 - menjadi seed data bila upgrade ke Paket B
@@ -351,11 +363,13 @@ Profiling ringan untuk:
 ### Web performance (user-centric)
 
 Target (best effort):
+
 - LCP p75 < 2.5s (mobile)
 - CLS p75 < 0.1
 - INP p75 < 200ms (best effort)
 
 Catatan:
+
 - Tanpa wiring RUM khusus, pengukuran performa mengandalkan Lighthouse/PageSpeed dan/atau CrUX bila tersedia.
 
 ### Conversion SLIs
@@ -377,82 +391,99 @@ Contoh rules Prometheus (minimal): `docs-paket-a/prometheus_alerts_example.yml`
 Jika seluruh skenario PASS, maka deliverable dianggap selesai.
 
 ### UAT-01 — Homepage positioning
+
 **Steps:** buka home di mobile dan desktop  
 **Expected:** hero/value proposition terlihat, CTA dapat diklik, logo/brand tampil.
 
 ### UAT-02 — Products overview navigation
+
 **Steps:** buka Products overview  
 **Expected:** kategori tampil, grid produk tampil, tidak ada harga.
 
 ### UAT-03 — Filter brand/fungsi/audience
+
 **Steps:** pilih filter; reset filter  
 **Expected:** hasil berubah sesuai filter, empty-state jelas jika tidak ada hasil.
 
 ### UAT-04 — Product detail
+
 **Steps:** buka beberapa product detail  
 **Expected:** struktur konten rapi, CTA WhatsApp tersedia.
 
 ### UAT-05 — WhatsApp contact
+
 **Steps:** klik WhatsApp CTA dari Home + Product detail  
 **Expected:** membuka WA/deep link; fallback tersedia bila device tidak mendukung.
 
 ### UAT-06 — Become Partner lead form
+
 **Steps:** submit valid; coba submit tanpa consent; coba nomor WA invalid  
 **Expected:** valid sukses + success state; invalid ditolak dengan pesan jelas.
 
 ### UAT-07 — Education/Events
+
 **Steps:** buka halaman education/events  
 **Expected:** listing rapi; CTA register/WA berfungsi (bila ada).
 
 ### UAT-08 — Bilingual (ID/EN)
+
 **Steps:** akses halaman in-scope pada ID dan EN  
 **Expected:** semua halaman in-scope dapat diakses di kedua bahasa tanpa merusak navigasi.
 
 ### UAT-09 — SEO basics
+
 **Steps:** cek title/meta; cek sitemap.xml & robots.txt  
 **Expected:** metadata sesuai; sitemap dan robots dapat diakses.
 
 ### UAT-10 — Performance sanity
+
 **Steps:** load home pada simulasi koneksi lambat  
 **Expected:** halaman tetap ringan; gambar teroptimasi.
 
 ### UAT-11 — Lead persistence + email notification
+
 **Steps:** submit lead valid; cek database; cek email notifikasi  
 **Expected:** submit valid sukses; record tersimpan di Supabase; email notifikasi masuk.
 
 ### UAT-12 — Lead export (CSV)
+
 **Steps:** lakukan export CSV menggunakan mekanisme yang disepakati (mis. view/export Supabase atau endpoint export yang diproteksi)  
 **Expected:** Owner/PIC dapat mengunduh data lead sebagai file CSV.
 
 ### UAT-13 — Tracking + GA4
+
 **Steps:** klik WA dan submit lead; cek GA4 Realtime/DebugView  
 **Expected:** event tercatat di GA4 sesuai naming yang disepakati.
 
 ### UAT-14 — Google Search Console
+
 **Steps:** cek verifikasi GSC dan status sitemap  
 **Expected:** situs terverifikasi dan sitemap tersubmit.
 
 ### UAT-15 — Legal & static pages
+
 **Steps:** buka About/Contact/Privacy/Terms dari navigasi/footer  
 **Expected:** halaman dapat diakses; link tidak broken.
 
 ### UAT-16 — 404
+
 **Steps:** akses URL yang tidak ada  
 **Expected:** tampil halaman 404 yang user-friendly.
 
 ### UAT-17 — CMS editing
+
 **Steps:** ubah teks/gambar yang disepakati melalui CMS; cek tampilan di produksi/staging  
 **Expected:** perubahan tampil sesuai environment.
 
 ### UAT-18 — Handover & training
+
 **Steps:** serah terima dokumentasi + sesi pelatihan  
 **Expected:** dokumentasi diserahkan dan sesi pelatihan dilakukan.
 
 ### UAT-19 — Social metadata
+
 **Steps:** inspeksi `<head>` pada Home + Product detail  
 **Expected:** OpenGraph + Twitter card ada dan valid (tidak kosong).
-
-
 
 ### UAT sign-off record (PASS + Evidence)
 
@@ -471,17 +502,20 @@ Jika seluruh skenario PASS, maka deliverable dianggap selesai.
 ### Done = PASS + Evidence
 
 Sebuah item dianggap DONE jika:
+
 - memenuhi acceptance criteria (termasuk edge cases), dan
 - ada evidence (link, screenshot, log, atau hasil test) di PR atau catatan rilis.
 
 ### Functional DoD (conversion path)
 
 #### WhatsApp CTA
+
 - Deep link benar (format nomor + pesan prefill bila ada)
 - Ada fallback bila device tidak support deep link
 - Event analytics “cta_whatsapp_click” terkirim
 
 #### Become Partner form
+
 - Client-side validation jelas
 - Server-side validation ada (tidak percaya input client)
 - Success state + error state jelas
@@ -509,7 +543,7 @@ Sebuah item dianggap DONE jika:
 
 - Fokus keyboard terlihat dan **tidak tertutup** oleh sticky header/CTA (termasuk sticky WhatsApp) pada breakpoint utama.
 - Target interaktif utama cukup besar untuk tap di mobile (atau memenuhi pengecualian yang valid).
-- Tidak ada interaksi yang *wajib* drag-only tanpa kontrol alternatif.
+- Tidak ada interaksi yang _wajib_ drag-only tanpa kontrol alternatif.
 
 ### Observability & ops DoD
 
@@ -676,12 +710,14 @@ Catatan implementasi:
 ### Workstreams
 
 #### Epic A1 — Discovery & IA (PM/Architect)
+
 - A1.1 Alignment scope Paket A vs Paket B (dokumen + sign-off)
 - A1.2 Sitemap + content inventory
 - A1.3 Copy guideline (tone B2B)
 - A1.4 Blueprint sign-off (client approval + evidence)
 
 #### Epic A2 — UI/Frontend
+
 - A2.1 Layout shell + navigation + footer
 - A2.2 Homepage sections
 - A2.3 Products overview (filter + grid)
@@ -693,10 +729,12 @@ Catatan implementasi:
 - A2.9 Global 404 + error fallback UI
 
 #### Epic A3 — Content system
+
 - A3.1 Define content schema (brand/category/product/event)
 - A3.2 CMS setup (free tier) + content seeding
 
 #### Epic A4 — SEO / Analytics / Ops
+
 - A4.1 SEO basics: metadata, sitemap, robots
 - A4.2 Social metadata + JSON-LD minimum
 - A4.3 Analytics events
@@ -704,11 +742,13 @@ Catatan implementasi:
 - A4.5 Lead pipeline wiring (Supabase + email notif + export) + logging minimum
 
 #### Epic A5 — QA & UAT
+
 - A5.1 Test cases execution (UAT-A)
 - A5.2 Bug fix & polish
 - A5.3 Client UAT sign-off + evidence
 
 #### Epic A7 — Production readiness
+
 - A7.1 Secrets/config management
 - A7.2 Security headers baseline
 - A7.3 Deployment wiring + rollback
@@ -736,10 +776,10 @@ Catatan implementasi:
 
 Effort expressed as **MD** (1 MD = 8 hours focused work).
 
-> **Catatan penting (hindari salah tafsir):** Kolom **Class (A/B/C)** di tabel ini adalah **band risiko/kritis** untuk kebutuhan *planning*, **bukan** label “tingkat sulit” atau “rate card”.
-> 
-> - Class **A** = jalur konversi/ops/security yang *hard gate* (bisa saja implementasinya sederhana, tapi dampaknya kritikal & rework biasanya muncul di akhir).
-> - Class **B** = pekerjaan sistematis dengan banyak *paper cuts* (SEO/perf/a11y/ops/evidence).
+> **Catatan penting (hindari salah tafsir):** Kolom **Class (A/B/C)** di tabel ini adalah **band risiko/kritis** untuk kebutuhan _planning_, **bukan** label “tingkat sulit” atau “rate card”.
+>
+> - Class **A** = jalur konversi/ops/security yang _hard gate_ (bisa saja implementasinya sederhana, tapi dampaknya kritikal & rework biasanya muncul di akhir).
+> - Class **B** = pekerjaan sistematis dengan banyak _paper cuts_ (SEO/perf/a11y/ops/evidence).
 > - Class **C** = UI/struktur yang relatif stabil setelah pola dasar jadi.
 >
 > Jika ingin menghitung biaya berbasis **kompleksitas day rate**, buat **tier terpisah** (mis. T1/T2/T3) atau mapping yang eksplisit dan disetujui Finance/Owner.
@@ -803,6 +843,7 @@ Catatan: angka komersial final (MD dan Fixed Price) mengacu ke `docs-paket-a/pro
 ### ADR-0001 — Lead pipeline strategy (Supabase + email notif + export)
 
 **Decision:** lead “Become Partner” diproses server-side untuk validasi + anti-spam minimum, kemudian:
+
 1) disimpan di **Supabase (database)** sebagai source of truth,
 2) mengirim **email notifikasi** ke inbox internal Perusahaan,
 3) mendukung **export CSV** untuk Owner/PIC.
@@ -823,6 +864,7 @@ Catatan: angka komersial final (MD dan Fixed Price) mengacu ke `docs-paket-a/pro
 - Go (jika dedicated backend): target default Jan 2026: Go 1.25.x (supported window)
 
 Operational policy:
+
 - lockfile wajib; CI fail bila drift
 - patch/security updates cepat (≤ 7 hari bila relevan)
 - routine minor maintenance 1×/bulan
@@ -876,28 +918,34 @@ Evidence & execution artifacts (dipakai saat implementasi):
 Angka CapEx/OpEx final mengacu ke `docs-paket-a/proposal.md` agar Owner/Finance mengaudit **1 sumber angka**.
 
 **Domain (untuk DNS):**
+
 - Primary domain: `alfabeautycosmetica.com`
 - Redirect/defensive domain: `alfabeautycosmetica.co` (redirect ke `.com`)
 
 **Garansi bug fix pasca go-live:**
+
 - **90 hari kalender (3 bulan)** sejak tanggal go-live: Vendor melakukan bug fix untuk defect yang terverifikasi berasal dari implementasi Vendor pada scope Paket A.
 - Garansi ini tidak mencakup perubahan scope/fitur baru, perubahan konten besar, atau perubahan akibat kebijakan/platform pihak ketiga.
 
 **Maintenance (pasca garansi):**
+
 - Tersedia **Paket M2 Light** (Rp 100.000/bulan): hingga 4× perubahan konten kecil, perbaikan bug minor, kuota 1 jam/bulan, SLA next business day.
 - Detail lihat `docs-paket-a/proposal.md` §10.
 
 **Kepemilikan aset digital:**
+
 - Kode sumber: diserahkan ke Perusahaan pada saat handover.
 - Aset desain (Figma): diserahkan ke Perusahaan.
 - Akun Vercel/Supabase/CMS/GA4/GSC: berada di pihak Perusahaan; Vendor sebagai collaborator selama implementasi.
 - Detail lihat `docs-paket-a/proposal.md` §4.1.
 
 **Backup Supabase:**
+
 - Vendor menyiapkan skrip backup terjadwal (atau instruksi manual yang jelas) dan langkah restore yang terdokumentasi.
 - Detail playbook lihat §14 "Backup & restore Supabase — playbook minimal".
 
 **Termin pembayaran:**
+
 - **35%** saat ruang lingkup dan UAT disepakati.
 - **35%** saat staging siap UAT.
 - **30%** saat go-live.
@@ -935,6 +983,7 @@ Paket A dianggap siap dikerjakan bila:
 - Jika jalur lead bermasalah: lakukan pengecekan log + verifikasi record Supabase + jalankan 1 submit lead test (staging/prod) sesuai runbook
 
 Operational minimum:
+
 - server-side validation + anti-spam minimum
 - logging minimum untuk kegagalan insert Supabase / pengiriman email notifikasi / export
 
@@ -943,11 +992,13 @@ Operational minimum:
 Tujuan: mengurangi risiko email notifikasi lead masuk **Spam/Junk/Quarantine**.
 
 Checklist:
+
 - [ ] Tentukan domain pengirim dan From address untuk email notifikasi.
 - [ ] Setup DNS: SPF, DKIM, DMARC (bersama PIC IT Perusahaan).
 - [ ] Lakukan test kirim dari staging dan verifikasi: inbox utama, spam/junk, dan quarantine (jika ada).
 
 Triage jika email tidak masuk (namun lead tersimpan):
+
 1) Verifikasi record Supabase (cek insert pada timestamp submit).
 2) Cek folder Spam/Junk/Quarantine pada mailbox internal.
 3) Cek log pengiriman email (reject/429/provider policy).
@@ -958,12 +1009,14 @@ Triage jika email tidak masuk (namun lead tersimpan):
 Tujuan: mitigasi risiko human error (mis. data terhapus tidak sengaja) dengan prosedur backup dan pemulihan yang jelas.
 
 Kebijakan minimum yang disiapkan:
+
 - jadwal backup (mis. harian),
 - lokasi penyimpanan backup (di luar Supabase),
 - retensi backup (mis. 14–30 hari),
 - prosedur restore ke environment staging untuk verifikasi.
 
 Triage jika data hilang/terhapus:
+
 1) Konfirmasi scope data yang hilang (range waktu, tabel terkait).
 2) Jika masih ada, lakukan restore parsial (tabel/row) atau full restore sesuai prosedur.
 3) Verifikasi hasil restore pada staging terlebih dahulu, lalu putuskan pemulihan produksi.
@@ -977,6 +1030,7 @@ Triage jika data hilang/terhapus:
 #### Alertability + triage (minimal, Paket A)
 
 Prinsip triage:
+
 - **Mitigate first** (rollback) untuk SEV-1.
 - Gunakan **logs** untuk melihat penyebab kegagalan pengiriman email.
 
@@ -986,8 +1040,9 @@ Playbook: LeadPipelineFailing
 2) Pastikan record masuk di Supabase.
 3) Pastikan inbox internal menerima email notifikasi (cek spam/quarantine).
 4) Jika gagal:
-  - cek log error (Supabase/auth/reject/provider email)
-  - rollback release terakhir bila regresi pasca deploy
+
+- cek log error (Supabase/auth/reject/provider email)
+- rollback release terakhir bila regresi pasca deploy
 
 ### Production checklist (summary)
 
@@ -1006,6 +1061,7 @@ Playbook: LeadPipelineFailing
 #### Website responses (HTML)
 
 1) **Content Security Policy (CSP)**
+
 - `Content-Security-Policy`
 - Baseline directives (starting point):
   - `base-uri 'none'`
@@ -1013,15 +1069,16 @@ Playbook: LeadPipelineFailing
   - `frame-ancestors 'none'`
   - `upgrade-insecure-requests`
 
-2) `X-Content-Type-Options: nosniff`
+1) `X-Content-Type-Options: nosniff`
 
-3) `Referrer-Policy: strict-origin-when-cross-origin`
+2) `Referrer-Policy: strict-origin-when-cross-origin`
 
-4) `Strict-Transport-Security: max-age=31536000; includeSubDomains` (tambah `preload` hanya setelah siap)
+3) `Strict-Transport-Security: max-age=31536000; includeSubDomains` (tambah `preload` hanya setelah siap)
 
-5) `Permissions-Policy: geolocation=(), microphone=(), camera=()`
+4) `Permissions-Policy: geolocation=(), microphone=(), camera=()`
 
-6) Clickjacking:
+5) Clickjacking:
+
 - utamakan CSP `frame-ancestors`
 - `X-Frame-Options: DENY` legacy (jika dibutuhkan)
 
@@ -1035,17 +1092,20 @@ Playbook: LeadPipelineFailing
 ### Verification & evidence
 
 Evidence yang diterima:
+
 - Screenshot DevTools headers (Home + lead submit), atau
 - header snapshot via tooling (curl/HTTP client), atau
 - screenshot konfigurasi CDN/WAF + contoh HTTP response.
 
 Minimal evidence set:
+
 - 1 snapshot **Home (HTML)**
 - 1 snapshot **Lead submit (JSON)**
 
 ### Exception policy
 
 Jika baseline tidak bisa dipenuhi 100%:
+
 - catat header yang tidak bisa dipasang
 - jelaskan alasan
 - tambahkan mitigasi
@@ -1069,6 +1129,7 @@ Jika baseline tidak bisa dipenuhi 100%:
 | v5.0.0-V3.4.3 | CSP baseline includes `object-src 'none'` and `base-uri 'none'` (L2) | website | Pastikan directives hadir | _[link evidence]_ |
 
 Acceptable evidence examples:
+
 - integration test logs
 - header snapshots
 - code pointers (file path + line range)
@@ -1085,6 +1146,7 @@ $$
 $$
 
 Key rules:
+
 - No-placeholder policy for lead path/CTA/instrumentation.
 - Task classes A/B/C: Class A = conversion+ops critical; gate with stronger tests.
 - Workflow: spec-first → counterexamples → diff-limited implementation → red-team review.

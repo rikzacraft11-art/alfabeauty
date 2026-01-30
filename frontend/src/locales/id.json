@@ -203,7 +203,11 @@
     },
     "products": {
         "title": "Produk",
+        "kicker": "Produk Kami",
+        "heroTitle": "Solusi Perawatan Rambut Profesional",
+        "heroBody": "Temukan pilihan produk kelas profesional kami yang terkurasi dari brand internasional terkemuka.",
         "lede": "Produk terkurasi untuk salon dan barbershop. Tanpa harga publik — hubungi kami via WhatsApp untuk konsultasi dan rekomendasi.",
+        "imageAlt": "Gambar Produk",
         "highlights": {
             "title": "Produk pilihan",
             "lede": "Sekilas portofolio produk terkurasi kami.",
@@ -304,17 +308,27 @@
     "education": {
         "hub": {
             "title": "Edukasi & Event",
-            "lede": "Ringkas, teknis, dan relevan untuk profesional salon & barbershop. Tidak ada sistem tiket di Paket A—registrasi via WhatsApp.",
+            "kicker": "Edukasi & Pengembangan",
+            "heroTitle": "Tumbuh Bersama Pengetahuan",
+            "heroBody": "Kami berinvestasi dalam edukasi karena kami percaya profesional yang terinformasi memberikan hasil luar biasa. Ikuti workshop, seminar, dan program pelatihan kami.",
             "sections": {
-                "events": "Event",
-                "articles": "Artikel"
+                "events": "Event Mendatang",
+                "articles": "Wawasan & Artikel"
+            },
+            "types": {
+                "workshop": "Workshop",
+                "seminar": "Seminar",
+                "training": "Pelatihan"
             },
             "labels": {
-                "audience": "Audiens"
+                "audience": "Audiens",
+                "readTime": "baca"
             },
+            "imageAlt": "Gambar Artikel",
             "actions": {
                 "viewDetails": "Lihat detail",
-                "read": "Baca"
+                "read": "Baca",
+                "viewAll": "Lihat Semua →"
             },
             "trainingTitle": "Program Training Profesional",
             "trainingNote": "Ingin sesi training untuk tim Anda? Hubungi kami via WhatsApp dan sebutkan kota + kebutuhan Anda.",
@@ -324,24 +338,30 @@
                 "upcoming": "mendatang"
             }
         },
-        "common": {
-            "backToEducation": "Kembali"
-        },
         "event": {
             "notFound": {
-                "title": "Event tidak ditemukan",
-                "body": "Kami tidak menemukan event tersebut. Silakan kembali ke halaman Edukasi."
+                "title": "Event Tidak Ditemukan",
+                "body": "Event yang Anda cari tidak ada atau telah dihapus."
             },
-            "note": "Catatan: Jadwal dapat berubah. Konfirmasi via WhatsApp untuk slot dan ketersediaan.",
+            "note": "Catatan: Untuk workshop dan pelatihan, harap membawa peralatan sendiri.",
             "interested": "Tertarik?",
-            "contactBody": "Hubungi kami untuk info lebih lanjut tentang event ini dan reservasi tempat."
+            "contactBody": "Tempat terbatas. Hubungi kami untuk reservasi."
+        },
+        "common": {
+            "backToEducation": "Kembali ke Edukasi"
         },
         "article": {
             "notFound": {
                 "title": "Artikel tidak ditemukan",
                 "body": "Kami tidak menemukan artikel tersebut. Silakan kembali ke halaman Edukasi."
             },
-            "footer": "Butuh panduan untuk produk tertentu? Kirim pertanyaan Anda via WhatsApp."
+            "footer": "Butuh panduan untuk produk tertentu? Kirim pertanyaan Anda via WhatsApp.",
+            "sidebar": {
+                "body": "Jelajahi konten edukasi lainnya dari ahli kecantikan kami."
+            },
+            "meta": {
+                "readTime": "menit baca"
+            }
         }
     },
     "productDetail": {
@@ -352,16 +372,109 @@
         "sections": {
             "keyBenefits": "Manfaat utama",
             "howToUse": "Cara pakai",
-            "recommendedFor": "Rekomendasi"
+            "recommendedFor": "Rekomendasi",
+            "specs": "Spesifikasi"
         },
         "labels": {
             "audience": "Audiens",
-            "functions": "Fungsi"
+            "functions": "Fungsi",
+            "size": "Ukuran",
+            "origin": "Asal",
+            "professionalUse": "Penggunaan Profesional",
+            "yes": "Ya",
+            "no": "Tidak"
         },
         "consult": {
-            "title": "Konsultasi & minta rekomendasi",
-            "body": "Tanpa harga publik. Chat kami via WhatsApp untuk kecocokan, panduan pemakaian, dan pemesanan.",
+            "title": "Konsultasi & rekomendasi",
+            "body": "Tidak ada harga publik. Hubungi kami via WhatsApp untuk kecocokan, panduan, dan pemesanan.",
             "prefill": "Halo Alfa Beauty, saya ingin konsultasi tentang {{product}}."
+        }
+    },
+    "partnership": {
+        "hero": {
+            "kicker": "Kemitraan",
+            "title": "Jadi Mitra Kami",
+            "body": "Bergabunglah dengan jaringan salon profesional dan distributor kami."
+        },
+        "readyBlock": {
+            "title": "Siap untuk Bertumbuh?",
+            "body": "Bermitra dengan kami dan tingkatkan bisnis salon Anda ke level berikutnya."
+        },
+        "cards": {
+            "curated": {
+                "title": "Portofolio Terkurasi",
+                "body": "Akses ke brand profesional kelas dunia seperti Alfaparf Milano dan Farmavita."
+            },
+            "education": {
+                "title": "Edukasi Berkelanjutan",
+                "body": "Pelatihan teknis, seminar, dan workshop bisnis untuk tim Anda."
+            },
+            "b2b": {
+                "title": "Dukungan Bisnis",
+                "body": "Manajemen akun khusus, dukungan pemasaran, dan konsultasi pertumbuhan."
+            }
+        },
+        "features": [
+            "Distributor Resmi",
+            "Edukasi Teknis",
+            "Dukungan Pemasaran",
+            "Pertumbuhan Bisnis",
+            "Keaslian Produk",
+            "Jaringan Nasional"
+        ],
+        "steps": {
+            "1": "Informasi Bisnis",
+            "2": "Kontak",
+            "3": "Ceritakan Lebih",
+            "4": "Konfirmasi"
+        },
+        "form": {
+            "step1": {
+                "title": "Tentang bisnis Anda",
+                "businessName": "Nama Bisnis",
+                "businessNamePlaceholder": "Nama salon atau bisnis Anda",
+                "businessType": "Tipe Bisnis",
+                "city": "Kota",
+                "cityPlaceholder": "Kota Anda"
+            },
+            "step2": {
+                "title": "Bagaimana kami menghubungi Anda?",
+                "contactName": "Nama Kontak",
+                "contactNamePlaceholder": "Nama lengkap Anda",
+                "email": "Email",
+                "emailPlaceholder": "anda@email.com",
+                "phone": "Nomor WhatsApp",
+                "phonePlaceholder": "+62..."
+            },
+            "step3": {
+                "title": "Ceritakan lebih lanjut (opsional)",
+                "currentBrands": "Brand yang Anda gunakan saat ini",
+                "currentBrandsPlaceholder": "Sebutkan brand profesional yang Anda gunakan atau jual...",
+                "interest": "Brand apa yang Anda minati?"
+            },
+            "step4": {
+                "title": "Hampir selesai!",
+                "summary": "Ringkasan",
+                "agreeTerms": "Saya setuju dengan Syarat & Ketentuan dan Kebijakan Privasi",
+                "agreeMarketing": "Saya ingin menerima update dan promosi"
+            },
+            "nav": {
+                "back": "Kembali",
+                "continue": "Lanjut",
+                "submit": "Kirim"
+            }
+        },
+        "success": {
+            "title": "Terima Kasih!",
+            "body": "Permintaan kemitraan Anda telah dikirim. Tim kami akan menghubungi Anda dalam 2 hari kerja.",
+            "cta": "Chat kami di WhatsApp"
+        },
+        "types": {
+            "Professional Salon": "Salon Profesional",
+            "Barbershop": "Barbershop",
+            "Beauty Academy": "Akademi Kecantikan",
+            "Distributor": "Distributor",
+            "Other": "Lainnya"
         }
     },
     "leadForm": {

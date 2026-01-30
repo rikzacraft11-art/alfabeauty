@@ -38,6 +38,8 @@ export async function generateMetadata({
 
 
 
+import ArticleSchema from "@/components/seo/ArticleSchema";
+
 export default async function EducationArticleDetailPage({
   params,
 }: {
@@ -54,6 +56,7 @@ export default async function EducationArticleDetailPage({
 
   return (
     <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-10 py-12">
+      <ArticleSchema article={article} />
       <EducationArticleDetailClient slug={slug} />
     </div>
   );

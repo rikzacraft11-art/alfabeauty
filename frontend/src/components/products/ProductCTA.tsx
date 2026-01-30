@@ -2,7 +2,7 @@
 
 import { t } from "@/lib/i18n";
 import { useLocale } from "@/components/i18n/LocaleProvider";
-import WhatsAppLink from "@/components/site/WhatsAppLink";
+import WhatsAppLink from "@/components/ui/WhatsAppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { getButtonClassName } from "@/components/ui/Button";
 import { IconWhatsApp } from "@/components/ui/icons";

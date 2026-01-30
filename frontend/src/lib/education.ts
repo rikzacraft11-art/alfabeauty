@@ -1,28 +1,12 @@
 import type { Locale } from "@/lib/i18n";
+import type { EducationEvent, EducationArticle } from "@/types";
+
+export type { EducationEvent, EducationArticle };
 
 import articlesEn from "@/content/education/articles.en.json";
 import articlesId from "@/content/education/articles.id.json";
 import eventsEn from "@/content/education/events.en.json";
 import eventsId from "@/content/education/events.id.json";
-
-export type EducationEvent = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string; // yyyy-MM-dd
-  city: string;
-  audience: string[];
-  cta_label: string;
-  body: string[];
-};
-
-export type EducationArticle = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string; // yyyy-MM-dd
-  body: string[];
-};
 
 export function listEvents(locale: Locale): EducationEvent[] {
   return (locale === "id" ? eventsId : eventsEn) as EducationEvent[];

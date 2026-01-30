@@ -1,57 +1,37 @@
-import type { Metadata } from "next";
-import { env } from "@/lib/env";
-
-// JAMSTACK: Incremental Static Regeneration (Task 98)
-// Revalidate product listing every hour.
-export const revalidate = 3600;
-
-import ProductFilters from "@/components/products/ProductFilters";
-import ProductsHeader from "@/components/products/ProductsHeader";
-import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
-import type { Locale } from "@/lib/i18n";
+import StaggerReveal from "@/components/ui/StaggerReveal";
 import { t } from "@/lib/i18n";
+import ProductFilters from "@/components/products/ProductFilters";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const tx = t(locale);
-  const path = `/${locale}/products`;
-
-  return {
-    title: tx.products.title,
-    description: tx.seo.productsDescription,
-    alternates: {
-      canonical: path,
-      languages: {
-        en: "/en/products",
-        id: "/id/products",
-      },
-    },
-  };
-}
-
-// ... props ...
+/**
+ * Products Page
+ * Design V2: Bento Grid layout with floating filter bar
+ * Migrated from (v2) to production route.
+ */
 export default async function ProductsPage({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const tx = t(locale);
-
-  const breadcrumbs = [
-    { name: tx.nav ? tx.nav.home : "Home", url: `/${locale}` },
-    { name: tx.nav ? tx.nav.products : "Products", url: `/${locale}/products` },
-  ];
+  const dict = t(locale as "en" | "id");
 
   return (
-    <div className="mx-auto max-w-[120rem] px-4 sm:px-6 lg:px-10 py-12 space-y-10">
-      <BreadcrumbSchema items={breadcrumbs} />
-      <ProductsHeader />
-      <ProductFilters />
-    </div>
+    <main className="min-h-screen pt-24 pb-16">
+      <div className="container mx-auto px-6 lg:px-12">
+        {/* Header */}
+        <StaggerReveal delay={0.1} className="mb-12">
+          <p className="type-kicker text-muted mb-4">{dict.products.kicker}</p>
+          <h1 className="type-h1 text-foreground mb-4">
+            {dict.products.heroTitle}
+          </h1>
+          <p className="type-body text-foreground-muted max-w-2xl">
+            {dict.products.heroBody}
+          </p>
+        </StaggerReveal>
+
+        {/* Dynamic Product Grid with Filters */}
+        <ProductFilters />
+      </div>
+    </main>
   );
 }

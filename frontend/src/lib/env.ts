@@ -29,6 +29,11 @@ const envSchema = z.object({
     // ITIL 4: Service Management
     MAINTENANCE_MODE: z.enum(["true", "false"]).optional(),
 
+    // ITIL 4: Design V2 Gradual Rollout (OPS-06)
+    // Set to "true" to enable V2 design for all users
+    // Set to "percentage:XX" for A/B testing (e.g., "percentage:20" = 20% users)
+    ENABLE_V2_DESIGN: z.string().optional(),
+
     // Contact / Business (Critical B2B)
     NEXT_PUBLIC_WHATSAPP_NUMBER: z.string().optional(),
     NEXT_PUBLIC_WHATSAPP_PREFILL: z.string().optional(),

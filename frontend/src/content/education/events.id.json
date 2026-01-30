@@ -2,27 +2,34 @@
   {
     "slug": "dasar-perawatan-rambut-profesional",
     "title": "Dasar Perawatan Rambut Profesional",
+    "brand": "Alfaparf Milano",
     "excerpt": "Sesi praktis tentang konsultasi, pemilihan produk, dan kualitas layanan untuk salon & barbershop.",
     "date": "2026-02-05",
     "city": "Jakarta",
-    "audience": ["Salon", "Barbershop"],
+    "audience": [
+      "Salon",
+      "Barbershop"
+    ],
     "cta_label": "Daftar via WhatsApp",
     "body": [
       "Sesi ini dibuat untuk profesional yang aktif bekerja. Fokusnya adalah decision support: alur konsultasi, diagnosis kebutuhan, dan memilih produk profesional yang tepat.",
-      "Paket A tidak menyediakan sistem tiket/checkout. Untuk registrasi, hubungi tim kami via WhatsApp dan sebutkan nama event serta kota Anda." 
+      "Paket A tidak menyediakan sistem tiket/checkout. Untuk registrasi, hubungi tim kami via WhatsApp dan sebutkan nama event serta kota Anda."
     ]
   },
   {
     "slug": "perawatan-setelah-pewarnaan",
     "title": "Color Care & Aftercare",
+    "brand": "Farmavita",
     "excerpt": "Tips teknis untuk menjaga hasil, mengurangi kerusakan, dan meningkatkan kepuasan klien setelah layanan.",
     "date": "2026-02-20",
     "city": "Surabaya",
-    "audience": ["Salon"],
+    "audience": [
+      "Salon"
+    ],
     "cta_label": "Tanya jadwal",
     "body": [
       "Kita bahas prinsip inti aftercare: rutinitas cuci, strategi conditioning, dan edukasi klien untuk menjaga hasil layanan.",
-      "Bawa kasus layanan yang paling sering Anda kerjakan, dan kami bantu rekomendasikan pendekatan yang terstruktur." 
+      "Bawa kasus layanan yang paling sering Anda kerjakan, dan kami bantu rekomendasikan pendekatan yang terstruktur."
     ]
   }
 ]

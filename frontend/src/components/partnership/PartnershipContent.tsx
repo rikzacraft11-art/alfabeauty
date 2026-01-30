@@ -34,9 +34,9 @@ export default function PartnershipContent() {
               <span className="h-px w-8 bg-foreground" aria-hidden="true" />
               {copy.nav.partnership}
             </p>
-            <h1 className="type-h1">{copy.partnership.title}</h1>
+            <h1 className="type-h1">{copy.partnership.hero.title}</h1>
           </div>
-          <p className="type-lede max-w-lg">{copy.partnership.lede}</p>
+          <p className="type-lede max-w-lg">{copy.partnership.hero.body}</p>
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <ButtonLink
               href={`${base}/partnership/become-partner`}
@@ -54,7 +54,7 @@ export default function PartnershipContent() {
         <div className="relative aspect-[4/3] lg:aspect-square order-1 lg:order-2 overflow-hidden border border-border">
           <Image
             src="/images/partnership/partner-lifestyle.jpg"
-            alt="Professional hairstylist working in a modern salon"
+            alt={locale === "id" ? "Penata rambut profesional bekerja di salon modern" : "Professional hairstylist working in a modern salon"}
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"

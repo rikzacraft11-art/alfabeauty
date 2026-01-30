@@ -203,7 +203,11 @@
     },
     "products": {
         "title": "Products",
+        "kicker": "Our Products",
+        "heroTitle": "Professional Haircare Solutions",
+        "heroBody": "Discover our curated selection of professional-grade products from leading international brands.",
         "lede": "Curated products for salons and barbershops. No public pricing — contact us via WhatsApp for consultation and recommendations.",
+        "imageAlt": "Product Image",
         "highlights": {
             "title": "Featured products",
             "lede": "A quick look at our curated portfolio.",
@@ -304,17 +308,27 @@
     "education": {
         "hub": {
             "title": "Education & Events",
-            "lede": "Concise, technical, and relevant for salon & barbershop professionals. Paket A does not include ticketing—registration happens via WhatsApp.",
+            "kicker": "Education & Development",
+            "heroTitle": "Grow With Knowledge",
+            "heroBody": "We invest in education because we believe that informed professionals deliver exceptional results. Join our workshops, seminars, and training programs.",
             "sections": {
-                "events": "Events",
-                "articles": "Articles"
+                "events": "Upcoming Events",
+                "articles": "Insights & Articles"
+            },
+            "types": {
+                "workshop": "Workshop",
+                "seminar": "Seminar",
+                "training": "Training"
             },
             "labels": {
-                "audience": "Audience"
+                "audience": "Audience",
+                "readTime": "read"
             },
+            "imageAlt": "Article Image",
             "actions": {
                 "viewDetails": "View details",
-                "read": "Read"
+                "read": "Read",
+                "viewAll": "View All →"
             },
             "trainingTitle": "Professional Training Programs",
             "trainingNote": "Want training for your team? Message us on WhatsApp and tell us your city and needs.",
@@ -324,24 +338,30 @@
                 "upcoming": "upcoming"
             }
         },
-        "common": {
-            "backToEducation": "Back"
-        },
         "event": {
             "notFound": {
-                "title": "Event not found",
-                "body": "We couldn't find that event. Please return to Education."
+                "title": "Event Not Found",
+                "body": "The event you are looking for does not exist or has been removed."
             },
-            "note": "Note: Schedules may change. Confirm availability via WhatsApp.",
+            "note": "Note: For workshops and training, please bring your own tools.",
             "interested": "Interested?",
-            "contactBody": "Contact us to learn more about this event and reserve your spot."
+            "contactBody": "Spaces are limited. Contact us to reserve your spot."
+        },
+        "common": {
+            "backToEducation": "Back to Education"
         },
         "article": {
             "notFound": {
                 "title": "Article not found",
                 "body": "We couldn't find that article. Please return to Education."
             },
-            "footer": "Need guidance for a specific product? Send your questions via WhatsApp."
+            "footer": "Need guidance for a specific product? Send your questions via WhatsApp.",
+            "sidebar": {
+                "body": "Explore more educational content from our beauty experts."
+            },
+            "meta": {
+                "readTime": "min read"
+            }
         }
     },
     "productDetail": {
@@ -352,16 +372,109 @@
         "sections": {
             "keyBenefits": "Key benefits",
             "howToUse": "How to use",
-            "recommendedFor": "Recommended for"
+            "recommendedFor": "Recommended for",
+            "specs": "Specifications"
         },
         "labels": {
             "audience": "Audience",
-            "functions": "Functions"
+            "functions": "Functions",
+            "size": "Size",
+            "origin": "Origin",
+            "professionalUse": "Professional Use",
+            "yes": "Yes",
+            "no": "No"
         },
         "consult": {
             "title": "Consult & request recommendations",
             "body": "No public pricing. Message us on WhatsApp for suitability, usage guidance, and ordering.",
             "prefill": "Hi Alfa Beauty, I'd like to consult about {{product}}."
+        }
+    },
+    "partnership": {
+        "hero": {
+            "kicker": "Partnership",
+            "title": "Become a Partner",
+            "body": "Join our network of professional salons and distributors."
+        },
+        "readyBlock": {
+            "title": "Ready to Grow?",
+            "body": "Partner with us and take your salon business to the next level."
+        },
+        "cards": {
+            "curated": {
+                "title": "Curated Portfolio",
+                "body": "Access to world-class professional brands like Alfaparf Milano and Farmavita."
+            },
+            "education": {
+                "title": "Continuous Education",
+                "body": "Technical training, seminars, and business workshops for your team."
+            },
+            "b2b": {
+                "title": "Business Support",
+                "body": "Dedicated account management, marketing support, and growth consultation."
+            }
+        },
+        "features": [
+            "Official Distributor",
+            "Technical Education",
+            "Marketing Support",
+            "Business Growth",
+            "Product Authenticity",
+            "Nationwide Network"
+        ],
+        "steps": {
+            "1": "Business Information",
+            "2": "Contact Details",
+            "3": "Tell Us More",
+            "4": "Confirmation"
+        },
+        "form": {
+            "step1": {
+                "title": "Tell us about your business",
+                "businessName": "Business Name",
+                "businessNamePlaceholder": "Your salon or business name",
+                "businessType": "Business Type",
+                "city": "City",
+                "cityPlaceholder": "Your city"
+            },
+            "step2": {
+                "title": "How can we reach you?",
+                "contactName": "Contact Name",
+                "contactNamePlaceholder": "Your full name",
+                "email": "Email",
+                "emailPlaceholder": "your@email.com",
+                "phone": "WhatsApp Number",
+                "phonePlaceholder": "+62..."
+            },
+            "step3": {
+                "title": "Tell us more (optional)",
+                "currentBrands": "Current brands you carry",
+                "currentBrandsPlaceholder": "List any professional brands you currently use or sell...",
+                "interest": "Which brands are you interested in?"
+            },
+            "step4": {
+                "title": "Almost done!",
+                "summary": "Summary",
+                "agreeTerms": "I agree to the Terms of Service and Privacy Policy",
+                "agreeMarketing": "I would like to receive updates and promotional materials"
+            },
+            "nav": {
+                "back": "Back",
+                "continue": "Continue",
+                "submit": "Submit"
+            }
+        },
+        "success": {
+            "title": "Thank You!",
+            "body": "Your partnership inquiry has been submitted. Our team will contact you within 2 business days.",
+            "cta": "Chat with us on WhatsApp"
+        },
+        "types": {
+            "Professional Salon": "Professional Salon",
+            "Barbershop": "Barbershop",
+            "Beauty Academy": "Beauty Academy",
+            "Distributor": "Distributor",
+            "Other": "Other"
         }
     },
     "leadForm": {
