@@ -56,6 +56,7 @@ export default function ImageZoom({ src, alt, className = "" }: ImageZoomProps) 
                 role="button"
                 tabIndex={0}
                 aria-pressed={isZoomed}
+                aria-label={tx.ui?.clickToEnlarge ?? "Click to enlarge"}
             >
                 <motion.div
                     animate={{

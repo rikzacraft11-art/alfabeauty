@@ -30,13 +30,17 @@ export default function BackToTop() {
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        const prefersReducedMotion = typeof window !== "undefined"
+            && "matchMedia" in window
+            && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
     };
 
     if (!visible) return null;
 
     return (
         <button
+            type="button"
             onClick={scrollToTop}
             className="fixed bottom-24 right-4 z-40 h-12 w-12 
                        bg-foreground text-background 

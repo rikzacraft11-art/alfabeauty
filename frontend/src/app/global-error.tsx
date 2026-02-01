@@ -42,6 +42,7 @@ export default function GlobalError({
 
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button
+              type="button"
               onClick={() => reset()}
               className="ui-btn-primary ui-radius-tight px-6 py-2.5"
             >

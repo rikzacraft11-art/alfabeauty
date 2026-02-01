@@ -88,15 +88,33 @@ export default function MegaMenu() {
     };
 
     return (
-        <div onMouseLeave={handleMouseLeave}>
+        <div
+            onMouseLeave={handleMouseLeave}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                    setActiveMenu(null);
+                }
+            }}
+        >
             {/* Trigger Links */}
             <nav className="hidden lg:flex items-center gap-8">
                 {(Object.keys(MEGA_MENU_DATA) as MegaMenuKey[]).map((key) => (
                     <button
                         key={key}
+                        type="button"
                         onMouseEnter={() => handleMouseEnter(key)}
+                        onFocus={() => handleMouseEnter(key)}
+                        onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " " || event.key === "ArrowDown") {
+                                event.preventDefault();
+                                handleMouseEnter(key);
+                            }
+                        }}
                         className={`type-nav transition-colors duration-[var(--transition-elegant)] ${activeMenu === key ? "text-foreground" : "text-foreground-muted hover:text-foreground"
                             }`}
+                        aria-haspopup="menu"
+                        aria-expanded={activeMenu === key}
+                        aria-controls="mega-menu-panel"
                     >
                         {MEGA_MENU_DATA[key].label}
                     </button>
@@ -107,6 +125,7 @@ export default function MegaMenu() {
             <AnimatePresence>
                 {activeMenu && (
                     <motion.div
+                        id="mega-menu-panel"
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}

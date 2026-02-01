@@ -86,10 +86,12 @@ export default function HeaderNav() {
 
                         {/* Mobile Menu Button */}
                         <button
+                            type="button"
                             onClick={() => setIsMobileOpen(!isMobileOpen)}
                             className="lg:hidden p-2 text-foreground"
                             aria-label={isMobileOpen ? tx.header.actions.closeMenu : tx.header.actions.openMenu}
                             aria-expanded={isMobileOpen}
+                            aria-controls="mobile-menu"
                         >
                             <HamburgerIcon isOpen={isMobileOpen} />
                         </button>
@@ -99,12 +101,14 @@ export default function HeaderNav() {
 
             {/* Mobile Menu (Curtain Reveal) */}
             <motion.div
+                id="mobile-menu"
                 initial={false}
                 animate={isMobileOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={`fixed inset-0 z-40 bg-background ${isMobileOpen ? "pointer-events-auto" : "pointer-events-none"
                     }`}
                 style={{ paddingTop: "5rem" }}
+                aria-hidden={!isMobileOpen}
             >
                 <nav className="container mx-auto px-6 py-12 flex flex-col gap-6">
                     {NAV_LINKS.map((link, i) => (
