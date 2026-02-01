@@ -29,7 +29,7 @@ function isPortOpen(host: string, port: number): Promise<boolean> {
 
 export default async function globalSetup() {
   const host = "127.0.0.1";
-  const port = Number.parseInt(process.env.PORT ?? "3000", 10);
+  const port = Number.parseInt(process.env.PORT ?? "3001", 10);
   const baseUrl = `http://${host}:${port}`;
 
   // Wait for Next.js to be ready

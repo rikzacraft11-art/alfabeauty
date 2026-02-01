@@ -1188,11 +1188,7 @@ a {
   background-color: rgba(9, 9, 11, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  .ui-hover-darken:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-}
+/* Dark mode removed - B2B light-only theme (COBIT compliance) */
 
 /* Subtle decorative background (for icons, lines) */
 .ui-bg-decorative {
@@ -1771,11 +1767,4 @@ a {
   /* Performance optimization */
 }
 
-@media (prefers-color-scheme: dark) {
-  .ui-skeleton::after {
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        transparent 100%);
-  }
-}
+/* Dark mode removed - B2B light-only theme (COBIT compliance) */

@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 
 import { logger } from "@/lib/logger";
 import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
-import { rateLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { rateLimitAsync } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -22,10 +22,21 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
     const ip = (await headers()).get("x-forwarded-for") || "unknown";
 
-    // Rate Limiter (COBIT Security): Prevent DoS
-    const limiter = rateLimit(ip, { limit: 100, windowMs: 60000 });
+    // Rate Limiter (OWASP API4:2023): Distributed via Upstash, fallback memory
+    const limiter = await rateLimitAsync(ip, { limit: 100, windowMs: 60000 });
     if (!limiter.success) {
-        return rateLimitResponse(limiter);
+        return NextResponse.json(
+            { error: "rate_limited" },
+            {
+                status: 429,
+                headers: {
+                    "X-RateLimit-Limit": limiter.limit.toString(),
+                    "X-RateLimit-Remaining": limiter.remaining.toString(),
+                    "X-RateLimit-Reset": limiter.reset,
+                    "Retry-After": String(Math.ceil((new Date(limiter.reset).getTime() - Date.now()) / 1000)),
+                },
+            }
+        );
     }
 
     const timestamp = new Date().toISOString();
@@ -47,10 +58,8 @@ export async function GET(request: NextRequest) {
 
     if (!token) {
         logger.warn("[health] Deep check requested but HEALTH_CHECK_TOKEN not configured");
-        return NextResponse.json({
-            error: "deep_check_disabled",
-            message: "Deep health check not configured"
-        }, { status: 403 });
+        // Generic error - don't reveal configuration details
+        return NextResponse.json({ error: "forbidden" }, { status: 403 });
     }
 
     // SECURITY: Constant-time comparison to prevent timing attacks (OWASP)
@@ -69,10 +78,8 @@ export async function GET(request: NextRequest) {
 
     if (!isValidToken) {
         logger.warn("[health] Unauthorized deep check attempt", { ip });
-        return NextResponse.json({
-            error: "unauthorized",
-            message: "Invalid or missing authorization token"
-        }, { status: 401 });
+        // Generic error - don't reveal what's wrong
+        return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
 
     // Log authorized deep check access (COBIT audit trail)
@@ -104,7 +111,7 @@ export async function GET(request: NextRequest) {
                 admin_api: "ready"
             },
             timestamp,
-            version: "4.2.0"
+            version: "4.3.0"
         }, { status: 200 });
 
     } catch (err) {

@@ -36,6 +36,7 @@ export default function WhatsAppCTA() {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
             className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300"
             aria-label="Contact via WhatsApp"
+            data-testid="whatsapp-cta"
         >
             {/* WhatsApp Icon */}
             <svg

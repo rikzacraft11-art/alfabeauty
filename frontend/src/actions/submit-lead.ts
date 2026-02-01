@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase";
 import { sendLeadNotification } from "@/lib/email";
-import { rateLimit } from "@/lib/rate-limit"; // Shared Logic
+import { rateLimitAsync } from "@/lib/rate-limit"; // Distributed Rate Limiting
 import type { LeadRecord } from "@/lib/types"; // Shared Type
 import { logger } from "@/lib/logger";
 import { headers } from "next/headers";
@@ -58,9 +58,9 @@ export async function submitLead(formData: LeadRequest) {
   const ip = headerStore.get("x-real-ip") || headerStore.get("x-forwarded-for") || "unknown";
   const userAgent = headerStore.get("user-agent") || "unknown";
 
-  // 1. Rate Check (Shared Logic)
+  // 1. Rate Check (Distributed via Upstash, fallback memory)
   // Limit: 5 requests per hour (3600000 ms) per IP
-  const limiter = rateLimit(ip, { limit: 5, windowMs: 60 * 60 * 1000 });
+  const limiter = await rateLimitAsync(ip, { limit: 5, windowMs: 60 * 60 * 1000 });
 
   if (!limiter.success) {
     logger.warn("[Action] Rate limit exceeded", { ip });

@@ -49,16 +49,18 @@ export default function HomePage() {
                 </p>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4" data-testid="hero-cta-container">
                   <a
                     href="#brands"
                     className="ui-btn-primary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
+                    data-testid="cta-explore-brands"
                   >
                     Explore Our Brands
                   </a>
                   <a
                     href="#partner"
                     className="ui-btn-secondary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
+                    data-testid="cta-partner-with-us"
                   >
                     Partner With Us
                   </a>

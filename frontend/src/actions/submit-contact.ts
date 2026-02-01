@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { headers } from "next/headers";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimitAsync } from "@/lib/rate-limit";
 import { logger } from "@/lib/logger";
 import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
 import { sendEmail } from "@/lib/email";
@@ -13,7 +13,7 @@ import { sendEmail } from "@/lib/email";
  * ISO 27001 A.18.1.4: Privacy by Design
  * - Requires explicit consent checkbox
  * - Validates all input with Zod
- * - Rate limited per IP
+ * - Rate limited per IP (distributed via Upstash)
  * - Audit logged
  */
 
@@ -52,9 +52,9 @@ export async function submitContact(formData: ContactFormData): Promise<ContactR
     const ip = headerStore.get("x-real-ip") || headerStore.get("x-forwarded-for") || "unknown";
     const userAgent = headerStore.get("user-agent") || "unknown";
 
-    // 1. Rate Limiting (OWASP API4:2023)
+    // 1. Rate Limiting (OWASP API4:2023) - Distributed via Upstash
     // Limit: 3 contact submissions per hour per IP
-    const limiter = rateLimit(ip, { limit: 3, windowMs: 60 * 60 * 1000 });
+    const limiter = await rateLimitAsync(ip, { limit: 3, windowMs: 60 * 60 * 1000 });
 
     if (!limiter.success) {
         logger.warn("[Contact] Rate limit exceeded", { ip });

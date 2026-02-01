@@ -41,6 +41,7 @@ export default function ProductCarousel({
                 className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
                 role="region"
                 aria-label={ariaLabel}
+                data-testid="product-carousel"
             >
                 {children}
             </div>
