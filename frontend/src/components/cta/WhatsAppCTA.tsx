@@ -28,6 +28,7 @@ export default function WhatsAppCTA() {
     const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
     const prefillMessage =
         process.env.NEXT_PUBLIC_WHATSAPP_PREFILL ||
+        tx.ui?.whatsappCtaPrefill ||
         "Hello, I would like to learn more about partnership opportunities with Alfa Beauty.";
 
     const whatsappUrl = buildWhatsAppHref({
@@ -45,8 +46,10 @@ export default function WhatsAppCTA() {
             initial={{ scale: 0, opacity: 0 }}
             animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300 ${isVisible ? "" : "pointer-events-none"}`}
             aria-label={tx.ui.contactViaWhatsapp}
+            aria-hidden={!isVisible}
+            tabIndex={isVisible ? 0 : -1}
             data-testid="whatsapp-cta"
         >
             {/* WhatsApp Icon */}

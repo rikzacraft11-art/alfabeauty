@@ -24,7 +24,7 @@ const contactSchema = z.object({
     subject: z.string().max(200).optional(),
     message: z.string().min(10, "Message must be at least 10 characters").max(2000),
     consent: z.literal(true, {
-        errorMap: () => ({ message: "You must agree to the privacy policy" })
+    message: "You must agree to the privacy policy"
     }),
     honeypot: z.string().optional(), // Bot trap
 });

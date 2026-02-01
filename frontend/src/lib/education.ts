@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n";
-import type { EducationEvent, EducationArticle } from "@/types";
+import type { EducationEvent, EducationArticle } from "@/lib/types";
 
 export type { EducationEvent, EducationArticle };
 

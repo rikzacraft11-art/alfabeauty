@@ -1,3 +1,5 @@
+"use client";
+
 import AppLink from "@/components/ui/AppLink";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { t } from "@/lib/i18n";

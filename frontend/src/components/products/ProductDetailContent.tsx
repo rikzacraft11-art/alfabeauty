@@ -50,15 +50,15 @@ export default function ProductDetailContent({ product }: Props) {
   return (
     <div className="space-y-8 lg:space-y-12">
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center gap-1 type-data text-muted">
+      <nav className="flex items-center gap-1 type-data text-muted" aria-label={tx.ui?.breadcrumbs ?? "Breadcrumb"}>
         <AppLink
           href={`${base}/products`}
           className="hover:text-foreground transition-colors"
         >
           {tx.nav.products}
         </AppLink>
-        <IconChevronRight className="h-4 w-4" />
-        <span className="text-foreground truncate">{product.name}</span>
+        <IconChevronRight className="h-4 w-4" aria-hidden="true" />
+        <span className="text-foreground truncate" aria-current="page">{product.name}</span>
       </nav>
 
       {/* Product Header */}

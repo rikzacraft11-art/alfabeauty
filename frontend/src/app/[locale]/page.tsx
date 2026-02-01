@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import StaggerReveal from "@/components/ui/StaggerReveal";
-import HeroParallax from "@/components/ui/HeroParallax";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import AppLink from "@/components/ui/AppLink";
 import ButtonLink from "@/components/ui/ButtonLink";
@@ -47,42 +46,45 @@ export default async function HomePage({
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section (Video First) */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-panel">
-        {/* Background Gradient Mesh */}
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            background: `
-              radial-gradient(ellipse 80% 50% at 20% 40%, rgba(113, 113, 122, 0.15) 0%, transparent 50%),
-              radial-gradient(ellipse 60% 40% at 80% 60%, rgba(63, 63, 70, 0.1) 0%, transparent 50%),
-              radial-gradient(ellipse 100% 80% at 50% 100%, rgba(39, 39, 42, 0.08) 0%, transparent 40%)
-            `,
-          }}
-        />
+        {/* Video Background */}
+        <div className="absolute inset-0">
+          <video
+            className="h-full w-full object-cover motion-reduce:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/hero/hero-salon.jpg"
+            aria-hidden="true"
+          >
+            <source src="/videos/hero-salon.mp4" type="video/mp4" />
+          </video>
+          <div
+            className="absolute inset-0 bg-cover bg-center motion-safe:hidden"
+            style={{ backgroundImage: "url(/images/hero/hero-salon.jpg)" }}
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-background/55" aria-hidden="true" />
+        </div>
 
         {/* Hero Content */}
         <div className="relative z-10 container mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
-            {/* Text Column (60%) */}
+            {/* Text Column */}
             <div className="lg:col-span-7">
               <StaggerReveal delay={0.2} staggerDelay={0.15}>
-                {/* Kicker */}
                 <p className="type-kicker text-muted mb-6">
                   PT Alfa Beauty Cosmetica
                 </p>
-
-                {/* Headline */}
                 <h1 className="type-hero text-foreground mb-6 whitespace-normal">
                   Connecting Global Hair Innovation to Indonesia&apos;s Salon Professionals
                 </h1>
-
-                {/* Sub-headline */}
                 <p className="type-hero-body text-foreground-muted max-w-2xl mb-10">
                   Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia&apos;s salon industry for over 15 years.
                 </p>
-
-                {/* CTA Buttons */}
                 <div className="flex flex-wrap gap-4" data-testid="hero-cta-container">
                   <a
                     href="#brands"
@@ -101,12 +103,9 @@ export default async function HomePage({
                 </div>
               </StaggerReveal>
             </div>
-
-            {/* Visual Column (40%) - Parallax effect DEV-06 */}
-            <HeroParallax className="lg:col-span-5 hidden lg:block" />
           </div>
         </div>
-      </section >
+      </section>
 
       {/* About Section */}
       < section id="about" className="py-24 lg:py-32 bg-background" >

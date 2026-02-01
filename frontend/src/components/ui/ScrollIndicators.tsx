@@ -125,8 +125,11 @@ export function ScrollDots({
                             focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/60
                             ${isActive ? `w-6 ${c.dotActive}` : `w-1.5 ${c.dot} hover:opacity-80`}
                         `}
+                        role="tab"
+                        aria-selected={isActive}
                         aria-label={`Slide ${i + 1}`}
                         aria-current={isActive ? "true" : "false"}
+                        tabIndex={isActive ? 0 : -1}
                     />
                 );
             })}

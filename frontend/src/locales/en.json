@@ -624,9 +624,17 @@
         "serviceBackground": "Service background",
         "contactViaWhatsapp": "Contact via WhatsApp",
         "chatWithUs": "Chat with us",
+        "whatsappCtaPrefill": "Hi Alfa Beauty, I would like to learn more about partnership opportunities.",
         "skipToMainContent": "Skip to main content",
         "switchToEnglish": "Switch to English",
-        "switchToIndonesian": "Switch to Indonesian"
+        "switchToIndonesian": "Switch to Indonesian",
+        "breadcrumbs": "Breadcrumb",
+        "carousel": {
+            "region": "Product carousel",
+            "progress": "Carousel progress",
+            "previous": "Previous",
+            "next": "Next"
+        }
     },
     "footer": {
         "explore": "Explore",

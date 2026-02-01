@@ -250,8 +250,12 @@
         "filters": {
             "title": "Filter",
             "searchPlaceholder": "Cari produk...",
+            "searchAriaLabel": "Cari produk",
             "button": "Filter",
             "clear": "Reset",
+            "allLabel": "Semua",
+            "countSingular": "produk",
+            "countPlural": "produk",
             "groups": {
                 "brand": "Brand",
                 "category": "Kategori",
@@ -613,26 +617,30 @@
             "ref": "Ref"
         }
     },
+    "ui": {
+        "backToTop": "Kembali ke atas",
+        "closeZoom": "Tutup zoom",
+        "clickToEnlarge": "Klik untuk memperbesar",
+        "serviceBackground": "Latar layanan",
+        "contactViaWhatsapp": "Hubungi via WhatsApp",
+        "chatWithUs": "Chat dengan kami",
+        "whatsappCtaPrefill": "Halo Alfa Beauty, saya ingin mengetahui peluang kemitraan lebih lanjut.",
+        "skipToMainContent": "Lewati ke konten utama",
+        "switchToEnglish": "Ganti ke bahasa Inggris",
+        "switchToIndonesian": "Ganti ke bahasa Indonesia",
+        "breadcrumbs": "Breadcrumb",
+        "carousel": {
+            "region": "Carousel produk",
+            "progress": "Progres carousel",
+            "previous": "Sebelumnya",
+            "next": "Berikutnya"
+        }
+    },
     "footer": {
         "explore": "Jelajahi",
         "legal": "Legal",
-        "ui": {
-            "backToTop": "Kembali ke atas",
-            "closeZoom": "Tutup zoom",
-            "clickToEnlarge": "Klik untuk memperbesar",
-            "serviceBackground": "Latar layanan",
-            "contactViaWhatsapp": "Hubungi via WhatsApp",
-            "chatWithUs": "Chat dengan kami",
-            "skipToMainContent": "Lewati ke konten utama",
-            "switchToEnglish": "Ganti ke bahasa Inggris",
-            "switchToIndonesian": "Ganti ke bahasa Indonesia"
-        },
-            "searchAriaLabel": "Cari produk",
         "blurb": "Distribusi kecantikan profesional untuk salon dan barbershop di Indonesia.",
         "copyrightSuffix": "Hak cipta dilindungi.",
-            "allLabel": "Semua",
-            "countSingular": "produk",
-            "countPlural": "produk",
         "distributorNote": "Distributor eksklusif Alfaparf Milano, Farmavita, Montibello, dan Gamma+ di Indonesia."
     }
 }

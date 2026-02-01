@@ -31,9 +31,9 @@ export const categories = content.categories;
 
 export const defaultExploreBanner = "/images/categories/banner-default.png";
 
-export function getCategoryLabel(locale: Locale, key: string) {
-    const labels = content.categoryLabels[locale];
-    return labels[key] || key;
+export function getCategoryLabel(locale: Locale, key: string): string {
+    const labels = content.categoryLabels[locale] as Record<string, string>;
+    return labels[key] ?? key;
 }
 
 export function getCategoryDescription(locale: Locale, key: string) {

@@ -98,6 +98,7 @@ export default function ProductFilters() {
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
           className="touch-target inline-flex items-center gap-2 type-data-strong text-foreground border border-border bg-panel px-3 py-2 ui-radius-tight hover:bg-subtle transition-colors"
           aria-expanded={mobileFiltersOpen}
+          aria-controls="mobile-product-filters"
         >
           {tx.products.filters.button}
           <IconChevronDown
@@ -109,7 +110,10 @@ export default function ProductFilters() {
 
       {/* Collapsible Mobile Filters */}
       {mobileFiltersOpen && (
-        <div className="md:hidden mb-6 border border-border bg-panel p-4 ui-radius-tight space-y-5">
+        <div
+          id="mobile-product-filters"
+          className="md:hidden mb-6 border border-border bg-panel p-4 ui-radius-tight space-y-5"
+        >
           {/* Category Filter */}
           {availableCategories.length > 0 && (
             <div>

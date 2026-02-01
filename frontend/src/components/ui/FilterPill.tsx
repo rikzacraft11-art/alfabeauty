@@ -31,6 +31,7 @@ const FilterPill = forwardRef<HTMLButtonElement, FilterPillProps>(
                 ref={ref}
                 type="button"
                 onClick={onClick}
+                aria-pressed={active}
                 className={`
           px-4 py-2 border transition-colors
           ${active

@@ -35,8 +35,8 @@ export const categorySchema = z.object({
 export const homepageSchema = z.object({
     hero: heroContentSchema,
     categories: z.array(categorySchema),
-    categoryLabels: localeSchema.extend({ en: z.record(z.string()), id: z.record(z.string()) }), // Simplified for now
-    categoryDescriptions: localeSchema.extend({ en: z.record(z.string()), id: z.record(z.string()) }),
+    categoryLabels: localeSchema.extend({ en: z.record(z.string(), z.string()), id: z.record(z.string(), z.string()) }), // Simplified for now
+    categoryDescriptions: localeSchema.extend({ en: z.record(z.string(), z.string()), id: z.record(z.string(), z.string()) }),
     brands: z.array(z.object({
         name: z.string(),
         slug: z.string(),

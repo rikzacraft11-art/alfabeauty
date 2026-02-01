@@ -42,7 +42,6 @@ const legacySchema = z.object({
 const leadSchema = z.union([partnerSchema, legacySchema]);
 
 type LeadRequestPartner = z.infer<typeof partnerSchema>;
-type LeadRequestLegacy = z.infer<typeof legacySchema>;
 type LeadRequest = z.infer<typeof leadSchema>;
 
 function isPartnerPayload(p: LeadRequest): p is LeadRequestPartner {
