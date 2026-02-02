@@ -15,12 +15,12 @@
     ],
     "image": {
       "url": "/images/products/placeholder.svg",
-      "alt": "Professional Shampoo Bottle on Salon Shelf",
+      "alt": "Professional Shampoo Bottle on Salon & Barber Shelf",
       "caption": "Gentle daily cleansing for all hair types."
     },
-    "summary": "A professional-grade cleansing shampoo designed for consistent results in salon routines.",
+    "summary": "A professional-grade cleansing shampoo designed for consistent results in salon & barber routines.",
     "benefits": [
-      "Balanced cleansing suitable for daily salon use",
+      "Balanced cleansing suitable for daily salon & barber use",
       "Supports scalp comfort",
       "Prepares hair for treatment and styling"
     ],
@@ -45,11 +45,11 @@
       "alt": "Barber Styling Pomade Open Tin",
       "caption": "Strong hold with a classic matte finish."
     },
-    "summary": "A professional pomade for barbershops seeking controlled hold and clean finish.",
+    "summary": "A professional pomade for barbers seeking controlled hold and clean finish.",
     "benefits": [
       "Controlled hold for structured styles",
       "Easy to work and restyle",
-      "Suitable for professional barbershop workflow"
+      "Suitable for professional barber workflow"
     ],
     "howToUse": "Warm a small amount between palms. Apply evenly to dry or slightly damp hair. Style as desired."
   },
@@ -73,11 +73,11 @@
       "alt": "Hair Treatment Mask Jar",
       "caption": "Deep hydration for damaged hair."
     },
-    "summary": "An in-salon treatment mask for hydration and improved manageability.",
+    "summary": "A professional treatment mask for hydration and improved manageability.",
     "benefits": [
       "Improves manageability",
       "Supports hydration",
-      "Designed for in-salon service routines"
+      "Designed for salon & barber service routines"
     ],
     "howToUse": "After shampooing, apply to towel-dried hair. Leave for 5–10 minutes, then rinse thoroughly."
   },
@@ -154,7 +154,7 @@
       "alt": "Matte Clay Wax Texture",
       "caption": "High hold with a natural matte look."
     },
-    "summary": "High-hold matte clay for textured, modern styles in barbershops.",
+    "summary": "High-hold matte clay for textured, modern styles for barbers.",
     "benefits": [
       "Strong hold with matte finish",
       "Adds natural texture",

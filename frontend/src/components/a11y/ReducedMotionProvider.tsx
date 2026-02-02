@@ -47,14 +47,3 @@ export function useReducedMotion() {
  * Get motion props based on reduced motion preference.
  * Use this to conditionally disable animations.
  */
-export function getMotionProps(prefersReducedMotion: boolean) {
-    if (prefersReducedMotion) {
-        return {
-            initial: false,
-            animate: false,
-            exit: false,
-            transition: { duration: 0 },
-        };
-    }
-    return {};
-}

@@ -19,46 +19,7 @@ if (!parsedContent.success) {
 
 const content: HomepageData = parsedContent.data;
 
-// =============================================================================
-// Accessors (Preserving Original API for Zero-Refactor in Components)
-// =============================================================================
-
-export function getHeroContent(locale: Locale) {
-    return content.hero[locale];
-}
-
-export const categories = content.categories;
-
-export const defaultExploreBanner = "/images/categories/banner-default.png";
-
 export function getCategoryLabel(locale: Locale, key: string): string {
     const labels = content.categoryLabels[locale] as Record<string, string>;
     return labels[key] ?? key;
-}
-
-export function getCategoryDescription(locale: Locale, key: string) {
-    const descs = content.categoryDescriptions[locale];
-    return descs[key] || "";
-}
-
-export function getCategoryStripTitle(locale: Locale) {
-    return locale === "id" ? "Telusuri Kategori" : "Explore by Category";
-}
-
-export const brands = content.brands;
-
-export function getBrandPortfolioContent(locale: Locale) {
-    return content.brandPortfolio[locale];
-}
-
-export function getEditorialSection(locale: Locale, section: "products" | "education") {
-    return content.editorial[locale][section];
-}
-
-export function getStatsContent(locale: Locale) {
-    return content.stats[locale];
-}
-
-export function getCookieConsentContent(locale: Locale) {
-    return content.cookieConsent[locale];
 }

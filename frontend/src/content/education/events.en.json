@@ -4,12 +4,12 @@
     "title": "Fundamentals of Professional Haircare",
     "brand": "Alfaparf Milano",
     "type": "training",
-    "excerpt": "A practical session on consultation, product selection, and service quality for salons and barbershops.",
+    "excerpt": "A practical session on consultation, product selection, and service quality for salons and barbers.",
     "date": "2026-02-05",
     "city": "Jakarta",
     "audience": [
-      "Salon",
-      "Barbershop"
+      "Salon & Barber",
+      "Barber"
     ],
     "cta_label": "Request seat via WhatsApp",
     "body": [
@@ -26,7 +26,7 @@
     "date": "2026-02-20",
     "city": "Surabaya",
     "audience": [
-      "Salon"
+      "Salon & Barber"
     ],
     "cta_label": "Ask for schedule",
     "body": [

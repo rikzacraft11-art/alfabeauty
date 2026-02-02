@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import WebVitalsReporter from "@/components/analytics/WebVitalsReporter";
 import StructuredData from "@/components/seo/StructuredData";
 import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
@@ -41,7 +40,6 @@ export default async function LocaleLayout({
   return (
     <LocaleProvider defaultLocale={locale}>
       <StructuredData />
-      <WebVitalsReporter />
       <LayoutWrapper>
         {children}
       </LayoutWrapper>

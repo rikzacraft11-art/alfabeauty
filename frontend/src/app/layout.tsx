@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import { env } from "@/lib/env";
-import { fontSans, fontSerif } from "@/lib/fonts"; // Removed fontPrint if unused
+import { fontSans, fontSerif } from "@/lib/fonts";
 import "./globals.css";
 
 // Metadata and Viewport omitted...

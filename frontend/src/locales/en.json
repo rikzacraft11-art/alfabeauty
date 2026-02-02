@@ -1,12 +1,11 @@
 {
     "seo": {
-        "homeDescription": "Professional beauty distribution for salons and barbershops in Indonesia. Products, education, and technical support.",
-        "aboutDescription": "About PT Alfa Beauty Cosmetica — professional beauty distribution for salons and barbershops in Indonesia.",
+        "homeDescription": "Professional beauty distribution for salons & barbers in Indonesia. Products, education, and technical support.",
+        "aboutDescription": "About PT Alfa Beauty Cosmetica — professional beauty distribution for salons & barbers in Indonesia.",
         "contactDescription": "Contact Alfa Beauty Cosmetica for consultation, recommendations, and partnership inquiries.",
         "productsDescription": "Browse our curated professional product portfolio. No public pricing — consult via WhatsApp.",
-        "educationDescription": "Training, knowledge, and event highlights for salon and barbershop professionals.",
+        "educationDescription": "Training, knowledge, and event highlights for salon & barber professionals.",
         "partnershipDescription": "Become a partner and get curated products, education, and technical support.",
-        "becomePartnerDescription": "Submit your details to become an Alfa Beauty partner. We will follow up within 24 hours.",
         "privacyDescription": "Privacy Policy for Alfa Beauty Cosmetica website.",
         "termsDescription": "Terms and conditions for using the Alfa Beauty Cosmetica website.",
         "securityPolicyDescription": "Vulnerability disclosure policy and security practices."
@@ -23,100 +22,86 @@
         "securityPolicy": "Security Policy"
     },
     "header": {
-        "announcement": "WhatsApp-first consultation — no public pricing.",
-        "quickLinkBecomePartner": "Become Partner",
-        "quickLinkContact": "Contact",
-        "promo": {
-            "rotateMs": 5000,
-            "actions": {
-                "details": "Details",
-                "close": "Close"
-            },
-            "items": [
-                {
-                    "message": "WhatsApp-first consultation — no public pricing.",
-                    "detailsTitle": "No public pricing",
-                    "detailsBody": "We do not publish public pricing on the website. Consultation, recommendations, and ordering happen via WhatsApp."
-                },
-                {
-                    "message": "Become a partner: curated products + education + technical support.",
-                    "detailsTitle": "Partnership",
-                    "detailsBody": "Submit your business details and our team will follow up within 24 hours."
-                }
-            ]
-        },
-        "mega": {
-            "shopAll": "Shop all",
-            "featuredTitle": "Featured",
-            "featuredBody": "Professional, B2B-first — no public pricing. Contact us for recommendations.",
-            "actions": {
-                "back": "Back"
-            },
-            "links": {
-                "articles": "Articles",
-                "events": "Events"
-            }
-        },
         "actions": {
             "openMenu": "Open menu",
-            "closeMenu": "Close menu",
-            "openSearch": "Go to Products"
+            "closeMenu": "Close menu"
         }
-    },
-    "megaMenu": {
-        "labels": {
-            "products": "Products",
-            "education": "Education",
-            "partnership": "Partnership"
-        },
-        "sections": {
-            "byBrand": "By Brand",
-            "byCategory": "By Category",
-            "programs": "Programs",
-            "resources": "Resources",
-            "forProfessionals": "For Professionals"
-        },
-        "links": {
-            "alfaparf": "Alfaparf Milano",
-            "farmavita": "Farmavita",
-            "montibello": "Montibello",
-            "gammaplus": "Gamma+ Professional",
-            "hairColor": "Hair Color",
-            "hairCare": "Hair Care",
-            "styling": "Styling",
-            "grooming": "Grooming",
-            "upcomingEvents": "Upcoming Events",
-            "articles": "Articles",
-            "whyPartner": "Why Partner With Us",
-            "partnerBenefits": "Partner Benefits"
-        },
-        "cta": {
-            "viewAllProducts": "View All Products",
-            "exploreEducation": "Explore Education",
-            "becomePartner": "Become a Partner"
-        },
-        "description": "Discover our complete range of professional solutions."
     },
     "cta": {
         "becomePartner": "Become Partner",
         "whatsappConsult": "WhatsApp Consult",
-        "exploreProducts": "Explore Products",
-        "viewAll": "View All",
-        "viewAllProducts": "View all products",
-        "viewDetails": "View Details",
-        "contactUs": "Contact Us"
+        "viewDetails": "View Details"
     },
     "home": {
         "hero": {
-            "kicker": "Professional B2B Beauty Distribution",
-            "title": "Products, education, and technical support for salons & barbershops.",
-            "lede": "PT Alfa Beauty is a professional beauty distribution company dedicated to providing products, education, and technical support for salons and barbershops in Indonesia.",
-            "points": [
-                "Curated portfolio: professional brands selected for consistent real‑world performance.",
-                "Education & support: practical training and technical guidance for your team.",
-                "WhatsApp-first consultation: recommendations and ordering without public pricing."
+            "kicker": "PT Alfa Beauty Cosmetica",
+            "title": "Connecting Global Hair Innovation to Indonesia’s Salon & Barber Professionals",
+            "lede": "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia’s salon & barber industry—over 18 years in professional services with a growing focus on barbers.",
+            "points": [],
+            "note": "No public pricing. For consultation and product recommendations, contact us via WhatsApp.",
+            "ctaExplore": "Explore Our Brands",
+            "ctaPartner": "Partner With Us"
+        },
+        "about": {
+            "kicker": "About Us",
+            "title": "More Than a Distributor",
+            "body": "PT Alfa Beauty Cosmetica is a professional haircare distribution company specializing in salon & barber products and solutions. With nationwide coverage and more than 18 years serving the salon & barber industry, a long-standing track record, and a growing focus on barbers, we represent globally recognized professional hair brands and deliver them to the Indonesian market through a structured, reliable, and long-term partnership approach.",
+            "pillars": [
+                {
+                    "icon": "🌐",
+                    "title": "Connect",
+                    "body": "Connecting global innovation with local market needs."
+                },
+                {
+                    "icon": "📚",
+                    "title": "Build",
+                    "body": "Building brands through education and technical excellence."
+                },
+                {
+                    "icon": "🌱",
+                    "title": "Support",
+                    "body": "Supporting sustainable growth for salon & barber professionals."
+                }
+            ]
+        },
+        "brands": {
+            "kicker": "Our Brands",
+            "title": "Global Professional Brands We Represent",
+            "body": "Each brand is carefully selected for its innovation, quality, and relevance to the professional salon & barber market.",
+            "logoLabel": "Logo"
+        },
+        "education": {
+            "kicker": "Education & Market Development",
+            "title": "Educating the Professional Market",
+            "body": "Supported by a solid technical and sales team, we actively educate the salon & barber industry through:",
+            "bullets": [
+                "Technical trainings and product education",
+                "Trend insights and service development",
+                "Skill enhancement for hairdressers, barbers, and their teams"
             ],
-            "note": "No public pricing. For consultation and product recommendations, contact us via WhatsApp."
+            "note": "We believe long-term success is built on knowledge, not short-term tactics.",
+            "ctaLabel": "Explore Our Programs",
+            "imageAlt": "Professional haircare education and training"
+        },
+        "partnership": {
+            "kicker": "Why Partner With Us",
+            "title": "Built for Long-Term Success",
+            "principalsTitle": "For International Principals",
+            "principalsBullets": [
+                "Strong nationwide distribution network",
+                "Deep understanding of Indonesia's salon & barber ecosystem",
+                "Proven capability in brand building and market education"
+            ],
+            "salonsTitle": "For Professional Salons & Barbers",
+            "salonsBullets": [
+                "Access to trusted global haircare brands",
+                "Consistent product quality and professional support",
+                "Long-term partnership based on trust and competence"
+            ],
+            "ctaLabel": "Become a Partner"
+        },
+        "closing": {
+            "body": "PT Alfa Beauty Cosmetica is a trusted distribution partner for global professional haircare suppliers and a reliable supplier for salons & barbers across Indonesia—committed to quality, education, and sustainable industry growth."
         },
         "productsHighlight": {
             "title": "Featured Products",
@@ -125,7 +110,7 @@
     },
     "about": {
         "title": "About",
-        "body": "PT Alfa Beauty is a professional beauty distribution company dedicated to providing products, education, and technical support for salons and barbershops in Indonesia. We represent carefully selected international brands and work as a strategic partner to professionals, ensuring every product we distribute delivers consistent performance and is supported by proper technical knowledge.",
+        "body": "PT Alfa Beauty is a professional beauty distribution company dedicated to providing products, education, and technical support for salons & barbers in Indonesia. We represent carefully selected international brands and work as a strategic partner to professionals, ensuring every product we distribute delivers consistent performance and is supported by proper technical knowledge.",
         "mission": {
             "title": "Our Mission",
             "body": "To provide professional beauty partners with premium cosmetic products and comprehensive business support, enabling their success in the beauty industry."
@@ -213,40 +198,11 @@
             "button": "Start Conversation"
         }
     },
-    "becomePartner": {
-        "title": "Become a Partner",
-        "lede": "Tell us a bit about your business. Our team will follow up within 24 hours.",
-        "next": {
-            "title": "What happens next",
-            "items": [
-                "We review your details and reach out via WhatsApp/phone/email.",
-                "We recommend suitable products and training options.",
-                "No public pricing — consultation happens via WhatsApp."
-            ]
-        },
-        "whyTitle": "Why Partner With Us?",
-        "whyBenefits": [
-            "Access to premium beauty brands",
-            "Competitive B2B pricing structure",
-            "Professional training & support",
-            "Flexible payment terms"
-        ],
-        "formTitle": "Partnership Application",
-        "formLede": "Fill out the form below and our team will contact you within 1-2 business days.",
-        "privacyNote": "Your information is secure. We respect your privacy and will only use your data to process your partnership application."
-    },
     "products": {
         "title": "Products",
         "kicker": "Our Products",
         "heroTitle": "Professional Haircare Solutions",
         "heroBody": "Discover our curated selection of professional-grade products from leading international brands.",
-        "lede": "Curated products for salons and barbershops. No public pricing — contact us via WhatsApp for consultation and recommendations.",
-        "imageAlt": "Product Image",
-        "highlights": {
-            "title": "Featured products",
-            "lede": "A quick look at our curated portfolio.",
-            "viewAll": "View all"
-        },
         "filters": {
             "title": "Filters",
             "searchPlaceholder": "Search products...",
@@ -263,19 +219,13 @@
                 "function": "Function"
             },
             "audience": {
-                "salon": "Salon",
-                "barber": "Barbershop"
+                "salon": "Salon & Barber",
+                "barber": "Barber"
             },
             "empty": {
                 "title": "No results",
                 "body": "Try clearing filters, or contact us on WhatsApp for recommendations."
             }
-        }
-    },
-    "sections": {
-        "consultCta": {
-            "title": "Need help choosing products?",
-            "body": "Message us on WhatsApp for consultation, product recommendations, and ordering."
         }
     },
     "legal": {
@@ -319,7 +269,7 @@
                 "informationWeCollect": {
                     "title": "1. Data Collection",
                     "items": [
-                        "Identity Data: Business name, contact person, city, and salon type.",
+                        "Identity Data: Business name, contact person, city, and salon & barber type.",
                         "Contact Data: WhatsApp number and email address.",
                         "Technical Data: IP address, browser type, and interaction metrics (via Vercel and Sentry)."
                     ]
@@ -355,7 +305,7 @@
             "sections": {
                 "websiteUse": {
                     "title": "1. B2B Platform",
-                    "body": "This platform is intended solely for professional salons, barbershops, and beauty distributors in Indonesia. It is not for general consumer retail."
+                    "body": "This platform is intended solely for professional salons, barbers, and beauty distributors in Indonesia. It is not for general consumer retail."
                 },
                 "noPublicPricing": {
                     "title": "2. Pricing & Ordering",
@@ -461,11 +411,11 @@
         "hero": {
             "kicker": "Partnership",
             "title": "Become a Partner",
-            "body": "Join our network of professional salons and distributors."
+                "body": "Join our network of professional salons, barbers, and distributors."
         },
         "readyBlock": {
             "title": "Ready to Grow?",
-            "body": "Partner with us and take your salon business to the next level."
+            "body": "Partner with us and take your salon & barber business to the next level."
         },
         "cards": {
             "curated": {
@@ -499,7 +449,7 @@
             "step1": {
                 "title": "Tell us about your business",
                 "businessName": "Business Name",
-                "businessNamePlaceholder": "Your salon or business name",
+                "businessNamePlaceholder": "Your salon or barber business name",
                 "businessType": "Business Type",
                 "city": "City",
                 "cityPlaceholder": "Your city"
@@ -537,8 +487,8 @@
             "cta": "Chat with us on WhatsApp"
         },
         "types": {
-            "Professional Salon": "Professional Salon",
-            "Barbershop": "Barbershop",
+            "Professional Salon": "Professional Salon & Barber",
+            "Barber": "Barber",
             "Beauty Academy": "Beauty Academy",
             "Distributor": "Distributor",
             "Other": "Other"
@@ -551,13 +501,13 @@
             "emailOptional": "Email (optional)",
             "whatsAppNumber": "WhatsApp number",
             "city": "City",
-            "salonType": "Salon type",
+            "salonType": "Salon & barber type",
             "salonTypePlaceholder": "Select…",
             "messageOptional": "Message (optional)"
         },
         "salonTypes": {
-            "salon": "Salon",
-            "barber": "Barbershop",
+            "salon": "Salon & Barber",
+            "barber": "Barber",
             "bridal": "Bridal",
             "unisex": "Unisex",
             "other": "Other"
@@ -619,27 +569,18 @@
     },
     "ui": {
         "backToTop": "Back to top",
-        "closeZoom": "Close zoom",
-        "clickToEnlarge": "Click to enlarge",
-        "serviceBackground": "Service background",
         "contactViaWhatsapp": "Contact via WhatsApp",
         "chatWithUs": "Chat with us",
         "whatsappCtaPrefill": "Hi Alfa Beauty, I would like to learn more about partnership opportunities.",
         "skipToMainContent": "Skip to main content",
         "switchToEnglish": "Switch to English",
         "switchToIndonesian": "Switch to Indonesian",
-        "breadcrumbs": "Breadcrumb",
-        "carousel": {
-            "region": "Product carousel",
-            "progress": "Carousel progress",
-            "previous": "Previous",
-            "next": "Next"
-        }
+        "breadcrumbs": "Breadcrumb"
     },
     "footer": {
         "explore": "Explore",
         "legal": "Legal",
-        "blurb": "Professional beauty distribution for salons and barbershops in Indonesia.",
+        "blurb": "Professional beauty distribution for salons & barbers in Indonesia.",
         "copyrightSuffix": "All rights reserved.",
         "distributorNote": "Exclusive distributor of Alfaparf Milano, Farmavita, Montibello, and Gamma+ in Indonesia."
     }

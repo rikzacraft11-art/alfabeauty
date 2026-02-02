@@ -1,5 +1,3 @@
-export type { Locale, Service, ServiceId } from "@/types/services.types";
-
 export type Audience = "SALON" | "BARBER";
 
 export type Product = {

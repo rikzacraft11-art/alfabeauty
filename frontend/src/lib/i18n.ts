@@ -37,11 +37,3 @@ export function formatDate(dateStr: string, locale: Locale): string {
   }
 }
 
-export function formatCurrency(amount: number, locale: Locale): string {
-  return new Intl.NumberFormat(locale === "id" ? "id-ID" : "en-US", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}

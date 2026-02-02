@@ -22,9 +22,6 @@ param(
 	[switch]$SkipUatIndexUpdate,
 
 	# Headers capture runs a Next.js production server temporarily.
-	[int]$HeadersPort = 3001,
-
-	# Headers capture runs a Next.js production server temporarily.
 	[int]$HeadersPort = 3001
 )
 

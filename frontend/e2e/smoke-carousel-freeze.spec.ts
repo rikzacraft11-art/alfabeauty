@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Editorial Carousel Design Freeze", () => {
+test.describe.skip("Editorial Carousel Design Freeze", () => {
+    // Deprecated: carousel section removed from homepage.
     test.beforeEach(async ({ page }) => {
         await page.goto("/id", { waitUntil: "networkidle" });
     });

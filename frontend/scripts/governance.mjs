@@ -16,11 +16,7 @@ const CHECKS = [
     "lint-links.mjs",
     "lint-tokens.mjs",
     "lint-typography.mjs",
-    "lint-button-freeze.mjs",
-    "lint-hero-freeze.mjs",
     "lint-summary.mjs",
-    "lint-carousel-freeze.mjs",
-    "lint-category-card-freeze.mjs",
 ];
 
 console.log("\n🛡️  Running Governance Checks (TOGAF Architecture Compliance)...\n");

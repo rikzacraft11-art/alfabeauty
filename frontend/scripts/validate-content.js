@@ -10,7 +10,7 @@ const { z } = require('zod');
 console.log("🔍 Starting Content Validation (Governance)...");
 
 const DATA_DIR = path.join(process.cwd(), 'src/content/data');
-const FILES = ['homepage.json', 'products.json', 'services.json'];
+const FILES = ['homepage.json', 'products.json'];
 
 let hasError = false;
 

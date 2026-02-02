@@ -61,9 +61,9 @@ export default function PartnershipPageClient() {
     const labels = tx.leadForm?.salonTypes;
     switch (type) {
       case "SALON":
-        return labels?.salon || "Salon";
+        return labels?.salon || "Salon & Barber";
       case "BARBER":
-        return labels?.barber || "Barbershop";
+        return labels?.barber || "Barber";
       case "BRIDAL":
         return labels?.bridal || "Bridal";
       case "UNISEX":

@@ -49,7 +49,7 @@ export default async function AboutPage({
             More Than a Distributor
           </h1>
           <p className="type-hero-body text-foreground-muted">
-            PT Alfa Beauty Cosmetica is a professional haircare distribution company with more than 15 years of experience serving Indonesia&apos;s salon industry.
+            PT Alfa Beauty Cosmetica is a professional haircare distribution company with more than 18 years of experience serving Indonesia&apos;s salon & barber industry.
           </p>
         </StaggerReveal>
 
@@ -64,7 +64,7 @@ export default async function AboutPage({
             <p className="type-body text-foreground-muted mb-4">
               Founded with a vision to bring world-class professional haircare to Indonesia,
               PT Alfa Beauty Cosmetica has grown from a small importer to one of the nation&apos;s
-              leading distributors of premium salon brands.
+              leading distributors of premium salon & barber brands.
             </p>
             <p className="type-body text-foreground-muted">
               We believe that great hair starts with great products. That&apos;s why we partner
@@ -79,12 +79,12 @@ export default async function AboutPage({
           <StaggerReveal delay={0.2} className="lg:order-2">
             <h2 className="type-h2 text-foreground mb-6">Our Mission</h2>
             <p className="type-body text-foreground-muted mb-4">
-              To empower Indonesian salon professionals with access to the world&apos;s finest
+              To empower Indonesian salon & barber professionals with access to the world&apos;s finest
               haircare products and the knowledge to use them effectively.
             </p>
             <p className="type-body text-foreground-muted">
               We don&apos;t just distribute products—we build brands, educate professionals,
-              and support the sustainable growth of the salon industry.
+              and support the sustainable growth of the salon & barber industry.
             </p>
           </StaggerReveal>
           <div
@@ -118,7 +118,7 @@ export default async function AboutPage({
           <StaggerReveal>
             <h2 className="type-h2 text-foreground mb-4">Ready to Partner?</h2>
             <p className="type-body text-muted mb-8">
-              Join our network of professional salons and distributors.
+              Join our network of professional salons and barbers and distributors.
             </p>
             <ButtonLink
               href={`/${resolved}/partnership`}

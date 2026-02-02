@@ -29,24 +29,9 @@ const partnerSchema = z.object({
   company: z.string().optional(), // Honeypot
 }).strict();
 
-const legacySchema = z.object({
-  name: z.string().min(2).max(255),
-  phone: z.string().min(5).max(20).optional(),
-  email: z.string().email().max(254).optional().or(z.literal("")),
-  message: z.string().max(2000).optional(),
-  page_url_initial: z.string().optional(),
-  page_url_current: z.string().optional(),
-  company: z.string().optional(), // Honeypot
-}).strict();
+const leadSchema = partnerSchema;
 
-const leadSchema = z.union([partnerSchema, legacySchema]);
-
-type LeadRequestPartner = z.infer<typeof partnerSchema>;
-type LeadRequest = z.infer<typeof leadSchema>;
-
-function isPartnerPayload(p: LeadRequest): p is LeadRequestPartner {
-  return "business_name" in p;
-}
+type LeadRequest = z.infer<typeof partnerSchema>;
 
 /**
  * Server Action: Submit Lead
@@ -83,53 +68,32 @@ export async function submitLead(formData: LeadRequest) {
   }
 
   // E2E Test Bypass
-  if (isPartnerPayload(payload)) {
-    if (payload.business_name.includes("(E2E")) {
-      logger.info("[Action] E2E Test detected - skipping persistence", { business: payload.business_name });
-      return { success: true };
-    }
-    if (payload.business_name.includes("TRIGGER_429")) {
-      return { success: false, error: "rate_limited" };
-    }
-    if (payload.business_name.includes("TRIGGER_500")) {
-      return { success: false, error: "internal_error" };
-    }
+  if (payload.business_name.includes("(E2E")) {
+    logger.info("[Action] E2E Test detected - skipping persistence", { business: payload.business_name });
+    return { success: true };
+  }
+  if (payload.business_name.includes("TRIGGER_429")) {
+    return { success: false, error: "rate_limited" };
+  }
+  if (payload.business_name.includes("TRIGGER_500")) {
+    return { success: false, error: "internal_error" };
   }
 
   // 4. Prepare Lead Record (Strictly Typed)
-  let leadRecord: LeadRecord;
-
-  if (isPartnerPayload(payload)) {
-    leadRecord = {
-      name: payload.contact_name,
-      phone: payload.phone_whatsapp,
-      email: payload.email || "",
-      message: payload.message || "",
-      ip_address: ip.substring(0, 45),
-      page_url_initial: payload.page_url_initial || "",
-      page_url_current: payload.page_url_current || "",
-      raw: {
-        ...payload,
-        userAgent: userAgent.substring(0, 255),
-        type: "PARTNER"
-      }
-    };
-  } else {
-    leadRecord = {
-      name: payload.name,
-      phone: payload.phone || "",
-      email: payload.email || "",
-      message: payload.message || "",
-      ip_address: ip.substring(0, 45),
-      page_url_initial: payload.page_url_initial || "",
-      page_url_current: payload.page_url_current || "",
-      raw: {
-        ...payload,
-        userAgent: userAgent.substring(0, 255),
-        type: "LEGACY"
-      }
-    };
-  }
+  const leadRecord: LeadRecord = {
+    name: payload.contact_name,
+    phone: payload.phone_whatsapp,
+    email: payload.email || "",
+    message: payload.message || "",
+    ip_address: ip.substring(0, 45),
+    page_url_initial: payload.page_url_initial || "",
+    page_url_current: payload.page_url_current || "",
+    raw: {
+      ...payload,
+      userAgent: userAgent.substring(0, 255),
+      type: "PARTNER"
+    }
+  };
 
   try {
     // 5. Persistence (Supabase)

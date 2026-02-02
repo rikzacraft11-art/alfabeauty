@@ -42,7 +42,9 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   const resolved = normalizeLocale(locale);
+  const tx = t(resolved);
   const base = `/${resolved}`;
+  const isId = resolved === "id";
 
   return (
     <div className="min-h-screen">
@@ -77,28 +79,38 @@ export default async function HomePage({
             <div className="lg:col-span-7">
               <StaggerReveal delay={0.2} staggerDelay={0.15}>
                 <p className="type-kicker text-muted mb-6">
-                  PT Alfa Beauty Cosmetica
+                  {tx.home.hero.kicker}
                 </p>
                 <h1 className="type-hero text-foreground mb-6 whitespace-normal">
-                  Connecting Global Hair Innovation to Indonesia&apos;s Salon Professionals
+                  {tx.home.hero.title}
                 </h1>
                 <p className="type-hero-body text-foreground-muted max-w-2xl mb-10">
-                  Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia&apos;s salon industry for over 15 years.
+                  {tx.home.hero.lede}
                 </p>
+                {tx.home.hero.points?.length ? (
+                  <ul className="space-y-3 mb-10">
+                    {tx.home.hero.points.map((point) => (
+                      <li key={point} className="flex items-start gap-3">
+                        <span className="text-foreground mt-1">•</span>
+                        <span className="type-body text-foreground-muted">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
                 <div className="flex flex-wrap gap-4" data-testid="hero-cta-container">
                   <a
                     href="#brands"
                     className="ui-btn-primary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
                     data-testid="cta-explore-brands"
                   >
-                    Explore Our Brands
+                    {tx.home.hero.ctaExplore}
                   </a>
                   <a
                     href="#partner"
                     className="ui-btn-secondary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
                     data-testid="cta-partner-with-us"
                   >
-                    Partner With Us
+                    {tx.home.hero.ctaPartner}
                   </a>
                 </div>
               </StaggerReveal>
@@ -108,61 +120,52 @@ export default async function HomePage({
       </section>
 
       {/* About Section */}
-      < section id="about" className="py-24 lg:py-32 bg-background" >
+      <section id="about" className="py-24 lg:py-32 bg-background">
         <div className="container mx-auto px-6 lg:px-12">
           <StaggerReveal delay={0.1}>
-            <p className="type-kicker text-muted mb-4">About Us</p>
+            <p className="type-kicker text-muted mb-4">{tx.home.about.kicker}</p>
             <h2 className="type-h1 text-foreground mb-8 max-w-4xl">
-              More Than a Distributor
+              {tx.home.about.title}
             </h2>
             <p className="type-body text-foreground-muted max-w-3xl mb-12">
-              PT Alfa Beauty Cosmetica is a professional haircare distribution company specializing in salon products and solutions. With nationwide coverage and more than 15 years of experience, we represent globally recognized professional hair brands and deliver them to the Indonesian market through a structured, reliable, and long-term partnership approach.
+              {tx.home.about.body}
             </p>
 
             {/* 3 Pillars */}
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-6 rounded-2xl bg-panel" style={{ boxShadow: "var(--shadow-elegant)" }}>
-                <div className="type-h2 mb-4">🌐</div>
-                <h3 className="type-h3 text-foreground mb-2">Connect</h3>
-                <p className="type-body text-muted">
-                  Connecting global innovation with local market needs.
-                </p>
-              </div>
-              <div className="p-6 rounded-2xl bg-panel" style={{ boxShadow: "var(--shadow-elegant)" }}>
-                <div className="type-h2 mb-4">📚</div>
-                <h3 className="type-h3 text-foreground mb-2">Build</h3>
-                <p className="type-body text-muted">
-                  Building brands through education and technical excellence.
-                </p>
-              </div>
-              <div className="p-6 rounded-2xl bg-panel" style={{ boxShadow: "var(--shadow-elegant)" }}>
-                <div className="type-h2 mb-4">🌱</div>
-                <h3 className="type-h3 text-foreground mb-2">Support</h3>
-                <p className="type-body text-muted">
-                  Supporting sustainable growth for salons and professionals.
-                </p>
-              </div>
+              {tx.home.about.pillars.map((pillar) => (
+                <div key={pillar.title} className="p-6 rounded-2xl bg-panel" style={{ boxShadow: "var(--shadow-elegant)" }}>
+                  <div className="type-h2 mb-4">{pillar.icon}</div>
+                  <h3 className="type-h3 text-foreground mb-2">{pillar.title}</h3>
+                  <p className="type-body text-muted">
+                    {pillar.body}
+                  </p>
+                </div>
+              ))}
             </div>
           </StaggerReveal>
         </div>
-      </section >
+      </section>
 
       {/* Brands Section */}
-      < section id="brands" className="py-24 lg:py-32 bg-panel" >
+      <section id="brands" className="py-24 lg:py-32 bg-panel">
         <div className="container mx-auto px-6 lg:px-12">
           <StaggerReveal delay={0.1}>
-            <p className="type-kicker text-muted mb-4">Our Brands</p>
+            <p className="type-kicker text-muted mb-4">{tx.home.brands.kicker}</p>
             <h2 className="type-h1 text-foreground mb-12">
-              Global Professional Brands We Represent
+              {tx.home.brands.title}
             </h2>
+            <p className="type-body text-foreground-muted max-w-3xl mb-12">
+              {tx.home.brands.body}
+            </p>
 
             {/* Brand Logos */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {[
-                  { name: "Alfaparf Milano Professional", country: "Italy", slug: "alfaparf" },
-                  { name: "Farmavita", country: "Italy", slug: "farmavita" },
-                  { name: "Montibello", country: "Spain", slug: "montibello" },
-                  { name: "Gamma+ Professional", country: "Italy", slug: "gammaplus" },
+                  { name: "Alfaparf Milano Professional", country: isId ? "Italia" : "Italy", slug: "alfaparf" },
+                  { name: "Farmavita", country: isId ? "Italia" : "Italy", slug: "farmavita" },
+                  { name: "Montibello", country: isId ? "Spanyol" : "Spain", slug: "montibello" },
+                  { name: "Gamma+ Professional", country: isId ? "Italia" : "Italy", slug: "gammaplus" },
                 ].map((brand) => (
                 <AppLink
                   key={brand.name}
@@ -171,7 +174,7 @@ export default async function HomePage({
                   style={{ boxShadow: "var(--shadow-elegant)" }}
                 >
                   <div className="aspect-video flex items-center justify-center bg-zinc-100 rounded-lg mb-4">
-                    <span className="type-ui-sm text-muted">Logo</span>
+                    <span className="type-ui-sm text-muted">{tx.home.brands.logoLabel}</span>
                   </div>
                   <h3 className="type-h4 text-foreground">{brand.name}</h3>
                   <p className="type-data text-muted">{brand.country}</p>
@@ -180,33 +183,32 @@ export default async function HomePage({
             </div>
           </StaggerReveal>
         </div>
-      </section >
+      </section>
 
       {/* Education Section */}
-      < section id="education" className="py-24 lg:py-32 bg-background" >
+      <section id="education" className="py-24 lg:py-32 bg-background">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <StaggerReveal delay={0.1}>
-              <p className="type-kicker text-muted mb-4">Education & Market Development</p>
+              <p className="type-kicker text-muted mb-4">{tx.home.education.kicker}</p>
               <h2 className="type-h1 text-foreground mb-6">
-                Educating the Professional Market
+                {tx.home.education.title}
               </h2>
               <p className="type-body text-foreground-muted mb-8">
-                Supported by a solid technical and sales team, we actively educate the salon industry through knowledge sharing and skill development.
+                {tx.home.education.body}
               </p>
 
               <ul className="space-y-4">
-                {[
-                  "Technical trainings and product education",
-                  "Trend insights and service development",
-                  "Skill enhancement for hairdressers and salon teams",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
+                {tx.home.education.bullets.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
                     <span className="text-foreground mt-1">✓</span>
                     <span className="type-body text-foreground-muted">{item}</span>
                   </li>
                 ))}
               </ul>
+              <p className="type-body text-foreground-muted mt-6">
+                {tx.home.education.note}
+              </p>
 
               {/* CTA Button - DEV-20 */}
               <div className="mt-8">
@@ -215,42 +217,38 @@ export default async function HomePage({
                   variant="primary"
                   className="px-8 py-4 type-nav rounded-full inline-block transition-all duration-[var(--transition-elegant)]"
                 >
-                  Explore Our Programs
+                  {tx.home.education.ctaLabel}
                 </ButtonLink>
               </div>
             </StaggerReveal>
 
             {/* Education Image - DEV-21 Parallax */}
             <ParallaxImage
-              src="/images/education-hero.jpg"
-              alt="Professional haircare education and training"
+              src="/images/education/training-placeholder.jpg"
+              alt={tx.home.education.imageAlt}
               className="aspect-square rounded-3xl overflow-hidden"
               speed={0.15}
             />
           </div>
         </div>
-      </section >
+      </section>
 
       {/* Partnership Section */}
-      < section id="partner" className="py-24 lg:py-32 bg-panel" >
+      <section id="partner" className="py-24 lg:py-32 bg-panel">
         <div className="container mx-auto px-6 lg:px-12">
           <StaggerReveal delay={0.1}>
-            <p className="type-kicker text-muted mb-4 text-center">Why Partner With Us</p>
+            <p className="type-kicker text-muted mb-4 text-center">{tx.home.partnership.kicker}</p>
             <h2 className="type-h1 text-foreground mb-16 text-center">
-              Built for Long-Term Success
+              {tx.home.partnership.title}
             </h2>
 
             <div className="grid md:grid-cols-2 gap-12">
               {/* For Principals */}
               <div className="p-8 rounded-3xl bg-background" style={{ boxShadow: "var(--shadow-elegant)" }}>
-                <h3 className="type-h2 text-foreground mb-6">For International Principals</h3>
+                <h3 className="type-h2 text-foreground mb-6">{tx.home.partnership.principalsTitle}</h3>
                 <ul className="space-y-4">
-                  {[
-                    "Strong nationwide distribution network",
-                    "Deep understanding of Indonesia's salon ecosystem",
-                    "Proven capability in brand building and market education",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
+                  {tx.home.partnership.principalsBullets.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
                       <span className="text-foreground mt-1">•</span>
                       <span className="type-body text-foreground-muted">{item}</span>
                     </li>
@@ -258,16 +256,12 @@ export default async function HomePage({
                 </ul>
               </div>
 
-              {/* For Salons */}
+              {/* For Salons and Barbers */}
               <div className="p-8 rounded-3xl bg-background" style={{ boxShadow: "var(--shadow-elegant)" }}>
-                <h3 className="type-h2 text-foreground mb-6">For Professional Salons</h3>
+                <h3 className="type-h2 text-foreground mb-6">{tx.home.partnership.salonsTitle}</h3>
                 <ul className="space-y-4">
-                  {[
-                    "Access to trusted global haircare brands",
-                    "Consistent product quality and professional support",
-                    "Long-term partnership based on trust and competence",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
+                  {tx.home.partnership.salonsBullets.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
                       <span className="text-foreground mt-1">•</span>
                       <span className="type-body text-foreground-muted">{item}</span>
                     </li>
@@ -283,23 +277,23 @@ export default async function HomePage({
                 variant="primary"
                 className="px-10 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)] inline-block"
               >
-                Become a Partner
+                {tx.home.partnership.ctaLabel}
               </ButtonLink>
             </div>
           </StaggerReveal>
         </div>
-      </section >
+      </section>
 
       {/* Closing Statement */}
-      < section className="py-24 lg:py-32 bg-foreground text-background" >
+      <section className="py-24 lg:py-32 bg-foreground text-background">
         <div className="container mx-auto px-6 lg:px-12 text-center">
           <StaggerReveal>
             <p className="type-h2 max-w-4xl mx-auto">
-              PT Alfa Beauty Cosmetica is a trusted distribution partner for global professional haircare suppliers and a reliable supplier for salons across Indonesia—committed to quality, education, and sustainable industry growth.
+              {tx.home.closing.body}
             </p>
           </StaggerReveal>
         </div>
-      </section >
+      </section>
 
       <Footer />
     </div >
