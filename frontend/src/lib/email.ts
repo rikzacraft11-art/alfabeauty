@@ -5,9 +5,6 @@ import { env } from "@/lib/env";
 import { LeadRecord } from "@/lib/types";
 import { formatLeadEmail, formatLeadEmailHtml } from "@/lib/templates/lead-email";
 
-// Re-export type if needed, or consumers should import from types
-export type { LeadRecord };
-
 const SMTP_HOST = env.SMTP_HOST;
 const SMTP_PORT = Number(env.SMTP_PORT || "587");
 const SMTP_USER = env.SMTP_USER;

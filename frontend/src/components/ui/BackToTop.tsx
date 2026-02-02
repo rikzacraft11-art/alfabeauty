@@ -42,14 +42,14 @@ export default function BackToTop() {
         <button
             type="button"
             onClick={scrollToTop}
-            className="fixed bottom-24 right-4 z-40 h-12 w-12 
-                       bg-foreground text-background 
-                       rounded-full shadow-lg 
+            className="fixed bottom-24 right-4 z-40 h-12 w-12
+                       bg-foreground text-background
+                       rounded-full shadow-lg
                        flex items-center justify-center
-                       hover:bg-foreground/90 
+                       hover:bg-foreground/90
                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground
                        transition-all duration-300
-                       animate-in fade-in slide-in-from-bottom-4"
+                       animate-fade-in"
             aria-label={tx.ui?.backToTop ?? "Back to top"}
         >
             <IconChevronUp className="h-5 w-5" />

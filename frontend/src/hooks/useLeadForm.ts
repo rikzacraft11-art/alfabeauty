@@ -267,4 +267,3 @@ export function useLeadForm(
     };
 }
 
-export type UseLeadFormReturn = ReturnType<typeof useLeadForm>;

@@ -39,10 +39,3 @@ export function getArticleBySlug(locale: Locale, slug: string): (EducationArticl
   };
 }
 
-export function allEventSlugs(): string[] {
-  return [...(eventsEn as EducationEvent[]), ...(eventsId as EducationEvent[])].map((e) => e.slug);
-}
-
-export function allArticleSlugs(): string[] {
-  return [...(articlesEn as EducationArticle[]), ...(articlesId as EducationArticle[])].map((a) => a.slug);
-}

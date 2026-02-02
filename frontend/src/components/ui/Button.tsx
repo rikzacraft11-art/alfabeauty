@@ -1,14 +1,13 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "inverted";
+export type ButtonVariant = "primary" | "secondary" | "inverted";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const variantClass: Record<ButtonVariant, string> = {
   primary: "ui-btn-primary",
   secondary: "ui-btn-secondary",
   inverted: "ui-btn-inverted",
-  ghost: "ui-btn-ghost",
 };
 
 const sizeClass: Record<ButtonSize, string> = {

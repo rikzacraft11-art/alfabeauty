@@ -168,7 +168,6 @@ export function useProductFilters() {
         // State
         filters,
         searchQuery,
-        allProducts,
         filtered,
         hasFilters,
 
@@ -181,11 +180,6 @@ export function useProductFilters() {
         toggle,
         setSearch,
         clear,
-
-        // Counts
-        totalCount: allProducts.length,
-        filteredCount: filtered.length,
     };
 }
 
-export type UseProductFiltersReturn = ReturnType<typeof useProductFilters>;

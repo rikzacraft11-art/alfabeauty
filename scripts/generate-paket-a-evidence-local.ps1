@@ -176,9 +176,6 @@ $commit = Try-GetGitCommit $repoRoot
 
 # --- 1) Playwright smoke tests -> evidence pack ---
 $playwrightWebPort = 3000
-if ($reuseNext) {
-	Write-Host "[e2e] reusing existing Next.js dev server on :$playwrightWebPort" -ForegroundColor Yellow
-}
 
 $reportDirBase = Join-Path $uatDir "${RunDate}_playwright-report"
 $resultsDirBase = Join-Path $uatDir "${RunDate}_playwright-test-results"
@@ -203,9 +200,6 @@ try {
 	$env:CI = '1'
 	$env:PLAYWRIGHT_HTML_REPORT_DIR = $reportDir
 	$env:PLAYWRIGHT_OUTPUT_DIR = $resultsDir
-	if ($reuseNext) {
-		$env:PLAYWRIGHT_REUSE_EXISTING_SERVER = 'true'
-	}
 
 	# Run from repo root (Playwright webServer uses frontend package scripts).
 	$cmd = "npm --prefix `"$frontendDir`" run test:e2e"

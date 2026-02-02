@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import EducationEventDetailClient from "@/components/education/EducationEventDetailClient";
+import EventSchema from "@/components/seo/EventSchema";
 import { getEventBySlug, listEvents } from "@/lib/education";
 import type { Locale } from "@/lib/i18n";
 
@@ -55,10 +56,6 @@ export async function generateMetadata({
     },
   };
 }
-
-
-
-import EventSchema from "@/components/seo/EventSchema";
 
 export default async function EducationEventDetailPage({
   params,

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import EducationArticleDetailClient from "@/components/education/EducationArticleDetailClient";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import { getArticleBySlug, listArticles } from "@/lib/education";
 import type { Locale } from "@/lib/i18n";
 
@@ -57,10 +58,6 @@ export async function generateMetadata({
     },
   };
 }
-
-
-
-import ArticleSchema from "@/components/seo/ArticleSchema";
 
 export default async function EducationArticleDetailPage({
   params,

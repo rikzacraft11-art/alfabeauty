@@ -55,11 +55,6 @@
   /* zinc-900 */
   --focus-ring-offset: #ffffff;
 
-  /* Interactive state tokens */
-  --hover-overlay: rgba(0, 0, 0, 0.04);
-  --active-overlay: rgba(0, 0, 0, 0.08);
-  --disabled-opacity: 0.5;
-
   /* Elevation (subtle shadows for depth hierarchy) */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
@@ -70,21 +65,14 @@
   --transition-fast: 100ms ease-out;
   --transition-base: 150ms ease-out;
   --transition-slow: 250ms ease-out;
-  --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-
   /* Design V2: Elegant Motion (slower, smoother for premium feel) */
   --transition-elegant: 400ms cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-reveal: 600ms cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Design V2: Elegant Shadows (multi-layer, softer for depth) */
   --shadow-elegant:
     0 2px 4px rgba(0, 0, 0, 0.02),
     0 8px 16px rgba(0, 0, 0, 0.04),
     0 24px 48px rgba(0, 0, 0, 0.06);
-  --shadow-elegant-hover:
-    0 4px 8px rgba(0, 0, 0, 0.03),
-    0 16px 32px rgba(0, 0, 0, 0.06),
-    0 32px 64px rgba(0, 0, 0, 0.08);
 
   /* Header specific tokens (CK-style) */
   --header-height-desktop: 88px;
@@ -95,7 +83,7 @@
     Our promo bar is ~22px, so the collapsed header bar targets ~97px / ~102px.
   */
   --header-height-mobile: 97px;
-  --header-transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -103,15 +91,6 @@
     --transition-fast: 0s;
     --transition-base: 0s;
     --transition-slow: 0s;
-    --transition-spring: 0s;
-    --header-transition: 0s;
-    --transition-instant: 0s;
-    --transition-micro: 0s;
-    --transition-quick: 0s;
-    --transition-normal: 0s;
-    --transition-smooth: 0s;
-    --transition-cinematic: 0s;
-    --transition-dramatic: 0s;
     --scroll-behavior: auto !important;
   }
 
@@ -131,15 +110,6 @@
   --font-body: var(--font-body);
   --font-display: var(--font-display);
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-
-  /* 
-    Section spacing tokens (intermediate-level consistency)
-    Uses fluid values for smooth scaling without jump
-  */
-  --section-overlap: clamp(2.5rem, 4vw, 3.5rem);
-  --section-padding-y: clamp(3rem, 5vw, 5rem);
-  --section-padding-x: clamp(1rem, 3vw, 2.5rem);
-  --card-padding: clamp(1.5rem, 3vw, 2.5rem);
 
   /* ==========================================================================
      CK-B2B Design System Tokens (Stark Minimalism + Functional Structure)
@@ -168,74 +138,12 @@
   --space-9: 8rem;
   /* 128px - 4xl */
 
-  /* 
-    Section Rhythm Tokens (CK Negative Space Philosophy)
-    Generous vertical spacing for "breathing" layouts
-  */
-  --section-py-sm: clamp(2rem, 4vw, 3rem);
-  --section-py-md: clamp(3rem, 6vw, 5rem);
-  --section-py-lg: clamp(4rem, 8vw, 7rem);
-  --section-py-xl: clamp(6rem, 10vw, 10rem);
-
-  /* Container Max-Widths */
-  --container-sm: 42rem;
-  /* 672px - content */
-  --container-md: 64rem;
-  /* 1024px - standard */
-  --container-lg: 80rem;
-  /* 1280px - wide */
-  --container-xl: 96rem;
-  /* 1536px - full */
-  --container-2xl: 120rem;
-  /* 1920px - ultra */
-
-  /* 
-    Image Treatment Filters (CK Curated Gallery)
-    Creates unified "studio lighting" across all images
-  */
-  --img-filter-curated: grayscale(5%) contrast(1.02) brightness(1.02);
-  --img-filter-editorial: grayscale(10%) contrast(1.05) brightness(1.01);
-  --img-filter-dramatic: grayscale(15%) contrast(1.1) brightness(0.98);
-
-  /* Image Overlay Tints */
-  --img-tint-light: rgba(0, 0, 0, 0.02);
-  --img-tint-medium: rgba(0, 0, 0, 0.05);
-  --img-tint-dark: rgba(0, 0, 0, 0.08);
-
-  /* 
-    Transition Tokens (Extended for Cinematic Feel)
-  */
-  --transition-instant: 50ms ease-out;
-  --transition-micro: 100ms ease-out;
-  --transition-quick: 150ms ease-out;
-  --transition-normal: 300ms ease-out;
-  --transition-smooth: 500ms ease-out;
-  --transition-cinematic: 700ms cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-dramatic: 1000ms cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Nav Gap Tokens (CK Stark Spacing) */
-  --nav-gap-sm: 1.5rem;
-  /* 24px */
-  --nav-gap-md: 2.5rem;
-  /* 40px */
-  --nav-gap-lg: 3.5rem;
-  /* 56px */
-  --nav-gap-xl: 5rem;
-  /* 80px */
 }
 
 /* Tablet collapsed header is slightly taller in the reference snapshots */
 @media (min-width: 768px) {
   :root {
     --header-height-mobile: 102px;
-  }
-}
-
-/* Desktop: Increase section overlap for dramatic hero overlay (~25% of hero) */
-@media (min-width: 1024px) {
-  :root {
-    --section-overlap: 10rem;
-    /* 160px - approximately 1/4 of hero height */
   }
 }
 
@@ -305,9 +213,6 @@ html {
   /* Slightly slower for weight */
   --transition-base: 200ms ease-out;
   --transition-slow: 350ms ease-out;
-  --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-cinematic: 800ms cubic-bezier(0.19, 1, 0.22, 1);
-  /* Slower, luxurious ease */
 
   /* Typography: Inter for body, Instrument Serif for headings/display */
   --font-sans: var(--font-body);
@@ -619,7 +524,7 @@ a {
   background-color: var(--foreground-soft);
 }
 
-/* CK-style: Ghost with border, inverts on hover */
+/* CK-style: Secondary with border, inverts on hover */
 .ui-btn-secondary {
   background-color: transparent;
   border-color: var(--foreground);
@@ -630,18 +535,6 @@ a {
 .ui-btn-secondary:hover:not(:disabled) {
   background-color: var(--foreground);
   color: var(--background);
-}
-
-/* Ghost button variant (minimal, for tertiary actions) */
-.ui-btn-ghost {
-  border-color: transparent;
-  background-color: transparent;
-  color: var(--foreground);
-  transition: background-color 0.2s ease;
-}
-
-.ui-btn-ghost:hover:not(:disabled) {
-  background-color: var(--subtle);
 }
 
 /* Inverted button (for use on dark backgrounds) */
@@ -697,12 +590,6 @@ a {
   --focus-ring-offset: var(--foreground);
 }
 
-
-/* Safe area support for notch/safe phones */
-.safe-inset {
-  padding-left: max(1rem, env(safe-area-inset-left));
-  padding-right: max(1rem, env(safe-area-inset-right));
-}
 
 /* Touch-friendly tap targets (min 44px x 44px per WCAG) */
 .touch-target {
@@ -790,25 +677,6 @@ a {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-fade-in-delay-1 {
-  animation: fadeIn 0.6s ease-out 0.1s forwards;
-  opacity: 0;
-}
-
-.animate-fade-in-delay-2 {
-  animation: fadeIn 0.6s ease-out 0.2s forwards;
-  opacity: 0;
-}
-
-.animate-fade-in-delay-3 {
-  animation: fadeIn 0.6s ease-out 0.3s forwards;
-  opacity: 0;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -819,18 +687,6 @@ a {
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* =============================================================================
    Hero Text Accessibility (WCAG AA Contrast)
    ============================================================================= */
@@ -838,46 +694,6 @@ a {
 /* =============================================================================
    CK-B2B Design System Utilities
    ============================================================================= */
-
-/* 
-  Image Treatment Classes (CK Curated Gallery)
-  Apply consistent "studio lighting" across all images
-*/
-.img-curated {
-  filter: var(--img-filter-curated);
-}
-
-.img-curated::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--img-tint-light);
-  pointer-events: none;
-}
-
-.img-editorial {
-  filter: var(--img-filter-editorial);
-}
-
-.img-dramatic {
-  filter: var(--img-filter-dramatic);
-}
-
-/* Image Frame Variants (CK Stark Framing) */
-.img-frame {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-tight);
-}
-
-.img-frame-subtle {
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: var(--radius-tight);
-}
-
-.img-frame-inset {
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-  border-radius: var(--radius-tight);
-}
 
 /* Lenis Scroll Prevent Utility (OPS-04) */
 /* Add [data-lenis-prevent] or .lenis-prevent to disable smooth scroll on specific elements */
