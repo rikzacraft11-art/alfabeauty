@@ -7,6 +7,17 @@ import ButtonLink from "@/components/ui/ButtonLink";
 import Footer from "@/components/layout/Footer";
 import { normalizeLocale, t } from "@/lib/i18n";
 
+// Web 3.0 Interactive Components
+import SplitText from "@/components/ui/SplitText";
+import ScrollIndicator from "@/components/ui/ScrollIndicator";
+import GlowCard from "@/components/ui/GlowCard";
+import TiltCard from "@/components/ui/TiltCard";
+import GradientBlob from "@/components/ui/GradientBlob";
+
+// Ineo-Sense Style Animation Components
+import TextReveal from "@/components/ui/TextReveal";
+import CardReveal from "@/components/ui/CardReveal";
+
 
 /**
  * V2 Homepage
@@ -70,6 +81,8 @@ export default async function HomePage({
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-background/55" aria-hidden="true" />
+          {/* Animated Gradient Overlay */}
+          <GradientBlob className="opacity-30" blur={150} />
         </div>
 
         {/* Hero Content */}
@@ -77,73 +90,112 @@ export default async function HomePage({
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Text Column */}
             <div className="lg:col-span-7">
-              <StaggerReveal delay={0.2} staggerDelay={0.15}>
-                <p className="type-kicker text-muted mb-6">
-                  {tx.home.hero.kicker}
-                </p>
-                <h1 className="type-hero text-foreground mb-6 whitespace-normal">
-                  {tx.home.hero.title}
+              <div className="space-y-6">
+                {/* Kicker with fade in */}
+                <CardReveal delay={0.1}>
+                  <p className="type-kicker text-muted">
+                    {tx.home.hero.kicker}
+                  </p>
+                </CardReveal>
+
+                {/* Hero Headline with Ineo-Sense TextReveal */}
+                <h1 className="type-hero text-foreground whitespace-normal">
+                  <TextReveal delay={0.3} staggerDelay={0.06}>
+                    {tx.home.hero.title}
+                  </TextReveal>
                 </h1>
-                <p className="type-hero-body text-foreground-muted max-w-2xl mb-10">
-                  {tx.home.hero.lede}
-                </p>
+
+                {/* Lede with CardReveal */}
+                <CardReveal delay={0.6}>
+                  <p className="type-hero-body text-foreground-muted max-w-2xl">
+                    {tx.home.hero.lede}
+                  </p>
+                </CardReveal>
+                {/* Hero Points with CardReveal */}
                 {tx.home.hero.points?.length ? (
-                  <ul className="space-y-3 mb-10">
-                    {tx.home.hero.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3">
-                        <span className="text-foreground mt-1">•</span>
-                        <span className="type-body text-foreground-muted">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <CardReveal delay={0.8}>
+                    <ul className="space-y-3 mb-10">
+                      {tx.home.hero.points.map((point) => (
+                        <li key={point} className="flex items-start gap-3">
+                          <span className="text-foreground mt-1">•</span>
+                          <span className="type-body text-foreground-muted">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardReveal>
                 ) : null}
-                <div className="flex flex-wrap gap-4" data-testid="hero-cta-container">
-                  <a
-                    href="#brands"
-                    className="ui-btn-primary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
-                    data-testid="cta-explore-brands"
-                  >
-                    {tx.home.hero.ctaExplore}
-                  </a>
-                  <a
-                    href="#partner"
-                    className="ui-btn-secondary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
-                    data-testid="cta-partner-with-us"
-                  >
-                    {tx.home.hero.ctaPartner}
-                  </a>
-                </div>
-              </StaggerReveal>
+
+                {/* CTA Buttons with CardReveal */}
+                <CardReveal delay={1.0}>
+                  <div className="flex flex-wrap gap-4" data-testid="hero-cta-container">
+                    <a
+                      href="#brands"
+                      className="ui-btn-primary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)] glow-border"
+                      data-testid="cta-explore-brands"
+                    >
+                      {tx.home.hero.ctaExplore}
+                    </a>
+                    <a
+                      href="#partner"
+                      className="ui-btn-secondary px-8 py-4 type-nav rounded-full transition-all duration-[var(--transition-elegant)]"
+                      data-testid="cta-partner-with-us"
+                    >
+                      {tx.home.hero.ctaPartner}
+                    </a>
+                  </div>
+                </CardReveal>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <ScrollIndicator text={isId ? "Gulir" : "Scroll"} />
+        </div>
       </section>
 
-      {/* About Section */}
+      {/* About Section - Ineo-Sense Style */}
       <section id="about" className="py-24 lg:py-32 bg-background">
         <div className="container mx-auto px-6 lg:px-12">
-          <StaggerReveal delay={0.1}>
+          {/* Section Header with TextReveal */}
+          <CardReveal delay={0}>
             <p className="type-kicker text-muted mb-4">{tx.home.about.kicker}</p>
-            <h2 className="type-h1 text-foreground mb-8 max-w-4xl">
+          </CardReveal>
+          <h2 className="type-h1 text-foreground mb-8 max-w-4xl">
+            <TextReveal delay={0.1} staggerDelay={0.05}>
               {tx.home.about.title}
-            </h2>
+            </TextReveal>
+          </h2>
+          <CardReveal delay={0.3}>
             <p className="type-body text-foreground-muted max-w-3xl mb-12">
               {tx.home.about.body}
             </p>
+          </CardReveal>
 
-            {/* 3 Pillars */}
-            <div className="grid md:grid-cols-3 gap-8">
-              {tx.home.about.pillars.map((pillar) => (
-                <div key={pillar.title} className="p-6 rounded-2xl bg-panel" style={{ boxShadow: "var(--shadow-elegant)" }}>
-                  <div className="type-h2 mb-4">{pillar.icon}</div>
-                  <h3 className="type-h3 text-foreground mb-2">{pillar.title}</h3>
-                  <p className="type-body text-muted">
-                    {pillar.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </StaggerReveal>
+          {/* 3 Pillars - Staggered CardReveal with GlowCard */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {tx.home.about.pillars.map((pillar, index) => (
+              <CardReveal
+                key={pillar.title}
+                delay={0.4 + index * 0.15}
+                direction={index === 0 ? "left" : index === 2 ? "right" : "up"}
+              >
+                <GlowCard
+                  className="h-full p-6 rounded-2xl bg-panel transition-transform duration-300 hover:-translate-y-1"
+                  glowSize={300}
+                >
+                  <div style={{ boxShadow: "var(--shadow-elegant)" }} className="h-full rounded-2xl bg-panel p-6">
+                    <div className="type-h2 mb-4 levitate-subtle inline-block">{pillar.icon}</div>
+                    <h3 className="type-h3 text-foreground mb-2">{pillar.title}</h3>
+                    <p className="type-body text-muted">
+                      {pillar.body}
+                    </p>
+                  </div>
+                </GlowCard>
+              </CardReveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -159,26 +211,27 @@ export default async function HomePage({
               {tx.home.brands.body}
             </p>
 
-            {/* Brand Logos */}
+            {/* Brand Logos - Enhanced with TiltCard */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {[
-                  { name: "Alfaparf Milano Professional", country: isId ? "Italia" : "Italy", slug: "alfaparf" },
-                  { name: "Farmavita", country: isId ? "Italia" : "Italy", slug: "farmavita" },
-                  { name: "Montibello", country: isId ? "Spanyol" : "Spain", slug: "montibello" },
-                  { name: "Gamma+ Professional", country: isId ? "Italia" : "Italy", slug: "gammaplus" },
-                ].map((brand) => (
-                <AppLink
-                  key={brand.name}
-                  href={`${base}/products?brand=${brand.slug}`}
-                  className="group p-8 rounded-2xl bg-background transition-all duration-[var(--transition-elegant)] hover:scale-105 block"
-                  style={{ boxShadow: "var(--shadow-elegant)" }}
-                >
-                  <div className="aspect-video flex items-center justify-center bg-subtle rounded-lg mb-4">
-                    <span className="type-ui-sm text-muted">{tx.home.brands.logoLabel}</span>
-                  </div>
-                  <h3 className="type-h4 text-foreground">{brand.name}</h3>
-                  <p className="type-data text-muted">{brand.country}</p>
-                </AppLink>
+              {[
+                { name: "Alfaparf Milano Professional", country: isId ? "Italia" : "Italy", slug: "alfaparf" },
+                { name: "Farmavita", country: isId ? "Italia" : "Italy", slug: "farmavita" },
+                { name: "Montibello", country: isId ? "Spanyol" : "Spain", slug: "montibello" },
+                { name: "Gamma+ Professional", country: isId ? "Italia" : "Italy", slug: "gammaplus" },
+              ].map((brand) => (
+                <TiltCard key={brand.name} tiltAmount={8} scale={1.03}>
+                  <AppLink
+                    href={`${base}/products?brand=${brand.slug}`}
+                    className="group p-8 rounded-2xl bg-background block glow-border"
+                    style={{ boxShadow: "var(--shadow-elegant)" }}
+                  >
+                    <div className="aspect-video flex items-center justify-center bg-subtle rounded-lg mb-4 overflow-hidden">
+                      <span className="type-ui-sm text-muted group-hover:scale-110 transition-transform duration-500">{tx.home.brands.logoLabel}</span>
+                    </div>
+                    <h3 className="type-h4 text-foreground group-hover:text-foreground-soft transition-colors">{brand.name}</h3>
+                    <p className="type-data text-muted">{brand.country}</p>
+                  </AppLink>
+                </TiltCard>
               ))}
             </div>
           </StaggerReveal>
