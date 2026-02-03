@@ -12,10 +12,6 @@ type SplitTextProps = {
     once?: boolean;
 };
 
-/**
- * SplitText: Animate text character-by-character or word-by-word.
- * Awwwards signature effect for hero headlines.
- */
 export default function SplitText({
     children,
     splitBy = "chars",
@@ -45,19 +41,10 @@ export default function SplitText({
     };
 
     const itemVariants = {
-        hidden: {
-            opacity: 0,
-            y: 20,
-            rotateX: -90,
-        },
+        hidden: { opacity: 0, y: 20, rotateX: -90 },
         visible: {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            transition: {
-                duration: 0.6,
-                ease: [0.16, 1, 0.3, 1] as const,
-            },
+            opacity: 1, y: 0, rotateX: 0,
+            transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
         },
     };
 
@@ -75,10 +62,7 @@ export default function SplitText({
                     key={`${item}-${index}`}
                     variants={itemVariants}
                     className="inline-block"
-                    style={{
-                        transformStyle: "preserve-3d",
-                        whiteSpace: splitBy === "words" ? "pre" : undefined,
-                    }}
+                    style={{ transformStyle: "preserve-3d", whiteSpace: splitBy === "words" ? "pre" : undefined }}
                     aria-hidden="true"
                 >
                     {item}

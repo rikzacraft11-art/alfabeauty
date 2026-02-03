@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 type LineRevealProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     delay?: number;
     className?: string;
     once?: boolean;
@@ -13,7 +13,6 @@ type LineRevealProps = {
 
 /**
  * LineReveal: Animated decorative line that grows on scroll.
- * Ineo-Sense style divider/accent element.
  */
 export default function LineReveal({
     children,
@@ -46,7 +45,7 @@ export default function LineReveal({
                 transition={{
                     duration: 1,
                     delay,
-                    ease: [0.22, 1, 0.36, 1],
+                    ease: [0.22, 1, 0.36, 1] as const,
                 }}
                 style={{ transformOrigin: getOrigin() }}
             />

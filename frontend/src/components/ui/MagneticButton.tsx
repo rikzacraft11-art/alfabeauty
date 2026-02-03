@@ -9,7 +9,10 @@ type MagneticButtonProps = {
     strength?: number; // Magnetic attraction strength
     as?: "button" | "a";
     href?: string;
+    target?: string;
+    rel?: string;
     onClick?: () => void;
+    "aria-label"?: string;
 };
 
 /**
@@ -22,7 +25,10 @@ export default function MagneticButton({
     strength = 0.3,
     as = "button",
     href,
+    target,
+    rel,
     onClick,
+    "aria-label": ariaLabel,
 }: MagneticButtonProps) {
     const ref = useRef<HTMLDivElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -55,10 +61,13 @@ export default function MagneticButton({
         >
             <Component
                 href={as === "a" ? href : undefined}
+                target={as === "a" ? target : undefined}
+                rel={as === "a" ? rel : undefined}
                 onClick={onClick}
                 animate={{ x: position.x, y: position.y }}
                 transition={{ type: "spring", stiffness: 150, damping: 15 }}
                 className={className}
+                aria-label={ariaLabel}
             >
                 {children}
             </Component>

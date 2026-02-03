@@ -83,7 +83,7 @@
     Our promo bar is ~22px, so the collapsed header bar targets ~97px / ~102px.
   */
   --header-height-mobile: 97px;
-  
+
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -697,7 +697,7 @@ a {
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --spring-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --spring-smooth: cubic-bezier(0.34, 1.56, 0.64, 1);
-  
+
   /* Glow/Shimmer Colors */
   --glow-color: rgba(24, 24, 27, 0.15);
   --shimmer-color: rgba(255, 255, 255, 0.6);
@@ -735,8 +735,15 @@ a {
 }
 
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% center; }
-  50% { background-position: 100% center; }
+
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
 }
 
 /* Shimmer/Glow Effect for Cards */
@@ -749,11 +756,9 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(24, 24, 27, 0.06),
-    transparent 40%
-  );
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(24, 24, 27, 0.06),
+      transparent 40%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -773,12 +778,10 @@ a {
   content: "";
   position: absolute;
   inset: -1px;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(24, 24, 27, 0.1) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(135deg,
+      transparent 0%,
+      rgba(24, 24, 27, 0.1) 50%,
+      transparent 100%);
   border-radius: inherit;
   z-index: -1;
   opacity: 0;
@@ -791,9 +794,12 @@ a {
 
 /* Floating/Levitating Animation */
 @keyframes levitate {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -812,6 +818,7 @@ a {
   from {
     clip-path: inset(0 100% 0 0);
   }
+
   to {
     clip-path: inset(0 0 0 0);
   }
@@ -855,10 +862,13 @@ a {
 
 /* Scroll Indicator Bounce */
 @keyframes scroll-bounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
     opacity: 1;
   }
+
   50% {
     transform: translateY(8px);
     opacity: 0.7;
@@ -874,6 +884,7 @@ a {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -888,12 +899,10 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--shimmer-color),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      var(--shimmer-color),
+      transparent);
   animation: shimmer 2s infinite;
 }
 
@@ -913,6 +922,7 @@ a {
     filter: blur(10px);
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     filter: blur(0);
@@ -929,6 +939,7 @@ a {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-50%);
   }
@@ -958,3 +969,568 @@ a {
 }
 
 /* Dark mode removed - B2B light-only theme (COBIT compliance) */
+
+/* =============================================================================
+   Web 3.0 Advanced Animation System - Awwwards Level
+   ============================================================================= */
+
+:root {
+  /* Custom Cursor Variables */
+  --cursor-size: 20px;
+  --cursor-size-hover: 60px;
+  --cursor-color: rgba(9, 9, 11, 0.9);
+  --cursor-blend: difference;
+
+  /* Noise Overlay */
+  --noise-opacity: 0.025;
+
+  /* 3D Transform Tokens */
+  --perspective-default: 1000px;
+  --perspective-close: 500px;
+  --tilt-max: 15deg;
+
+  /* Horizontal Scroll */
+  --horizontal-scroll-speed: 1;
+
+  /* Enhanced Motion Curves */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* =============================================================================
+   Custom Cursor Styles
+   ============================================================================= */
+
+.cursor-wrapper {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  mix-blend-mode: var(--cursor-blend);
+}
+
+.cursor-dot {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  background: var(--cursor-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo);
+}
+
+.cursor-dot.is-hovering {
+  width: var(--cursor-size-hover);
+  height: var(--cursor-size-hover);
+}
+
+.cursor-dot.is-clicking {
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+/* Hide on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-wrapper {
+    display: none;
+  }
+}
+
+/* =============================================================================
+   Noise Texture Overlay
+   ============================================================================= */
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* =============================================================================
+   3D Transform Utilities
+   ============================================================================= */
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective {
+  perspective: var(--perspective-default);
+}
+
+.perspective-close {
+  perspective: var(--perspective-close);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* 3D Card Hover Effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.card-3d-inner {
+  transform: translateZ(0);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.card-3d:hover .card-3d-inner {
+  transform: translateZ(40px);
+}
+
+/* =============================================================================
+   Enhanced Glassmorphism
+   ============================================================================= */
+
+.glass-premium {
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 10px 20px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.glass-frosted {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  background: rgba(250, 250, 250, 0.85);
+  border: 1px solid rgba(228, 228, 231, 0.5);
+}
+
+/* =============================================================================
+   Horizontal Scroll Section
+   ============================================================================= */
+
+.horizontal-scroll-container {
+  position: relative;
+  height: 100vh;
+}
+
+.horizontal-scroll-track {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  overflow-x: hidden;
+  will-change: transform;
+}
+
+.horizontal-scroll-content {
+  display: flex;
+  gap: var(--space-6);
+  padding: 0 var(--space-8);
+}
+
+/* =============================================================================
+   Magnetic Button Effects
+   ============================================================================= */
+
+.magnetic {
+  transition: transform 0.3s var(--ease-out-expo);
+}
+
+.magnetic-strong {
+  transition: transform 0.4s var(--ease-elastic);
+}
+
+/* =============================================================================
+   Split Text Animation Utilities
+   ============================================================================= */
+
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.split-line {
+  display: block;
+  overflow: hidden;
+}
+
+/* =============================================================================
+   Scroll Progress Indicator
+   ============================================================================= */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--foreground) var(--scroll-progress, 0%), transparent var(--scroll-progress, 0%));
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* =============================================================================
+   Image Mask Reveal
+   ============================================================================= */
+
+.mask-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1s var(--ease-out-expo);
+}
+
+.mask-reveal.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+.mask-reveal-left {
+  clip-path: inset(0 100% 0 0);
+}
+
+.mask-reveal-left.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* =============================================================================
+   Marquee Enhanced
+   ============================================================================= */
+
+@keyframes marquee-smooth {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-smooth var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-6);
+}
+
+/* Gradient Fade Edges */
+.marquee-fade {
+  position: relative;
+}
+
+.marquee-fade::before,
+.marquee-fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-fade::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--background), transparent);
+}
+
+.marquee-fade::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--background), transparent);
+}
+
+/* =============================================================================
+   Counter Animation
+   ============================================================================= */
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.counter-animate {
+  animation: count-up 0.8s var(--ease-out-expo) forwards;
+}
+
+/* =============================================================================
+   Floating Elements
+   ============================================================================= */
+
+@keyframes float-gentle {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+
+  75% {
+    transform: translateY(8px) rotate(-1deg);
+  }
+}
+
+.float-gentle {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+/* =============================================================================
+   Stagger Animation Utilities
+   ============================================================================= */
+
+.stagger>*:nth-child(1) {
+  --stagger-delay: 0ms;
+}
+
+.stagger>*:nth-child(2) {
+  --stagger-delay: 50ms;
+}
+
+.stagger>*:nth-child(3) {
+  --stagger-delay: 100ms;
+}
+
+.stagger>*:nth-child(4) {
+  --stagger-delay: 150ms;
+}
+
+.stagger>*:nth-child(5) {
+  --stagger-delay: 200ms;
+}
+
+.stagger>*:nth-child(6) {
+  --stagger-delay: 250ms;
+}
+
+.stagger>*:nth-child(7) {
+  --stagger-delay: 300ms;
+}
+
+.stagger>*:nth-child(8) {
+  --stagger-delay: 350ms;
+}
+
+.stagger>* {
+  animation-delay: var(--stagger-delay);
+}
+
+/* =============================================================================
+   Gradient Border Animation
+   ============================================================================= */
+
+@keyframes gradient-rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.gradient-border-animated {
+  position: relative;
+  background: var(--background);
+}
+
+.gradient-border-animated::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(var(--gradient-angle), var(--foreground), var(--muted), var(--foreground));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: gradient-rotate 4s linear infinite;
+}
+
+/* =============================================================================
+   Hero Video Parallax
+   ============================================================================= */
+
+.hero-video-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-video {
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* =============================================================================
+   Stats Section Styles
+   ============================================================================= */
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--foreground) 0%, var(--muted) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* =============================================================================
+   Section Divider
+   ============================================================================= */
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  transform: scaleX(0);
+  transition: transform 1s var(--ease-out-expo);
+}
+
+.section-divider.is-visible {
+  transform: scaleX(1);
+}
+
+/* =============================================================================
+   Interactive Link Underline
+   ============================================================================= */
+
+.link-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.link-slide::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: translateX(-101%);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.link-slide:hover::after {
+  transform: translateX(0);
+}
+
+/* =============================================================================
+   Page Transition Overlay
+   ============================================================================= */
+
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--foreground);
+  z-index: 9999;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+
+@keyframes page-enter {
+  0% {
+    transform: translateY(100%);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.page-transition-overlay.is-animating {
+  animation: page-enter 1s var(--ease-out-expo) forwards;
+  pointer-events: all;
+}
+
+/* =============================================================================
+   Interactive 3D Background
+   ============================================================================= */
+
+.interactive-3d-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.interactive-3d-bg canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Allow pointer events on canvas for mouse interaction but keep content clickable */
+.interactive-3d-bg-interactive {
+  pointer-events: auto;
+}
+
+/* Reduce 3D on mobile for performance */
+@media (max-width: 768px) {
+  .interactive-3d-bg {
+    opacity: 0.5;
+  }
+}
+
+/* Hide 3D for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .interactive-3d-bg {
+    display: none;
+  }
+}
+
+/* Hero section with 3D bg needs higher z-index for content */
+.hero-3d-content {
+  position: relative;
+  z-index: 10;
+}

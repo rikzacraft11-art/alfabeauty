@@ -1,72 +1,58 @@
 "use client";
 
+import { motion, useInView, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useSpring, useTransform } from "framer-motion";
 
 type AnimatedCounterProps = {
     value: number;
-    duration?: number;
-    delay?: number;
     suffix?: string;
     prefix?: string;
+    duration?: number;
+    delay?: number;
     className?: string;
-    once?: boolean;
 };
 
 /**
- * AnimatedCounter: Animates a number from 0 to target value.
- * Scroll-triggered with spring physics for smooth counting.
+ * AnimatedCounter: Counts up from 0 to target value with spring animation.
+ * Triggers when element enters viewport.
  */
 export default function AnimatedCounter({
     value,
-    duration = 2,
-    delay = 0,
     suffix = "",
     prefix = "",
+    duration = 2,
+    delay = 0,
     className = "",
-    once = true,
 }: AnimatedCounterProps) {
     const ref = useRef<HTMLSpanElement>(null);
-    const isInView = useInView(ref, { once, margin: "-50px" });
-    const [hasActivated, setHasActivated] = useState(false);
+    const isInView = useInView(ref, { once: true, margin: "-10%" });
+    const [hasAnimated, setHasAnimated] = useState(false);
 
     const springValue = useSpring(0, {
         stiffness: 50,
-        damping: 20,
+        damping: 30,
         duration: duration * 1000,
     });
 
-    const displayValue = useTransform(springValue, (latest) => Math.round(latest));
-    const [currentValue, setCurrentValue] = useState(0);
+    const displayValue = useTransform(springValue, (latest) => {
+        return Math.round(latest);
+    });
 
     useEffect(() => {
-        if (isInView && !hasActivated) {
-            const timer = setTimeout(() => {
+        if (isInView && !hasAnimated) {
+            const timeout = setTimeout(() => {
                 springValue.set(value);
-                setHasActivated(true);
+                setHasAnimated(true);
             }, delay * 1000);
-            return () => clearTimeout(timer);
+            return () => clearTimeout(timeout);
         }
-    }, [isInView, hasActivated, value, delay, springValue]);
-
-    useEffect(() => {
-        const unsubscribe = displayValue.on("change", (latest) => {
-            setCurrentValue(latest);
-        });
-        return () => unsubscribe();
-    }, [displayValue]);
+    }, [isInView, hasAnimated, springValue, value, delay]);
 
     return (
-        <motion.span
-            ref={ref}
-            className={className}
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay }}
-        >
+        <span ref={ref} className={className}>
             {prefix}
-            {currentValue.toLocaleString()}
+            <motion.span>{displayValue}</motion.span>
             {suffix}
-        </motion.span>
+        </span>
     );
 }

@@ -16,7 +16,6 @@ type TextRevealProps = {
 /**
  * TextReveal: Ineo-Sense style text reveal animation.
  * Each line/word slides up from behind a mask with elegant easing.
- * Used for hero headlines and section titles.
  */
 export default function TextReveal({
     children,
@@ -30,7 +29,6 @@ export default function TextReveal({
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once, margin: "-10%" });
 
-    // Split text by words for the reveal effect
     const words = useMemo(() => children.split(" "), [children]);
 
     const containerVariants = {
@@ -53,7 +51,7 @@ export default function TextReveal({
             opacity: 1,
             transition: {
                 duration: 0.8,
-                ease: [0.22, 1, 0.36, 1] as const, // Ineo-Sense style easing
+                ease: [0.22, 1, 0.36, 1] as const,
             },
         },
     };

@@ -14,8 +14,6 @@ type CardRevealProps = {
 
 /**
  * CardReveal: Ineo-Sense style card reveal animation on scroll.
- * Card slides in from specified direction with fade effect.
- * Perfect for grid cards and content sections.
  */
 export default function CardReveal({
     children,
@@ -57,7 +55,7 @@ export default function CardReveal({
             transition: {
                 duration: 0.8,
                 delay,
-                ease: [0.22, 1, 0.36, 1] as const, // Ineo-Sense easing
+                ease: [0.22, 1, 0.36, 1] as const,
             },
         },
     };

@@ -6,15 +6,11 @@ import { motion, useSpring } from "framer-motion";
 type TiltCardProps = {
     children: React.ReactNode;
     className?: string;
-    tiltAmount?: number; // degrees of tilt
+    tiltAmount?: number;
     perspective?: number;
-    scale?: number; // scale on hover
+    scale?: number;
 };
 
-/**
- * TiltCard: 3D perspective tilt effect on hover.
- * Premium interactive card effect for Awwwards-quality design.
- */
 export default function TiltCard({
     children,
     className = "",
@@ -25,7 +21,6 @@ export default function TiltCard({
     const ref = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
 
-    // Use springs for smooth animation
     const rotateX = useSpring(0, { stiffness: 300, damping: 30 });
     const rotateY = useSpring(0, { stiffness: 300, damping: 30 });
     const scaleValue = useSpring(1, { stiffness: 300, damping: 30 });
@@ -33,14 +28,11 @@ export default function TiltCard({
     const handleMouseMove = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
             if (!ref.current) return;
-
             const rect = ref.current.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-
             const percentX = (e.clientX - centerX) / (rect.width / 2);
             const percentY = (e.clientY - centerY) / (rect.height / 2);
-
             rotateX.set(-percentY * tiltAmount);
             rotateY.set(percentX * tiltAmount);
         },
@@ -65,27 +57,16 @@ export default function TiltCard({
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            style={{
-                perspective,
-                transformStyle: "preserve-3d",
-            }}
+            style={{ perspective, transformStyle: "preserve-3d" }}
             className={className}
         >
             <motion.div
-                style={{
-                    rotateX,
-                    rotateY,
-                    scale: scaleValue,
-                    transformStyle: "preserve-3d",
-                }}
+                style={{ rotateX, rotateY, scale: scaleValue, transformStyle: "preserve-3d" }}
                 className="relative"
             >
-                {/* Subtle shine effect on tilt */}
                 <motion.div
                     className="absolute inset-0 pointer-events-none rounded-[inherit] opacity-0"
-                    style={{
-                        background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, transparent 100%)",
-                    }}
+                    style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, transparent 100%)" }}
                     animate={{ opacity: isHovered ? 0.5 : 0 }}
                     transition={{ duration: 0.3 }}
                 />
