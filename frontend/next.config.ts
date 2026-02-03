@@ -3,14 +3,18 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const projectRoot = process.cwd();
 const disableStandalone = process.env.NEXT_DISABLE_STANDALONE === "true";
+const forceStandalone = process.env.NEXT_FORCE_STANDALONE === "true";
+const isWindows = process.platform === "win32";
+const enableStandalone = !disableStandalone && (!isWindows || forceStandalone);
 
 const nextConfig: NextConfig = {
   // Hardening (Phase 16)
   poweredByHeader: false, // Security: Hide Next.js version header
   compress: true, // Performance: Enable Gzip/Brotli
   reactStrictMode: true, // Quality: Catch double-renders
-  // Deployment: Generate standalone folder for Docker (can be disabled for local e2e).
-  output: disableStandalone ? undefined : "standalone",
+  // Deployment: Generate standalone folder for Docker.
+  // On Windows local builds, Next output tracing may fail copying `node:inspector` externals.
+  output: enableStandalone ? "standalone" : undefined,
   // Prevent Next from inferring the wrong root when multiple lockfiles exist on disk.
   outputFileTracingRoot: projectRoot,
   turbopack: {

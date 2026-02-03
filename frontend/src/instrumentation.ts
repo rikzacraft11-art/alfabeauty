@@ -6,14 +6,18 @@
  * It initializes Sentry before any request is processed.
  */
 export async function register() {
+    const isProd = process.env.NODE_ENV === "production";
+    const hasSentry = !!process.env.NEXT_PUBLIC_SENTRY_DSN;
+    if (!isProd || !hasSentry) return;
+
     if (process.env.NEXT_RUNTIME === "nodejs") {
-        // Import server config only on Node.js runtime
-        await import("../sentry.server.config");
+        // Initialize Sentry only on Node.js runtime (production only)
+        const mod = await import("./lib/sentry-server");
+        mod.initSentryServer();
     }
 
     if (process.env.NEXT_RUNTIME === "edge") {
-        // Edge runtime: Sentry has limited support, but we can still import
-        await import("../sentry.server.config");
+        // Edge runtime: Sentry has limited support (skip for now)
     }
 }
 
@@ -50,8 +54,8 @@ export function onRequestError(
         routeType: context.routeType,
     }));
 
-    // Forward to Sentry if available
-    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+    // Forward to Sentry only in production (avoid noisy dev bundling warnings).
+    if (process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_SENTRY_DSN) {
         import("@sentry/nextjs").then((Sentry) => {
             Sentry.captureException(error, {
                 extra: {

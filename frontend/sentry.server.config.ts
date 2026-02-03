@@ -5,33 +5,33 @@
  * This file configures Sentry for server-side error tracking in Next.js.
  * Errors in API routes (e.g., /api/leads) will be captured here.
  */
-import * as Sentry from "@sentry/nextjs";
 
 const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN;
+const isProd = process.env.NODE_ENV === "production";
 
-if (SENTRY_DSN) {
-    Sentry.init({
-        dsn: SENTRY_DSN,
+// Avoid importing/bundling Sentry during local development to keep DX clean.
+// Next may load this file by convention, even when not imported elsewhere.
+if (isProd && SENTRY_DSN) {
+    void import("@sentry/nextjs").then((Sentry) => {
+        Sentry.init({
+            dsn: SENTRY_DSN,
 
-        // Environment tagging for filtering in Sentry dashboard
-        environment: process.env.NODE_ENV || "development",
+            // Environment tagging for filtering in Sentry dashboard
+            environment: process.env.NODE_ENV || "development",
 
-        // Performance Monitoring (optional, can be disabled for Paket A)
-        tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+            // Performance Monitoring (optional, can be disabled for Paket A)
+            tracesSampleRate: 0.1,
 
-        // Debugging: Enable in development only
-        debug: process.env.NODE_ENV !== "production",
+            // Debugging: Keep silent in production
+            debug: false,
 
-        // Release tracking (auto-set by Vercel)
-        // release: process.env.VERCEL_GIT_COMMIT_SHA,
+            // Release tracking (auto-set by Vercel)
+            // release: process.env.VERCEL_GIT_COMMIT_SHA,
 
-        // Hooks for additional context
-        beforeSend(event: Sentry.ErrorEvent) {
-            // COBIT: Redact PII before sending to Sentry
-            // This is a placeholder - add actual PII scrubbing rules here
-            return event;
-        },
+            beforeSend(event: unknown) {
+                // COBIT: Redact PII before sending to Sentry
+                return event as any;
+            },
+        });
     });
 }
-
-export { Sentry };
