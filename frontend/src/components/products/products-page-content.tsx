@@ -28,6 +28,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import type { ProductListItem } from "@/components/products/product-data";
 
@@ -57,6 +58,7 @@ export function ProductsPageContent({
     brandFilters,
     audienceFilters,
 }: ProductsPageContentProps): React.JSX.Element {
+    const searchParams = useSearchParams();
     const categoryCount = React.useMemo(() => {
         const counts: Record<string, number> = { all: products.length };
         categories.forEach((cat) => {
@@ -73,6 +75,24 @@ export function ProductsPageContent({
     const [mobileFiltersOpen, setMobileFiltersOpen] = React.useState(false);
     const [sortBy, setSortBy] = React.useState("latest");
     const [searchQuery, setSearchQuery] = React.useState("");
+
+    React.useEffect(() => {
+        const catParam = searchParams.get("category");
+        if (catParam) {
+            const normalized = catParam.toLowerCase().replace(/\s+&?\s*/g, "-");
+            const matched = categories.find((c) => c.id === normalized || c.id === catParam.toLowerCase());
+            if (matched) setActiveCategory(matched.id);
+        }
+        const brandParam = searchParams.get("brand");
+        if (brandParam) {
+            const brandSlug = brandParam.toLowerCase().replace(/\s+/g, "-");
+            const matchedBrand = brandFilters.find((b) => {
+                const bSlug = b.toLowerCase().replace(/\s+/g, "-");
+                return bSlug === brandSlug || bSlug.includes(brandSlug) || brandSlug.includes(bSlug);
+            });
+            if (matchedBrand) setSelectedBrands([matchedBrand]);
+        }
+    }, [searchParams, categories, brandFilters]);
 
     /* ── Filter logic ── */
     const filtered = React.useMemo(() => {

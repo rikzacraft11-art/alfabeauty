@@ -181,14 +181,14 @@ export function BrandCarousel(): React.JSX.Element {
                                 className="group relative flex h-full min-h-[300px] sm:min-h-[360px] lg:min-h-[420px] flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated p-8 transition-[box-shadow,border-color] duration-500 ease-[var(--ease)] hover:border-border-warm hover:shadow-sm lg:p-10"
                             >
                                     <div className="relative z-10">
-                                        <div className="mb-8 flex h-20 items-center justify-center overflow-hidden">
+                                        <div className="mb-8 flex h-24 w-full items-center justify-center overflow-hidden px-2">
                                             <Image
                                                 src={brand.logo}
                                                 alt={`${brand.name} logo`}
-                                                width={200}
-                                                height={60}
-                                                sizes="200px"
-                                                className="h-14 w-auto object-contain opacity-80 transition-[opacity,transform] duration-[800ms] ease-[var(--ease)] group-hover:opacity-100 group-hover:scale-105"
+                                                width={240}
+                                                height={80}
+                                                sizes="240px"
+                                                className="max-h-16 w-auto max-w-[200px] object-contain opacity-85 transition-[opacity,transform] duration-[800ms] ease-[var(--ease)] group-hover:opacity-100 group-hover:scale-105"
                                             />
                                         </div>
 

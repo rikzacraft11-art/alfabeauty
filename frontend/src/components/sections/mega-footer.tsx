@@ -48,16 +48,26 @@ function WordmarkParallax() {
   const { ref, y } = useParallax({ speed: PARALLAX.subtle });
   return (
     <div ref={ref} className="hidden shrink-0 lg:block">
-      <motion.div className="flex flex-col" style={{ y }}>
-        <Image
-          src="/images/logo/alfa-beauty-full-dark.svg"
-          alt={SITE_NAME}
-          width={160}
-          height={80}
-          className="opacity-90"
-        />
-        <span className="mt-2 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-dark/40">
-          {SITE_SHORT_NAME} ®
+      <motion.div className="flex flex-col items-start gap-2" style={{ y }}>
+        <div className="flex items-center gap-3">
+          <Image
+            src="/images/logo/alfa-beauty-mark.svg"
+            alt={SITE_NAME}
+            width={40}
+            height={40}
+            className="h-10 w-10 object-contain invert brightness-0 opacity-90"
+          />
+          <div className="flex flex-col">
+            <span className="text-sm font-bold tracking-[0.25em] text-foreground uppercase">
+              {SITE_SHORT_NAME}
+            </span>
+            <span className="text-[9px] font-semibold tracking-[0.2em] text-text-muted uppercase">
+              Cosmetica
+            </span>
+          </div>
+        </div>
+        <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-dark/40">
+          Professional Distribution ®
         </span>
       </motion.div>
     </div>
@@ -74,9 +84,7 @@ export function MegaFooter(): React.JSX.Element {
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (latest) => {
     setShowScrollTop(latest > 400);
-    const docHeight = document.documentElement.scrollHeight;
-    const winHeight = window.innerHeight;
-    setShowFab(latest >= docHeight - winHeight - footerHeight);
+    setShowFab(latest > 300);
   });
 
   // Measure actual footer height for the spacer (ResizeObserver)

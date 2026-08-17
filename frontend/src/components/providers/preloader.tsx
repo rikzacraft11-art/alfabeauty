@@ -100,7 +100,7 @@ export function Preloader({ children }: { children: React.ReactNode }) {
                                     alt=""
                                     width={48}
                                     height={48}
-                                    className="invert brightness-200"
+                                    className="h-12 w-12 object-contain"
                                     priority
                                 />
                             </motion.div>

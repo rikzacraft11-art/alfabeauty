@@ -148,21 +148,18 @@ export function SiteHeader(): React.JSX.Element {
         >
             <div className="mx-auto flex h-[var(--header-height)] max-w-[1400px] items-center justify-between px-6 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:px-12">
                 {/* ─── Logo ─── */}
-                <Link href="/" className="group flex items-center gap-3 shrink-0 lg:justify-self-start">
+                <Link href="/" className="group flex items-center gap-3.5 shrink-0 lg:justify-self-start">
                     <Image
                         src="/images/logo/alfa-beauty-mark.svg"
                         alt={SITE_NAME}
-                        width={28}
-                        height={28}
-                        className={cn(
-                            "transition-[filter,transform] duration-[500ms] ease-[var(--ease)] group-hover:scale-108",
-                            isSolid ? "invert-0" : "invert brightness-200"
-                        )}
+                        width={36}
+                        height={48}
+                        className="h-9 sm:h-10 w-auto object-contain transition-transform duration-[500ms] ease-[var(--ease)] group-hover:scale-108"
                         priority
                     />
                     <span
                         className={cn(
-                            "text-[11px] font-bold uppercase tracking-[0.25em] transition-colors duration-[500ms] ease-[var(--ease)]",
+                            "text-xs sm:text-[13px] font-bold uppercase tracking-[0.25em] transition-colors duration-[500ms] ease-[var(--ease)]",
                             isSolid ? "text-foreground" : "text-white"
                         )}
                     >

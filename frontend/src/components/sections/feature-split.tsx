@@ -49,10 +49,10 @@ export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.
                         transition={{ duration: 1.5, ease: cinematicEase }}
                     >
                         <div
-                            className="relative h-full w-full bg-surface-elevated/40 border border-border-warm/20 flex items-center justify-center"
+                            className="relative h-full w-full bg-surface/50 border border-border-warm/20 flex items-center justify-center"
                             style={{ transform: 'scale(1.08)' }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-tl from-background to-surface opacity-90" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-surface to-background opacity-90" />
                             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(164,22,26,0.06)_0%,transparent_60%)]" />
                             <div className="relative flex flex-col items-center justify-center z-10 opacity-30">
                                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-foreground mb-4">Space for Image</span>

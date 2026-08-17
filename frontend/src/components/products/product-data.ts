@@ -50,9 +50,11 @@ export const categories = [
 ];
 
 export const brandFilters = [
-    "CORE",
+    "Alfaparf Milano Professional",
+    "Farmavita",
     "Montibello",
     "Gamma+ Professional",
+    "CORE",
 ];
 
 export const audienceFilters = [
@@ -645,6 +647,101 @@ export const products: Product[] = [
         infoSlides: [
             { type: "features", src: "/images/products/montibello-hop/SILVER WHITE SHAMPOO/pendukung-4.webp" }
         ],
+    },
+    {
+        id: "semi-di-lino-sublime-cristalli",
+        name: "SEMI DI LINO CRISTALLI LIQUIDI",
+        brand: "Alfaparf Milano Professional",
+        category: "treatments",
+        audience: "salon",
+        description: "Serum kilau legendaris dari Italia untuk melindungi serat rambut dan memberikan kilau instan tanpa rasa berat.",
+        image: "/images/ui/product-placeholder-alfaparf.svg",
+        gallery: ["/images/ui/product-placeholder-alfaparf.svg"],
+        infoSlides: [],
+        longDescription: "Serum kilau legendaris dari Italia yang diformulasikan dengan Flaxseed Oil dan Vitamin E untuk melindungi serat rambut dari kelembaban eksternal serta memberikan kilau instan tanpa rasa berat.",
+        keyBenefits: [
+            "Perlindungan termal dan anti-kelembaban eksternal",
+            "Kilau instan tahan lama dengan formula ringan",
+            "Cocok untuk semua jenis dan tekstur rambut"
+        ],
+        howToUse: "Aplikasikan beberapa tetes pada rambut basah atau kering sebelum atau sesudah proses styling.",
+        recommendedFor: ["Salon finishing treatment", "Daily luxury haircare"]
+    },
+    {
+        id: "evolution-of-the-color-cube",
+        name: "EVOLUTION OF THE COLOR³",
+        brand: "Alfaparf Milano Professional",
+        category: "hair-colour",
+        audience: "salon",
+        description: "Sistem pewarnaan permanen profesional dengan teknologi 3D Cube dan Hyaluronic Acid untuk hasil warna presisi dan tahan lama.",
+        image: "/images/ui/product-placeholder-alfaparf.svg",
+        gallery: ["/images/ui/product-placeholder-alfaparf.svg"],
+        infoSlides: [],
+        longDescription: "Pewarna rambut permanen profesional dengan formula mikro-pigmen terkristalisasi dan Hyaluronic Acid, memastikan cakupan 100% rambut beruban dengan kilau dan kelembutan maksimal.",
+        keyBenefits: [
+            "100% grey hair coverage dengan kelembutan luar biasa",
+            "Teknologi 3D Cube untuk retensi warna tahan lama",
+            "Kandungan amonia rendah untuk kenyamanan kulit kepala"
+        ],
+        howToUse: "Campurkan dengan Oxid'o developer perbandingan 1:1.5 sesuai teknik pewarnaan profesional.",
+        recommendedFor: ["Professional Salon Colouring", "Creative Colourists"]
+    },
+    {
+        id: "lisse-design-keratin-therapy",
+        name: "LISSE DESIGN KERATIN THERAPY",
+        brand: "Alfaparf Milano Professional",
+        category: "treatments",
+        audience: "salon",
+        description: "Perawatan pelurusan keratin progresif bebas formaldehida yang menghaluskan rambut ikal hingga 3 bulan.",
+        image: "/images/ui/product-placeholder-alfaparf.svg",
+        gallery: ["/images/ui/product-placeholder-alfaparf.svg"],
+        infoSlides: [],
+        longDescription: "Perawatan pelurusan keratin progresif bebas formaldehida yang menghaluskan rambut ikal, menghilangkan frizzy, dan memberikan hasil rambut lurus alami tahan lama.",
+        keyBenefits: [
+            "100% bebas formaldehida dan aman untuk teknisi salon",
+            "Hasil rambut halus, lurus, dan mudah diatur hingga 3 bulan",
+            "Diperkaya Kera-Collagen Complex dan Babassu Oil"
+        ],
+        howToUse: "Gunakan protokol 4-langkah salon treatment sesuai petunjuk teknis Alfa Beauty Academy.",
+        recommendedFor: ["Professional Keratin Smoothing", "Anti-Frizz Treatment"]
+    },
+    {
+        id: "farmavita-life-color-plus",
+        name: "LIFE COLOR PLUS PROFESSIONAL",
+        brand: "Farmavita",
+        category: "hair-colour",
+        audience: "salon",
+        description: "Pewarna rambut permanen Italia yang diperkaya ekstrak bunga matahari dan oligopeptida Brazil Nut.",
+        image: "/images/ui/product-placeholder-farmavita.svg",
+        gallery: ["/images/ui/product-placeholder-farmavita.svg"],
+        infoSlides: [],
+        longDescription: "Pewarna rambut permanen Italia yang diformulasikan dengan ekstrak bunga matahari dan oligopeptida Brazil Nut untuk penetrasi pigmen yang mendalam dan perlindungan kutikula.",
+        keyBenefits: [
+            "Penetrasi warna mendalam dengan nutrisi Brazil Nut",
+            "Menjaga kelembapan alami dan elastisitas rambut",
+            "Aroma harum dan nyaman saat proses aplikasi di salon"
+        ],
+        howToUse: "Campurkan dengan Life Cream Developer dengan perbandingan 1:1.5.",
+        recommendedFor: ["Salon Colour Services", "Grey Coverage"]
+    },
+    {
+        id: "farmavita-omniplex-system",
+        name: "OMNIPLEX MOLECULAR BOND REPAIR",
+        brand: "Farmavita",
+        category: "treatments",
+        audience: "salon",
+        description: "Sistem rekonstruksi ikatan disulfida rambut molekuler untuk mencegah kerusakan kimia selama bleaching dan pewarnaan.",
+        image: "/images/ui/product-placeholder-farmavita.svg",
+        gallery: ["/images/ui/product-placeholder-farmavita.svg"],
+        infoSlides: [],
+        longDescription: "Sistem rekonstruksi ikatan disulfida rambut molekuler yang dirancang untuk mencegah kerusakan kimia selama proses bleaching, pewarnaan, atau perming di salon profesional.",
+        keyBenefits: [
+            "Melindungi ikatan keratin selama proses kimia agresif",
+            "Memperbaiki rambut rusak secara struktural",
+            "Meningkatkan elastisitas dan kekuatan batang rambut"
+        ],
+        howToUse: "Campurkan Omniplex N.1 ke dalam adonan bleaching/pewarna, lanjutkan dengan Omniplex N.2 setelah pembilasan.",
+        recommendedFor: ["Bleaching & Lightening Services", "Deep Bond Reconstruction"]
     },
 ];
 

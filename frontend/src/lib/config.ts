@@ -93,6 +93,15 @@ export const BRANDS: Brand[] = [
     description:
       "Precision-engineered professional tools for barbers and stylists. Performance, durability, and ergonomic design.",
   },
+  {
+    name: "CORE",
+    origin: "Japan",
+    flag: "🇯🇵",
+    logo: "/images/brands/core.webp",
+    category: "Professional Perm & Care Solutions",
+    description:
+      "Advanced formulation systems for professional salon perm, alkali control, and hair restoration.",
+  },
 ];
 
 // ── Product Categories ──

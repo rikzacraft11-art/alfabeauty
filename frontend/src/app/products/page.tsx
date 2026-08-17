@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { Metadata } from "next";
 import { ProductsPageContent } from "@/components/products/products-page-content";
 import {
@@ -11,7 +12,7 @@ import { PreFooterCTA } from "@/components/sections/pre-footer-cta";
 
 export const metadata: Metadata = {
     title: "Product Catalog",
-    description: "Browse our complete catalog of professional products from Alfaparf, Farmavita, Montibello, and Gamma+.",
+    description: "Browse our complete catalog of professional products from Alfaparf, Farmavita, Montibello, Gamma+, and CORE.",
     alternates: { canonical: "/products" },
 };
 
@@ -24,12 +25,14 @@ const productListItems: ProductListItem[] = products.map(
 export default function ProductsPage(): React.JSX.Element {
     return (
         <>
-            <ProductsPageContent
-                products={productListItems}
-                categories={categories}
-                brandFilters={brandFilters}
-                audienceFilters={audienceFilters}
-            />
+            <React.Suspense fallback={<div className="min-h-screen bg-background" />}>
+                <ProductsPageContent
+                    products={productListItems}
+                    categories={categories}
+                    brandFilters={brandFilters}
+                    audienceFilters={audienceFilters}
+                />
+            </React.Suspense>
             <PreFooterCTA />
         </>
     );

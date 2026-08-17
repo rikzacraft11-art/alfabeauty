@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { BRANDS } from "@/lib/config";
 
 export function BrandsPanel() {
     return (
-        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[1fr_1fr_1fr_1fr_220px] gap-4 px-8 py-10 lg:px-12">
+        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[repeat(5,1fr)_180px] gap-3 px-6 py-8 lg:px-8">
             {BRANDS.map((brand) => (
                 <NavigationMenuLink key={brand.name} asChild>
                     <Link
@@ -20,7 +20,7 @@ export function BrandsPanel() {
                                 src={brand.logo}
                                 alt=""
                                 fill
-                                sizes="(max-width: 1400px) 25vw, 350px"
+                                sizes="(max-width: 1400px) 20vw, 250px"
                                 className="object-cover opacity-15 transition-opacity duration-300 group-hover:opacity-20"
                                 aria-hidden="true"
                             />
@@ -28,33 +28,33 @@ export function BrandsPanel() {
 
                         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
 
-                        <div className="relative z-10 p-7">
-                            <div className="mb-4 flex h-10 items-center">
+                        <div className="relative z-10 p-5">
+                            <div className="mb-3 flex h-9 items-center">
                                 <Image
                                     src={brand.logo}
                                     alt={`${brand.name} logo`}
-                                    width={120}
-                                    height={36}
-                                    className="h-8 w-auto object-contain brightness-200 invert opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+                                    width={110}
+                                    height={32}
+                                    className="h-7 w-auto object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105"
                                 />
                             </div>
 
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors duration-300 group-hover:text-white/60">
+                            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors duration-300 group-hover:text-white/60">
                                 {brand.origin} {brand.flag}
                             </p>
-                            <h4 className="mt-1.5 text-[1rem] font-bold leading-snug group-hover:underline underline-offset-4 decoration-white/30">
+                            <h4 className="mt-1 text-[0.9rem] font-bold leading-snug group-hover:underline underline-offset-4 decoration-white/30">
                                 {brand.name}
                             </h4>
-                            <p className="mt-2 text-[12px] leading-relaxed text-white/45 transition-colors duration-300 group-hover:text-white/60">
+                            <p className="mt-1.5 text-[11px] leading-relaxed text-white/45 transition-colors duration-300 group-hover:text-white/60 line-clamp-2">
                                 {brand.category}
                             </p>
                         </div>
 
-                        <div className="relative z-10 p-7 pt-0">
-                            <div className="mb-4 h-px bg-white/15" />
-                            <span className="inline-flex w-full items-center justify-between text-[11px] font-bold text-white/50 transition-colors duration-300 group-hover:text-white">
+                        <div className="relative z-10 p-5 pt-0">
+                            <div className="mb-3 h-px bg-white/15" />
+                            <span className="inline-flex w-full items-center justify-between text-[10px] font-bold text-white/50 transition-colors duration-300 group-hover:text-white">
                                 Explore Brand
-                                <ArrowRight className="h-3.5 w-3.5" />
+                                <ArrowRight className="h-3 w-3" />
                             </span>
                         </div>
 
