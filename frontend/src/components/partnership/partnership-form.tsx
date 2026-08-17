@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { CheckCircle, Loader2, MessageCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, Loader2, MessageCircle, AlertCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -405,17 +405,17 @@ export function PartnershipForm(): React.JSX.Element {
                 <button
                     type="button"
                     onClick={() => setShowOptional(!showOptional)}
-                    className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-brand-crimson hover:text-brand-dark-crimson transition-colors"
+                    className="group inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-crimson hover:text-brand-dark-crimson transition-colors"
                 >
-                    <span
-                        className={cn(
-                            "inline-block transition-transform duration-200",
-                            showOptional && "rotate-90"
-                        )}
-                    >
-                        ▶
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full border border-brand-crimson/30 bg-brand-crimson/5 transition-all duration-300 group-hover:border-brand-crimson group-hover:bg-brand-crimson/10">
+                        <ChevronRight
+                            className={cn(
+                                "h-3 w-3 text-brand-crimson transition-transform duration-300 ease-out",
+                                showOptional && "rotate-90"
+                            )}
+                        />
                     </span>
-                    Additional Details (optional — helps us prepare)
+                    <span>Additional Details (optional — helps us prepare)</span>
                 </button>
 
                 {showOptional && (

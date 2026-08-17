@@ -13,6 +13,9 @@ import {
   ArrowUpRight,
   Instagram,
   MessageCircle,
+  Package,
+  GraduationCap,
+  Handshake,
 } from "lucide-react";
 import {
   SITE_NAME,
@@ -38,24 +41,20 @@ import { FadeIn } from "@/components/motion/fade-in";
  *   - Cinematic card hover with image reveal
  * ───────────────────────────────────────────────────────────────────── */
 
-const PILLAR_IMAGES = [
-  "/images/brands/alfaparf-milano.webp",
-  "/images/brands/montibello.webp",
-  "/images/brands/gamma-plus.webp",
-] as const;
+const PILLAR_ICONS = [Package, GraduationCap, Handshake] as const;
 
 function WordmarkParallax() {
   const { ref, y } = useParallax({ speed: PARALLAX.subtle });
   return (
     <div ref={ref} className="hidden shrink-0 lg:block">
       <motion.div className="flex flex-col items-start gap-2" style={{ y }}>
-        <div className="flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3.5">
           <Image
             src="/images/logo/alfa-beauty-mark.svg"
             alt={SITE_NAME}
-            width={40}
-            height={40}
-            className="h-10 w-10 object-contain invert brightness-0 opacity-90"
+            width={48}
+            height={48}
+            className="transition-transform duration-500 ease-[var(--ease)] group-hover:scale-105"
           />
           <div className="flex flex-col">
             <span className="text-sm font-bold tracking-[0.25em] text-foreground uppercase">
@@ -65,8 +64,8 @@ function WordmarkParallax() {
               Cosmetica
             </span>
           </div>
-        </div>
-        <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-dark/40">
+        </Link>
+        <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground/60">
           Professional Distribution ®
         </span>
       </motion.div>
@@ -163,7 +162,7 @@ export function MegaFooter(): React.JSX.Element {
           {/* Brand wordmark (Yucca large logo equivalent) — real parallax */}
           <WordmarkParallax />
 
-          {/* 3 Pillar cards (Yucca: Food Service / Food Processing / Agriculture) */}
+          {/* 3 Pillar cards — clean architectural layout without cropped images */}
           <motion.div
             className="grid w-full flex-1 grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4"
             variants={cardStagger}
@@ -171,57 +170,58 @@ export function MegaFooter(): React.JSX.Element {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
           >
-            {PILLARS.map((pillar, idx) => (
-              <motion.div
-                key={pillar.label}
-                variants={cardFadeScale}
-              >
-                <Link
-                  href={pillar.href}
-                  className="group relative flex h-full min-h-[100px] sm:min-h-[200px] flex-col justify-between overflow-hidden border border-charcoal/15 bg-surface-elevated/50 p-4 sm:p-6 transition-[box-shadow,border-color] duration-500 ease-[var(--ease)] hover:border-charcoal/25 hover:shadow-sm"
+            {PILLARS.map((pillar, idx) => {
+              const Icon = PILLAR_ICONS[idx] ?? Package;
+              return (
+                <motion.div
+                  key={pillar.label}
+                  variants={cardFadeScale}
                 >
-                  {/* Background product image — reveals on hover */}
-                  <Image
-                    src={PILLAR_IMAGES[idx] ?? PILLAR_IMAGES[0]}
-                    alt=""
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover opacity-0 transition-opacity duration-[800ms] ease-[var(--ease)] group-hover:opacity-[0.1]"
-                    aria-hidden="true"
-                  />
+                  <Link
+                    href={pillar.href}
+                    className="group relative flex h-full min-h-[160px] sm:min-h-[220px] flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated/70 p-5 sm:p-7 transition-all duration-500 ease-[var(--ease)] hover:border-brand-crimson/30 hover:bg-white hover:shadow-[0_12px_28px_rgba(0,0,0,0.05)]"
+                  >
+                    {/* Ambient subtle radial glow on hover */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(164,22,26,0.04)_0%,transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
 
-                  {/* Subtle gradient overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-surface/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="relative z-10">
+                      {/* Top row: Numbered index + Micro icon badge */}
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-[11px] font-bold tabular-nums tracking-[0.25em] text-brand-crimson/70 select-none">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-border-warm/60 bg-surface text-foreground/70 transition-all duration-500 group-hover:border-brand-crimson/40 group-hover:bg-brand-crimson/5 group-hover:text-brand-crimson">
+                          <Icon className="h-4 w-4" />
+                        </div>
+                      </div>
 
-                  <div className="relative z-10">
-                    {/* Numbered index */}
-                    <span className="mb-2 block text-[10px] font-bold tabular-nums tracking-[0.3em] text-brand-crimson/50">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="text-base font-bold text-foreground">
-                      {pillar.label}
-                    </h3>
-                    <p className="mt-1.5 sm:mt-3 text-xs sm:text-sm leading-relaxed text-text-muted">
-                      {pillar.description}
-                    </p>
-                  </div>
+                      <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors duration-300">
+                        {pillar.label}
+                      </h3>
+                      <p className="mt-2 text-xs sm:text-sm leading-relaxed text-charcoal/80">
+                        {pillar.description}
+                      </p>
+                    </div>
 
-                  {/* Animated divider in card */}
-                  <div className="relative z-10 mt-4">
-                    <div className="h-px w-0 bg-charcoal/15 transition-[width] duration-[800ms] ease-[var(--ease)] group-hover:w-full" />
-                  </div>
+                    {/* Animated hairline divider */}
+                    <div className="relative z-10 mt-5">
+                      <div className="h-px w-full bg-border-warm/60 transition-colors duration-500 group-hover:bg-brand-crimson/20" />
+                    </div>
 
-                  {/* Yucca hover-reveal "Explore" CTA with animated underline */}
-                  <div className="relative z-10 mt-3 flex items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] text-brand-crimson sm:translate-y-2 sm:opacity-0 transition-[transform,opacity] duration-300 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
-                    <span className="link-animated">Explore</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
+                    {/* Explore CTA with smooth arrow slide */}
+                    <div className="relative z-10 mt-4 flex items-center justify-between">
+                      <span className="text-xs font-bold uppercase tracking-[0.15em] text-brand-crimson transition-transform duration-300">
+                        Explore
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 text-brand-crimson transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
 
-                  {/* Hover accent line at bottom */}
-                  <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-[800ms] ease-[var(--ease)] group-hover:w-full" />
-                </Link>
-              </motion.div>
-            ))}
+                    {/* Hover accent line at bottom */}
+                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-[700ms] ease-[var(--ease)] group-hover:w-full" />
+                  </Link>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
 

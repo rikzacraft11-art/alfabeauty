@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
@@ -12,6 +13,23 @@ import { LineGrow } from "@/hooks/use-animations";
 import { BRANDS } from "@/lib/config";
 import { cardStagger, cardFadeScale } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+const getBrandLogoClass = (brandName: string) => {
+    switch (brandName) {
+        case "Alfaparf Milano Professional":
+            return "h-16 sm:h-[72px] w-auto max-w-[230px]";
+        case "CORE":
+            return "h-13 sm:h-15 w-auto max-w-[180px]";
+        case "Farmavita":
+            return "h-9 sm:h-11 w-auto max-w-[210px]";
+        case "Montibello":
+            return "h-9 sm:h-11 w-auto max-w-[200px]";
+        case "Gamma+ Professional":
+            return "h-10 sm:h-12 w-auto max-w-[200px]";
+        default:
+            return "max-h-16 w-auto max-w-[200px]";
+    }
+};
 
 /* ─────────────────────────────────────────────────────────────────────
  * BrandCarousel V8 — Premium scroll engine & interaction depth.
@@ -102,7 +120,7 @@ export function BrandCarousel(): React.JSX.Element {
     }, [emblaApi]);
 
     return (
-        <section id="brands" className="bg-surface py-12 sm:py-16 lg:py-32">
+        <section id="brands" className="bg-surface py-16 sm:py-20 lg:py-28">
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 {/* Header row */}
                 <div className="flex items-end justify-between gap-8">
@@ -159,59 +177,73 @@ export function BrandCarousel(): React.JSX.Element {
                 </div>
             </div>
 
-            {/* Carousel viewport with edge fade mask + tactile drag */}
-            <div className={cn(
-                "mt-10 overflow-hidden cursor-grab active:cursor-grabbing fade-mask-x-subtle cursor-grab-active transition-transform duration-300",
-                isDragging && "scale-[0.995]"
-            )} ref={emblaRef}>
-                <motion.div
-                    className="flex"
-                    variants={cardStagger}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.1 }}
+            {/* Carousel container */}
+            <div className="mx-auto mt-10 max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                {/* Carousel viewport with edge fade mask + tactile drag */}
+                <div
+                    className={cn(
+                        "overflow-hidden cursor-grab active:cursor-grabbing fade-mask-x-subtle cursor-grab-active transition-transform duration-300",
+                        isDragging && "scale-[0.995]"
+                    )}
+                    ref={emblaRef}
                 >
-                    {BRANDS.map((brand) => (
-                        <div
-                            key={brand.name}
-                            className="min-w-0 shrink-0 basis-[85%] pl-6 sm:basis-[60%] md:basis-[45%] lg:basis-[30%] lg:first:pl-[max(1.5rem,calc((100vw-1400px)/2+1.5rem))]"
-                        >
-                            <motion.div
-                                variants={cardFadeScale}
-                                className="group relative flex h-full min-h-[300px] sm:min-h-[360px] lg:min-h-[420px] flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated p-8 transition-[box-shadow,border-color] duration-500 ease-[var(--ease)] hover:border-border-warm hover:shadow-sm lg:p-10"
+                    <motion.div
+                        className="flex items-stretch -ml-6"
+                        variants={cardStagger}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.1 }}
+                    >
+                        {BRANDS.map((brand) => (
+                            <div
+                                key={brand.name}
+                                className="min-w-0 shrink-0 basis-[85%] pl-6 sm:basis-[55%] md:basis-[45%] lg:basis-[33.333%] flex flex-col"
                             >
-                                    <div className="relative z-10">
-                                        <div className="mb-8 flex h-24 w-full items-center justify-center overflow-hidden px-2">
-                                            <Image
-                                                src={brand.logo}
-                                                alt={`${brand.name} logo`}
-                                                width={240}
-                                                height={80}
-                                                sizes="240px"
-                                                className="max-h-16 w-auto max-w-[200px] object-contain opacity-85 transition-[opacity,transform] duration-[800ms] ease-[var(--ease)] group-hover:opacity-100 group-hover:scale-105"
-                                            />
+                                <motion.div
+                                    variants={cardFadeScale}
+                                    className="h-full flex-1"
+                                >
+                                    <Link
+                                        href={`/products?brand=${brand.name.toLowerCase().replace(/\s+/g, "-")}`}
+                                        className="group relative flex h-full min-h-[340px] sm:min-h-[380px] lg:min-h-[440px] flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated p-8 transition-all duration-500 ease-[var(--ease)] hover:border-border-warm hover:bg-white hover:shadow-[0_12px_32px_rgba(0,0,0,0.05)] lg:p-10"
+                                    >
+                                        <div className="relative z-10">
+                                            <div className="mb-8 flex h-24 w-full items-center justify-center overflow-hidden px-2">
+                                                <Image
+                                                    src={brand.logo}
+                                                    alt={`${brand.name} logo`}
+                                                    width={240}
+                                                    height={80}
+                                                    sizes="240px"
+                                                    className={cn(
+                                                        "object-contain opacity-85 transition-[opacity,transform] duration-[800ms] ease-[var(--ease)] group-hover:opacity-100 group-hover:scale-105",
+                                                        getBrandLogoClass(brand.name)
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <p className="text-xs font-bold uppercase tracking-[0.15em] text-brand-crimson">
+                                                {brand.flag} {brand.origin}
+                                            </p>
+
+                                            <h3 className="mt-2 text-xl font-bold tracking-tight text-foreground transition-colors duration-300">
+                                                {brand.name}
+                                            </h3>
+
+                                            <p className="mt-3 text-sm leading-7 text-charcoal">
+                                                {brand.description}
+                                            </p>
                                         </div>
 
-                                        <p className="text-xs font-bold uppercase tracking-[0.15em] text-brand-crimson">
-                                            {brand.flag} {brand.origin}
-                                        </p>
-
-                                        <h3 className="mt-2 text-xl font-bold tracking-tight">
-                                            {brand.name}
-                                        </h3>
-
-                                        <p className="mt-3 text-sm leading-7 text-charcoal">
-                                            {brand.description}
-                                        </p>
-                                    </div>
-
-                                    {/* Hover accent line — grows from left with delay */}
-                                    <div className="relative z-10 mt-8 h-0.5 w-0 bg-brand-crimson transition-[width] duration-[900ms] ease-[var(--ease)] group-hover:w-full" />
+                                        {/* Hover accent line — grows from left with delay */}
+                                        <div className="relative z-10 mt-8 h-0.5 w-0 bg-brand-crimson transition-[width] duration-[900ms] ease-[var(--ease)] group-hover:w-full" />
+                                    </Link>
                                 </motion.div>
                             </div>
                         ))}
                     </motion.div>
                 </div>
+            </div>
 
             {/* Progress bar + pagination */}
             <div className="mx-auto mt-8 max-w-[1400px] px-6 sm:px-8 lg:px-12">

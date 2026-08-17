@@ -3,13 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { FadeIn } from "@/components/motion/fade-in";
 import { NAV_LINKS, ESTABLISHED_YEAR } from "@/lib/config";
-import { getHeroTiming, cinematicEase } from "@/lib/motion";
+import { getHeroTiming } from "@/lib/motion";
 
 /* ─────────────────────────────────────────────────────────────────────
  * HeroSection V8 — Cinematic hero with enhanced depth & atmosphere.
@@ -131,15 +130,6 @@ export function HeroSection(): React.JSX.Element {
                     </div>
                 </div>
             </div>
-
-            {/* Bottom gradient bleed into next section */}
-            <motion.div
-                className="absolute bottom-0 left-0 right-0 h-32 sm:h-56 bg-gradient-to-t from-background via-background/40 to-transparent"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: HERO_TIMING.eyebrow + 0.2, duration: 1.4, ease: cinematicEase }}
-            />
-
         </section>
     );
 }

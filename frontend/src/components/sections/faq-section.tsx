@@ -44,21 +44,39 @@ const DEFAULT_FAQ: FAQItem[] = [
     },
 ];
 
-function FAQAccordionItem({ item, index, isOpen, onToggle }: {
+function FAQAccordionItem({
+    item,
+    index,
+    isOpen,
+    onToggle,
+    onHover,
+}: {
     item: FAQItem;
     index: number;
     isOpen: boolean;
     onToggle: () => void;
+    onHover?: () => void;
 }) {
     return (
-        <FadeIn delay={index * 0.08} blur>
-            <div className="border-b border-border-warm/60">
-                <button
-                    onClick={onToggle}
-                    className="group flex w-full items-center justify-between gap-4 py-6 text-left transition-colors duration-300"
+        <FadeIn delay={index * 0.06} blur>
+            <div
+                className="group border-b border-border-warm/60 cursor-pointer"
+                onMouseEnter={onHover}
+                onClick={onToggle}
+            >
+                <div
+                    className="flex w-full items-center justify-between gap-4 py-6 text-left transition-colors duration-300"
+                    role="button"
+                    tabIndex={0}
                     aria-expanded={isOpen}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            onToggle();
+                        }
+                    }}
                 >
-                    <span className="text-sm font-semibold tracking-tight sm:text-base">
+                    <span className="text-sm font-semibold tracking-tight sm:text-base text-foreground">
                         {item.question}
                     </span>
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-border-warm/60 transition-all duration-500 ease-[var(--ease)] group-hover:border-foreground/30 group-hover:bg-muted/30">
@@ -68,19 +86,25 @@ function FAQAccordionItem({ item, index, isOpen, onToggle }: {
                             <Plus className="h-3.5 w-3.5" />
                         )}
                     </span>
-                </button>
+                </div>
                 <AnimatePresence initial={false}>
                     {isOpen && (
                         <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.4, ease: smoothEase }}
+                            initial={{ height: 0, opacity: 0, y: -6 }}
+                            animate={{ height: "auto", opacity: 1, y: 0 }}
+                            exit={{ height: 0, opacity: 0, y: -6 }}
+                            transition={{
+                                height: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+                                opacity: { duration: 0.38, ease: [0.16, 1, 0.3, 1], delay: 0.04 },
+                                y: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                            }}
                             className="overflow-hidden"
                         >
-                            <p className="pb-6 text-sm leading-relaxed text-text-muted pr-12">
-                                {item.answer}
-                            </p>
+                            <div className="pb-6 pr-6 sm:pr-12">
+                                <p className="text-sm leading-relaxed text-charcoal/90">
+                                    {item.answer}
+                                </p>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -103,7 +127,7 @@ export function FAQSection({
     const [openIndex, setOpenIndex] = React.useState<number | null>(null);
 
     return (
-        <section className="bg-background py-12 sm:py-16 lg:py-32">
+        <section id="faq" className="bg-background py-16 sm:py-20 lg:py-32">
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-16">
                     {/* Left — heading */}
@@ -135,10 +159,10 @@ export function FAQSection({
                         </FadeIn>
                     </div>
 
-                    {/* Right — accordion */}
+                    {/* Right — accordion with hover slow reveal */}
                     <div className="lg:col-span-8">
                         <LineGrow className="h-px bg-border-warm mb-0 lg:hidden" />
-                        <div>
+                        <div className="space-y-1">
                             {items.map((item, index) => (
                                 <FAQAccordionItem
                                     key={item.question}
@@ -146,6 +170,7 @@ export function FAQSection({
                                     index={index}
                                     isOpen={openIndex === index}
                                     onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+                                    onHover={() => setOpenIndex(index)}
                                 />
                             ))}
                         </div>

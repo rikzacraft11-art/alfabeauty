@@ -32,57 +32,57 @@ interface FeatureSplitProps {
 
 export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.Element {
     return (
-        <section id="education" className="relative bg-background py-0">
+        <section id="education" className="relative bg-surface/30 py-16 sm:py-20 lg:py-28 border-t border-border-warm/50">
             <div className="absolute inset-0 bg-gradient-to-br from-surface/50 via-transparent to-surface/30 pointer-events-none" />
 
-            <div className={cn(
-                "relative mx-auto grid max-w-[1400px] grid-cols-1 gap-0 lg:grid-cols-2",
-                reverse && "lg:[direction:rtl] [&>*]:lg:[direction:ltr]"
-            )}>
-                {/* Image side — horizontal clipPath + parallax + scale + ken-burns + grain */}
-                <div className="relative hidden overflow-hidden shadow-warm-md lg:block lg:min-h-[650px]">
-                    <motion.div
-                        className="absolute inset-0"
-                        initial={{ clipPath: reverse ? "inset(0% 100% 0% 0%)" : "inset(0% 0% 0% 100%)" }}
-                        whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 1.5, ease: cinematicEase }}
-                    >
-                        <div
-                            className="relative h-full w-full bg-surface/50 border border-border-warm/20 flex items-center justify-center"
-                            style={{ transform: 'scale(1.08)' }}
+            <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className={cn(
+                    "relative grid grid-cols-1 overflow-hidden border border-border-warm/60 bg-surface-elevated shadow-sm lg:grid-cols-2",
+                    reverse && "lg:[direction:rtl] [&>*]:lg:[direction:ltr]"
+                )}>
+                    {/* Image side — horizontal clipPath + parallax + scale + ken-burns + grain */}
+                    <div className="relative hidden overflow-hidden lg:block lg:min-h-[580px]">
+                        <motion.div
+                            className="absolute inset-0"
+                            initial={{ clipPath: reverse ? "inset(0% 100% 0% 0%)" : "inset(0% 0% 0% 100%)" }}
+                            whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                            viewport={{ once: true, amount: 0.2 }}
+                            transition={{ duration: 1.5, ease: cinematicEase }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-surface to-background opacity-90" />
-                            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(164,22,26,0.06)_0%,transparent_60%)]" />
-                            <div className="relative flex flex-col items-center justify-center z-10 opacity-30">
-                                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-foreground mb-4">Space for Image</span>
-                                <div className="h-[1px] w-16 bg-foreground" />
+                            <div
+                                className="relative h-full w-full bg-surface/80 border-r border-border-warm/30 flex items-center justify-center"
+                                style={{ transform: 'scale(1.04)' }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-surface via-surface/60 to-background opacity-90" />
+                                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(164,22,26,0.06)_0%,transparent_60%)]" />
+                                <div className="relative flex flex-col items-center justify-center z-10 opacity-40">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-foreground mb-4">Masterclass & Academy</span>
+                                    <div className="h-[1px] w-16 bg-foreground" />
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                            <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/10 via-transparent to-transparent pointer-events-none" />
-                        </div>
-                    </motion.div>
+                        </motion.div>
 
-                    {/* Glass badge with enhanced blur */}
-                    <motion.div
-                        className="absolute bottom-8 left-8 z-10 glass-strong px-5 py-3"
-                        variants={glassBadgeReveal}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                    >
-                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white">
-                            Education & Training
-                        </p>
-                    </motion.div>
-                </div>
+                        {/* Glass badge with enhanced blur */}
+                        <motion.div
+                            className="absolute bottom-8 left-8 z-10 glass-strong px-5 py-3"
+                            variants={glassBadgeReveal}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
+                            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+                                Education & Training
+                            </p>
+                        </motion.div>
+                    </div>
 
-                {/* Mobile accent bar */}
-                <div className="mt-2 h-1 w-16 bg-brand-crimson lg:hidden" />
+                    {/* Mobile accent bar */}
+                    <div className="h-1 w-full bg-brand-crimson lg:hidden" />
 
-                {/* Text side — cascading reveal with blur */}
-                <div className="flex items-center bg-surface p-6 sm:p-10 lg:p-16 xl:p-24">
-                    <div className="w-full">
+                    {/* Text side — cascading reveal with blur */}
+                    <div className="flex items-center bg-surface p-6 sm:p-10 lg:p-14 xl:p-20">
+                        <div className="w-full">
                         <FadeIn direction="right" delay={0.2} blur scale>
                             <p className="eyebrow">Our Role</p>
                         </FadeIn>
@@ -158,6 +158,7 @@ export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.
                     </div>
                 </div>
             </div>
-        </section>
-    );
+        </div>
+    </section>
+);
 }

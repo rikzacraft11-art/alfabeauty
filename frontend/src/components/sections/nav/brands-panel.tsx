@@ -5,87 +5,81 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { BRANDS } from "@/lib/config";
+import { cn } from "@/lib/utils";
 
 export function BrandsPanel() {
     return (
-        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[repeat(5,1fr)_180px] gap-3 px-6 py-8 lg:px-8">
+        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[repeat(5,1fr)_220px] gap-3.5 px-6 py-8 lg:px-8">
+            {/* 5 Brand Cards in a single horizontal row */}
             {BRANDS.map((brand) => (
                 <NavigationMenuLink key={brand.name} asChild>
                     <Link
                         href={`/products?brand=${brand.name.toLowerCase().replace(/\s+/g, "-")}`}
-                        className="group relative flex min-h-[260px] flex-col justify-between overflow-hidden bg-charcoal text-white"
+                        className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden bg-surface-elevated/75 border border-border-warm/60 p-5 transition-all duration-300 hover:bg-white hover:border-border-warm hover:shadow-[0_10px_28px_rgba(0,0,0,0.04)] text-foreground"
                     >
-                        <div className="absolute inset-0">
-                            <Image
-                                src={brand.logo}
-                                alt=""
-                                fill
-                                sizes="(max-width: 1400px) 20vw, 250px"
-                                className="object-cover opacity-15 transition-opacity duration-300 group-hover:opacity-20"
-                                aria-hidden="true"
-                            />
-                        </div>
-
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
-
-                        <div className="relative z-10 p-5">
-                            <div className="mb-3 flex h-9 items-center">
+                        <div>
+                            {/* Brand Logo Container */}
+                            <div className="mb-4 flex h-10 items-center justify-start">
                                 <Image
                                     src={brand.logo}
                                     alt={`${brand.name} logo`}
-                                    width={110}
-                                    height={32}
-                                    className="h-7 w-auto object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105"
+                                    width={140}
+                                    height={40}
+                                    className={cn(
+                                        "w-auto object-contain transition-all duration-300 group-hover:scale-105",
+                                        brand.name === "CORE" ? "h-8 sm:h-9" : "h-6 sm:h-7"
+                                    )}
                                 />
                             </div>
 
-                            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors duration-300 group-hover:text-white/60">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60 transition-colors duration-300 group-hover:text-brand-crimson">
                                 {brand.origin} {brand.flag}
                             </p>
-                            <h4 className="mt-1 text-[0.9rem] font-bold leading-snug group-hover:underline underline-offset-4 decoration-white/30">
+                            <h4 className="mt-1 text-[15px] font-bold leading-snug tracking-tight text-foreground transition-colors duration-300">
                                 {brand.name}
                             </h4>
-                            <p className="mt-1.5 text-[11px] leading-relaxed text-white/45 transition-colors duration-300 group-hover:text-white/60 line-clamp-2">
+                            <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground/75 transition-colors duration-300 group-hover:text-foreground/85 line-clamp-3">
                                 {brand.category}
                             </p>
                         </div>
 
-                        <div className="relative z-10 p-5 pt-0">
-                            <div className="mb-3 h-px bg-white/15" />
-                            <span className="inline-flex w-full items-center justify-between text-[10px] font-bold text-white/50 transition-colors duration-300 group-hover:text-white">
-                                Explore Brand
-                                <ArrowRight className="h-3 w-3" />
+                        <div className="pt-4">
+                            <div className="mb-3.5 h-px bg-border-warm/40" />
+                            <span className="inline-flex w-full items-center justify-between text-[11px] font-semibold text-muted-foreground/70 transition-colors duration-300 group-hover:text-foreground">
+                                <span>Explore Brand</span>
+                                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 text-muted-foreground/50 group-hover:text-brand-crimson" />
                             </span>
                         </div>
 
-                        <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-500 group-hover:w-full" />
+                        {/* Red accent hover line */}
+                        <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-500 ease-out group-hover:w-full" />
                     </Link>
                 </NavigationMenuLink>
             ))}
 
-            {/* CTA column */}
-            <div className="flex flex-col justify-between border-l border-border-warm/30 pl-4">
+            {/* 6th Column: Vertical Service CTA Column */}
+            <div className="flex flex-col justify-between border-l border-border-warm/40 pl-6 py-2">
                 <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
-                        Looking for Something?
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
+                        Looking for something?
                     </p>
-                    <h4 className="mt-2 text-[15px] font-bold leading-snug">
+                    <h4 className="mt-2 text-[16px] font-bold leading-snug text-foreground">
                         Need Help Choosing?
                     </h4>
-                    <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground/60">
-                        Our team can help you find the right brand and products for your salon.
+                    <p className="mt-2.5 text-[12px] leading-relaxed text-muted-foreground/75">
+                        Our curation team can help source and recommend exclusive lineups for your salon needs.
                     </p>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-auto pt-6">
                     <div className="mb-4 h-px bg-border-warm/40" />
                     <NavigationMenuLink asChild>
                         <Link
                             href="/contact"
-                            className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/60 transition-colors duration-300 hover:text-foreground"
+                            className="group/link flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 hover:text-foreground"
                         >
-                            Contact Us
-                            <ArrowRight className="h-3.5 w-3.5" />
+                            <span>Contact Us</span>
+                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:translate-x-1 text-muted-foreground/60 group-hover/link:text-brand-crimson" />
                         </Link>
                     </NavigationMenuLink>
                 </div>
