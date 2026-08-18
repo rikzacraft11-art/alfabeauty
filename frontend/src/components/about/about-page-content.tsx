@@ -390,7 +390,7 @@ export function AboutPageContent(): React.JSX.Element {
                                         alt={`${brand.name} logo`}
                                         width={280}
                                         height={80}
-                                        className="h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                                        className="h-16 w-auto object-contain"
                                     />
                                 </div>
 

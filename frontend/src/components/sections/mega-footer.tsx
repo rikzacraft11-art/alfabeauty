@@ -52,9 +52,9 @@ function WordmarkParallax() {
           <Image
             src="/images/logo/alfa-beauty-mark.svg"
             alt={SITE_NAME}
-            width={48}
-            height={48}
-            className="transition-transform duration-500 ease-[var(--ease)] group-hover:scale-105"
+            width={38}
+            height={50}
+            className="h-10 w-auto object-contain shrink-0"
           />
           <div className="flex flex-col">
             <span className="text-sm font-bold tracking-[0.25em] text-foreground uppercase">

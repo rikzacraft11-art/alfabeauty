@@ -26,7 +26,7 @@ export function BrandsPanel() {
                                     width={140}
                                     height={40}
                                     className={cn(
-                                        "w-auto object-contain transition-all duration-300 group-hover:scale-105",
+                                        "w-auto object-contain",
                                         brand.name === "CORE" ? "h-8 sm:h-9" : "h-6 sm:h-7"
                                     )}
                                 />

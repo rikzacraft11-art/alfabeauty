@@ -216,7 +216,7 @@ export function BrandCarousel(): React.JSX.Element {
                                                     height={80}
                                                     sizes="240px"
                                                     className={cn(
-                                                        "object-contain opacity-85 transition-[opacity,transform] duration-[800ms] ease-[var(--ease)] group-hover:opacity-100 group-hover:scale-105",
+                                                        "object-contain opacity-85 transition-opacity duration-[500ms] ease-[var(--ease)] group-hover:opacity-100",
                                                         getBrandLogoClass(brand.name)
                                                     )}
                                                 />

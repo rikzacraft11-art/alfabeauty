@@ -33,6 +33,8 @@ export interface Dictionary {
     quickLinks: string;
     categoryTitle: string;
     brandTitle: string;
+    creditApplication: string;
+    partnerLogin: string;
     viewAllProducts: string;
     viewAllBrands: string;
   };
