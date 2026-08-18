@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/sections/site-header";
 
 import { MegaFooter } from "@/components/sections/mega-footer";
 import { LenisProvider } from "@/components/providers/lenis-provider";
+import { LanguageProvider } from "@/components/providers/language-provider";
 import { Preloader } from "@/components/providers/preloader";
 import { PageTransition } from "@/components/providers/page-transition";
 import { CookieConsent } from "@/components/sections/cookie-consent";
@@ -108,23 +109,25 @@ export default async function RootLayout({
       </head>
       <body className={montserrat.variable}>
         <LenisProvider>
-          <Preloader>
-            {/* Skip to main content — keyboard accessibility */}
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-foreground focus:px-6 focus:py-3 focus:text-[11px] focus:font-bold focus:uppercase focus:tracking-[0.2em] focus:text-white"
-            >
-              Skip to content
-            </a>
-            <SiteHeader />
-            <div className="relative z-10 bg-background shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
-              <PageTransition>
-                {children}
-              </PageTransition>
-            </div>
-            <MegaFooter />
-            <CookieConsent />
-          </Preloader>
+          <LanguageProvider>
+            <Preloader>
+              {/* Skip to main content — keyboard accessibility */}
+              <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-foreground focus:px-6 focus:py-3 focus:text-[11px] focus:font-bold focus:uppercase focus:tracking-[0.2em] focus:text-white"
+              >
+                Skip to content
+              </a>
+              <SiteHeader />
+              <div className="relative z-10 bg-background shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+                <PageTransition>
+                  {children}
+                </PageTransition>
+              </div>
+              <MegaFooter />
+              <CookieConsent />
+            </Preloader>
+          </LanguageProvider>
         </LenisProvider>
         {gaId && <GoogleAnalytics gaId={gaId} />}
         {/* Microsoft Clarity — deferred to after page load */}
