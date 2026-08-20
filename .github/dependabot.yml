@@ -2,25 +2,21 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: /frontend
+    target-branch: master
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "01:00"
       timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
-    groups:
-      production-minor-and-patch:
-        dependency-type: production
-        update-types: [minor, patch]
-      development-minor-and-patch:
-        dependency-type: development
-        update-types: [minor, patch]
+    open-pull-requests-limit: 0
 
   - package-ecosystem: github-actions
     directory: /
+    target-branch: master
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "01:30"
       timezone: Asia/Jakarta
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
+
