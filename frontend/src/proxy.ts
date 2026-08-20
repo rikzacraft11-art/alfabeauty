@@ -1,12 +1,7 @@
 /* ─────────────────────────────────────────────────────────────────────
- * Next.js Middleware — Nonce-Based Content Security Policy
+ * Next.js Proxy — Nonce-Based Content Security Policy
  *
  * Referenced in paket-a.md §15 (Security headers baseline).
- *
- * Note: Next.js 16 deprecates the 'middleware' convention in favour
- * of 'proxy'. The migration is deferred until the proxy API
- * stabilises (currently canary-only as of v16.1.x). This file
- * continues to work and will be migrated in a future pass.
  *
  * Nonce strategy:
  *   1. Generate a per-request nonce via crypto.randomUUID()
@@ -21,7 +16,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
   const nonce = crypto.randomUUID();
 
   const csp = [

@@ -67,7 +67,8 @@ export function AnimatedButton({
 
   if (href) {
     // Exclude any HTML anchor props that conflict with Link
-    const { role: _role, ...linkSafeProps } = props as Record<string, unknown>;
+    const linkSafeProps = { ...props } as Record<string, unknown>;
+    delete linkSafeProps.role;
     return (
       <Link
         href={href}

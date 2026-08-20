@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import * as React from "react";
@@ -9,7 +8,7 @@ import { TextReveal } from "@/components/motion/text-reveal";
 import { LineGrow } from "@/hooks/use-animations";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { NAV_LINKS } from "@/lib/config";
-import { cinematicEase, PARALLAX, listStagger, listItemFadeIn, glassBadgeReveal } from "@/lib/motion";
+import { cinematicEase, listStagger, listItemFadeIn, glassBadgeReveal } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /* ─────────────────────────────────────────────────────────────────────

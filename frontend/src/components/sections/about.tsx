@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { FadeIn } from "@/components/motion/fade-in";
@@ -11,7 +10,6 @@ import { AnimatedButton } from "@/components/ui/animated-button";
 import { SITE_NAME, YEARS_OF_EXPERIENCE, NAV_LINKS } from "@/lib/config";
 import {
     cinematicEase,
-    PARALLAX,
     glassBadgeReveal,
     counterStagger,
     counterFadeUp,

@@ -6,7 +6,6 @@ import { Plus, Minus } from "lucide-react";
 import { FadeIn } from "@/components/motion/fade-in";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { LineGrow } from "@/hooks/use-animations";
-import { smoothEase } from "@/lib/motion";
 
 /* ─────────────────────────────────────────────────────────────────────
  * FAQSection — Inline FAQ accordion for every page.
@@ -60,21 +59,14 @@ function FAQAccordionItem({
     return (
         <FadeIn delay={index * 0.06} blur>
             <div
-                className="group border-b border-border-warm/60 cursor-pointer"
+                className="group border-b border-border-warm/60"
                 onMouseEnter={onHover}
-                onClick={onToggle}
             >
-                <div
+                <button
+                    type="button"
                     className="flex w-full items-center justify-between gap-4 py-6 text-left transition-colors duration-300"
-                    role="button"
-                    tabIndex={0}
                     aria-expanded={isOpen}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            onToggle();
-                        }
-                    }}
+                    onClick={onToggle}
                 >
                     <span className="text-sm font-semibold tracking-tight sm:text-base text-foreground">
                         {item.question}
@@ -86,7 +78,7 @@ function FAQAccordionItem({
                             <Plus className="h-3.5 w-3.5" />
                         )}
                     </span>
-                </div>
+                </button>
                 <AnimatePresence initial={false}>
                     {isOpen && (
                         <motion.div

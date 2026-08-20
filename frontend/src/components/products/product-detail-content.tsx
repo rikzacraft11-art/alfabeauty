@@ -12,10 +12,6 @@ import {
     X,
     ChevronLeft,
     ChevronRight,
-    Sparkles,
-    ShieldCheck,
-    FlaskConical,
-    Sparkle
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -23,7 +19,6 @@ import { ProductWhatsAppCTA } from "./product-whatsapp-cta";
 import {
     type Product,
     getProductsByBrand,
-    getRelatedProducts,
     products as allProducts
 } from "./product-data";
 import { cn } from "@/lib/utils";
@@ -116,9 +111,11 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                     {/* LEFT: Interactive Gallery Viewer */}
                     <div className="flex flex-col gap-4">
                         {/* Main Stage Display */}
-                        <div
+                        <button
+                            type="button"
                             className="group relative aspect-square w-full cursor-zoom-in overflow-hidden border border-border-warm/60 bg-surface-elevated/60 transition-all duration-300 hover:border-border-warm"
                             onClick={() => setLightboxIndex(activeImageIndex)}
+                            aria-label={`Open ${activeImage?.alt ?? product.name} in fullscreen`}
                         >
                             {activeImage ? (
                                 <Image
@@ -147,7 +144,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                                     {activeImage.type}
                                 </div>
                             )}
-                        </div>
+                        </button>
 
                         {/* Thumbnail Strip */}
                         {allImages.length > 1 && (
@@ -466,10 +463,12 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                             {product.infoSlides.map((slide, i) => {
                                 const globalIndex = allImages.findIndex((img) => img.src === slide.src);
                                 return (
-                                    <div
+                                    <button
+                                        type="button"
                                         key={i}
                                         onClick={() => setLightboxIndex(globalIndex >= 0 ? globalIndex : 0)}
                                         className="group relative aspect-[3/4] cursor-pointer overflow-hidden border border-border-warm/60 bg-background shadow-sm transition-all duration-300 hover:border-brand-crimson hover:shadow-md"
+                                        aria-label={`Open ${product.name} feature ${i + 1} in fullscreen`}
                                     >
                                         <Image
                                             src={slide.src}
@@ -487,7 +486,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                                                 Tap to view detail →
                                             </p>
                                         </div>
-                                    </div>
+                                    </button>
                                 );
                             })}
                         </div>
@@ -638,13 +637,18 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
             {lightboxIndex !== null && allImages[lightboxIndex] && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-md animate-in fade-in duration-200"
-                    onClick={() => setLightboxIndex(null)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={`${product.name} image viewer`}
                 >
+                    <button
+                        type="button"
+                        className="absolute inset-0 cursor-default"
+                        onClick={() => setLightboxIndex(null)}
+                        aria-label="Close fullscreen image"
+                    />
                     {/* Top bar */}
-                    <div
-                        className="absolute left-6 right-6 top-6 flex items-center justify-between text-white z-10"
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className="absolute left-6 right-6 top-6 z-10 flex items-center justify-between text-white">
                         <div>
                             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
                                 {allImages[lightboxIndex]?.type} · {product.name}
@@ -692,10 +696,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                     )}
 
                     {/* Image display container */}
-                    <div
-                        className="relative h-[80vh] w-[90vw] max-w-5xl"
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className="relative z-[1] h-[80vh] w-[90vw] max-w-5xl">
                         <Image
                             src={allImages[lightboxIndex]?.src ?? ""}
                             alt={allImages[lightboxIndex]?.alt ?? ""}

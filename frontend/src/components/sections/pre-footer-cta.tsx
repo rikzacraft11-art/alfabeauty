@@ -9,11 +9,6 @@ import { AnimatedButton } from "@/components/ui/animated-button";
 import { Button } from "@/components/ui/button";
 import { staggerMedium, fadeInUp } from "@/lib/motion";
 
-const MARQUEE_WORDS = [
-    "Professional", "Innovation", "Excellence", "Partnership",
-    "Education", "Quality", "Trust", "Growth",
-];
-
 /**
  * PreFooterCTA V2 — Dramatic full-width CTA banner with rolling marquee.
  *

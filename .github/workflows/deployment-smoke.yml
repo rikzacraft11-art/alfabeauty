@@ -1,0 +1,82 @@
+name: Deployment Smoke Test
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: HTTPS production or Vercel preview URL
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deployment-smoke-${{ github.event.deployment.id || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Public Route Smoke Test
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+      (github.event.deployment.environment == 'Production' ||
+      github.event.deployment.environment == 'production'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      BASE_URL: ${{ inputs.base_url || github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+
+    steps:
+      - name: Validate deployment URL
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="${BASE_URL%/}"
+          if [[ "$url" != https://* ]]; then
+            echo "Only HTTPS deployment URLs are accepted."
+            exit 1
+          fi
+
+          host="${url#https://}"
+          host="${host%%/*}"
+          case "$host" in
+            alfabeauty.co.id|www.alfabeauty.co.id|*.vercel.app) ;;
+            *)
+              echo "Host is outside the approved deployment allowlist: $host"
+              exit 1
+              ;;
+          esac
+
+          echo "NORMALIZED_BASE_URL=$url" >> "$GITHUB_ENV"
+
+      - name: Check critical public routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in / /products /education /partnership /contact /privacy; do
+            code="$(curl --silent --show-error --location --retry 5 --retry-all-errors --max-time 30 --output /dev/null --write-out '%{http_code}' "${NORMALIZED_BASE_URL}${path}")"
+            if [[ "$code" != "200" ]]; then
+              echo "${path} returned HTTP ${code}; expected 200."
+              exit 1
+            fi
+            echo "OK ${path} (${code})"
+          done
+
+      - name: Check baseline security headers
+        shell: bash
+        run: |
+          set -euo pipefail
+          headers="$(mktemp)"
+          curl --silent --show-error --location --retry 5 --retry-all-errors --max-time 30 --dump-header "$headers" --output /dev/null "${NORMALIZED_BASE_URL}/"
+          tr -d '\r' < "$headers" > "${headers}.normalized"
+
+          for header in content-security-policy x-content-type-options referrer-policy; do
+            if ! grep --ignore-case --quiet "^${header}:" "${headers}.normalized"; then
+              echo "Required response header is missing: ${header}"
+              exit 1
+            fi
+            echo "OK ${header}"
+          done

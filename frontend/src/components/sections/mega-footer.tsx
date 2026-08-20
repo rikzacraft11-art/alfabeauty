@@ -26,7 +26,7 @@ import {
   LEGAL_LINKS,
 } from "@/lib/config";
 import { trackEvent } from "@/lib/analytics";
-import { cardStagger, cardFadeScale, PARALLAX, cinematicEase, listStagger, listItemFadeIn } from "@/lib/motion";
+import { cardStagger, cardFadeScale, PARALLAX, listStagger, listItemFadeIn } from "@/lib/motion";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { LineGrow, useParallax } from "@/hooks/use-animations";
 import { FadeIn } from "@/components/motion/fade-in";

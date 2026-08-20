@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, createContext, useContext, useCallback, useMemo } from "react";
+import { useEffect, useRef, createContext, useContext, useCallback, useMemo } from "react";
 import Lenis from "lenis";
 
 /**
@@ -14,20 +14,14 @@ import Lenis from "lenis";
  */
 
 interface LenisContextValue {
-    lenis: Lenis | null;
     stop: () => void;
     start: () => void;
 }
 
 const LenisContext = createContext<LenisContextValue>({
-    lenis: null,
     stop: () => {},
     start: () => {},
 });
-
-export function useLenis(): Lenis | null {
-    return useContext(LenisContext).lenis;
-}
 
 export function useLenisControl() {
     const ctx = useContext(LenisContext);
@@ -36,7 +30,6 @@ export function useLenisControl() {
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
     const lenisRef = useRef<Lenis | null>(null);
-    const [instance, setInstance] = useState<Lenis | null>(null);
 
     const stop = useCallback(() => {
         lenisRef.current?.stop();
@@ -61,7 +54,6 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
         });
 
         lenisRef.current = lenis;
-        setInstance(lenis);
 
         let rafId: number;
         let isRunning = false;
@@ -95,13 +87,12 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
             window.removeEventListener("touchmove", startRaf);
             lenis.destroy();
             lenisRef.current = null;
-            setInstance(null);
         };
     }, []);
 
     const contextValue = useMemo(
-        () => ({ lenis: instance, stop, start }),
-        [instance, stop, start]
+        () => ({ stop, start }),
+        [stop, start]
     );
 
     return (

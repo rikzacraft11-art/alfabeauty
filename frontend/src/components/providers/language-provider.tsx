@@ -16,7 +16,6 @@ const STORAGE_KEY = "alfa_beauty_lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = React.useState<Language>("id");
-  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     try {
@@ -30,7 +29,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Ignore storage errors in restricted contexts
     }
-    setMounted(true);
   }, []);
 
   const setLanguage = React.useCallback((newLang: Language) => {

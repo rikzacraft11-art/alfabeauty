@@ -73,6 +73,7 @@ export function FadeIn({
 
   const off = directionOffset[direction];
   const prefersReducedMotion = useReducedMotion();
+  void blur;
   const staggerDelay = stagger != null ? stagger * 0.08 : 0;
   const totalDelay = delay + staggerDelay;
 

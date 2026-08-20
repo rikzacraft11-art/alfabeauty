@@ -110,8 +110,6 @@ export function ProductsPanel() {
             <div className="grid grid-cols-2 gap-3.5">
                 {PRODUCT_CATEGORIES.map((cat) => {
                     const data = CATEGORIES_DATA[cat];
-                    const isHovered = activeCategory === cat;
-
                     return (
                         <NavigationMenuLink key={cat} asChild>
                             <Link

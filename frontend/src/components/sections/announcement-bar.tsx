@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { announcementSlide } from "@/lib/motion";
@@ -20,24 +20,26 @@ interface AnnouncementBarProps {
 }
 
 const STORAGE_KEY = "announcement-dismissed";
+const DISMISS_EVENT = "announcement-dismissed";
 
 export function AnnouncementBar({
     message,
     href,
     linkText = "Learn More",
 }: AnnouncementBarProps) {
-    const [dismissed, setDismissed] = useState(false);
-
-    /* Read sessionStorage after mount to avoid SSR hydration mismatch */
-    useEffect(() => {
-        if (sessionStorage.getItem(STORAGE_KEY) === "1") {
-            setDismissed(true);
-        }
+    const subscribe = useCallback((onStoreChange: () => void) => {
+        window.addEventListener(DISMISS_EVENT, onStoreChange);
+        return () => window.removeEventListener(DISMISS_EVENT, onStoreChange);
     }, []);
+    const dismissed = useSyncExternalStore(
+        subscribe,
+        () => sessionStorage.getItem(STORAGE_KEY) === "1",
+        () => false
+    );
 
     const handleDismiss = () => {
-        setDismissed(true);
         sessionStorage.setItem(STORAGE_KEY, "1");
+        window.dispatchEvent(new Event(DISMISS_EVENT));
     };
 
     return (
