@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { EventDetailContent } from "@/components/education/event-detail-content";
+import { EventDetailContent } from "@/features/education/components/event-detail-content";
 import {
     getAllEventIds,
     getEventById,
-} from "@/components/education/education-data";
+} from "@/features/education/components/education-data";
 
 /* Static generation for all event pages */
 export function generateStaticParams(): { id: string }[] {

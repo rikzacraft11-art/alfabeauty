@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { ContactPageContent } from "@/components/contact/contact-page-content";
-import { PreFooterCTA } from "@/components/sections/pre-footer-cta";
+import { ContactPageContent } from "@/features/contact/components/contact-page-content";
+import { PreFooterCTA } from "@/shared/components/layout/pre-footer-cta";
 
 export const metadata: Metadata = {
     title: "Contact Us",

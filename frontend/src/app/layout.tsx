@@ -3,15 +3,15 @@ import { headers } from "next/headers";
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { SITE_NAME, SITE_DOMAIN, CONTACT_EMAIL, INSTAGRAM_URL } from "@/lib/config";
-import { SiteHeader } from "@/components/sections/site-header";
+import { SITE_NAME, SITE_DOMAIN, CONTACT_EMAIL, INSTAGRAM_URL } from "@/shared/lib/config";
+import { SiteHeader } from "@/shared/components/layout/site-header";
 
-import { MegaFooter } from "@/components/sections/mega-footer";
-import { LenisProvider } from "@/components/providers/lenis-provider";
-import { LanguageProvider } from "@/components/providers/language-provider";
-import { Preloader } from "@/components/providers/preloader";
-import { PageTransition } from "@/components/providers/page-transition";
-import { CookieConsent } from "@/components/sections/cookie-consent";
+import { MegaFooter } from "@/shared/components/layout/mega-footer";
+import { LenisProvider } from "@/shared/components/providers/lenis-provider";
+import { LanguageProvider } from "@/shared/components/providers/language-provider";
+import { Preloader } from "@/shared/components/providers/preloader";
+import { PageTransition } from "@/shared/components/providers/page-transition";
+import { CookieConsent } from "@/shared/components/layout/cookie-consent";
 import "./globals.css";
 
 const montserrat = Montserrat({

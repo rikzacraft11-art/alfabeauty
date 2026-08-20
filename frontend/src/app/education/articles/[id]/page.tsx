@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArticleDetailContent } from "@/components/education/article-detail-content";
+import { ArticleDetailContent } from "@/features/education/components/article-detail-content";
 import {
     getAllArticleIds,
     getArticleById,
-} from "@/components/education/education-data";
+} from "@/features/education/components/education-data";
 
 /* Static generation for all article pages */
 export function generateStaticParams(): { id: string }[] {

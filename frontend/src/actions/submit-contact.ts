@@ -13,13 +13,13 @@
 "use server";
 
 import { headers } from "next/headers";
-import { contactSchema, type ContactFormData } from "@/lib/validations/contact";
-import { flattenErrors } from "@/lib/validations/validation-utils";
-import { getSupabaseAdmin } from "@/lib/supabase";
-import { isRateLimited } from "@/lib/rate-limit";
-import { sendNotificationEmail, escapeHtml } from "@/lib/email";
-import { SITE_NAME } from "@/lib/config";
-import { logError } from "@/lib/logger";
+import { contactSchema, type ContactFormData } from "@/shared/lib/validations/contact";
+import { flattenErrors } from "@/shared/lib/validations/validation-utils";
+import { getSupabaseAdmin } from "@/shared/lib/supabase";
+import { isRateLimited } from "@/shared/lib/rate-limit";
+import { sendNotificationEmail, escapeHtml } from "@/shared/lib/email";
+import { SITE_NAME } from "@/shared/lib/config";
+import { logError } from "@/shared/lib/logger";
 
 // ── Types ──
 
