@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TermsPageContent } from "@/components/legal/terms-page-content";
+import { TermsPageContent } from "@/features/legal/components/terms-page-content";
 
 export const metadata: Metadata = {
     title: "Terms & Conditions",

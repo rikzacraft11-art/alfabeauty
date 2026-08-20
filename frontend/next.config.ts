@@ -24,6 +24,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/products",
+        destination: "/brands",
+        permanent: true,
+      },
+      {
+        source: "/products/:path*",
+        destination: "/brands/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

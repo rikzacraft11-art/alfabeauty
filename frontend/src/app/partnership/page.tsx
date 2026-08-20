@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { PartnershipPageContent } from "@/components/partnership/partnership-page-content";
-import { FAQSection } from "@/components/sections/faq-section";
-import { PreFooterCTA } from "@/components/sections/pre-footer-cta";
+import { PartnershipPageContent } from "@/features/partnership/components/partnership-page-content";
+import { FAQSection } from "@/shared/components/layout/faq-section";
+import { PreFooterCTA } from "@/shared/components/layout/pre-footer-cta";
 
 export const metadata: Metadata = {
     title: "Become a Partner",

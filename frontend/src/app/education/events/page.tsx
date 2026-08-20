@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { EducationPageContent } from "@/components/education/education-page-content";
-import { PreFooterCTA } from "@/components/sections/pre-footer-cta";
+import { EducationPageContent } from "@/features/education/components/education-page-content";
+import { PreFooterCTA } from "@/shared/components/layout/pre-footer-cta";
 
 export const metadata: Metadata = {
     title: "Events & Seminars — Alfa Beauty Academy",

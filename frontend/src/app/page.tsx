@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/sections/hero";
-import { Marquee } from "@/components/sections/marquee";
-import { AboutSection } from "@/components/sections/about";
-import { BrandCarousel } from "@/components/sections/brand-carousel";
-import { FeatureSplit } from "@/components/sections/feature-split";
-import { PartnershipSection } from "@/components/sections/partnership";
-import { FAQSection } from "@/components/sections/faq-section";
-import { CertificationBadges } from "@/components/sections/certification-badges";
-import { PreFooterCTA } from "@/components/sections/pre-footer-cta";
+import { HeroSection } from "@/shared/components/layout/hero";
+import { Marquee } from "@/shared/components/layout/marquee";
+import { AboutSection } from "@/shared/components/layout/about";
+import { BrandCarousel } from "@/shared/components/layout/brand-carousel";
+import { FeatureSplit } from "@/shared/components/layout/feature-split";
+import { PartnershipSection } from "@/shared/components/layout/partnership";
+import { FAQSection } from "@/shared/components/layout/faq-section";
+import { CertificationBadges } from "@/shared/components/layout/certification-badges";
+import { PreFooterCTA } from "@/shared/components/layout/pre-footer-cta";
 
 export const metadata: Metadata = {
   title: {

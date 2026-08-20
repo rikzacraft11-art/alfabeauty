@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { SITE_NAME } from "@/lib/config";
+import { SITE_NAME } from "@/shared/lib/config";
 
 export const alt = `${SITE_NAME} — Professional Haircare Distribution`;
 export const size = { width: 1200, height: 630 };

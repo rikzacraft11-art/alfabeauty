@@ -17,12 +17,12 @@
 "use server";
 
 import { headers } from "next/headers";
-import { leadSchema, flattenErrors, type LeadFormData } from "@/lib/validations/lead";
-import { getSupabaseAdmin } from "@/lib/supabase";
-import { isRateLimited } from "@/lib/rate-limit";
-import { sendNotificationEmail, escapeHtml } from "@/lib/email";
-import { SITE_NAME } from "@/lib/config";
-import { logError } from "@/lib/logger";
+import { leadSchema, flattenErrors, type LeadFormData } from "@/shared/lib/validations/lead";
+import { getSupabaseAdmin } from "@/shared/lib/supabase";
+import { isRateLimited } from "@/shared/lib/rate-limit";
+import { sendNotificationEmail, escapeHtml } from "@/shared/lib/email";
+import { SITE_NAME } from "@/shared/lib/config";
+import { logError } from "@/shared/lib/logger";
 
 // ── Types ──
 

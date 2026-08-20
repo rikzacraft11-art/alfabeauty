@@ -17,9 +17,9 @@
  * ───────────────────────────────────────────────────────────────────── */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/shared/lib/supabase";
 import { timingSafeEqual } from "crypto";
-import { logError } from "@/lib/logger";
+import { logError } from "@/shared/lib/logger";
 
 export const dynamic = "force-dynamic";
 
