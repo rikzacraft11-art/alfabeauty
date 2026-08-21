@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { products, categories } from "../../src/features/brands/components/product-data.ts";
+import { products, categories } from "../../src/features/catalog/data/products.ts";
 
 const outputDirectory = resolve(".artifacts/cms");
 const slugify = (value) => value.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");

@@ -6,7 +6,7 @@ import {
   categories,
   products,
   type Product,
-} from "../../src/features/brands/components/product-data";
+} from "../../src/features/catalog/data/products";
 
 const API_VERSION = "2026-08-20";
 const WRITE_CONFIRMATION = "--confirm-production-demo-seed";

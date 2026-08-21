@@ -9,7 +9,7 @@ import {
   products as fallbackProducts,
   type Product,
   type ProductListItem,
-} from "@/features/brands/components/product-data";
+} from "@/features/catalog/data/products";
 import { logError, logWarn } from "@/shared/lib/logger";
 import type { CatalogProductsQueryResult } from "@/shared/types/sanity.generated";
 import { getSanityContentMode, isSanityConfigured } from "./env";

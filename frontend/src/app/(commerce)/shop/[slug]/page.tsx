@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProductDetailContent } from "@/features/brands/components/product-detail-content";
+import { ProductDetailContent } from "@/features/catalog/components/product-detail-content";
 import {
   getCatalogProductBySlug,
   getCatalogProductSlugs,
