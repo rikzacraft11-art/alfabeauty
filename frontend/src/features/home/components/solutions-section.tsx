@@ -94,7 +94,7 @@ export function SolutionsSection(): React.JSX.Element {
                                     className="relative z-20 flex min-h-[400px] sm:min-h-[440px] lg:min-h-[480px] flex-col justify-between rounded-none bg-white p-8 sm:p-10 lg:p-12 text-[#111111] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
                                 >
                                     <div>
-                                        <div className="mb-4 inline-block border-b-2 border-[#ba181b] pb-1 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#ba181b]">
+                                        <div className="mb-4 inline-block border-b-2 border-[#D9403A] pb-1 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#D9403A]">
                                             Solution 0{index + 1}
                                         </div>
                                         <h3 className="text-[1.85rem] sm:text-[2.2rem] lg:text-[2.5rem] font-light sm:font-normal leading-[1.12] tracking-[-0.02em] text-[#111111]">
@@ -111,7 +111,7 @@ export function SolutionsSection(): React.JSX.Element {
 
                                         <Link
                                             href={item.href}
-                                            className="group inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-[#ba181b] hover:border-[#ba181b]"
+                                            className="group inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-[#D9403A] hover:border-[#D9403A]"
                                         >
                                             <span>Explore Solution</span>
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -133,7 +133,7 @@ export function SolutionsSection(): React.JSX.Element {
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60 mb-3">
                                     0{index + 1}
                                 </span>
-                                <h3 className="text-[1.5rem] sm:text-[1.8rem] lg:text-[2rem] font-light leading-[1.2] tracking-[-0.01em] text-white transition-all duration-200 group-hover:text-[#F2D9A0]">
+                                <h3 className="text-[1.5rem] sm:text-[1.8rem] lg:text-[2rem] font-light leading-[1.2] tracking-[-0.01em] text-white transition-all duration-200 group-hover:text-[#EABD68]">
                                     {item.title}
                                 </h3>
                                 <span className="mt-4 text-[11px] font-medium uppercase tracking-[0.18em] text-white/50 border-b border-transparent group-hover:border-white/80 group-hover:text-white transition-all">

@@ -18,7 +18,7 @@ export function NewProductsSection(): React.JSX.Element {
                 {/* Header: Title + Shop now Underline CTA */}
                 <div className="flex items-end justify-between pb-10 sm:pb-12 border-b border-border-warm/40">
                     <div>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#ba181b] mb-2">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D9403A] mb-2">
                             Curated Collection
                         </p>
                         <h2 className="text-[1.85rem] sm:text-[2.4rem] lg:text-[2.8rem] font-light sm:font-normal tracking-[-0.02em] text-foreground">
@@ -28,7 +28,7 @@ export function NewProductsSection(): React.JSX.Element {
 
                     <Link
                         href={NAV_LINKS.products}
-                        className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-[#ba181b] hover:text-[#ba181b]"
+                        className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-[#D9403A] hover:text-[#D9403A]"
                     >
                         <span>Shop Catalog</span>
                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -64,7 +64,7 @@ export function NewProductsSection(): React.JSX.Element {
                                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                                     {prod.brand}
                                 </p>
-                                <h3 className="mt-1 text-[14.5px] font-normal leading-snug tracking-tight text-foreground transition-colors group-hover:text-[#ba181b]">
+                                <h3 className="mt-1 text-[14.5px] font-normal leading-snug tracking-tight text-foreground transition-colors group-hover:text-[#D9403A]">
                                     {prod.name}
                                 </h3>
                                 <p className="mt-2 text-[13px] font-semibold text-foreground/90">

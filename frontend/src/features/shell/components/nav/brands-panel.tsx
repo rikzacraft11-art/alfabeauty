@@ -23,7 +23,7 @@ export function BrandsPanel(): React.JSX.Element {
                     <NavigationMenuLink asChild>
                         <Link
                             href="/brands"
-                            className="flex items-center justify-between bg-black px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#ba181b]"
+                            className="flex items-center justify-between bg-black px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#D9403A]"
                         >
                             <span>All Brands</span>
                             <ArrowRight className="h-3 w-3" />
@@ -48,7 +48,7 @@ export function BrandsPanel(): React.JSX.Element {
                                 />
                             </div>
 
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ba181b] mb-1">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#D9403A] mb-1">
                                 {brand.origin} {brand.flag}
                             </p>
                             <h4 className="text-[13.5px] font-bold text-black leading-snug">
@@ -63,7 +63,7 @@ export function BrandsPanel(): React.JSX.Element {
                             <NavigationMenuLink asChild>
                                 <Link
                                     href={`/products?brand=${brand.name.toLowerCase().replace(/\s+/g, "-")}`}
-                                    className="text-[11px] font-semibold uppercase tracking-[0.16em] text-black hover:text-[#ba181b] hover:underline decoration-1 underline-offset-4 transition-all"
+                                    className="text-[11px] font-semibold uppercase tracking-[0.16em] text-black hover:text-[#D9403A] hover:underline decoration-1 underline-offset-4 transition-all"
                                 >
                                     Explore Brand
                                 </Link>

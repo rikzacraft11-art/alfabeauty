@@ -90,7 +90,7 @@ export function MegaFooter(): React.JSX.Element {
             {/* Morphing Square-to-Circle Dual Arrow Button */}
             <button
               onClick={scrollToTop}
-              className="group relative flex h-14 w-14 sm:h-16 sm:w-16 lg:h-18 lg:w-18 shrink-0 items-center justify-center overflow-hidden rounded-none border border-white/30 transition-all duration-300 hover:border-[#ba181b] hover:bg-[#ba181b] hover:text-white"
+              className="group relative flex h-14 w-14 sm:h-16 sm:w-16 lg:h-18 lg:w-18 shrink-0 items-center justify-center overflow-hidden rounded-none border border-white/30 transition-all duration-300 hover:border-[#D9403A] hover:bg-[#D9403A] hover:text-white"
               aria-label="Back to top"
             >
               <div className="relative flex flex-col items-center justify-center">
@@ -116,7 +116,7 @@ export function MegaFooter(): React.JSX.Element {
                   height={260}
                   className="h-36 sm:h-48 lg:h-56 w-auto object-contain brightness-0 invert"
                 />
-                <span className="absolute -bottom-2 -right-2 text-sm font-bold text-[#ba181b]">
+                <span className="absolute -bottom-2 -right-2 text-sm font-bold text-[#D9403A]">
                   ®
                 </span>
               </div>
@@ -130,14 +130,14 @@ export function MegaFooter(): React.JSX.Element {
                 className="group relative flex aspect-[4/3] lg:aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-white/15 bg-white/[0.02] p-6 sm:p-10 text-center transition-all duration-300 hover:bg-white/[0.06] hover:border-white/50"
               >
                 <div className="flex flex-col items-center justify-center gap-3">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#ba181b]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D9403A]">
                     0{idx + 1}
                   </span>
                   <div className="relative overflow-hidden py-1">
                     <span className="block text-xl sm:text-2xl lg:text-[1.85rem] font-light leading-snug tracking-[-0.01em] text-white transition-transform duration-300 group-hover:-translate-y-full">
                       {item.title}
                     </span>
-                    <span className="absolute left-0 top-full block w-full text-xl sm:text-2xl lg:text-[1.85rem] font-normal leading-snug tracking-[-0.01em] text-[#ba181b] transition-transform duration-300 group-hover:-translate-y-full">
+                    <span className="absolute left-0 top-full block w-full text-xl sm:text-2xl lg:text-[1.85rem] font-normal leading-snug tracking-[-0.01em] text-[#D9403A] transition-transform duration-300 group-hover:-translate-y-full">
                       {item.title}
                     </span>
                   </div>
@@ -162,7 +162,7 @@ export function MegaFooter(): React.JSX.Element {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-6 w-6 items-center justify-center text-white/70 transition-colors duration-200 hover:text-[#ba181b]"
+                  className="flex h-6 w-6 items-center justify-center text-white/70 transition-colors duration-200 hover:text-[#D9403A]"
                   aria-label="Instagram"
                 >
                   <Instagram className="h-4 w-4" />
@@ -173,7 +173,7 @@ export function MegaFooter(): React.JSX.Element {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent("cta_whatsapp_click", { location: "footer" })}
-                  className="flex h-6 w-6 items-center justify-center text-[#259E4A] transition-colors duration-200 hover:text-white"
+                  className="flex h-6 w-6 items-center justify-center text-[#1F9849] transition-colors duration-200 hover:text-white"
                   aria-label="WhatsApp"
                 >
                   <MessageCircle className="h-4 w-4" />
@@ -183,7 +183,7 @@ export function MegaFooter(): React.JSX.Element {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-6 w-6 items-center justify-center text-white/70 transition-colors duration-200 hover:text-[#ba181b]"
+                  className="flex h-6 w-6 items-center justify-center text-white/70 transition-colors duration-200 hover:text-[#D9403A]"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="h-4 w-4" />
@@ -207,13 +207,13 @@ export function MegaFooter(): React.JSX.Element {
         </div>
       </footer>
 
-      {/* Floating Action Button (Official WhatsApp Green) */}
+      {/* Floating Action Button (Official Brand WhatsApp Green #1F9849) */}
       <motion.a
         href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackEvent("cta_whatsapp_click", { location: "sticky_fab" })}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_25px_rgba(37,211,102,0.35)] transition-all duration-300 hover:scale-105 hover:bg-[#20bd5a]"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#1F9849] text-white shadow-[0_10px_25px_rgba(31,152,73,0.35)] transition-all duration-300 hover:scale-105 hover:bg-[#187d3c]"
         aria-label="Chat on WhatsApp"
         initial={{ y: 80, opacity: 0 }}
         animate={showFab ? { y: 0, opacity: 1, pointerEvents: "auto" as const } : { y: 80, opacity: 0, pointerEvents: "none" as const }}

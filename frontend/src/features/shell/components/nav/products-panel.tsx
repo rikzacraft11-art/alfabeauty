@@ -55,7 +55,7 @@ export function ProductsPanel(): React.JSX.Element {
                     <NavigationMenuLink asChild>
                         <Link
                             href="/products"
-                            className="flex items-center justify-between bg-black px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#ba181b]"
+                            className="flex items-center justify-between bg-black px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#D9403A]"
                         >
                             <span>Explore Catalog</span>
                             <ArrowRight className="h-3 w-3" />
@@ -71,7 +71,7 @@ export function ProductsPanel(): React.JSX.Element {
                         <NavigationMenuLink asChild>
                             <Link
                                 href={group.href}
-                                className="text-[12px] font-bold uppercase tracking-[0.16em] text-black border-b border-black/20 pb-2 mb-4 hover:border-[#ba181b] hover:text-[#ba181b] transition-colors"
+                                className="text-[12px] font-bold uppercase tracking-[0.16em] text-black border-b border-black/20 pb-2 mb-4 hover:border-[#D9403A] hover:text-[#D9403A] transition-colors"
                             >
                                 {group.title}
                             </Link>
@@ -83,7 +83,7 @@ export function ProductsPanel(): React.JSX.Element {
                                     <NavigationMenuLink asChild>
                                         <Link
                                             href={item.href}
-                                            className="text-[13.5px] font-normal text-neutral-600 hover:text-[#ba181b] hover:underline decoration-1 underline-offset-4 transition-all"
+                                            className="text-[13.5px] font-normal text-neutral-600 hover:text-[#D9403A] hover:underline decoration-1 underline-offset-4 transition-all"
                                         >
                                             {item.label}
                                         </Link>

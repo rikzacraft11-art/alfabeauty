@@ -28,18 +28,21 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Alfa Beauty Brand Tokens */
-  --color-brand-crimson: #a4161a;
-  --color-brand-dark: #660708;
-  --color-brand-dark-crimson: #8a1114;
-  --color-brand-red: #ba181b;
-  --color-brand-bright: #e5383b;
+  /* Alfa Beauty Official Brand Tokens (User-Specified Strict Palette) */
+  --color-brand-maroon: #5D221C;
+  --color-brand-dark: #5D221C;
+  --color-brand-crimson: #D9403A;
+  --color-brand-dark-crimson: #5D221C;
+  --color-brand-red: #D9403A;
+  --color-brand-bright: #D9403A;
+  --color-brand-gold: #EABD68;
+  --color-brand-green: #1F9849;
+  --color-whatsapp: #1F9849;
   --color-surface: #f6f5f0;
   --color-surface-elevated: #fafaf7;
   --color-border-warm: #e8e4df;
   --color-text-muted: #737373;
-  --color-charcoal: #333333;
-  --color-whatsapp: #25d366;
+  --color-charcoal: #111111;
   --color-white: #ffffff;
   --color-black: #000000;
 

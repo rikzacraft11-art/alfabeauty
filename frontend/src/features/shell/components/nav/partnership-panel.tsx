@@ -49,7 +49,7 @@ export function PartnershipPanel(): React.JSX.Element {
                     <NavigationMenuLink asChild>
                         <Link
                             href="/partnership"
-                            className="flex items-center justify-between bg-white px-4 py-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-black transition-colors duration-200 hover:bg-[#ba181b] hover:text-white"
+                            className="flex items-center justify-between bg-white px-4 py-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-black transition-colors duration-200 hover:bg-[#D9403A] hover:text-white"
                         >
                             <span>Partner With Us</span>
                             <ArrowRight className="h-3 w-3" />
@@ -71,7 +71,7 @@ export function PartnershipPanel(): React.JSX.Element {
                                     <NavigationMenuLink asChild>
                                         <Link
                                             href={item.href}
-                                            className="text-[13.5px] font-normal text-neutral-600 hover:text-[#ba181b] hover:underline decoration-1 underline-offset-4 transition-all"
+                                            className="text-[13.5px] font-normal text-neutral-600 hover:text-[#D9403A] hover:underline decoration-1 underline-offset-4 transition-all"
                                         >
                                             {item.label}
                                         </Link>

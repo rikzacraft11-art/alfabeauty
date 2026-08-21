@@ -166,7 +166,7 @@ export function HeroSection(): React.JSX.Element {
                                 <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
                                     <Link
                                         href={NAV_LINKS.brands}
-                                        className="inline-flex items-center justify-center gap-2 rounded-none bg-[#ba181b] px-8 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#a4161a]"
+                                        className="inline-flex items-center justify-center gap-2 rounded-none bg-[#D9403A] px-8 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#5D221C]"
                                     >
                                         <span>Explore Brands</span>
                                         <ArrowRight className="h-3.5 w-3.5" />
@@ -176,7 +176,7 @@ export function HeroSection(): React.JSX.Element {
                                 <FadeIn delay={HERO_TIMING.cta + 0.12} direction="up" blur>
                                     <Link
                                         href={NAV_LINKS.partnership}
-                                        className="group inline-flex items-center gap-1.5 text-[12.5px] font-medium uppercase tracking-[0.14em] text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#F2D9A0] hover:text-[#F2D9A0]"
+                                        className="group inline-flex items-center gap-1.5 text-[12.5px] font-medium uppercase tracking-[0.14em] text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
                                     >
                                         <span>Partner With Us</span>
                                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

@@ -8,6 +8,17 @@
  * Reference: docs/reference.md §1, §5
  * ───────────────────────────────────────────────────────────────────── */
 
+// ── Global Official Brand Color Palette Dictionary ──
+export const BRAND_COLORS = {
+  maroon: "#5D221C",   // Deep Maroon / Burgundy (Section 6, Maklon, Luxury Accents)
+  crimson: "#D9403A",  // Scarlet / Crimson Red (Primary CTA, Active Underlines, Hover States)
+  gold: "#EABD68",     // Champagne Gold / Warm Amber (LED Halo, Badges, Highlights)
+  green: "#1F9849",    // Emerald Green (WhatsApp, Contact Accent on Black/White/Gold)
+  black: "#000000",    // Obsidian Black (Base Canvas, Typography, Dark Panels)
+  white: "#FFFFFF",    // Pure White (Base Canvas, Clean Cards)
+  charcoal: "#111111", // Dark Surface / Elevated Glass
+} as const;
+
 // ── Contact ──
 
 export const SITE_NAME = "PT Alfa Beauty Cosmetica" as const;
