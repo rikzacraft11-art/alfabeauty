@@ -83,33 +83,33 @@ export function SiteHeader(): React.JSX.Element {
     const hasElevation = scrolled && !menuOpen;
 
     const indicatorBar = React.useMemo(() => [
-        "before:content-[''] before:absolute before:bottom-0 before:left-2 before:right-2 xl:before:left-3 xl:before:right-3",
+        "before:content-[''] before:absolute before:bottom-[-1px] before:left-[0.6rem] before:right-[0.6rem] xl:before:left-[0.8rem] xl:before:right-[0.8rem]",
         "before:h-[2px]",
         "before:origin-bottom before:[transform:scaleY(0)]",
-        "before:transition-[transform,background-color] before:duration-[250ms] before:ease-[var(--ease)]",
+        "before:transition-[transform,background-color] before:duration-[350ms] before:ease-[var(--ease)]",
         isSolid ? "before:bg-foreground" : "before:bg-white",
     ].join(" "), [isSolid]);
 
     const triggerClasses = React.useMemo(() => cn(
         "relative h-full whitespace-nowrap",
-        "bg-transparent px-2.5 xl:px-3.5 text-[11.5px] xl:text-[12.5px] font-semibold uppercase tracking-[0.14em]",
-        "transition-colors duration-[250ms] ease-[var(--ease)]",
+        "bg-transparent px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em]",
+        "transition-colors duration-[350ms] ease-[var(--ease)]",
         "hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
         indicatorBar,
         "hover:before:[transform:scaleY(1)] data-[state=open]:before:[transform:scaleY(1)]",
         isSolid
-            ? "text-foreground/80 hover:text-foreground data-[state=open]:text-foreground"
-            : "text-white/80 hover:text-white data-[state=open]:text-white"
+            ? "text-foreground/90 hover:text-foreground data-[state=open]:text-foreground"
+            : "text-white/90 hover:text-white data-[state=open]:text-white"
     ), [isSolid, indicatorBar]);
 
     const directLinkClasses = React.useMemo(() => cn(
-        "relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[11.5px] xl:text-[12.5px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap",
-        "transition-colors duration-[250ms] ease-[var(--ease)]",
+        "relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] whitespace-nowrap",
+        "transition-colors duration-[350ms] ease-[var(--ease)]",
         "hover:bg-transparent focus:bg-transparent",
         "data-[active=true]:bg-transparent",
         indicatorBar,
         "hover:before:[transform:scaleY(1)]",
-        isSolid ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"
+        isSolid ? "text-foreground/90 hover:text-foreground" : "text-white/90 hover:text-white"
     ), [isSolid, indicatorBar]);
 
     const handleMouseEnter = React.useCallback(() => setHeaderHovered(true), []);
@@ -137,26 +137,19 @@ export function SiteHeader(): React.JSX.Element {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 flex flex-col",
+                "fixed top-0 left-0 right-0 z-50",
                 isHidden && "-translate-y-[102%]",
                 menuClosing && "pointer-events-none",
                 hasElevation && "shadow-warm-sm",
                 isSolid
-                    ? "bg-background/95 backdrop-blur-md border-b border-border-warm/60"
+                    ? "bg-background border-b border-border-warm/60"
                     : "bg-transparent border-b border-white/10"
             )}
             style={{
                 transition: "border-color .5s var(--ease), background-color .5s var(--ease), translate .7s var(--ease), box-shadow .5s var(--ease)",
             }}
         >
-            {/* ─── Calvin Klein Top Announcement Ticker Bar ─── */}
-            <div className="w-full bg-black text-white py-1.5 px-4 text-center border-b border-white/10">
-                <p className="text-[9.5px] sm:text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/90">
-                    Official Indonesian Distributor for Alfaparf Milano • Farmavita • Montibello • Gamma+ Professional
-                </p>
-            </div>
-
-            <div className="mx-auto flex h-[var(--header-height,68px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12 w-full">
+            <div className="mx-auto flex h-[var(--header-height,80px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12">
                 {/* ─── Left Group: Logo + Left-Aligned Desktop Navigation ─── */}
                 <div className="flex items-center gap-5 xl:gap-8 h-full">
                     {/* Logo */}
