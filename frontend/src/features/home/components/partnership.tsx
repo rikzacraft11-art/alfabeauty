@@ -10,7 +10,7 @@ import { AnimatedButton } from "@/shared/components/ui/animated-button";
 import { WhatsAppCTA } from "@/shared/components/ui/whatsapp-cta";
 import { LineGrow } from "@/shared/hooks/use-animations";
 import { NAV_LINKS } from "@/shared/lib/config";
-import { PARALLAX, cardStagger, cardFadeScale, listStagger, listItemFadeIn } from "@/shared/lib/motion";
+import { cardStagger, cardFadeScale, listStagger, listItemFadeIn } from "@/shared/lib/motion";
 
 /* ─────────────────────────────────────────────────────────────────────
  * PartnershipSection V8 — Atmospheric depth & cinematic cards:

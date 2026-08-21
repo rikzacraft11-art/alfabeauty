@@ -56,7 +56,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for path in / /products /education /partnership /contact /privacy; do
+          for path in / /shop /cart /checkout /education /partnership /contact /privacy; do
             code="$(curl --silent --show-error --location --retry 5 --retry-all-errors --max-time 30 --output /dev/null --write-out '%{http_code}' "${NORMALIZED_BASE_URL}${path}")"
             if [[ "$code" != "200" ]]; then
               echo "${path} returned HTTP ${code}; expected 200."

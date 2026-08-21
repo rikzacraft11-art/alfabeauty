@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { smoothEase, PARALLAX } from "@/shared/lib/motion";
+import { PARALLAX } from "@/shared/lib/motion";
 
 /* ─────────────────────────────────────────────────────────────────────
  * useParallax V4 — Scroll-linked parallax offset with opacity fade.

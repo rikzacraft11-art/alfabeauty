@@ -23,8 +23,20 @@ import {
 } from "../data/products";
 import { cn } from "@/shared/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { AddToCartPanel } from "@/features/commerce/components/add-to-cart-panel";
+import type { CommerceOffer } from "@/shared/lib/commerce/types";
 
-export function ProductDetailContent({ product }: { product: Product }): React.JSX.Element {
+export function ProductDetailContent({
+    product,
+    catalogProducts = allProducts,
+    catalogPath = "/shop",
+    offers = [],
+}: {
+    product: Product;
+    catalogProducts?: Product[];
+    catalogPath?: string;
+    offers?: CommerceOffer[];
+}): React.JSX.Element {
     // ─── Gallery & Image States ───
     const allImages = React.useMemo(() => {
         const list: { src: string; alt: string; type: string }[] = [];
@@ -62,17 +74,18 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
 
     // ─── Related Products ───
     const brandProducts = React.useMemo(() => {
-        return getProductsByBrand(product.brand)
+        return catalogProducts
+            .filter((candidate) => candidate.brand === product.brand)
             .filter((p) => p.id !== product.id)
             .slice(0, 4);
-    }, [product]);
+    }, [catalogProducts, product]);
 
     const complementaryProducts = React.useMemo(() => {
         // Find products from other categories/brands to create rich cross-engagement
-        return allProducts
+        return catalogProducts
             .filter((p) => p.id !== product.id && p.brand !== product.brand)
             .slice(0, 4);
-    }, [product]);
+    }, [catalogProducts, product]);
 
     // ─── Lightbox Keyboard Navigation ───
     React.useEffect(() => {
@@ -97,7 +110,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
             {/* ─── Breadcrumb ─── */}
             <nav aria-label="Breadcrumb" className="mx-auto max-w-[1400px] px-6 py-6 sm:px-8 lg:px-12">
                 <Link
-                    href="/products"
+                    href={catalogPath}
                     className="group inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
                 >
                     <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
@@ -429,12 +442,15 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
 
                         {/* CTA Action */}
                         <div className="mt-8">
+                            <AddToCartPanel offers={offers} />
+                            <div className="mt-4">
                             <ProductWhatsAppCTA
                                 productName={product.name}
                                 brandName={product.brand}
                             />
+                            </div>
                             <p className="mt-3 text-[12px] text-muted-foreground">
-                                Direct consultation with Alfa Beauty official brand specialists.
+                                Commerce uses demo or Midtrans Sandbox payment only. Contact our specialists for real commercial inquiries.
                             </p>
                         </div>
                     </div>
@@ -508,7 +524,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                                 </h2>
                             </div>
                             <Link
-                                href={`/products?brand=${product.brand.toLowerCase().replace(/\s+/g, "-")}`}
+                                href={`${catalogPath}?brand=${product.brand.toLowerCase().replace(/\s+/g, "-")}`}
                                 className="group inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors hover:text-brand-crimson"
                             >
                                 <span>View Brand Lineup</span>
@@ -520,7 +536,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                             {brandProducts.map((item) => (
                                 <Link
                                     key={item.id}
-                                    href={`/products/${item.id}`}
+                                    href={`${catalogPath}/${item.id}`}
                                     className="group relative flex flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated/70 p-4 transition-all duration-300 hover:border-border-warm hover:bg-white hover:shadow-[0_10px_28px_rgba(0,0,0,0.04)]"
                                 >
                                     <div className="relative aspect-square w-full overflow-hidden bg-surface/50 mb-3">
@@ -575,7 +591,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                                 </h2>
                             </div>
                             <Link
-                                href="/products"
+                                href={catalogPath}
                                 className="group inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors hover:text-brand-crimson"
                             >
                                 <span>Explore All Categories</span>
@@ -587,7 +603,7 @@ export function ProductDetailContent({ product }: { product: Product }): React.J
                             {complementaryProducts.map((item) => (
                                 <Link
                                     key={item.id}
-                                    href={`/products/${item.id}`}
+                                    href={`${catalogPath}/${item.id}`}
                                     className="group relative flex flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated/70 p-4 transition-all duration-300 hover:border-border-warm hover:bg-white hover:shadow-[0_10px_28px_rgba(0,0,0,0.04)]"
                                 >
                                     <div className="relative aspect-square w-full overflow-hidden bg-surface/50 mb-3">

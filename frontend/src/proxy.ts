@@ -16,18 +16,33 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+function allowedStudioOrigin(): string | null {
+  const value = process.env.SANITY_STUDIO_ORIGIN?.trim();
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    const localHttp =
+      url.protocol === "http:" &&
+      (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+    return url.protocol === "https:" || localHttp ? url.origin : null;
+  } catch {
+    return null;
+  }
+}
+
 export function proxy(request: NextRequest): NextResponse {
   const nonce = crypto.randomUUID();
+  const studioOrigin = allowedStudioOrigin();
 
   const csp = [
     `default-src 'self'`,
     `script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://connect.facebook.net`,
     `style-src 'self' 'unsafe-inline'`, // Tailwind + Radix inject inline styles
-    `img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com`,
+    `img-src 'self' data: https://cdn.sanity.io https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com`,
     `font-src 'self'`,
     `media-src 'self'`,
-    `connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://www.clarity.ms https://connect.facebook.net`,
-    `frame-ancestors 'none'`,
+    `connect-src 'self' https://app.sandbox.midtrans.com https://api.sandbox.midtrans.com https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://www.clarity.ms https://connect.facebook.net`,
+    `frame-ancestors ${studioOrigin ? `'self' ${studioOrigin}` : "'none'"}`,
     `base-uri 'none'`,
     `object-src 'none'`,
     `form-action 'self'`,

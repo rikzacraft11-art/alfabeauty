@@ -1,197 +1,77 @@
-/* ─────────────────────────────────────────────────────────────────────
- * Database Types — Supabase E-Commerce Schema
- *
- * TypeScript types matching the Supabase database tables defined in
- * 001_initial_ecommerce.sql. These types are used throughout the
- * application for type-safe database operations.
- * ───────────────────────────────────────────────────────────────────── */
-
-// ── Product Taxonomy ──
-
-export type ProductCategory = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  image_url: string | null;
-  parent_id: string | null;
-  sort_order: number;
+/** Database rows for the ordered commerce MVP migrations. Money is integer IDR. */
+export type CommerceOfferRow = {
+  commerce_variant_id: string;
+  commerce_product_id: string;
+  sku: string;
+  display_name: string;
+  variant_label: string;
+  currency: "IDR";
+  price_idr: number;
+  stock_on_hand: number;
+  active: boolean;
+  version: number;
   created_at: string;
   updated_at: string;
 };
 
-export type ProductBrand = {
+export type CommerceGuestSessionRow = {
   id: string;
-  name: string;
-  slug: string;
-  origin: string | null;
-  logo_url: string | null;
-  description: string | null;
-  sort_order: number;
+  token_hash: string;
+  expires_at: string;
+  last_seen_at: string;
+  created_at: string;
+};
+
+export type CommerceCartRow = {
+  id: string;
+  guest_session_id: string;
+  status: "open" | "converted" | "expired";
   created_at: string;
   updated_at: string;
 };
 
-export type ProductFeature = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  created_at: string;
-};
-
-// ── Products ──
-
-export type Product = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  short_description: string | null;
-  sku: string | null;
-  price: number;
-  sale_price: number | null;
-  stock_quantity: number;
-  is_in_stock: boolean;
-  weight_grams: number | null;
-  dimensions: { length: number; width: number; height: number } | null;
-  images: string[];
-  brand_id: string | null;
-  category_id: string | null;
-  is_published: boolean;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
-};
-
-export type ProductVariant = {
-  id: string;
-  product_id: string;
-  name: string;
-  sku: string | null;
-  price: number;
-  sale_price: number | null;
-  stock_quantity: number;
-  is_in_stock: boolean;
-  attributes: Record<string, string>;
-  sort_order: number;
-  created_at: string;
-};
-
-// ── Extended Product (with relations) ──
-
-export type ProductWithRelations = Product & {
-  brand: ProductBrand | null;
-  category: ProductCategory | null;
-  features: ProductFeature[];
-  variants: ProductVariant[];
-};
-
-// ── Users & Auth ──
-
-export type Profile = {
-  id: string;
-  full_name: string | null;
-  phone: string | null;
-  avatar_url: string | null;
-  role: "customer" | "admin";
-  created_at: string;
-  updated_at: string;
-};
-
-export type Address = {
-  id: string;
-  user_id: string;
-  label: string;
-  recipient_name: string;
-  phone: string;
-  street_address: string;
-  city: string;
-  province: string;
-  postal_code: string;
-  country: string;
-  is_default: boolean;
-  created_at: string;
-  updated_at: string;
-};
-
-// ── Cart ──
-
-export type CartItem = {
-  id: string;
-  user_id: string;
-  product_id: string;
-  variant_id: string | null;
+export type CommerceCartItemRow = {
+  cart_id: string;
+  commerce_variant_id: string;
   quantity: number;
   created_at: string;
   updated_at: string;
 };
 
-export type CartItemWithProduct = CartItem & {
-  product: Product;
-  variant: ProductVariant | null;
-};
-
-// ── Orders ──
-
-export type OrderStatus =
-  | "pending"
-  | "awaiting_payment"
-  | "paid"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled"
-  | "refunded";
-
-export type Order = {
+export type CommerceOrderRow = {
   id: string;
   order_number: string;
-  user_id: string | null;
-  status: OrderStatus;
-  subtotal: number;
-  shipping_cost: number;
-  tax_amount: number;
-  total: number;
-  shipping_address: Address | null;
-  payment_method: string | null;
-  payment_id: string | null;
-  payment_status: string;
-  notes: string | null;
+  midtrans_order_id: string;
+  guest_session_id: string;
+  public_token_hash: string;
+  idempotency_key: string;
+  status: "awaiting_payment" | "paid" | "payment_failed" | "expired" | "cancelled";
+  payment_status: "pending" | "challenge" | "paid" | "denied" | "cancelled" | "expired" | "error";
+  currency: "IDR";
+  subtotal_idr: number;
+  shipping_idr: number;
+  tax_idr: number;
+  total_idr: number;
+  customer: Record<string, unknown>;
+  shipping_address: Record<string, unknown>;
+  expires_at: string;
   created_at: string;
   updated_at: string;
 };
 
-export type OrderItem = {
+export type CommerceOrderItemRow = {
   id: string;
   order_id: string;
-  product_id: string | null;
-  variant_id: string | null;
+  commerce_product_id: string;
+  commerce_variant_id: string;
+  sku: string;
   product_name: string;
-  variant_name: string | null;
-  sku: string | null;
+  variant_label: string;
   quantity: number;
-  unit_price: number;
-  total_price: number;
+  unit_price_idr: number;
+  line_total_idr: number;
+  offer_version: number;
   created_at: string;
 };
 
-export type OrderWithItems = Order & {
-  items: OrderItem[];
-};
-
-// ── Blog ──
-
-export type BlogPost = {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  content: string | null;
-  cover_image_url: string | null;
-  author_id: string | null;
-  is_published: boolean;
-  published_at: string | null;
-  created_at: string;
-  updated_at: string;
-};
+export type CommerceOrderWithItems = CommerceOrderRow & { items: CommerceOrderItemRow[] };

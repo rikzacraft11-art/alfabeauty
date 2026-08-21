@@ -6,7 +6,6 @@ import { Plus, Minus } from "lucide-react";
 import { FadeIn } from "@/shared/components/motion/fade-in";
 import { TextReveal } from "@/shared/components/motion/text-reveal";
 import { LineGrow } from "@/shared/hooks/use-animations";
-import { smoothEase } from "@/shared/lib/motion";
 
 /* ─────────────────────────────────────────────────────────────────────
  * FAQSection — Inline FAQ accordion for every page.

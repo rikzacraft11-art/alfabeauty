@@ -19,6 +19,12 @@
 
 # production
 /build
+/sanity-dist
+/.sanity/
+
+# generated CMS schema (regenerate with npm run cms:typegen)
+/sanity/schema.json
+/.artifacts/
 
 # misc
 .DS_Store
