@@ -16,7 +16,7 @@ const STANDARDS = [
  * ───────────────────────────────────────────────────────────────────── */
 export function StandardsSection(): React.JSX.Element {
     return (
-        <section className="section section-standards bg-background py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
+        <section className="section section-standards bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 {/* Header */}
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16 pb-14 sm:pb-16 items-baseline border-b border-border-warm/40">

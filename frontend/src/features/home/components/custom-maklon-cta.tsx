@@ -5,31 +5,34 @@ import { ArrowUpRight } from "lucide-react";
 import { NAV_LINKS } from "@/shared/lib/config";
 
 /* ─────────────────────────────────────────────────────────────────────
- * CustomMaklonCTA (Calvin Klein Editorial Statement on Dark Maroon)
- * Featuring the strict Green (#259E4A) accent on "Get in touch to find out."
+ * CustomMaklonCTA (Calvin Klein Editorial Statement on Dark Maroon #660708)
+ * Strict Palette: Maroon Canvas with White Typography & Champagne Gold #F2D9A0 Accents
  * ───────────────────────────────────────────────────────────────────── */
 export function CustomMaklonCTA(): React.JSX.Element {
     return (
-        <section className="section section-cta section-cta-main bg-[#660708] text-white py-16 sm:py-24 lg:py-28 overflow-hidden">
-            <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+        <section className="section section-cta section-cta-main relative bg-[#660708] text-white py-20 sm:py-28 lg:py-32 overflow-hidden">
+            {/* Subtle atmospheric luxury lighting on maroon */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,rgba(242,217,160,0.06)_0%,transparent_60%)] pointer-events-none" />
+
+            <div className="relative z-10 mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#F2D9A0]">
                         Custom Formulations & Maklon OEM
                     </p>
-                    <h2 className="mt-4 max-w-4xl text-[2rem] sm:text-[3rem] lg:text-[3.8rem] font-light sm:font-normal leading-[1.08] tracking-[-0.03em] text-white text-balance">
+                    <h2 className="mt-4 max-w-4xl text-[2.2rem] sm:text-[3.2rem] lg:text-[4rem] font-light sm:font-normal leading-[1.08] tracking-[-0.03em] text-white text-balance">
                         Salons and beauty leaders that thrive invest in custom-developed haircare. Let us help bring your vision to life.
                     </h2>
                 </div>
 
-                {/* Minimalist Underline Action Link */}
-                <div className="mt-12 sm:mt-16 pt-8 border-t border-white/20">
+                {/* Minimalist Action Link with Champagne Gold Underline */}
+                <div className="mt-14 sm:mt-20 pt-8 border-t border-white/20">
                     <Link
                         href={NAV_LINKS.contact}
-                        className="group flex items-center justify-between py-2 text-[1.2rem] sm:text-[1.7rem] font-light tracking-[-0.01em] text-white/90 transition-colors"
+                        className="group flex items-center justify-between py-2 text-[1.2rem] sm:text-[1.7rem] font-light tracking-[-0.01em] text-white transition-colors"
                     >
-                        <span className="flex items-center gap-2">
-                            <span>Not sure what&apos;s possible?</span>
-                            <span className="text-[#259E4A] font-medium border-b border-[#259E4A] pb-0.5 transition-colors duration-200 group-hover:text-[#F2D9A0] group-hover:border-[#F2D9A0]">
+                        <span className="flex items-center gap-3">
+                            <span className="text-white/85">Not sure what&apos;s possible?</span>
+                            <span className="text-[#F2D9A0] font-normal border-b border-[#F2D9A0]/70 pb-0.5 transition-colors duration-200 group-hover:text-white group-hover:border-white">
                                 Get in touch to find out.
                             </span>
                         </span>

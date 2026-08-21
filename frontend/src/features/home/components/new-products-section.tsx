@@ -13,7 +13,7 @@ export function NewProductsSection(): React.JSX.Element {
     const showcaseProducts = catalogProducts.slice(0, 4);
 
     return (
-        <section className="section section-products bg-background py-16 sm:py-24 lg:py-32 text-foreground border-b border-border-warm/60">
+        <section className="section section-products bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 {/* Header: Title + Shop now Underline CTA */}
                 <div className="flex items-end justify-between pb-10 sm:pb-12 border-b border-border-warm/40">

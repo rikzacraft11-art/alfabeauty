@@ -137,19 +137,26 @@ export function SiteHeader(): React.JSX.Element {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className={cn(
-                "fixed top-0 left-0 right-0 z-50",
+                "fixed top-0 left-0 right-0 z-50 flex flex-col",
                 isHidden && "-translate-y-[102%]",
                 menuClosing && "pointer-events-none",
                 hasElevation && "shadow-warm-sm",
                 isSolid
-                    ? "bg-background border-b border-border-warm/60"
+                    ? "bg-background/95 backdrop-blur-md border-b border-border-warm/60"
                     : "bg-transparent border-b border-white/10"
             )}
             style={{
                 transition: "border-color .5s var(--ease), background-color .5s var(--ease), translate .7s var(--ease), box-shadow .5s var(--ease)",
             }}
         >
-            <div className="mx-auto flex h-[var(--header-height,80px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12">
+            {/* ─── Calvin Klein Top Announcement Ticker Bar ─── */}
+            <div className="w-full bg-black text-white py-1.5 px-4 text-center border-b border-white/10">
+                <p className="text-[9.5px] sm:text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/90">
+                    Official Indonesian Distributor for Alfaparf Milano • Farmavita • Montibello • Gamma+ Professional
+                </p>
+            </div>
+
+            <div className="mx-auto flex h-[var(--header-height,68px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12 w-full">
                 {/* ─── Left Group: Logo + Left-Aligned Desktop Navigation ─── */}
                 <div className="flex items-center gap-5 xl:gap-8 h-full">
                     {/* Logo */}

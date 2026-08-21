@@ -207,19 +207,19 @@ export function MegaFooter(): React.JSX.Element {
         </div>
       </footer>
 
-      {/* Floating Action Button */}
+      {/* Floating Action Button (Official WhatsApp Green) */}
       <motion.a
         href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackEvent("cta_whatsapp_click", { location: "sticky_fab" })}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#ba181b] text-white shadow-xl transition-all duration-300 hover:scale-110 hover:bg-[#e5383b]"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_25px_rgba(37,211,102,0.35)] transition-all duration-300 hover:scale-105 hover:bg-[#20bd5a]"
         aria-label="Chat on WhatsApp"
         initial={{ y: 80, opacity: 0 }}
         animate={showFab ? { y: 0, opacity: 1, pointerEvents: "auto" as const } : { y: 80, opacity: 0, pointerEvents: "none" as const }}
         transition={{ type: "spring", stiffness: 260, damping: 25 }}
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-6 w-6 fill-current" />
       </motion.a>
     </>
   );

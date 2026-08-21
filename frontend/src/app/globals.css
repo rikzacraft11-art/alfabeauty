@@ -133,6 +133,17 @@
     font-weight: 300;
     overflow-x: hidden;
   }
+
+  /* Luxury Organic Grain Background Textures */
+  .bg-tactile-luxury {
+    background-image: radial-gradient(circle at 50% 25%, rgba(242, 217, 160, 0.06) 0%, transparent 65%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0.2  0 1 0 0 0.2  0 0 1 0 0.2  0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .bg-dark-grain {
+    background-image: radial-gradient(circle at 50% 40%, rgba(242, 217, 160, 0.08) 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0.95  0 1 0 0 0.85  0 0 1 0 0.55  0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
 }
 
 @layer components {

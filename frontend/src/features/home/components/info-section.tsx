@@ -9,7 +9,7 @@ import { NAV_LINKS } from "@/shared/lib/config";
  * ───────────────────────────────────────────────────────────────────── */
 export function InfoSection(): React.JSX.Element {
     return (
-        <section className="section section-info bg-background py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
+        <section className="section section-info bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 {/* Top Row: Heading & About CTA */}
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16 items-start pb-16 sm:pb-20 border-b border-border-warm/60">

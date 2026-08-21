@@ -65,7 +65,7 @@ export function HeroSection(): React.JSX.Element {
     return (
         <section
             ref={containerRef}
-            className="relative z-10 w-full min-h-[125vh] bg-black"
+            className="relative z-10 w-full min-h-[125vh] bg-black bg-dark-grain"
         >
             {/* Sticky Viewport Container */}
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
