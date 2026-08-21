@@ -34,9 +34,11 @@ export function proxy(request: NextRequest): NextResponse {
   const nonce = crypto.randomUUID();
   const studioOrigin = allowedStudioOrigin();
 
+  const isDev = process.env.NODE_ENV !== "production";
+
   const csp = [
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://connect.facebook.net`,
+    `script-src 'self' 'nonce-${nonce}' ${isDev ? "'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://connect.facebook.net`.replace(/\s+/g, " ").trim(),
     `style-src 'self' 'unsafe-inline'`, // Tailwind + Radix inject inline styles
     `img-src 'self' data: https://cdn.sanity.io https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com`,
     `font-src 'self'`,

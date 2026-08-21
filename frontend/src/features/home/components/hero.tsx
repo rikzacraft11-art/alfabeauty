@@ -65,7 +65,7 @@ export function HeroSection(): React.JSX.Element {
     return (
         <section
             ref={containerRef}
-            className="relative z-10 w-full min-h-[125vh] bg-background"
+            className="relative z-10 w-full min-h-[125vh] bg-black"
         >
             {/* Sticky Viewport Container */}
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
@@ -100,25 +100,25 @@ export function HeroSection(): React.JSX.Element {
                         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
                     </div>
 
-                    {/* ─── 1:1 Authentic Luxury Salon LED Illuminated Mirror Frame ─── */}
+                    {/* ─── 1:1 Authentic Luxury Salon Warm Yellow LED Illuminated Mirror Frame ─── */}
                     <motion.div
                         style={{ opacity: mirrorFrameOpacity }}
                         className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] overflow-hidden"
                     >
-                        {/* 1. Outer Glass Polished Bevel Edge */}
-                        <div className="absolute inset-0 rounded-[inherit] border-[2.5px] border-white/80 shadow-[inset_0_0_10px_rgba(255,255,255,0.4),0_0_20px_rgba(255,255,255,0.4)] pointer-events-none" />
+                        {/* 1. Outer Glass Polished Warm Bevel Edge */}
+                        <div className="absolute inset-0 rounded-[inherit] border-[2.5px] border-[#FBE6A2]/90 shadow-[inset_0_0_10px_rgba(251,230,162,0.5),0_0_22px_rgba(255,215,90,0.45)] pointer-events-none" />
 
                         {/* 2. Outer Glass Margin (Clear Polished Gap) */}
                         <div className="absolute inset-[10px] sm:inset-[16px] lg:inset-[22px] rounded-[24px] pointer-events-none">
-                            {/* 3. The Iconic Salon LED Illuminated Frosted Glowing Light Strip */}
-                            <div className="absolute inset-0 rounded-[24px] border-[10px] sm:border-[14px] lg:border-[18px] border-white/95 shadow-[0_0_30px_rgba(255,255,255,0.95),0_0_60px_rgba(255,255,255,0.7),inset_0_0_20px_rgba(255,255,255,0.85)]" />
+                            {/* 3. The Iconic Salon Warm Yellow LED Illuminated Glowing Light Strip */}
+                            <div className="absolute inset-0 rounded-[24px] border-[10px] sm:border-[14px] lg:border-[18px] border-[#FFE28A] shadow-[0_0_35px_rgba(255,215,90,0.95),0_0_75px_rgba(255,185,50,0.7),inset_0_0_22px_rgba(255,235,150,0.9)]" />
                             
                             {/* Inner Crisp Hairline Border along LED Edge */}
-                            <div className="absolute inset-[10px] sm:inset-[14px] lg:inset-[18px] rounded-[16px] border border-white/50 pointer-events-none" />
+                            <div className="absolute inset-[10px] sm:inset-[14px] lg:inset-[18px] rounded-[16px] border border-[#FFE8A3]/70 pointer-events-none" />
                         </div>
 
-                        {/* 4. Realistic Diagonal Glass Specular Light Sheen */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+                        {/* 4. Realistic Diagonal Glass Specular Warm Gold Light Sheen */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#FFE699]/[0.09] to-transparent pointer-events-none" />
                     </motion.div>
 
                     {/* ─── Preserved State 1 Content (Exact Copy & 2 Buttons at Scroll 0) ─── */}
@@ -161,24 +161,25 @@ export function HeroSection(): React.JSX.Element {
                                 </p>
                             </FadeIn>
 
-                            {/* Minimalist Consistent Buttons */}
-                            <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:flex-row items-start sm:items-center">
+                            {/* Calvin Klein Minimalist Button & Underline Pair */}
+                            <div className="mt-6 sm:mt-10 flex flex-col gap-5 sm:flex-row items-start sm:items-center">
                                 <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
                                     <Link
                                         href={NAV_LINKS.brands}
-                                        className="inline-flex items-center justify-center gap-2 rounded-sm bg-[#ba181b] px-7 py-3 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-[#a4161a]"
+                                        className="inline-flex items-center justify-center gap-2 rounded-none bg-[#ba181b] px-8 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#a4161a]"
                                     >
-                                        <span>Explore Our Brands</span>
-                                        <ArrowRight className="h-4 w-4" />
+                                        <span>Explore Brands</span>
+                                        <ArrowRight className="h-3.5 w-3.5" />
                                     </Link>
                                 </FadeIn>
 
                                 <FadeIn delay={HERO_TIMING.cta + 0.12} direction="up" blur>
                                     <Link
                                         href={NAV_LINKS.partnership}
-                                        className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/40 bg-transparent px-7 py-3 text-[13px] font-semibold text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-black"
+                                        className="group inline-flex items-center gap-1.5 text-[12.5px] font-medium uppercase tracking-[0.14em] text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#F2D9A0] hover:text-[#F2D9A0]"
                                     >
                                         <span>Partner With Us</span>
+                                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                                     </Link>
                                 </FadeIn>
                             </div>

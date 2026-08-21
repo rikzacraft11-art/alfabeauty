@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, ArrowRight } from "lucide-react";
 import { FadeIn } from "@/shared/components/motion/fade-in";
 import { TextReveal } from "@/shared/components/motion/text-reveal";
 import { LineGrow } from "@/shared/hooks/use-animations";
@@ -59,41 +60,40 @@ function FAQAccordionItem({
     return (
         <FadeIn delay={index * 0.06} blur>
             <div
-                className="group border-b border-border-warm/60"
+                className="group border-b border-border-warm/60 transition-colors hover:border-black/50"
                 onMouseEnter={onHover}
             >
                 <button
                     type="button"
-                    className="flex w-full items-center justify-between gap-4 py-6 text-left transition-colors duration-300"
+                    className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors duration-200"
                     aria-expanded={isOpen}
                     onClick={onToggle}
                 >
-                    <span className="text-sm font-semibold tracking-tight sm:text-base text-foreground">
+                    <span className="text-[15px] sm:text-[16px] font-normal tracking-[-0.01em] text-foreground transition-colors group-hover:text-[#ba181b]">
                         {item.question}
                     </span>
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-border-warm/60 transition-all duration-500 ease-[var(--ease)] group-hover:border-foreground/30 group-hover:bg-muted/30">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center text-foreground transition-transform duration-300 group-hover:text-[#ba181b]">
                         {isOpen ? (
-                            <Minus className="h-3.5 w-3.5" />
+                            <Minus className="h-4 w-4" />
                         ) : (
-                            <Plus className="h-3.5 w-3.5" />
+                            <Plus className="h-4 w-4" />
                         )}
                     </span>
                 </button>
                 <AnimatePresence initial={false}>
                     {isOpen && (
                         <motion.div
-                            initial={{ height: 0, opacity: 0, y: -6 }}
+                            initial={{ height: 0, opacity: 0, y: -4 }}
                             animate={{ height: "auto", opacity: 1, y: 0 }}
-                            exit={{ height: 0, opacity: 0, y: -6 }}
+                            exit={{ height: 0, opacity: 0, y: -4 }}
                             transition={{
-                                height: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
-                                opacity: { duration: 0.38, ease: [0.16, 1, 0.3, 1], delay: 0.04 },
-                                y: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                                height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                                opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
                             }}
                             className="overflow-hidden"
                         >
                             <div className="pb-6 pr-6 sm:pr-12">
-                                <p className="text-sm leading-relaxed text-charcoal/90">
+                                <p className="text-[14px] sm:text-[14.5px] leading-relaxed text-muted-foreground font-normal">
                                     {item.answer}
                                 </p>
                             </div>
@@ -149,12 +149,13 @@ export function FAQSection({
                                 salon partnership, and distribution.
                             </p>
                             <div className="mt-6">
-                                <a
+                                <Link
                                     href="/faq"
-                                    className="inline-flex items-center justify-center rounded-sm bg-foreground px-5 py-2 text-[12px] font-semibold text-white transition-colors duration-300 hover:bg-foreground/90"
+                                    className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-[#ba181b] hover:text-[#ba181b]"
                                 >
-                                    View all
-                                </a>
+                                    <span>View All FAQ</span>
+                                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                                </Link>
                             </div>
                         </FadeIn>
                     </div>

@@ -90,23 +90,23 @@ export function MegaFooter(): React.JSX.Element {
             {/* Morphing Square-to-Circle Dual Arrow Button */}
             <button
               onClick={scrollToTop}
-              className="group relative flex h-16 w-16 sm:h-20 sm:w-20 lg:h-22 lg:w-22 shrink-0 items-center justify-center overflow-hidden rounded-[20px] border border-white/30 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:rounded-full hover:border-[#ba181b] hover:bg-[#ba181b] hover:text-white"
+              className="group relative flex h-14 w-14 sm:h-16 sm:w-16 lg:h-18 lg:w-18 shrink-0 items-center justify-center overflow-hidden rounded-none border border-white/30 transition-all duration-300 hover:border-[#ba181b] hover:bg-[#ba181b] hover:text-white"
               aria-label="Back to top"
             >
               <div className="relative flex flex-col items-center justify-center">
-                <ArrowUp className="h-6 w-6 sm:h-7 sm:w-7 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-12" />
-                <ArrowUp className="absolute top-12 h-6 w-6 sm:h-7 sm:w-7 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-12" />
+                <ArrowUp className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:-translate-y-12" />
+                <ArrowUp className="absolute top-12 h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:-translate-y-12" />
               </div>
             </button>
           </div>
 
-          {/* ─── Row 2: .f-content (Giant Brand Mark + 3 Large Solution Cards) ─── */}
+          {/* ─── Row 2: .f-content (Giant Brand Mark + 3 Sleek Solution Panels) ─── */}
           <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7 items-center my-auto">
             
             {/* Column 1: Giant Brand Mark in White with Red Accent */}
             <Link
               href="/"
-              className="group relative flex aspect-[4/3] lg:aspect-square w-full items-center justify-center p-4 sm:p-6 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105"
+              className="group relative flex aspect-[4/3] lg:aspect-square w-full items-center justify-center p-4 sm:p-6 transition-transform duration-300 hover:scale-105"
             >
               <div className="relative flex flex-col items-center justify-center">
                 <Image
@@ -122,45 +122,50 @@ export function MegaFooter(): React.JSX.Element {
               </div>
             </Link>
 
-            {/* Columns 2, 3, 4: 3 Solution Cards with Dual Roll-Over Text */}
-            {FOOTER_SOLUTIONS.map((item) => (
+            {/* Columns 2, 3, 4: 3 Solution Panels with Calvin Klein Minimalist Underline Style */}
+            {FOOTER_SOLUTIONS.map((item, idx) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="group relative flex aspect-[4/3] lg:aspect-square w-full cursor-pointer items-center justify-center rounded-[28px] border border-white/20 bg-white/[0.03] p-6 sm:p-10 text-center backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white/[0.08] hover:border-[#ba181b] hover:shadow-[0_15px_40px_rgba(186,24,27,0.15)]"
+                className="group relative flex aspect-[4/3] lg:aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-white/15 bg-white/[0.02] p-6 sm:p-10 text-center transition-all duration-300 hover:bg-white/[0.06] hover:border-white/50"
               >
-                <div className="relative overflow-hidden py-1">
-                  <span className="block text-2xl sm:text-3xl lg:text-[2.2rem] font-normal leading-snug tracking-[-0.01em] text-white transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                    {item.title}
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#ba181b]">
+                    0{idx + 1}
                   </span>
-                  <span className="absolute left-0 top-full block w-full text-2xl sm:text-3xl lg:text-[2.2rem] font-normal leading-snug tracking-[-0.01em] text-[#ba181b] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                    {item.title}
-                  </span>
+                  <div className="relative overflow-hidden py-1">
+                    <span className="block text-xl sm:text-2xl lg:text-[1.85rem] font-light leading-snug tracking-[-0.01em] text-white transition-transform duration-300 group-hover:-translate-y-full">
+                      {item.title}
+                    </span>
+                    <span className="absolute left-0 top-full block w-full text-xl sm:text-2xl lg:text-[1.85rem] font-normal leading-snug tracking-[-0.01em] text-[#ba181b] transition-transform duration-300 group-hover:-translate-y-full">
+                      {item.title}
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
-          {/* ─── Row 3: .f-footer (Single Rounded Capsule Bar with Roll-Over Links) ─── */}
-          <div className="w-full rounded-[24px] border border-white/20 bg-white/[0.02] px-6 sm:px-10 py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] sm:text-[14.5px] text-white/80">
+          {/* ─── Row 3: .f-footer (Sleek Minimalist Legal Bar) ─── */}
+          <div className="w-full rounded-none border-t border-white/15 pt-6 pb-2 flex flex-col md:flex-row items-center justify-between gap-4 text-[12.5px] sm:text-[13.5px] text-white/70">
             
             {/* Left: Copyright + Social Icons */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-8">
-              <p className="flex items-center gap-1.5 font-normal text-white/70">
+              <p className="flex items-center gap-1.5 font-normal text-white/60">
                 <span>©</span>
                 <span>Alfa Beauty {currentYear}. All Rights Reserved</span>
               </p>
 
-              {/* Social Icons with Red Hover */}
+              {/* Social Icons with Red & Green Accents */}
               <div className="flex items-center gap-4">
                 <a
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 transition-all duration-300 hover:scale-125 hover:text-[#ba181b]"
+                  className="flex h-6 w-6 items-center justify-center text-white/70 transition-colors duration-200 hover:text-[#ba181b]"
                   aria-label="Instagram"
                 >
-                  <Instagram className="h-4.5 w-4.5" />
+                  <Instagram className="h-4 w-4" />
                 </a>
 
                 <a
@@ -168,33 +173,33 @@ export function MegaFooter(): React.JSX.Element {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent("cta_whatsapp_click", { location: "footer" })}
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 transition-all duration-300 hover:scale-125 hover:text-[#ba181b]"
+                  className="flex h-6 w-6 items-center justify-center text-[#259E4A] transition-colors duration-200 hover:text-white"
                   aria-label="WhatsApp"
                 >
-                  <MessageCircle className="h-4.5 w-4.5" />
+                  <MessageCircle className="h-4 w-4" />
                 </a>
 
                 <a
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 transition-all duration-300 hover:scale-125 hover:text-[#ba181b]"
+                  className="flex h-6 w-6 items-center justify-center text-white/70 transition-colors duration-200 hover:text-[#ba181b]"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin className="h-4.5 w-4.5" />
+                  <Linkedin className="h-4 w-4" />
                 </a>
               </div>
             </div>
 
-            {/* Right: Legal Links with Dual Roll-Over Animation */}
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-2 font-normal text-white/80">
-              <Link href={NAV_LINKS.contact}>
+            {/* Right: Legal Links with Calvin Klein Underline Hover */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-2 uppercase tracking-[0.12em] text-[11px] font-semibold text-white/70">
+              <Link href={NAV_LINKS.contact} className="hover:text-white transition-colors">
                 <TextRoll text="Contact Us" />
               </Link>
-              <Link href="/privacy">
+              <Link href="/privacy" className="hover:text-white transition-colors">
                 <TextRoll text="Privacy Policy" />
               </Link>
-              <Link href="/terms">
+              <Link href="/terms" className="hover:text-white transition-colors">
                 <TextRoll text="Terms & Conditions" />
               </Link>
             </div>

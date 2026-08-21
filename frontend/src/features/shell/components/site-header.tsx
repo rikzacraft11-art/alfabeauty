@@ -83,33 +83,33 @@ export function SiteHeader(): React.JSX.Element {
     const hasElevation = scrolled && !menuOpen;
 
     const indicatorBar = React.useMemo(() => [
-        "before:content-[''] before:absolute before:bottom-[-1px] before:left-[0.6rem] before:right-[0.6rem] xl:before:left-[0.8rem] xl:before:right-[0.8rem]",
+        "before:content-[''] before:absolute before:bottom-0 before:left-2 before:right-2 xl:before:left-3 xl:before:right-3",
         "before:h-[2px]",
         "before:origin-bottom before:[transform:scaleY(0)]",
-        "before:transition-[transform,background-color] before:duration-[350ms] before:ease-[var(--ease)]",
+        "before:transition-[transform,background-color] before:duration-[250ms] before:ease-[var(--ease)]",
         isSolid ? "before:bg-foreground" : "before:bg-white",
     ].join(" "), [isSolid]);
 
     const triggerClasses = React.useMemo(() => cn(
         "relative h-full whitespace-nowrap",
-        "bg-transparent px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em]",
-        "transition-colors duration-[350ms] ease-[var(--ease)]",
+        "bg-transparent px-2.5 xl:px-3.5 text-[11.5px] xl:text-[12.5px] font-semibold uppercase tracking-[0.14em]",
+        "transition-colors duration-[250ms] ease-[var(--ease)]",
         "hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
         indicatorBar,
         "hover:before:[transform:scaleY(1)] data-[state=open]:before:[transform:scaleY(1)]",
         isSolid
-            ? "text-foreground/90 hover:text-foreground data-[state=open]:text-foreground"
-            : "text-white/90 hover:text-white data-[state=open]:text-white"
+            ? "text-foreground/80 hover:text-foreground data-[state=open]:text-foreground"
+            : "text-white/80 hover:text-white data-[state=open]:text-white"
     ), [isSolid, indicatorBar]);
 
     const directLinkClasses = React.useMemo(() => cn(
-        "relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] whitespace-nowrap",
-        "transition-colors duration-[350ms] ease-[var(--ease)]",
+        "relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[11.5px] xl:text-[12.5px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap",
+        "transition-colors duration-[250ms] ease-[var(--ease)]",
         "hover:bg-transparent focus:bg-transparent",
         "data-[active=true]:bg-transparent",
         indicatorBar,
         "hover:before:[transform:scaleY(1)]",
-        isSolid ? "text-foreground/90 hover:text-foreground" : "text-white/90 hover:text-white"
+        isSolid ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"
     ), [isSolid, indicatorBar]);
 
     const handleMouseEnter = React.useCallback(() => setHeaderHovered(true), []);
