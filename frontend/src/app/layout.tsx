@@ -4,8 +4,7 @@ import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_NAME, SITE_DOMAIN, CONTACT_EMAIL, INSTAGRAM_URL } from "@/shared/lib/config";
-import { SiteHeader } from "@/shared/components/layout/site-header";
-
+import { SiteHeader } from "@/features/shell";
 import { MegaFooter } from "@/shared/components/layout/mega-footer";
 import { LenisProvider } from "@/shared/components/providers/lenis-provider";
 import { LanguageProvider } from "@/shared/components/providers/language-provider";

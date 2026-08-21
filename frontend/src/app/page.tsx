@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/shared/components/layout/hero";
-import { Marquee } from "@/shared/components/layout/marquee";
-import { AboutSection } from "@/shared/components/layout/about";
-import { BrandCarousel } from "@/shared/components/layout/brand-carousel";
-import { FeatureSplit } from "@/shared/components/layout/feature-split";
-import { PartnershipSection } from "@/shared/components/layout/partnership";
-import { FAQSection } from "@/shared/components/layout/faq-section";
-import { CertificationBadges } from "@/shared/components/layout/certification-badges";
-import { PreFooterCTA } from "@/shared/components/layout/pre-footer-cta";
+import {
+  HeroSection,
+  ShopCTASection,
+  SolutionsSection,
+  InfoSection,
+  NewProductsSection,
+  CustomMaklonCTA,
+  StandardsSection,
+  FAQSection,
+} from "@/features/home";
 
 export const metadata: Metadata = {
   title: {
@@ -20,51 +21,30 @@ export const metadata: Metadata = {
 
 export default function HomePage(): React.JSX.Element {
   return (
-    <>
-      <main id="main-content" className="relative z-10 bg-background">
-        {/* Section B: Hero — Cinematic with pillar CTA cards */}
-        <HeroSection />
+    <main id="main-content" className="relative z-10 bg-background">
+      {/* ─── Section 1: Hero Video + Minimalist Landscape Salon Mirror Morph ─── */}
+      <HeroSection />
 
-        {/* Section: Marquee — Quad-row scrolling keywords (GAP-MRQ-01) */}
-        <section className="border-y border-border-warm/40 bg-surface py-5 lg:py-6">
-          <Marquee
-            speed={45}
-            gap={3}
-            rows={2}
-            pauseOnHover
-            className="text-base sm:text-h4 font-semibold sm:font-bold tracking-tight text-foreground/80"
-          >
-            <span>Innovation</span>
-            <span>Alfaparf Milano</span>
-            <span>Education</span>
-            <span>Farmavita</span>
-            <span>Partnership</span>
-            <span>Montibello</span>
-            <span>Quality</span>
-            <span>Gamma+ Professional</span>
-            <span>Distribution</span>
-            <span>Excellence</span>
-          </Marquee>
-        </section>
+      {/* ─── Section 2: Editorial Statement & Shop CTA (1:1 Yucca .section-shop-cta) ─── */}
+      <ShopCTASection />
 
-        {/* Section: About — Company Introduction */}
-        <AboutSection />
+      {/* ─── Section 3: Salon & Haircare Solutions (1:1 Yucca .section-solutions) ─── */}
+      <SolutionsSection />
 
-        {/* Section C: Brand Portfolio — Horizontal Scroll */}
-        <BrandCarousel />
+      {/* ─── Section 4: Excellence, Mission & Vision (1:1 Yucca .section-info) ─── */}
+      <InfoSection />
 
-        {/* Section D: Feature Split — Education / "More Than a Distributor" */}
-        <FeatureSplit />
+      {/* ─── Section 5: New Products Shelf (1:1 Yucca .section-products) ─── */}
+      <NewProductsSection />
 
-        {/* Section: Partnership — Why Partner With Us */}
-        <PartnershipSection />
+      {/* ─── Section 6: Custom Formulations & Maklon CTA (1:1 Yucca .section-cta-main) ─── */}
+      <CustomMaklonCTA />
 
-        {/* Shared sections — FAQ, Certifications, CTA */}
-        <FAQSection />
-        <CertificationBadges />
-        <PreFooterCTA />
-      </main>
-    </>
+      {/* ─── Section 7: Quality & Product Standards (1:1 Yucca .section-standards) ─── */}
+      <StandardsSection />
+
+      {/* ─── Section 8: Frequently Asked Questions (1:1 Yucca .section-faq) ─── */}
+      <FAQSection />
+    </main>
   );
 }
-

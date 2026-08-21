@@ -1,0 +1,16 @@
+export { HeroSection } from "./components/hero";
+export { Marquee } from "./components/marquee";
+export { ShopCTASection } from "./components/shop-cta-section";
+export { SolutionsSection } from "./components/solutions-section";
+export { InfoSection } from "./components/info-section";
+export { NewProductsSection } from "./components/new-products-section";
+export { CustomMaklonCTA } from "./components/custom-maklon-cta";
+export { StandardsSection } from "./components/standards-section";
+export { FAQSection } from "./components/faq-section";
+export { BrandTotemShowroom } from "./components/brand-totems";
+export { AboutSection } from "./components/about";
+export { BrandCarousel } from "./components/brand-carousel";
+export { FeatureSplit } from "./components/feature-split";
+export { PartnershipSection } from "./components/partnership";
+export { CertificationBadges } from "./components/certification-badges";
+export { PreFooterCTA } from "./components/pre-footer-cta";

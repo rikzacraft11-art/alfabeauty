@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ProductDetailContent } from "@/features/brands/components/product-detail-content";
-import { getProductById, getAllProductIds } from "@/features/brands/components/product-data";
+import { ProductDetailContent, getProductById, getAllProductIds } from "@/features/catalog";
 
 type Props = {
     params: Promise<{ id: string }>;

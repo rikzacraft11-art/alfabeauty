@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_DOMAIN } from "@/shared/lib/config";
-import { products } from "@/features/brands/components/product-data";
+import { products } from "@/features/catalog";
 import { events, articles } from "@/features/education/components/education-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {

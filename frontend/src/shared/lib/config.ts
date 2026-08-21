@@ -37,6 +37,7 @@ export const OPERATING_HOURS = {
 export const NAV_LINKS = {
   home: "/",
   shop: "/shop",
+  products: "/products",
   brands: "/brands",
   education: "/education",
   partnership: "/partnership",

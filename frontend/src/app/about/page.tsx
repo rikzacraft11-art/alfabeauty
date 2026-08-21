@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { AboutPageContent } from "@/features/about/components/about-page-content";
-import { FAQSection } from "@/shared/components/layout/faq-section";
-import { CertificationBadges } from "@/shared/components/layout/certification-badges";
-import { PreFooterCTA } from "@/shared/components/layout/pre-footer-cta";
+import { FAQSection, CertificationBadges, PreFooterCTA } from "@/features/home";
 
 export const metadata: Metadata = {
     title: "About Us",
