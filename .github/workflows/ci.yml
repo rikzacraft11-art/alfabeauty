@@ -22,6 +22,12 @@ jobs:
     defaults:
       run:
         working-directory: frontend
+    env:
+      SANITY_CONTENT_MODE: fallback
+      COMMERCE_MODE: demo
+      COMMERCE_SECURITY_SECRET: ci-only-commerce-secret-000000000000
+      SANITY_STUDIO_PROJECT_ID: abc123xy
+      SANITY_STUDIO_DATASET: production
 
     steps:
       - name: Check out repository
@@ -45,6 +51,20 @@ jobs:
 
       - name: Type-check
         run: npm run typecheck
+
+      - name: Validate CMS schema
+        run: npm run cms:schema:validate
+
+      - name: Generate CMS types and reject drift
+        run: |
+          npm run cms:typegen
+          git diff --exit-code -- src/shared/types/sanity.generated.ts
+
+      - name: Generate CMS and commerce migration manifest
+        run: npm run cms:manifest
+
+      - name: Run CMS and commerce contract tests
+        run: npm test
 
       - name: Build production bundle
         run: npm run build

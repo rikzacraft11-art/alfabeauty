@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CheckoutForm } from "@/features/commerce/components/checkout-form";
 
 export const metadata: Metadata = {
   title: "Checkout — Complete Your Order",
@@ -8,15 +9,8 @@ export const metadata: Metadata = {
 
 export default function CheckoutPage(): React.JSX.Element {
   return (
-    <main id="main-content" className="relative z-10 bg-background">
-      <section className="container mx-auto px-4 py-20 min-h-[60vh]">
-        <h1 className="text-h1 font-bold tracking-tight text-foreground mb-4">
-          Checkout
-        </h1>
-        <p className="text-body text-muted-foreground">
-          Checkout page — coming soon. Secure payment powered by Midtrans.
-        </p>
-      </section>
+    <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
+      <CheckoutForm />
     </main>
   );
 }

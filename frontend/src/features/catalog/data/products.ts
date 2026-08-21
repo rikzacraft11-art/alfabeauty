@@ -10,12 +10,16 @@ export type InfoSlide = {
 
 export type Product = {
     id: string;
+    /** Immutable binding to the future commerce system; never a display price or SKU. */
+    commerceProductId?: string;
     name: string;
     brand: string;
     category: string;
     audience: "salon" | "barber" | "both";
     description: string;
     variants?: string[];
+    /** Immutable commerce bindings paired with CMS display labels. */
+    commerceVariants?: { id: string; label: string }[];
     isNew?: boolean;
     /** Primary product photo — card thumbnail + detail hero */
     image?: string;
@@ -37,7 +41,10 @@ export type Product = {
 export type ProductListItem = Pick<
     Product,
     "id" | "name" | "brand" | "category" | "audience" | "description" | "image" | "variants" | "isNew"
->;
+> & {
+    startingPriceIdr?: number;
+    purchasable?: boolean;
+};
 
 export const categories = [
     { id: "all", label: "All Products" },

@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 import { SITE_DOMAIN } from "@/shared/lib/config";
-import { products } from "@/features/catalog";
+import { getCatalogProductSlugs } from "@/shared/lib/sanity/catalog";
 import { events, articles } from "@/features/education/components/education-data";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = "2026-03-10";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const lastModified = new Date();
+  const productSlugs = await getCatalogProductSlugs();
 
   /* ── Static routes ── */
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -22,8 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   /* ── Dynamic: brand product pages ── */
-  const productRoutes: MetadataRoute.Sitemap = products.map((p) => ({
-    url: `${SITE_DOMAIN}/brands/${p.id}`,
+  const productRoutes: MetadataRoute.Sitemap = productSlugs.map((slug) => ({
+    url: `${SITE_DOMAIN}/shop/${slug}`,
     lastModified,
     changeFrequency: "weekly" as const,
     priority: 0.8,

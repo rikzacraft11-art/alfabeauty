@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
+import { draftMode, headers } from "next/headers";
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -103,6 +103,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>): Promise<React.JSX.Element> {
   const nonce = (await headers()).get("x-nonce") ?? "";
+  const { isEnabled: isDraftMode } = await draftMode();
+  const VisualEditing = isDraftMode
+    ? (await import("next-sanity/visual-editing")).VisualEditing
+    : null;
 
   return (
     <html lang="id">
@@ -157,6 +161,7 @@ export default async function RootLayout({
             }}
           />
         )}
+        {VisualEditing && <VisualEditing />}
       </body>
     </html>
   );

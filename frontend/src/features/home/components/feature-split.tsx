@@ -8,7 +8,7 @@ import { TextReveal } from "@/shared/components/motion/text-reveal";
 import { LineGrow } from "@/shared/hooks/use-animations";
 import { AnimatedButton } from "@/shared/components/ui/animated-button";
 import { NAV_LINKS } from "@/shared/lib/config";
-import { cinematicEase, PARALLAX, listStagger, listItemFadeIn, glassBadgeReveal } from "@/shared/lib/motion";
+import { cinematicEase, listStagger, listItemFadeIn, glassBadgeReveal } from "@/shared/lib/motion";
 import { cn } from "@/shared/lib/utils";
 
 /* ─────────────────────────────────────────────────────────────────────
