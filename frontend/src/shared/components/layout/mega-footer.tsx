@@ -3,99 +3,65 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  motion,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
-import {
-  ArrowUp,
-  ArrowUpRight,
-  Instagram,
-  MessageCircle,
-  Package,
-  GraduationCap,
-  Handshake,
-} from "lucide-react";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { ArrowUp, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import {
   SITE_NAME,
-  SITE_SHORT_NAME,
   WHATSAPP_URL,
   INSTAGRAM_URL,
-  PILLARS,
-  LEGAL_LINKS,
+  NAV_LINKS,
 } from "@/shared/lib/config";
 import { trackEvent } from "@/shared/lib/analytics";
-import { cardStagger, cardFadeScale, PARALLAX, cinematicEase, listStagger, listItemFadeIn } from "@/shared/lib/motion";
-import { TextReveal } from "@/shared/components/motion/text-reveal";
-import { LineGrow, useParallax } from "@/shared/hooks/use-animations";
-import { FadeIn } from "@/shared/components/motion/fade-in";
+import { cn } from "@/shared/lib/utils";
 
 /* ─────────────────────────────────────────────────────────────────────
- * Component: MegaFooter V9
- *
- * V9 Upgrades:
- *   - Enhanced pillar cards with product imagery backgrounds
- *   - Deeper atmospheric overlays (dual warm vignette + radial glow)
- *   - Richer grain + mood on the fixed footer layer
- *   - Cinematic card hover with image reveal
+ * Solutions Pillar Cards matching Section 3 (1:1 Yucca Pattern)
  * ───────────────────────────────────────────────────────────────────── */
+const FOOTER_SOLUTIONS = [
+  {
+    title: "Solusi Rebonding",
+    href: "/products?category=treatments",
+  },
+  {
+    title: "Solusi Pewarnaan",
+    href: "/products?category=hair-colour",
+  },
+  {
+    title: "Solusi Barber",
+    href: "/products?category=tools",
+  },
+];
 
-const PILLAR_ICONS = [Package, GraduationCap, Handshake] as const;
-
-function WordmarkParallax() {
-  const { ref, y } = useParallax({ speed: PARALLAX.subtle });
+/* ─────────────────────────────────────────────────────────────────────
+ * Micro-Interaction: Dual Text Roll-Over (1:1 Yucca .f-link.split)
+ * ───────────────────────────────────────────────────────────────────── */
+function TextRoll({ text, className }: { text: string; className?: string }) {
   return (
-    <div ref={ref} className="hidden shrink-0 lg:block">
-      <motion.div className="flex flex-col items-start gap-2" style={{ y }}>
-        <Link href="/" className="group flex items-center gap-3.5">
-          <Image
-            src="/images/logo/alfa-beauty-mark.svg"
-            alt={SITE_NAME}
-            width={38}
-            height={50}
-            className="h-10 w-auto object-contain shrink-0"
-          />
-          <div className="flex flex-col">
-            <span className="text-sm font-bold tracking-[0.25em] text-foreground uppercase">
-              {SITE_SHORT_NAME}
-            </span>
-            <span className="text-[9px] font-semibold tracking-[0.2em] text-text-muted uppercase">
-              Cosmetica
-            </span>
-          </div>
-        </Link>
-        <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground/60">
-          Professional Distribution ®
-        </span>
-      </motion.div>
-    </div>
+    <span className={cn("group/roll relative inline-block overflow-hidden", className)}>
+      <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/roll:-translate-y-full">
+        {text}
+      </span>
+      <span className="absolute left-0 top-full inline-block text-[#ba181b] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/roll:-translate-y-full">
+        {text}
+      </span>
+    </span>
   );
 }
 
+/* ─────────────────────────────────────────────────────────────────────
+ * MegaFooter (Official Brand Color Palette: #000000, #ffffff, #ba181b, #660708)
+ *
+ * - Canvas: Pure Black (#000000) with Pure White (#ffffff) typography and Red (#ba181b) accents
+ * - Fullscreen 100vh Curtain Reveal
+ * ───────────────────────────────────────────────────────────────────── */
 export function MegaFooter(): React.JSX.Element {
   const currentYear = new Date().getFullYear();
-  const [showScrollTop, setShowScrollTop] = React.useState(false);
   const [showFab, setShowFab] = React.useState(false);
-  const footerRef = React.useRef<HTMLElement>(null);
-  const [footerHeight, setFooterHeight] = React.useState(600);
 
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setShowScrollTop(latest > 400);
     setShowFab(latest > 300);
   });
-
-  // Measure actual footer height for the spacer (ResizeObserver)
-  React.useEffect(() => {
-    const el = footerRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([entry]) => {
-      setFooterHeight(entry.contentRect.height);
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -103,199 +69,152 @@ export function MegaFooter(): React.JSX.Element {
 
   return (
     <>
-      {/* ── Spacer: pushes content so the fixed footer reveals underneath (sm+ only) ── */}
+      {/* ─── Curtain Reveal Spacer: Exact 100vh (h-screen) full viewport height ─── */}
       <div
-        className="pointer-events-none hidden sm:block"
-        style={{ height: footerHeight }}
+        className="pointer-events-none hidden sm:block h-screen w-full"
         aria-hidden="true"
       />
 
+      {/* ─── Fixed Fullscreen Footer (h-screen at z-0) in Pure Black #000000 ─── */}
       <footer
-        ref={footerRef}
-        className="relative sm:fixed sm:inset-x-0 sm:bottom-0 z-0 flex sm:min-h-[520px] flex-col bg-surface"
+        className="relative sm:fixed sm:inset-x-0 sm:bottom-0 z-0 flex min-h-screen sm:h-screen w-full flex-col justify-between bg-[#000000] text-white px-6 sm:px-12 lg:px-20 py-8 sm:py-12 lg:py-14"
       >
-        {/* Warm vignette atmosphere */}
-        <div className="absolute inset-0 vignette-warm pointer-events-none" />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden="true"
-          style={{
-            background: "radial-gradient(ellipse at 70% 80%, rgba(164,22,26,0.03) 0%, transparent 60%)",
-          }}
-        />
-        {/* ─── Top section: Headline + Scroll-to-top ─── */}
-        <div className="mx-auto flex w-full max-w-[1400px] items-start justify-between px-6 pt-10 sm:pt-14 sm:px-8 lg:px-12">
-          <div className="max-w-xl">
-            <TextReveal
-              as="h2"
-              className="heading-section text-foreground"
-              split="word"
-              blur
-              delay={0.15}
-              lines={[
-                "Innovated for Salon",
-                "& Barber Professionals.",
-              ]}
-            />
-          </div>
+        <div className="mx-auto flex h-full w-full max-w-[1540px] flex-col justify-between flex-1 gap-6 sm:gap-8">
+          
+          {/* ─── Row 1: .f-header (Headline + Morphing Dual-Arrow Scroll-to-top) ─── */}
+          <div className="flex w-full items-start justify-between gap-6 pt-2 sm:pt-4">
+            <h2 className="text-[2.4rem] sm:text-[3.6rem] lg:text-[4.6rem] font-normal leading-[1.04] tracking-[-0.03em] text-white max-w-4xl text-balance">
+              Innovated for Industry Leaders.
+            </h2>
 
-          {/* Scroll-to-top (Yucca arrow-up button) */}
-          <motion.button
-            onClick={scrollToTop}
-            className="group flex h-10 w-10 shrink-0 items-center justify-center border border-charcoal/20 text-foreground transition-all duration-300 hover:border-charcoal hover:bg-foreground hover:text-white"
-            aria-label="Scroll to top"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: showScrollTop ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ArrowUp className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
-          </motion.button>
-        </div>
-
-        {/* Animated line under headline */}
-        <div className="mx-auto w-full max-w-[1400px] px-6 pt-4 sm:pt-6 sm:px-8 lg:px-12">
-          <LineGrow className="h-px bg-charcoal/10" />
-        </div>
-
-        {/* ─── Main: Logo wordmark + 3 Pillar cards ─── */}
-        <div className="mx-auto flex w-full max-w-[1400px] flex-1 items-center gap-3 py-6 sm:gap-8 sm:py-0 px-6 sm:px-8 lg:gap-12 lg:px-12">
-          {/* Brand wordmark (Yucca large logo equivalent) — real parallax */}
-          <WordmarkParallax />
-
-          {/* 3 Pillar cards — clean architectural layout without cropped images */}
-          <motion.div
-            className="grid w-full flex-1 grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4"
-            variants={cardStagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-          >
-            {PILLARS.map((pillar, idx) => {
-              const Icon = PILLAR_ICONS[idx] ?? Package;
-              return (
-                <motion.div
-                  key={pillar.label}
-                  variants={cardFadeScale}
-                >
-                  <Link
-                    href={pillar.href}
-                    className="group relative flex h-full min-h-[160px] sm:min-h-[220px] flex-col justify-between overflow-hidden border border-border-warm/60 bg-surface-elevated/70 p-5 sm:p-7 transition-all duration-500 ease-[var(--ease)] hover:border-brand-crimson/30 hover:bg-white hover:shadow-[0_12px_28px_rgba(0,0,0,0.05)]"
-                  >
-                    {/* Ambient subtle radial glow on hover */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(164,22,26,0.04)_0%,transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-
-                    <div className="relative z-10">
-                      {/* Top row: Numbered index + Micro icon badge */}
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-[11px] font-bold tabular-nums tracking-[0.25em] text-brand-crimson/70 select-none">
-                          {String(idx + 1).padStart(2, "0")}
-                        </span>
-                        <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-border-warm/60 bg-surface text-foreground/70 transition-all duration-500 group-hover:border-brand-crimson/40 group-hover:bg-brand-crimson/5 group-hover:text-brand-crimson">
-                          <Icon className="h-4 w-4" />
-                        </div>
-                      </div>
-
-                      <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors duration-300">
-                        {pillar.label}
-                      </h3>
-                      <p className="mt-2 text-xs sm:text-sm leading-relaxed text-charcoal/80">
-                        {pillar.description}
-                      </p>
-                    </div>
-
-                    {/* Animated hairline divider */}
-                    <div className="relative z-10 mt-5">
-                      <div className="h-px w-full bg-border-warm/60 transition-colors duration-500 group-hover:bg-brand-crimson/20" />
-                    </div>
-
-                    {/* Explore CTA with smooth arrow slide */}
-                    <div className="relative z-10 mt-4 flex items-center justify-between">
-                      <span className="text-xs font-bold uppercase tracking-[0.15em] text-brand-crimson transition-transform duration-300">
-                        Explore
-                      </span>
-                      <ArrowUpRight className="h-4 w-4 text-brand-crimson transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </div>
-
-                    {/* Hover accent line at bottom */}
-                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-[700ms] ease-[var(--ease)] group-hover:w-full" />
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-
-        {/* ─── Bottom bar ─── */}
-        <FadeIn delay={0.3} blur>
-          <div className="border-t border-charcoal/10 bg-surface-elevated">
-            <motion.div
-              className="mx-auto flex max-w-[1400px] flex-row items-center justify-between gap-4 px-5 py-4 sm:px-8 sm:py-5 lg:px-12"
-              variants={listStagger}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+            {/* Morphing Square-to-Circle Dual Arrow Button */}
+            <button
+              onClick={scrollToTop}
+              className="group relative flex h-16 w-16 sm:h-20 sm:w-20 lg:h-22 lg:w-22 shrink-0 items-center justify-center overflow-hidden rounded-[20px] border border-white/30 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:rounded-full hover:border-[#ba181b] hover:bg-[#ba181b] hover:text-white"
+              aria-label="Back to top"
             >
-              {/* Left: Copyright + Social icons */}
-              <motion.div className="flex flex-row items-center gap-3 sm:gap-5" variants={listItemFadeIn}>
-                <p className="text-[11px] sm:text-sm font-medium text-foreground/70 whitespace-nowrap">
-                  © {currentYear} {SITE_NAME}
-                </p>
-
-                {/* Social icons (Yucca pattern) — hover scale micro-interaction */}
-                <div className="flex items-center gap-3">
-                  <a
-                    href={INSTAGRAM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center p-2.5 -m-2.5 text-foreground/50 transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    aria-label="Instagram"
-                  >
-                    <Instagram className="h-4 w-4" />
-                    <span className="sr-only">(opens in new tab)</span>
-                  </a>
-                  <a
-                    href={WHATSAPP_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent("cta_whatsapp_click", { location: "footer" })}
-                    className="inline-flex items-center justify-center p-2.5 -m-2.5 text-foreground/50 transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    aria-label="WhatsApp"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    <span className="sr-only">(opens in new tab)</span>
-                  </a>
-                </div>
-              </motion.div>
-
-              {/* Right: Legal links */}
-              <motion.div className="flex flex-wrap items-center justify-end gap-x-4 sm:gap-x-6 gap-y-1" variants={listItemFadeIn}>
-                {LEGAL_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-[11px] sm:text-sm font-medium text-foreground/60 transition-colors duration-300 hover:text-foreground hover:underline underline-offset-4"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </motion.div>
-            </motion.div>
+              <div className="relative flex flex-col items-center justify-center">
+                <ArrowUp className="h-6 w-6 sm:h-7 sm:w-7 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-12" />
+                <ArrowUp className="absolute top-12 h-6 w-6 sm:h-7 sm:w-7 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-12" />
+              </div>
+            </button>
           </div>
-        </FadeIn>
+
+          {/* ─── Row 2: .f-content (Giant Brand Mark + 3 Large Solution Cards) ─── */}
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7 items-center my-auto">
+            
+            {/* Column 1: Giant Brand Mark in White with Red Accent */}
+            <Link
+              href="/"
+              className="group relative flex aspect-[4/3] lg:aspect-square w-full items-center justify-center p-4 sm:p-6 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105"
+            >
+              <div className="relative flex flex-col items-center justify-center">
+                <Image
+                  src="/images/logo/alfa-beauty-mark.svg"
+                  alt={SITE_NAME}
+                  width={260}
+                  height={260}
+                  className="h-36 sm:h-48 lg:h-56 w-auto object-contain brightness-0 invert"
+                />
+                <span className="absolute -bottom-2 -right-2 text-sm font-bold text-[#ba181b]">
+                  ®
+                </span>
+              </div>
+            </Link>
+
+            {/* Columns 2, 3, 4: 3 Solution Cards with Dual Roll-Over Text */}
+            {FOOTER_SOLUTIONS.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group relative flex aspect-[4/3] lg:aspect-square w-full cursor-pointer items-center justify-center rounded-[28px] border border-white/20 bg-white/[0.03] p-6 sm:p-10 text-center backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white/[0.08] hover:border-[#ba181b] hover:shadow-[0_15px_40px_rgba(186,24,27,0.15)]"
+              >
+                <div className="relative overflow-hidden py-1">
+                  <span className="block text-2xl sm:text-3xl lg:text-[2.2rem] font-normal leading-snug tracking-[-0.01em] text-white transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
+                    {item.title}
+                  </span>
+                  <span className="absolute left-0 top-full block w-full text-2xl sm:text-3xl lg:text-[2.2rem] font-normal leading-snug tracking-[-0.01em] text-[#ba181b] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
+                    {item.title}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* ─── Row 3: .f-footer (Single Rounded Capsule Bar with Roll-Over Links) ─── */}
+          <div className="w-full rounded-[24px] border border-white/20 bg-white/[0.02] px-6 sm:px-10 py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] sm:text-[14.5px] text-white/80">
+            
+            {/* Left: Copyright + Social Icons */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-8">
+              <p className="flex items-center gap-1.5 font-normal text-white/70">
+                <span>©</span>
+                <span>Alfa Beauty {currentYear}. All Rights Reserved</span>
+              </p>
+
+              {/* Social Icons with Red Hover */}
+              <div className="flex items-center gap-4">
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 transition-all duration-300 hover:scale-125 hover:text-[#ba181b]"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-4.5 w-4.5" />
+                </a>
+
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent("cta_whatsapp_click", { location: "footer" })}
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 transition-all duration-300 hover:scale-125 hover:text-[#ba181b]"
+                  aria-label="WhatsApp"
+                >
+                  <MessageCircle className="h-4.5 w-4.5" />
+                </a>
+
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 transition-all duration-300 hover:scale-125 hover:text-[#ba181b]"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-4.5 w-4.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Right: Legal Links with Dual Roll-Over Animation */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-2 font-normal text-white/80">
+              <Link href={NAV_LINKS.contact}>
+                <TextRoll text="Contact Us" />
+              </Link>
+              <Link href="/privacy">
+                <TextRoll text="Privacy Policy" />
+              </Link>
+              <Link href="/terms">
+                <TextRoll text="Terms & Conditions" />
+              </Link>
+            </div>
+          </div>
+        </div>
       </footer>
 
+      {/* Floating Action Button */}
       <motion.a
         href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackEvent("cta_whatsapp_click", { location: "sticky_fab" })}
-        className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition-[transform,box-shadow] duration-300 hover:scale-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#ba181b] text-white shadow-xl transition-all duration-300 hover:scale-110 hover:bg-[#e5383b]"
         aria-label="Chat on WhatsApp"
         initial={{ y: 80, opacity: 0 }}
         animate={showFab ? { y: 0, opacity: 1, pointerEvents: "auto" as const } : { y: 80, opacity: 0, pointerEvents: "none" as const }}
         transition={{ type: "spring", stiffness: 260, damping: 25 }}
       >
-        <MessageCircle className="h-5 w-5" />
+        <MessageCircle className="h-6 w-6" />
       </motion.a>
     </>
   );

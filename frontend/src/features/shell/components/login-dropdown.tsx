@@ -18,7 +18,7 @@ export const LoginDropdown: React.FC = () => {
             {/* Trigger Button (Pill Button 1:1 Yucca) */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background transition-transform duration-200 hover:scale-105"
+                className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background transition-colors duration-200 hover:bg-foreground/85"
                 aria-expanded={isOpen}
                 aria-haspopup="true"
             >

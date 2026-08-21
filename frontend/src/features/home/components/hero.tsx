@@ -63,18 +63,22 @@ export function HeroSection(): React.JSX.Element {
     }, []);
 
     return (
-        <div ref={containerRef} className="relative min-h-[125vh] bg-background">
-            <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+        <section
+            ref={containerRef}
+            className="relative z-10 w-full min-h-[125vh] bg-background"
+        >
+            {/* Sticky Viewport Container */}
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 
-                {/* ─── Layer 1: Morphing Video into Luxury Landscape Salon Mirror (100% Edge-to-Edge) ─── */}
+                {/* ─── Hero Video & Dynamic Salon Mirror Container ─── */}
                 <motion.div
                     style={{
                         scale: videoScale,
                         borderRadius: videoBorderRadius,
                     }}
-                    className="relative z-10 w-full h-full overflow-hidden will-change-transform shadow-[0_20px_60px_rgba(0,0,0,0.20)]"
+                    className="relative z-10 w-full h-full overflow-hidden will-change-transform bg-black"
                 >
-                    {/* Background Video */}
+                    {/* Background Video (Natural, Crisp Color) */}
                     <div className="pointer-events-none absolute inset-0 z-0">
                         <video
                             ref={videoRef}
@@ -90,19 +94,31 @@ export function HeroSection(): React.JSX.Element {
                         />
                     </div>
 
-                    {/* Gradient Overlay for Text Readability at State 1 */}
+                    {/* Neutral Clean Gradient for Crisp Text Readability at Scroll 0 */}
                     <div className="absolute inset-0 pointer-events-none z-0">
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent" />
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
                     </div>
 
-                    {/* ─── Professional Luxury Salon Mirror Frame ─── */}
+                    {/* ─── 1:1 Authentic Luxury Salon LED Illuminated Mirror Frame ─── */}
                     <motion.div
                         style={{ opacity: mirrorFrameOpacity }}
-                        className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] border-[4px] border-[#D4AF37]/90 shadow-[inset_0_0_24px_rgba(255,240,200,0.5),inset_0_1px_3px_rgba(255,255,255,0.8),0_0_40px_rgba(212,175,55,0.45),0_25px_60px_rgba(0,0,0,0.25)]"
+                        className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] overflow-hidden"
                     >
-                        {/* Subtle Optical Mirror Bevel Reflection */}
-                        <div className="absolute inset-0 rounded-[inherit] border border-white/40 pointer-events-none" />
+                        {/* 1. Outer Glass Polished Bevel Edge */}
+                        <div className="absolute inset-0 rounded-[inherit] border-[2.5px] border-white/80 shadow-[inset_0_0_10px_rgba(255,255,255,0.4),0_0_20px_rgba(255,255,255,0.4)] pointer-events-none" />
+
+                        {/* 2. Outer Glass Margin (Clear Polished Gap) */}
+                        <div className="absolute inset-[10px] sm:inset-[16px] lg:inset-[22px] rounded-[24px] pointer-events-none">
+                            {/* 3. The Iconic Salon LED Illuminated Frosted Glowing Light Strip */}
+                            <div className="absolute inset-0 rounded-[24px] border-[10px] sm:border-[14px] lg:border-[18px] border-white/95 shadow-[0_0_30px_rgba(255,255,255,0.95),0_0_60px_rgba(255,255,255,0.7),inset_0_0_20px_rgba(255,255,255,0.85)]" />
+                            
+                            {/* Inner Crisp Hairline Border along LED Edge */}
+                            <div className="absolute inset-[10px] sm:inset-[14px] lg:inset-[18px] rounded-[16px] border border-white/50 pointer-events-none" />
+                        </div>
+
+                        {/* 4. Realistic Diagonal Glass Specular Light Sheen */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent pointer-events-none" />
                     </motion.div>
 
                     {/* ─── Preserved State 1 Content (Exact Copy & 2 Buttons at Scroll 0) ─── */}
@@ -115,8 +131,8 @@ export function HeroSection(): React.JSX.Element {
                     >
                         <div className="max-w-3xl pt-[var(--header-height,80px)]">
                             <FadeIn delay={HERO_TIMING.eyebrow} blur scale>
-                                <p className="eyebrow text-white/50">
-                                    Established since {ESTABLISHED_YEAR}
+                                <p className="eyebrow text-white/60 font-semibold tracking-[0.25em]">
+                                    ESTABLISHED SINCE {ESTABLISHED_YEAR}
                                 </p>
                             </FadeIn>
 
@@ -137,7 +153,7 @@ export function HeroSection(): React.JSX.Element {
                             </div>
 
                             <FadeIn delay={HERO_TIMING.body} blur>
-                                <p className="mt-4 sm:mt-8 max-w-xl body-prose text-white/70">
+                                <p className="mt-4 sm:mt-8 max-w-xl body-prose text-white/80">
                                     Exclusive importer and distributor of leading Italian
                                     and Spanish professional haircare brands, serving
                                     Indonesia&apos;s salon and barber industry for over
@@ -145,35 +161,31 @@ export function HeroSection(): React.JSX.Element {
                                 </p>
                             </FadeIn>
 
-                            {/* Exactly Two Buttons */}
-                            <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:flex-row">
+                            {/* Minimalist Consistent Buttons */}
+                            <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:flex-row items-start sm:items-center">
                                 <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
-                                    <AnimatedButton
+                                    <Link
                                         href={NAV_LINKS.brands}
-                                        fillClass="bg-white"
-                                        fillTextClass="text-brand-crimson"
-                                        className="bg-brand-crimson text-white"
+                                        className="inline-flex items-center justify-center gap-2 rounded-sm bg-[#ba181b] px-7 py-3 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-[#a4161a]"
                                     >
-                                        Explore Our Brands
+                                        <span>Explore Our Brands</span>
                                         <ArrowRight className="h-4 w-4" />
-                                    </AnimatedButton>
+                                    </Link>
                                 </FadeIn>
 
                                 <FadeIn delay={HERO_TIMING.cta + 0.12} direction="up" blur>
-                                    <Button
-                                        asChild
-                                        variant="outline"
-                                        size="lg"
-                                        className="border-white/20 bg-transparent px-8 py-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-colors duration-300 hover:border-white/40 hover:bg-white/10"
+                                    <Link
+                                        href={NAV_LINKS.partnership}
+                                        className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/40 bg-transparent px-7 py-3 text-[13px] font-semibold text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-black"
                                     >
-                                        <Link href={NAV_LINKS.partnership}>Partner With Us</Link>
-                                    </Button>
+                                        <span>Partner With Us</span>
+                                    </Link>
                                 </FadeIn>
                             </div>
                         </div>
                     </motion.div>
                 </motion.div>
             </div>
-        </div>
+        </section>
     );
 }

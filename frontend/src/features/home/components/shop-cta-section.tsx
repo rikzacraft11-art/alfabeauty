@@ -18,7 +18,7 @@ export function ShopCTASection(): React.JSX.Element {
                 <div className="mt-8 sm:mt-10 flex justify-center">
                     <Link
                         href={NAV_LINKS.products}
-                        className="inline-flex items-center justify-center rounded-sm bg-foreground px-8 py-3.5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-foreground/90 hover:shadow-sm"
+                        className="inline-flex items-center justify-center rounded-sm bg-foreground px-8 py-3.5 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-foreground/80"
                     >
                         <span>See products</span>
                     </Link>
