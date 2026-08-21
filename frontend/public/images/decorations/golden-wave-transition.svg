@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none" width="100%" height="100%" style="overflow: visible;">
+  <defs>
+    <!-- Generous Filter Region to Prevent Any Clipping -->
+    <filter id="ultraSoftGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="35" result="blur1" />
+      <feGaussianBlur stdDeviation="12" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="spineHighlightGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="glow1" />
+      <feGaussianBlur stdDeviation="2.5" result="glow2" />
+      <feMerge>
+        <feMergeNode in="glow1" />
+        <feMergeNode in="glow2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="particleBloom" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="5" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Seamlessly Feathered Multi-stop Gradients (#EABD68 & #5D221C) with Smooth Edge Falloff -->
+    <linearGradient id="mainBodyGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#EABD68" stop-opacity="0" />
+      <stop offset="12%" stop-color="#EABD68" stop-opacity="0.35" />
+      <stop offset="35%" stop-color="#FFF2D1" stop-opacity="0.8" />
+      <stop offset="68%" stop-color="#FFFDF5" stop-opacity="0.9" />
+      <stop offset="86%" stop-color="#EABD68" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#EABD68" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Translucent Depth Layer -->
+    <linearGradient id="depthGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#5D221C" stop-opacity="0" />
+      <stop offset="25%" stop-color="#EABD68" stop-opacity="0.3" />
+      <stop offset="45%" stop-color="#5D221C" stop-opacity="0.25" />
+      <stop offset="70%" stop-color="#EABD68" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#5D221C" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Specular Hairline Gradient -->
+    <linearGradient id="spineGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#EABD68" stop-opacity="0" />
+      <stop offset="15%" stop-color="#EABD68" stop-opacity="0.5" />
+      <stop offset="38%" stop-color="#FFFDF5" stop-opacity="0.98" />
+      <stop offset="68%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="88%" stop-color="#FFF2D1" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#EABD68" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Stardust Radial Particle with Soft Feathered Edge -->
+    <radialGradient id="sparkleDot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="30%" stop-color="#FFF8E0" stop-opacity="0.9" />
+      <stop offset="65%" stop-color="#EABD68" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#EABD68" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- ─── 1. Deep Atmospheric Amber Halo (Wide Soft Spread) ─── -->
+  <path d="M-60,360 C240,780 620,860 960,560 C1300,260 1640,480 2000,520" 
+        fill="none" 
+        stroke="#EABD68" 
+        stroke-width="180" 
+        stroke-linecap="round"
+        opacity="0.12" 
+        filter="url(#ultraSoftGlow)" />
+
+  <!-- ─── 2. Rear Volumetric Shadow Ribbon (Translucent #5D221C & #EABD68) ─── -->
+  <path d="M-60,390 C220,740 580,820 920,530 C1280,240 1620,460 2000,500" 
+        fill="none" 
+        stroke="url(#depthGrad)" 
+        stroke-width="70" 
+        stroke-linecap="round"
+        opacity="0.6" 
+        filter="url(#ultraSoftGlow)" />
+
+  <!-- ─── 3. Main Luminous Golden Wave Ribbon Body (#EABD68) ─── -->
+  <path d="M-60,345 C200,705 560,785 900,505 C1260,215 1600,435 2000,485" 
+        fill="none" 
+        stroke="url(#mainBodyGrad)" 
+        stroke-width="48" 
+        stroke-linecap="round"
+        opacity="0.75" 
+        filter="url(#ultraSoftGlow)" />
+
+  <!-- ─── 4. Secondary Concentrated Particle Stream ─── -->
+  <path d="M-60,345 C200,705 560,785 900,505 C1260,215 1600,435 2000,485" 
+        fill="none" 
+        stroke="url(#mainBodyGrad)" 
+        stroke-width="22" 
+        stroke-linecap="round"
+        opacity="0.85" />
+
+  <!-- ─── 5. The Iconic Specular Center Hairline Spine (Unclipped & Glowing) ─── -->
+  <path d="M-60,345 C200,705 560,785 900,505 C1260,215 1600,435 2000,485" 
+        fill="none" 
+        stroke="url(#spineGrad)" 
+        stroke-width="3.2" 
+        stroke-linecap="round"
+        filter="url(#spineHighlightGlow)" />
+
+  <!-- ─── 6. Fine Upper Shimmer Filament ─── -->
+  <path d="M-60,325 C190,685 550,760 890,485 C1250,195 1590,415 2000,465" 
+        fill="none" 
+        stroke="#FFFDF5" 
+        stroke-width="1.4" 
+        opacity="0.7" />
+
+  <!-- ─── 7. Granular Particle Sparkle Swarm across the 1:1 Wave ─── -->
+  <g fill="url(#sparkleDot)">
+    <!-- Left Inflow & Descent -->
+    <circle cx="80"  cy="410" r="3.0" /><circle cx="120" cy="450" r="4.0" filter="url(#particleBloom)" /><circle cx="160" cy="510" r="2.8" />
+    <circle cx="200" cy="570" r="4.2" filter="url(#particleBloom)" /><circle cx="230" cy="620" r="2.5" /><circle cx="260" cy="660" r="3.2" />
+    <circle cx="290" cy="700" r="4.5" filter="url(#particleBloom)" /><circle cx="320" cy="725" r="2.5" /><circle cx="350" cy="745" r="3.5" />
+    
+    <!-- Trough & Turn (Left-Center) -->
+    <circle cx="390" cy="760" r="4.0" filter="url(#particleBloom)" /><circle cx="430" cy="770" r="4.8" filter="url(#particleBloom)" />
+    <circle cx="470" cy="765" r="3.2" /><circle cx="510" cy="750" r="4.0" /><circle cx="550" cy="725" r="4.5" filter="url(#particleBloom)" />
+    <circle cx="590" cy="695" r="3.5" /><circle cx="630" cy="660" r="4.2" filter="url(#particleBloom)" /><circle cx="670" cy="625" r="3.0" />
+
+    <!-- Upward Surge (Center) -->
+    <circle cx="720" cy="580" r="4.2" filter="url(#particleBloom)" /><circle cx="770" cy="530" r="3.8" /><circle cx="820" cy="480" r="5.0" filter="url(#particleBloom)" />
+    <circle cx="870" cy="430" r="4.0" /><circle cx="920" cy="380" r="4.5" filter="url(#particleBloom)" /><circle cx="970" cy="340" r="3.5" />
+    
+    <!-- Crest & Peak (Right-Center) -->
+    <circle cx="1030" cy="290" r="5.0" filter="url(#particleBloom)" /><circle cx="1080" cy="260" r="4.5" /><circle cx="1130" cy="240" r="5.8" filter="url(#particleBloom)" />
+    <circle cx="1180" cy="235" r="4.2" /><circle cx="1230" cy="245" r="5.5" filter="url(#particleBloom)" /><circle cx="1280" cy="270" r="4.0" />
+    <circle cx="1340" cy="310" r="4.8" filter="url(#particleBloom)" /><circle cx="1400" cy="360" r="4.2" />
+
+    <!-- Downward Trail & Outflow (Right) -->
+    <circle cx="1460" cy="410" r="4.5" filter="url(#particleBloom)" /><circle cx="1520" cy="450" r="3.5" /><circle cx="1580" cy="480" r="4.2" filter="url(#particleBloom)" />
+    <circle cx="1640" cy="500" r="3.2" /><circle cx="1710" cy="510" r="4.0" filter="url(#particleBloom)" /><circle cx="1780" cy="505" r="3.5" />
+    <circle cx="1850" cy="495" r="3.0" /><circle cx="1910" cy="480" r="2.5" />
+  </g>
+</svg>
