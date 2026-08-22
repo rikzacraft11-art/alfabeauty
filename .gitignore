@@ -29,10 +29,11 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Heavy documentation & raw asset zip extracts
-docs/Informasi Kosmetik*
-docs/PDF Print*
-docs/SMOOVEE*
-**/Informasi Kosmetik*
-**/PDF Print*
-**/SMOOVEE*
+# Heavy documentation & raw asset zip extracts in docs/
+/docs/Informasi Kosmetik*
+/docs/PDF Print*
+/docs/SMOOVEE*
+
+# Ensure public assets are always tracked
+!frontend/public/
+!frontend/public/**
