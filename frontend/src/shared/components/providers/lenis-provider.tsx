@@ -47,44 +47,23 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
         if (prefersReduced) return;
 
         const lenis = new Lenis({
-            lerp: 0.08,
+            lerp: 0.1,
             smoothWheel: true,
-            wheelMultiplier: 0.9,
-            touchMultiplier: 1.5,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.2,
         });
 
         lenisRef.current = lenis;
 
         let rafId: number;
-        let isRunning = false;
-
         function raf(time: number) {
             lenis.raf(time);
-            if (lenis.isScrolling) {
-                rafId = requestAnimationFrame(raf);
-            } else {
-                isRunning = false;
-            }
+            rafId = requestAnimationFrame(raf);
         }
-
-        function startRaf() {
-            if (!isRunning) {
-                isRunning = true;
-                rafId = requestAnimationFrame(raf);
-            }
-        }
-
-        // Only run RAF when user is actually scrolling
-        window.addEventListener("scroll", startRaf, { passive: true });
-        window.addEventListener("wheel", startRaf, { passive: true });
-        window.addEventListener("touchmove", startRaf, { passive: true });
-        startRaf(); // initial kick
+        rafId = requestAnimationFrame(raf);
 
         return () => {
             cancelAnimationFrame(rafId);
-            window.removeEventListener("scroll", startRaf);
-            window.removeEventListener("wheel", startRaf);
-            window.removeEventListener("touchmove", startRaf);
             lenis.destroy();
             lenisRef.current = null;
         };

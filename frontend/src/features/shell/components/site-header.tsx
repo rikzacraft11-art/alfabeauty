@@ -48,6 +48,8 @@ export function SiteHeader(): React.JSX.Element {
     const menuWasOpen = React.useRef(false);
     const { scrollY } = useScroll();
     const lastScrollY = React.useRef(0);
+    const currentScrolledRef = React.useRef(false);
+    const currentDirectionRef = React.useRef<"up" | "down">("up");
     const accumulatedDelta = React.useRef(0);
     const [scrollDirection, setScrollDirection] = React.useState<"up" | "down">("up");
     const rafId = React.useRef(0);
@@ -55,12 +57,19 @@ export function SiteHeader(): React.JSX.Element {
     useMotionValueEvent(scrollY, "change", (latest) => {
         cancelAnimationFrame(rafId.current);
         rafId.current = requestAnimationFrame(() => {
-            setScrolled(latest > 30);
+            const isScrolled = latest > 30;
+            if (currentScrolledRef.current !== isScrolled) {
+                currentScrolledRef.current = isScrolled;
+                setScrolled(isScrolled);
+            }
             const diff = latest - lastScrollY.current;
 
             if (latest <= 30) {
                 // At the top of page: always show header
-                setScrollDirection("up");
+                if (currentDirectionRef.current !== "up") {
+                    currentDirectionRef.current = "up";
+                    setScrollDirection("up");
+                }
                 accumulatedDelta.current = 0;
             } else if (diff > 0) {
                 // Scrolling DOWN (even very slowly): accumulate delta
@@ -70,7 +79,8 @@ export function SiteHeader(): React.JSX.Element {
                 accumulatedDelta.current += diff;
 
                 // Close/hide header as soon as user has scrolled down by at least 4px total
-                if (accumulatedDelta.current >= 4) {
+                if (accumulatedDelta.current >= 4 && currentDirectionRef.current !== "down") {
+                    currentDirectionRef.current = "down";
                     setScrollDirection("down");
                 }
             } else if (diff < 0) {
@@ -81,7 +91,8 @@ export function SiteHeader(): React.JSX.Element {
                 accumulatedDelta.current += diff;
 
                 // Reveal header when user scrolls up intentionally (>= 6px total)
-                if (accumulatedDelta.current <= -6) {
+                if (accumulatedDelta.current <= -6 && currentDirectionRef.current !== "up") {
+                    currentDirectionRef.current = "up";
                     setScrollDirection("up");
                 }
             }

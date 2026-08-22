@@ -37,12 +37,12 @@ export function HeroSection(): React.JSX.Element {
     // Backlight glow fades in smoothly as video scales down away from edges
     const mirrorFrameOpacity = useTransform(scrollYProgress, [0.12, 0.40], [0, 1], { clamp: true });
 
-    // 2. Initial State 1 Copywriting Overlay & Gradient (Fades out completely within initial 8% scroll)
-    const state1OverlayOpacity = useTransform(scrollYProgress, (v) => v < 0.08 ? 1 - (v / 0.08) : 0);
-    const state1OverlayY = useTransform(scrollYProgress, (v) => -Math.min(50, v * 300));
+    // 2. Initial State 1 Copywriting Overlay & Gradient (Fades out smoothly within initial scroll)
+    const state1OverlayOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0], { clamp: true });
+    const state1OverlayY = useTransform(scrollYProgress, [0, 0.12], [0, -40], { clamp: true });
     const state1Display = useTransform(scrollYProgress, (v) => v > 0.08 ? "none" : "flex");
     const state1PointerEvents = useTransform(scrollYProgress, (v) => v > 0.04 ? "none" : "auto");
-    const gradientOpacity = useTransform(scrollYProgress, (v) => v < 0.12 ? 1 - (v / 0.12) : 0);
+    const gradientOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0], { clamp: true });
 
     React.useEffect(() => {
         const video = videoRef.current;
@@ -52,13 +52,16 @@ export function HeroSection(): React.JSX.Element {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    video.src = "/videos/hero-bg.mp4";
-                    video.load();
+                    if (!video.src) {
+                        video.src = "/videos/hero-bg.mp4";
+                        video.load();
+                    }
                     video.play().catch(() => {});
-                    observer.disconnect();
+                } else {
+                    video.pause();
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.05 }
         );
         observer.observe(container);
         return () => observer.disconnect();
@@ -67,7 +70,7 @@ export function HeroSection(): React.JSX.Element {
     return (
         <section
             ref={containerRef}
-            className="relative z-10 w-full min-h-[175vh] bg-transparent"
+            className="section section-hero relative z-10 w-full min-h-[175vh] bg-transparent"
         >
             {/* Sticky Viewport Container — Full-Bleed Edge-to-Edge at Scroll 0 */}
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-visible bg-transparent p-0">
@@ -79,12 +82,12 @@ export function HeroSection(): React.JSX.Element {
                         y: videoY,
                         borderRadius: videoBorderRadius,
                     }}
-                    className="relative z-10 w-full h-full will-change-transform bg-black origin-center"
+                    className="relative z-10 w-full h-full will-change-transform bg-black origin-center gpu-layer"
                 >
                     {/* 1. Luminous Golden Backlight Shadow (Fades in smoothly as video scales inward) */}
                     <motion.div
                         style={{ opacity: mirrorFrameOpacity }}
-                        className="pointer-events-none absolute -inset-3 sm:-inset-6 lg:-inset-10 rounded-[inherit] bg-[#EABD68]/30 blur-2xl sm:blur-3xl -z-10"
+                        className="pointer-events-none absolute -inset-3 sm:-inset-6 lg:-inset-10 rounded-[inherit] bg-[#EABD68]/30 blur-2xl sm:blur-3xl -z-10 gpu-layer"
                         aria-hidden="true"
                     />
 

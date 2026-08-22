@@ -125,17 +125,25 @@ export function BrandHeroShowcaseStage({
     const springConfig = { damping: 30, stiffness: 180, mass: 0.8 };
     const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5.5, -5.5]), springConfig);
     const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5.5, 5.5]), springConfig);
+    const mouseRaf = React.useRef(0);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!cardRef.current) return;
         const rect = cardRef.current.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        mouseX.set(x);
-        mouseY.set(y);
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+
+        cancelAnimationFrame(mouseRaf.current);
+        mouseRaf.current = requestAnimationFrame(() => {
+            const x = (clientX - rect.left) / rect.width - 0.5;
+            const y = (clientY - rect.top) / rect.height - 0.5;
+            mouseX.set(x);
+            mouseY.set(y);
+        });
     };
 
     const handleMouseLeave = () => {
+        cancelAnimationFrame(mouseRaf.current);
         mouseX.set(0);
         mouseY.set(0);
     };

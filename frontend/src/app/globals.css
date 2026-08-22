@@ -845,4 +845,27 @@
   .font-lexend {
     font-family: var(--font-lexend-deca), sans-serif;
   }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §16  Low-Spec Hardware Performance & GPU Layer Acceleration
+   * ───────────────────────────────────────────────────────────────── */
+  .section:not(.section-hero) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 650px;
+  }
+
+  .gpu-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
