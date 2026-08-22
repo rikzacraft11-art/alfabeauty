@@ -18,24 +18,24 @@ export function NewProductsSection(): React.JSX.Element {
     const categories = dict.shopByCategory?.categories ?? [];
 
     return (
-        <section className="section section-products bg-[#FAF9F6] bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-neutral-900 border-b border-neutral-200/60">
+        <section className="section section-products bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
             <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-12">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
                     
                     {/* ─── Left Column (lg:col-span-3): Editorial Headline & CTA ─── */}
                     <div className="lg:col-span-3 flex flex-col items-start pr-0 lg:pr-4">
-                        <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.85rem] font-light leading-[1.1] tracking-[-0.02em] text-black">
+                        <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.85rem] font-light leading-[1.1] tracking-[-0.02em] text-foreground">
                             {dict.shopByCategory.title}
                         </h2>
                         
-                        <p className="mt-3.5 text-[14.5px] leading-relaxed text-neutral-600 max-w-xs">
+                        <p className="mt-3.5 text-[14.5px] leading-relaxed text-muted-foreground/90 max-w-xs font-normal">
                             {dict.shopByCategory.subtitle}
                         </p>
 
                         <div className="mt-6 sm:mt-8">
                             <Link
                                 href={NAV_LINKS.products}
-                                className="group inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.02em] text-black border-b border-black pb-1 transition-all duration-200 hover:text-brand-crimson hover:border-brand-crimson"
+                                className="group inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.02em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:text-brand-crimson hover:border-brand-crimson"
                             >
                                 <span>{dict.shopByCategory.viewAllProducts}</span>
                                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -49,10 +49,10 @@ export function NewProductsSection(): React.JSX.Element {
                             <Link
                                 key={cat.id}
                                 href={cat.href}
-                                className="group relative overflow-hidden flex flex-col bg-white rounded-2xl p-2.5 sm:p-3 pb-5 border border-neutral-200/70 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:border-brand-crimson/50"
+                                className="group relative overflow-hidden flex flex-col bg-white rounded-2xl p-2.5 sm:p-3 pb-5 border border-border-warm/60 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:border-brand-crimson/50"
                             >
                                 {/* Rounded Top Lifestyle Image Container */}
-                                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#F5F3EF]">
+                                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-surface/50">
                                     <Image
                                         src={cat.image}
                                         alt={cat.title}
@@ -64,11 +64,11 @@ export function NewProductsSection(): React.JSX.Element {
 
                                 {/* Category Title & Shop Now Underline Link */}
                                 <div className="mt-3.5 flex flex-col items-center text-center px-1">
-                                    <h3 className="text-[14.5px] sm:text-[15.5px] font-medium tracking-tight text-neutral-900 transition-colors group-hover:text-brand-crimson">
+                                    <h3 className="text-[14.5px] sm:text-[15.5px] font-medium tracking-tight text-foreground transition-colors group-hover:text-brand-crimson">
                                         {cat.title}
                                     </h3>
                                     
-                                    <span className="mt-1 inline-flex items-center gap-1 text-[11.5px] font-normal text-neutral-500 transition-all group-hover:text-brand-crimson group-hover:underline underline-offset-2">
+                                    <span className="mt-1 inline-flex items-center gap-1 text-[11.5px] font-normal text-muted-foreground transition-all group-hover:text-brand-crimson group-hover:underline underline-offset-2">
                                         {dict.shopByCategory.shopNow}
                                         <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
                                     </span>
