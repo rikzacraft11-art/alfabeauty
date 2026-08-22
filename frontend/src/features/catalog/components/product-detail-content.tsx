@@ -490,7 +490,7 @@ export function ProductDetailContent({
                                             src={slide.src}
                                             alt={`${product.name} feature ${i + 1}`}
                                             fill
-                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                            className="object-cover"
                                             sizes="(max-width: 768px) 50vw, 25vw"
                                         />
                                         <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
@@ -545,7 +545,7 @@ export function ProductDetailContent({
                                                 src={item.image}
                                                 alt={item.name}
                                                 fill
-                                                className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                                                className="object-contain p-4"
                                                 sizes="(max-width: 768px) 50vw, 25vw"
                                             />
                                         )}
@@ -612,7 +612,7 @@ export function ProductDetailContent({
                                                 src={item.image}
                                                 alt={item.name}
                                                 fill
-                                                className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                                                className="object-contain p-4"
                                                 sizes="(max-width: 768px) 50vw, 25vw"
                                             />
                                         )}

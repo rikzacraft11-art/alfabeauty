@@ -101,7 +101,7 @@ export function BrandTotemShowroom(): React.JSX.Element {
                                         src={totem.totemImage}
                                         alt={`${totem.name} 2.5D Digital Display`}
                                         fill
-                                        className="object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.16)] transition-transform duration-300 group-hover:scale-[1.02]"
+                                        className="object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.16)]"
                                         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                                     />
                                 </motion.div>

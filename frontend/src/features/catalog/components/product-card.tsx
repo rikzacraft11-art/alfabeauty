@@ -39,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         </div>
                     )}
 
-                    {/* Packshot Image with Smooth Luxury Zoom */}
+                    {/* Packshot Image */}
                     {product.image ? (
                         <div className="relative h-full w-full">
                             <Image
@@ -47,7 +47,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                                 alt={product.name}
                                 fill
                                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
-                                className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                                className="object-cover"
                             />
                         </div>
                     ) : (
@@ -66,7 +66,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         </span>
 
                         {/* Product Title */}
-                        <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-[#B38E5D]">
+                        <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-brand-crimson">
                             {product.name}
                         </h3>
                     </div>
@@ -95,6 +95,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         </div>
                     </div>
                 </div>
+
+                {/* Bottom accent color hover line (Matching Brand Card) */}
+                <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-brand-crimson transition-[width] duration-400 ease-out group-hover:w-full" />
             </Link>
         </article>
     );

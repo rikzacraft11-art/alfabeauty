@@ -103,10 +103,11 @@ export function MegaFooter(): React.JSX.Element {
           {/* ─── Row 2: .f-content (Giant Brand Mark + 3 Sleek Solution Panels) ─── */}
           <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7 items-center my-auto">
             
-            {/* Column 1: Giant Brand Mark in White with Red Accent */}
+            {/* Column 1: Giant Brand Mark in Authentic Brand Mark */}
             <Link
               href="/"
               className="group relative flex aspect-[4/3] lg:aspect-square w-full items-center justify-center p-4 sm:p-6 transition-transform duration-300 hover:scale-105"
+              aria-label="Alfa Beauty Home"
             >
               <div className="relative flex flex-col items-center justify-center">
                 <Image
@@ -114,34 +115,31 @@ export function MegaFooter(): React.JSX.Element {
                   alt={SITE_NAME}
                   width={260}
                   height={260}
-                  className="h-36 sm:h-48 lg:h-56 w-auto object-contain brightness-0 invert"
+                  className="h-36 sm:h-48 lg:h-56 w-auto object-contain"
                 />
-                <span className="absolute -bottom-2 -right-2 text-sm font-bold text-brand-crimson">
-                  ®
-                </span>
               </div>
             </Link>
 
-            {/* Columns 2, 3, 4: 3 Solution Panels with Calvin Klein Minimalist Underline Style */}
+            {/* Columns 2, 3, 4: 3 Solution Panels with Bottom Indicator Line matching Header/Brand Card */}
             {footerSolutions.map((item, idx) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="group relative flex aspect-[4/3] lg:aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-white/15 bg-white/[0.02] p-6 sm:p-10 text-center transition-all duration-300 hover:bg-white/[0.06] hover:border-white/50"
+                className="group relative flex aspect-[4/3] lg:aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-white/15 bg-white/[0.02] p-6 sm:p-10 text-center transition-all duration-300 hover:bg-white/[0.06] hover:border-white/40 overflow-hidden"
               >
                 <div className="flex flex-col items-center justify-center gap-3">
                   <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
                     0{idx + 1}
                   </span>
-                  <div className="relative overflow-hidden py-1">
-                    <span className="block text-xl sm:text-2xl lg:text-[1.85rem] font-light leading-snug tracking-[-0.01em] text-white transition-transform duration-300 group-hover:-translate-y-full">
-                      {item.title}
-                    </span>
-                    <span className="absolute left-0 top-full block w-full text-xl sm:text-2xl lg:text-[1.85rem] font-normal leading-snug tracking-[-0.01em] text-brand-crimson transition-transform duration-300 group-hover:-translate-y-full">
+                  <div className="py-1">
+                    <span className="block text-xl sm:text-2xl lg:text-[1.85rem] font-light leading-snug tracking-[-0.01em] text-white transition-colors duration-300 group-hover:text-brand-crimson">
                       {item.title}
                     </span>
                   </div>
                 </div>
+
+                {/* Bottom line indicator matching header / brand card */}
+                <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-brand-crimson transition-[width] duration-400 ease-out group-hover:w-full" />
               </Link>
             ))}
           </div>
@@ -191,16 +189,25 @@ export function MegaFooter(): React.JSX.Element {
               </div>
             </div>
 
-            {/* Right: Legal Links with Calvin Klein Underline Hover */}
+            {/* Right: Legal Links with Header-style Underline Hover */}
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2 uppercase tracking-[0.12em] text-[11px] font-semibold text-white/70">
-              <Link href={NAV_LINKS.contact} className="hover:text-white transition-colors">
-                <TextRoll text={language === "id" ? "Hubungi Kami" : "Contact Us"} />
+              <Link
+                href={NAV_LINKS.contact}
+                className="relative py-1 transition-colors duration-300 hover:text-white before:content-[''] before:absolute before:bottom-0 before:left-0 before:right-0 before:h-[1.5px] before:origin-left before:scale-x-0 hover:before:scale-x-100 before:bg-brand-crimson before:transition-transform before:duration-300"
+              >
+                {language === "id" ? "Hubungi Kami" : "Contact Us"}
               </Link>
-              <Link href="/privacy" className="hover:text-white transition-colors">
-                <TextRoll text={language === "id" ? "Kebijakan Privasi" : "Privacy Policy"} />
+              <Link
+                href="/privacy"
+                className="relative py-1 transition-colors duration-300 hover:text-white before:content-[''] before:absolute before:bottom-0 before:left-0 before:right-0 before:h-[1.5px] before:origin-left before:scale-x-0 hover:before:scale-x-100 before:bg-brand-crimson before:transition-transform before:duration-300"
+              >
+                {language === "id" ? "Kebijakan Privasi" : "Privacy Policy"}
               </Link>
-              <Link href="/terms" className="hover:text-white transition-colors">
-                <TextRoll text={language === "id" ? "Syarat & Ketentuan" : "Terms & Conditions"} />
+              <Link
+                href="/terms"
+                className="relative py-1 transition-colors duration-300 hover:text-white before:content-[''] before:absolute before:bottom-0 before:left-0 before:right-0 before:h-[1.5px] before:origin-left before:scale-x-0 hover:before:scale-x-100 before:bg-brand-crimson before:transition-transform before:duration-300"
+              >
+                {language === "id" ? "Syarat & Ketentuan" : "Terms & Conditions"}
               </Link>
             </div>
           </div>

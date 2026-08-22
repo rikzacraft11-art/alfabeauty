@@ -49,7 +49,7 @@ export function NewProductsSection(): React.JSX.Element {
                             <Link
                                 key={cat.id}
                                 href={cat.href}
-                                className="group flex flex-col bg-white rounded-2xl p-2.5 sm:p-3 pb-5 border border-neutral-200/70 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1"
+                                className="group relative overflow-hidden flex flex-col bg-white rounded-2xl p-2.5 sm:p-3 pb-5 border border-neutral-200/70 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:border-brand-crimson/50"
                             >
                                 {/* Rounded Top Lifestyle Image Container */}
                                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#F5F3EF]">
@@ -58,7 +58,7 @@ export function NewProductsSection(): React.JSX.Element {
                                         alt={cat.title}
                                         fill
                                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 22vw"
-                                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                                        className="object-cover"
                                     />
                                 </div>
 
@@ -73,6 +73,9 @@ export function NewProductsSection(): React.JSX.Element {
                                         <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
                                     </span>
                                 </div>
+
+                                {/* Bottom accent color hover line (Matching Brand Card) */}
+                                <div className="absolute bottom-0 left-0 h-[2.5px] w-0 bg-brand-crimson transition-[width] duration-400 ease-out group-hover:w-full" />
                             </Link>
                         ))}
                     </div>
