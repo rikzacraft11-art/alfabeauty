@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import {
-  HeroSection,
-  ShopCTASection,
+  HeroShopCluster,
   SolutionsSection,
   InfoSection,
   NewProductsSection,
@@ -22,11 +21,8 @@ export const metadata: Metadata = {
 export default function HomePage(): React.JSX.Element {
   return (
     <main id="main-content" className="relative z-10 bg-background">
-      {/* ─── Section 1: Hero Video + Minimalist Landscape Salon Mirror Morph ─── */}
-      <HeroSection />
-
-      {/* ─── Section 2: Editorial Statement & Shop CTA (1:1 Yucca .section-shop-cta) ─── */}
-      <ShopCTASection />
+      {/* ─── Continuous Section 1 (Hero) & Section 2 (Shop CTA) Pure Black Canvas with Flowing Hair Strand ─── */}
+      <HeroShopCluster />
 
       {/* ─── Section 3: Salon & Haircare Solutions (1:1 Yucca .section-solutions) ─── */}
       <SolutionsSection />

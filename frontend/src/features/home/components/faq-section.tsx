@@ -7,6 +7,7 @@ import { Plus, Minus, ArrowRight } from "lucide-react";
 import { FadeIn } from "@/shared/components/motion/fade-in";
 import { TextReveal } from "@/shared/components/motion/text-reveal";
 import { LineGrow } from "@/shared/hooks/use-animations";
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
  * FAQSection — Inline FAQ accordion for every page.
@@ -112,11 +113,17 @@ interface FAQSectionProps {
 }
 
 export function FAQSection({
-    items = DEFAULT_FAQ,
-    heading = "Frequently Asked Questions",
-    eyebrow = "Have Questions?",
-}: FAQSectionProps) {
+    items,
+    heading,
+    eyebrow,
+}: FAQSectionProps = {}) {
+    const { dict } = useLanguage();
     const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+
+    const faqItems = items ?? dict.faq.items ?? DEFAULT_FAQ;
+    const faqHeading = heading ?? dict.faq.heading ?? "Frequently Asked Questions";
+    const faqEyebrow = eyebrow ?? dict.faq.eyebrow ?? "Have Questions?";
+    const faqDescription = dict.faq.description ?? "Everything you need to know about our products, salon partnership, and distribution.";
 
     return (
         <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
@@ -125,7 +132,7 @@ export function FAQSection({
                     {/* Left — heading */}
                     <div className="lg:col-span-4">
                         <FadeIn blur scale>
-                            <p className="eyebrow">{eyebrow}</p>
+                            <p className="eyebrow">{faqEyebrow}</p>
                         </FadeIn>
                         <div className="mt-3">
                             <TextReveal
@@ -133,7 +140,7 @@ export function FAQSection({
                                 className="heading-section"
                                 split="word"
                                 blur
-                                lines={heading.split(" ").reduce<string[]>((acc, word, i) => {
+                                lines={faqHeading.split(" ").reduce<string[]>((acc, word, i) => {
                                     if (i < 2) {
                                         acc[0] = acc[0] ? `${acc[0]} ${word}` : word;
                                     } else {
@@ -145,15 +152,14 @@ export function FAQSection({
                         </div>
                         <FadeIn delay={0.3} blur>
                             <p className="body-prose mt-4 max-w-sm">
-                                Everything you need to know about our products,
-                                salon partnership, and distribution.
+                                {faqDescription}
                             </p>
                             <div className="mt-6">
                                 <Link
                                     href="/faq"
                                     className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-[#D9403A] hover:text-[#D9403A]"
                                 >
-                                    <span>View All FAQ</span>
+                                    <span>{dict.common.readMore}</span>
                                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                                 </Link>
                             </div>
@@ -164,7 +170,7 @@ export function FAQSection({
                     <div className="lg:col-span-8">
                         <LineGrow className="h-px bg-border-warm mb-0 lg:hidden" />
                         <div className="space-y-1">
-                            {items.map((item, index) => (
+                            {faqItems.map((item, index) => (
                                 <FAQAccordionItem
                                     key={item.question}
                                     item={item}

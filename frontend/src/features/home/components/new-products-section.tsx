@@ -1,78 +1,82 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { NAV_LINKS } from "@/shared/lib/config";
-import { catalogProducts } from "@/features/catalog/data/products";
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
- * NewProductsSection (Calvin Klein Minimalist Fashion Product Grid)
+ * Section 5: Shop by Category (1:1 Reference Layout & Editorial Styling)
+ * Left column: Title & View All Products CTA
+ * Right column: 4 Rounded Luxury Category Cards with Lifestyle Imagery
+ * Fully localized: 100% ID in ID mode, 100% EN in EN mode.
  * ───────────────────────────────────────────────────────────────────── */
 export function NewProductsSection(): React.JSX.Element {
-    const showcaseProducts = catalogProducts.slice(0, 4);
+    const { dict } = useLanguage();
+    const categories = dict.shopByCategory?.categories ?? [];
 
     return (
-        <section className="section section-products bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
-            <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
-                {/* Header: Title + Shop now Underline CTA */}
-                <div className="flex items-end justify-between pb-10 sm:pb-12 border-b border-border-warm/40">
-                    <div>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D9403A] mb-2">
-                            Curated Collection
-                        </p>
-                        <h2 className="text-[1.85rem] sm:text-[2.4rem] lg:text-[2.8rem] font-light sm:font-normal tracking-[-0.02em] text-foreground">
-                            New Products
+        <section className="section section-products bg-[#FAF9F6] bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-neutral-900 border-b border-neutral-200/60">
+            <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                    
+                    {/* ─── Left Column (lg:col-span-3): Editorial Headline & CTA ─── */}
+                    <div className="lg:col-span-3 flex flex-col items-start pr-0 lg:pr-4">
+                        <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.85rem] font-light leading-[1.1] tracking-[-0.02em] text-black">
+                            {dict.shopByCategory.title}
                         </h2>
+                        
+                        <p className="mt-3.5 text-[14.5px] leading-relaxed text-neutral-600 max-w-xs">
+                            {dict.shopByCategory.subtitle}
+                        </p>
+
+                        <div className="mt-6 sm:mt-8">
+                            <Link
+                                href={NAV_LINKS.products}
+                                className="group inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.02em] text-black border-b border-black pb-1 transition-all duration-200 hover:text-[#D9403A] hover:border-[#D9403A]"
+                            >
+                                <span>{dict.shopByCategory.viewAllProducts}</span>
+                                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                            </Link>
+                        </div>
                     </div>
 
-                    <Link
-                        href={NAV_LINKS.products}
-                        className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-[#D9403A] hover:text-[#D9403A]"
-                    >
-                        <span>Shop Catalog</span>
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                    </Link>
-                </div>
+                    {/* ─── Right Column (lg:col-span-9): 4 Minimalist Rounded Category Cards ─── */}
+                    <div className="lg:col-span-9 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+                        {categories.map((cat) => (
+                            <Link
+                                key={cat.id}
+                                href={cat.href}
+                                className="group flex flex-col bg-white rounded-2xl p-2.5 sm:p-3 pb-5 border border-neutral-200/70 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1"
+                            >
+                                {/* Rounded Top Lifestyle Image Container */}
+                                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#F5F3EF]">
+                                    <Image
+                                        src={cat.image}
+                                        alt={cat.title}
+                                        fill
+                                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 22vw"
+                                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                                    />
+                                </div>
 
-                {/* 4-Column Minimalist Calvin Klein Product Cards Grid */}
-                <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-                    {showcaseProducts.map((prod) => (
-                        <Link
-                            key={prod.id}
-                            href={`/products/${prod.id}`}
-                            className="group flex flex-col"
-                        >
-                            {/* Frameless Sharp Image Box */}
-                            <div className="relative aspect-square w-full overflow-hidden rounded-none bg-[#F7F6F2] border border-neutral-200/60 transition-all duration-300">
-                                {/* Clean NEW Tag */}
-                                <span className="absolute top-3 left-3 z-10 rounded-none bg-black px-2 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
-                                    NEW
-                                </span>
+                                {/* Category Title & Shop Now Underline Link */}
+                                <div className="mt-3.5 flex flex-col items-center text-center px-1">
+                                    <h3 className="text-[14.5px] sm:text-[15.5px] font-medium tracking-tight text-neutral-900 transition-colors group-hover:text-[#D9403A]">
+                                        {cat.title}
+                                    </h3>
+                                    
+                                    <span className="mt-1 inline-flex items-center gap-1 text-[11.5px] font-normal text-neutral-500 transition-all group-hover:text-[#D9403A] group-hover:underline underline-offset-2">
+                                        {dict.shopByCategory.shopNow}
+                                        <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
 
-                                <Image
-                                    src={prod.image || "/images/products/core/CORE HEAT PERM/hero.webp"}
-                                    alt={prod.name}
-                                    fill
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                    className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
-                                />
-                            </div>
-
-                            {/* Product Info with Minimalist Typography */}
-                            <div className="mt-4 flex flex-col">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                                    {prod.brand}
-                                </p>
-                                <h3 className="mt-1 text-[14.5px] font-normal leading-snug tracking-tight text-foreground transition-colors group-hover:text-[#D9403A]">
-                                    {prod.name}
-                                </h3>
-                                <p className="mt-2 text-[13px] font-semibold text-foreground/90">
-                                    From {prod.formattedPrice || "Rp 145.000"} <span className="text-[11px] font-normal text-muted-foreground">/ unit</span>
-                                </p>
-                            </div>
-                        </Link>
-                    ))}
                 </div>
             </div>
         </section>

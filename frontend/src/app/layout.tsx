@@ -109,7 +109,7 @@ export default async function RootLayout({
     : null;
 
   return (
-    <html lang="id">
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"

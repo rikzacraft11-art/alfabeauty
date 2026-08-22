@@ -321,9 +321,13 @@
   .reveal-text-v3 .reveal-line-v3 {
     display: block;
     overflow: hidden;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+    padding-right: 0.15em;
   }
   .reveal-text-v3 .reveal-word {
     display: inline-block;
+    padding-right: 0.04em;
     transform: translateY(110%);
     transition: transform 0.65s var(--ease), filter 0.65s var(--ease);
     transition-delay: calc(var(--word-index, 0) * var(--stagger-ms, 35ms));

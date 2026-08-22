@@ -12,5 +12,5 @@ export const dictionaries: Record<Language, Dictionary> = {
 };
 
 export function getDictionary(lang: Language): Dictionary {
-  return dictionaries[lang] ?? idDictionary;
+  return dictionaries[lang] ?? enDictionary;
 }

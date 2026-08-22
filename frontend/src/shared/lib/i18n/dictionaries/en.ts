@@ -39,14 +39,121 @@ export const enDictionary: Dictionary = {
     viewAllBrands: "View Full Brand Portfolio",
   },
   hero: {
-    eyebrow: "Established Since 2007",
+    eyebrow: "ESTABLISHED SINCE 2007",
     titleLine1: "Connecting Global",
     titleLine2: "Hair Innovation to",
     titleLine3: "Indonesia’s Professionals",
     description:
-      "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia's salon and barber industry for over 18 years.",
-    exploreBrands: "Explore Our Brands",
-    partnerWithUs: "Partner With Us",
+      "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia's premier salons and barbers for over 18 years.",
+    exploreBrands: "EXPLORE BRANDS",
+    partnerWithUs: "PARTNER WITH US",
+  },
+  shopCTA: {
+    eyebrow: "PROFESSIONAL STANDARD",
+    heading:
+      "Set the standard for haircare excellence in your salon. Let us help you make every client transformation memorable.",
+    seeAllProducts: "SEE ALL PRODUCTS",
+    notSurePrefix: "Not sure what's possible? ",
+    notSureCTA: "Get in touch to find out.",
+  },
+  solutions: {
+    badge: "Solution",
+    exploreSolution: "Explore Solution",
+    viewDetails: "View Details",
+    items: [
+      {
+        id: "rebonding",
+        title: "Smoothing & Rebonding",
+        description:
+          "High-precision chemical straightening with exclusive pH control. Delivers sleek, natural straight hair with brilliant shine.",
+        href: "/products?category=treatments",
+        bgImage: "/images/solutions/rebonding.jpg",
+      },
+      {
+        id: "colouring",
+        title: "Color & Lightening",
+        description:
+          "Italian micro-pigment technology with bond-protecting botanical oils. Delivers vibrant, long-lasting rich color reflections.",
+        href: "/products?category=hair-colour",
+        bgImage: "/images/solutions/colouring.jpg",
+      },
+      {
+        id: "barber",
+        title: "Barber & Precision Tools",
+        description:
+          "Italian-engineered digital motor hardware at 120,000 RPM with precision titanium blades for high-traffic salons.",
+        href: "/products?category=tools",
+        bgImage: "/images/solutions/barber.jpg",
+      },
+    ],
+  },
+  shopByCategory: {
+    title: "Shop by Category",
+    subtitle: "Everything you need for your best salon & hair days.",
+    viewAllProducts: "View All Products",
+    shopNow: "Shop Now",
+    categories: [
+      {
+        id: "haircare",
+        title: "Haircare",
+        href: "/products?category=care",
+        image: "/images/categories/haircare.jpg",
+      },
+      {
+        id: "color",
+        title: "Color & Lightening",
+        href: "/products?category=color",
+        image: "/images/categories/color.jpg",
+      },
+      {
+        id: "treatments",
+        title: "Elixirs & Scalp",
+        href: "/products?category=treatments",
+        image: "/images/categories/treatments.jpg",
+      },
+      {
+        id: "tools",
+        title: "Styling & Tools",
+        href: "/products?category=tools",
+        image: "/images/categories/tools.jpg",
+      },
+    ],
+  },
+  infoSection: {
+    eyebrow: "CORPORATE HERITAGE",
+    heading: "Committed to Excellence, Always Innovating",
+    description:
+      "Remarkable haircare formulation is our promise to you. What doesn’t meet Alfa standards is refined until it does.",
+    aboutCTA: "About PT Alfa Beauty",
+    missionTitle: "Our Mission",
+    missionDesc:
+      "To elevate Indonesia’s hair industry through direct access to verified European professional brands, advanced technical education, and uncompromising product integrity.",
+    visionTitle: "Our Vision",
+    visionDesc:
+      "To be Indonesia's most trusted professional haircare ecosystem, renowned for technical excellence, reliable supply, and dedication to sustainable salon industry growth.",
+  },
+  customMaklon: {
+    eyebrow: "CUSTOM FORMULATIONS & MAKLON OEM",
+    heading:
+      "Salons and beauty leaders that thrive invest in custom-developed haircare. Let us help bring your vision to life.",
+    notSurePrefix: "Not sure what's possible? ",
+    notSureCTA: "Get in touch to find out.",
+  },
+  standardsSection: {
+    eyebrow: "RIGOROUS COMPLIANCE",
+    heading: "Quality & Product Standards",
+    description:
+      "Our European and domestic laboratory partners share our commitment to safety and ethics, ensuring every salon product is held to the highest regulatory standards.",
+    items: [
+      "BPOM RI Certified",
+      "EU Cosmetics Regulation No 1223/2009",
+      "Halal MUI / BPJPH Certified",
+      "CPKB / GMP Cosmetics Standard",
+      "ISO 9001:2015 Quality Management",
+      "Dermatologically Tested (Italy & Spain)",
+      "Formaldehyde-Free Rebonding Formula",
+      "Cruelty-Free International Compliant",
+    ],
   },
   marquee: {
     innovation: "Global Innovation",

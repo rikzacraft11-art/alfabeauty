@@ -47,6 +47,59 @@ export interface Dictionary {
     exploreBrands: string;
     partnerWithUs: string;
   };
+  shopCTA: {
+    eyebrow: string;
+    heading: string;
+    seeAllProducts: string;
+    notSurePrefix: string;
+    notSureCTA: string;
+  };
+  solutions: {
+    badge: string;
+    exploreSolution: string;
+    viewDetails: string;
+    items: {
+      id: string;
+      title: string;
+      description: string;
+      href: string;
+      bgImage: string;
+    }[];
+  };
+  shopByCategory: {
+    title: string;
+    subtitle: string;
+    viewAllProducts: string;
+    shopNow: string;
+    categories: {
+      id: string;
+      title: string;
+      href: string;
+      image: string;
+    }[];
+  };
+  infoSection: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    aboutCTA: string;
+    missionTitle: string;
+    missionDesc: string;
+    visionTitle: string;
+    visionDesc: string;
+  };
+  customMaklon: {
+    eyebrow: string;
+    heading: string;
+    notSurePrefix: string;
+    notSureCTA: string;
+  };
+  standardsSection: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    items: string[];
+  };
   marquee: {
     innovation: string;
     education: string;

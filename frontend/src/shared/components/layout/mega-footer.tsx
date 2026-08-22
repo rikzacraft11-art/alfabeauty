@@ -13,24 +13,7 @@ import {
 } from "@/shared/lib/config";
 import { trackEvent } from "@/shared/lib/analytics";
 import { cn } from "@/shared/lib/utils";
-
-/* ─────────────────────────────────────────────────────────────────────
- * Solutions Pillar Cards matching Section 3 (1:1 Yucca Pattern)
- * ───────────────────────────────────────────────────────────────────── */
-const FOOTER_SOLUTIONS = [
-  {
-    title: "Solusi Rebonding",
-    href: "/products?category=treatments",
-  },
-  {
-    title: "Solusi Pewarnaan",
-    href: "/products?category=hair-colour",
-  },
-  {
-    title: "Solusi Barber",
-    href: "/products?category=tools",
-  },
-];
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
  * Micro-Interaction: Dual Text Roll-Over (1:1 Yucca .f-link.split)
@@ -53,8 +36,10 @@ function TextRoll({ text, className }: { text: string; className?: string }) {
  *
  * - Canvas: Pure Black (#000000) with Pure White (#ffffff) typography and Red (#ba181b) accents
  * - Fullscreen 100vh Curtain Reveal
+ * - Fully localized: 100% ID in ID mode, 100% EN in EN mode.
  * ───────────────────────────────────────────────────────────────────── */
 export function MegaFooter(): React.JSX.Element {
+  const { dict, language } = useLanguage();
   const currentYear = new Date().getFullYear();
   const [showFab, setShowFab] = React.useState(false);
 
@@ -66,6 +51,21 @@ export function MegaFooter(): React.JSX.Element {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const footerSolutions = [
+    {
+      title: language === "id" ? "Solusi Pelurusan" : "Smoothing Solutions",
+      href: "/products?category=treatments",
+    },
+    {
+      title: language === "id" ? "Solusi Pewarnaan" : "Coloring Solutions",
+      href: "/products?category=hair-colour",
+    },
+    {
+      title: language === "id" ? "Solusi Barber" : "Barber Solutions",
+      href: "/products?category=tools",
+    },
+  ];
 
   return (
     <>
@@ -84,7 +84,7 @@ export function MegaFooter(): React.JSX.Element {
           {/* ─── Row 1: .f-header (Headline + Morphing Dual-Arrow Scroll-to-top) ─── */}
           <div className="flex w-full items-start justify-between gap-6 pt-2 sm:pt-4">
             <h2 className="text-[2.4rem] sm:text-[3.6rem] lg:text-[4.6rem] font-normal leading-[1.04] tracking-[-0.03em] text-white max-w-4xl text-balance">
-              Innovated for Industry Leaders.
+              {language === "id" ? "Inovasi untuk Pemimpin Industri." : "Innovated for Industry Leaders."}
             </h2>
 
             {/* Morphing Square-to-Circle Dual Arrow Button */}
@@ -123,7 +123,7 @@ export function MegaFooter(): React.JSX.Element {
             </Link>
 
             {/* Columns 2, 3, 4: 3 Solution Panels with Calvin Klein Minimalist Underline Style */}
-            {FOOTER_SOLUTIONS.map((item, idx) => (
+            {footerSolutions.map((item, idx) => (
               <Link
                 key={item.title}
                 href={item.href}
@@ -153,7 +153,7 @@ export function MegaFooter(): React.JSX.Element {
             <div className="flex flex-wrap items-center gap-4 sm:gap-8">
               <p className="flex items-center gap-1.5 font-normal text-white/60">
                 <span>©</span>
-                <span>Alfa Beauty {currentYear}. All Rights Reserved</span>
+                <span>Alfa Beauty {currentYear}. {dict.footer.copyright || (language === "id" ? "Semua Hak Dilindungi" : "All Rights Reserved")}</span>
               </p>
 
               {/* Social Icons with Red & Green Accents */}
@@ -194,13 +194,13 @@ export function MegaFooter(): React.JSX.Element {
             {/* Right: Legal Links with Calvin Klein Underline Hover */}
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2 uppercase tracking-[0.12em] text-[11px] font-semibold text-white/70">
               <Link href={NAV_LINKS.contact} className="hover:text-white transition-colors">
-                <TextRoll text="Contact Us" />
+                <TextRoll text={language === "id" ? "Hubungi Kami" : "Contact Us"} />
               </Link>
               <Link href="/privacy" className="hover:text-white transition-colors">
-                <TextRoll text="Privacy Policy" />
+                <TextRoll text={language === "id" ? "Kebijakan Privasi" : "Privacy Policy"} />
               </Link>
               <Link href="/terms" className="hover:text-white transition-colors">
-                <TextRoll text="Terms & Conditions" />
+                <TextRoll text={language === "id" ? "Syarat & Ketentuan" : "Terms & Conditions"} />
               </Link>
             </div>
           </div>
@@ -214,7 +214,7 @@ export function MegaFooter(): React.JSX.Element {
         rel="noopener noreferrer"
         onClick={() => trackEvent("cta_whatsapp_click", { location: "sticky_fab" })}
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#1F9849] text-white shadow-[0_10px_25px_rgba(31,152,73,0.35)] transition-all duration-300 hover:scale-105 hover:bg-[#187d3c]"
-        aria-label="Chat on WhatsApp"
+        aria-label={language === "id" ? "Hubungi via WhatsApp" : "Chat on WhatsApp"}
         initial={{ y: 80, opacity: 0 }}
         animate={showFab ? { y: 0, opacity: 1, pointerEvents: "auto" as const } : { y: 80, opacity: 0, pointerEvents: "none" as const }}
         transition={{ type: "spring", stiffness: 260, damping: 25 }}

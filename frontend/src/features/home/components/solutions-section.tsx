@@ -5,39 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
-
-interface SolutionItem {
-    id: string;
-    title: string;
-    description: string;
-    href: string;
-    bgImage: string;
-}
-
-const SOLUTIONS: SolutionItem[] = [
-    {
-        id: "rebonding",
-        title: "Solusi Rebonding & Pelurusan",
-        description: "Transformasi pelurusan kimiawi presisi tinggi yang melindungi struktur rambut. Diformulasikan dengan alkali remover dan kontrol pH eksklusif untuk hasil lembut tanpa frizzy.",
-        href: "/products?category=treatments",
-        bgImage: "/images/solutions/rebonding.jpg",
-    },
-    {
-        id: "colouring",
-        title: "Solusi Pewarnaan & Bleaching",
-        description: "Teknologi micro-pigment Italia dan Spanish botanical oil yang menjaga ikatan disulfida selama proses bleaching dan coloring, menghasilkan pantulan warna kaya yang tahan lama.",
-        href: "/products?category=hair-colour",
-        bgImage: "/images/solutions/colouring.jpg",
-    },
-    {
-        id: "barber",
-        title: "Solusi Barber & Hardware Presisi",
-        description: "Hardware salon dan barber engineered in Italy dengan motor digital ultra-ringan 120.000 RPM, mata pisau titanium presisi, dan daya tahan ekstrem untuk salon berkecepatan tinggi.",
-        href: "/products?category=tools",
-        bgImage: "/images/solutions/barber.jpg",
-    },
-];
+import { motion } from "framer-motion";
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
  * SolutionsSection (1:1 Yucca Packaging .section-solutions)
@@ -45,16 +14,19 @@ const SOLUTIONS: SolutionItem[] = [
  * - Immersive cinematic full-width photographic background cross-fade.
  * - Inactive cards: Clean frosted glass cards showing category title.
  * - Active card: Elevated solid white card with large typography,
- *   full description, horizontal rule, and 'Tell me more' arrow link.
+ *   full description, horizontal rule, and 'Explore Solution' arrow link.
+ * - Fully localized: 100% ID in ID mode, 100% EN in EN mode.
  * ───────────────────────────────────────────────────────────────────── */
 export function SolutionsSection(): React.JSX.Element {
+    const { dict } = useLanguage();
     const [activeIndex, setActiveIndex] = React.useState(0);
+    const solutions = dict.solutions?.items ?? [];
 
     return (
         <section className="section section-solutions relative min-h-[700px] lg:min-h-[820px] w-full overflow-hidden bg-[#1D1D1B] text-foreground flex items-center justify-center">
             {/* Dynamic Cinematic Photographic Background Cross-Fade */}
             <div className="absolute inset-0 z-0">
-                {SOLUTIONS.map((sol, idx) => (
+                {solutions.map((sol, idx) => (
                     <div
                         key={sol.id}
                         className={cn(
@@ -79,7 +51,7 @@ export function SolutionsSection(): React.JSX.Element {
             {/* Interactive Solution Cards Container */}
             <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
                 <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8 items-center">
-                    {SOLUTIONS.map((item, index) => {
+                    {solutions.map((item, index) => {
                         const isActive = index === activeIndex;
 
                         if (isActive) {
@@ -95,7 +67,7 @@ export function SolutionsSection(): React.JSX.Element {
                                 >
                                     <div>
                                         <div className="mb-4 inline-block border-b-2 border-[#D9403A] pb-1 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#D9403A]">
-                                            Solution 0{index + 1}
+                                            {dict.solutions.badge} 0{index + 1}
                                         </div>
                                         <h3 className="text-[1.85rem] sm:text-[2.2rem] lg:text-[2.5rem] font-light sm:font-normal leading-[1.12] tracking-[-0.02em] text-[#111111]">
                                             {item.title}
@@ -113,7 +85,7 @@ export function SolutionsSection(): React.JSX.Element {
                                             href={item.href}
                                             className="group inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-[#D9403A] hover:border-[#D9403A]"
                                         >
-                                            <span>Explore Solution</span>
+                                            <span>{dict.solutions.exploreSolution}</span>
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                                         </Link>
                                     </div>
@@ -137,7 +109,7 @@ export function SolutionsSection(): React.JSX.Element {
                                     {item.title}
                                 </h3>
                                 <span className="mt-4 text-[11px] font-medium uppercase tracking-[0.18em] text-white/50 border-b border-transparent group-hover:border-white/80 group-hover:text-white transition-all">
-                                    View Details
+                                    {dict.solutions.viewDetails}
                                 </span>
                             </motion.div>
                         );

@@ -56,11 +56,12 @@ const VIEWPORT_BASE = [
 const VIEWPORT_FULL_WIDTH = [
   "mt-0 w-screen rounded-none border-0 border-b border-border-warm/60 bg-background text-foreground",
   "will-change-[height] translate-z-0",
-  "transition-[height] duration-[400ms] ease-[var(--ease-menu-open)]",
-  // Open/close: smooth opacity fade matching underline timing
+  // 1:1 Yucca Timing: 0.4s ease-out close / 0.6s ease open
+  "transition-[height] duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
   "data-[state=open]:animate-in data-[state=closed]:animate-out",
   "data-[state=open]:fade-in data-[state=closed]:fade-out",
-  "duration-[400ms] ease-[var(--ease-menu-open)]",
+  "data-[state=open]:duration-[320ms] data-[state=open]:ease-[cubic-bezier(0.16,1,0.3,1)]",
+  "data-[state=closed]:duration-[220ms] data-[state=closed]:ease-[cubic-bezier(0.25,1,0.5,1)]",
 ].join(" ")
 
 const VIEWPORT_DROPDOWN = [

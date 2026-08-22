@@ -1,4 +1,6 @@
 export { HeroSection } from "./components/hero";
+export { HeroShopCluster } from "./components/hero-shop-cluster";
+export { GoldenHairStrandCanvas } from "./components/golden-hair-strand-canvas";
 export { Marquee } from "./components/marquee";
 export { ShopCTASection } from "./components/shop-cta-section";
 export { SolutionsSection } from "./components/solutions-section";

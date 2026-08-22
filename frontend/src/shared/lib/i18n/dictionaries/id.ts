@@ -39,14 +39,121 @@ export const idDictionary: Dictionary = {
     viewAllBrands: "Lihat Seluruh Portofolio Brand",
   },
   hero: {
-    eyebrow: "Berdiri Sejak 2007",
-    titleLine1: "Menghubungkan Inovasi",
-    titleLine2: "Rambut Global dengan",
+    eyebrow: "BERDIRI SEJAK 2007",
+    titleLine1: "Inovasi Rambut Global",
+    titleLine2: "untuk Standar Salon",
     titleLine3: "Profesional Indonesia",
     description:
-      "Importir dan distributor tunggal brand perawatan rambut profesional terkemuka asal Italia dan Spanyol, melayani ekosistem salon dan barbershop di seluruh Indonesia selama lebih dari 18 tahun.",
-    exploreBrands: "Jelajahi Portofolio Brand",
-    partnerWithUs: "Bermitra Bersama Kami",
+      "Importir dan distributor tunggal brand perawatan rambut profesional Italia dan Spanyol, melayani salon dan barber terkemuka di seluruh Indonesia.",
+    exploreBrands: "JELAJAHI BRAND",
+    partnerWithUs: "KEMITRAAN SALON",
+  },
+  shopCTA: {
+    eyebrow: "STANDAR PROFESIONAL",
+    heading:
+      "Ciptakan standar keunggulan perawatan rambut di salon Anda. Wujudkan transformasi tak terlupakan bagi setiap klien.",
+    seeAllProducts: "LIHAT SEMUA PRODUK",
+    notSurePrefix: "Butuh solusi khusus? ",
+    notSureCTA: "Konsultasikan bersama kami.",
+  },
+  solutions: {
+    badge: "Solusi",
+    exploreSolution: "Jelajahi Solusi",
+    viewDetails: "Lihat Detail",
+    items: [
+      {
+        id: "rebonding",
+        title: "Solusi Pelurusan & Rebonding",
+        description:
+          "Formula pelurusan presisi tinggi dengan pH controller eksklusif. Menghasilkan rambut lurus alami, berkilau, dan bebas frizzy.",
+        href: "/products?category=treatments",
+        bgImage: "/images/solutions/rebonding.jpg",
+      },
+      {
+        id: "colouring",
+        title: "Solusi Pewarnaan & Bleaching",
+        description:
+          "Teknologi micro-pigment Italia dengan botanical oil pelindung ikatan rambut. Warna kaya, intens, dan tahan lama.",
+        href: "/products?category=hair-colour",
+        bgImage: "/images/solutions/colouring.jpg",
+      },
+      {
+        id: "barber",
+        title: "Solusi Barber & Hardware Presisi",
+        description:
+          "Peralatan profesional motor digital 120.000 RPM dengan bilah titanium presisi untuk kebutuhan salon berkecepatan tinggi.",
+        href: "/products?category=tools",
+        bgImage: "/images/solutions/barber.jpg",
+      },
+    ],
+  },
+  shopByCategory: {
+    title: "Kategori Produk",
+    subtitle: "Semua kebutuhan terbaik untuk salon dan perawatan rambut profesional Anda.",
+    viewAllProducts: "Lihat Semua Produk",
+    shopNow: "Beli Sekarang",
+    categories: [
+      {
+        id: "haircare",
+        title: "Perawatan Rambut",
+        href: "/products?category=care",
+        image: "/images/categories/haircare.jpg",
+      },
+      {
+        id: "color",
+        title: "Pewarnaan & Bleaching",
+        href: "/products?category=color",
+        image: "/images/categories/color.jpg",
+      },
+      {
+        id: "treatments",
+        title: "Serum & Kulit Kepala",
+        href: "/products?category=treatments",
+        image: "/images/categories/treatments.jpg",
+      },
+      {
+        id: "tools",
+        title: "Penataan & Alat Salon",
+        href: "/products?category=tools",
+        image: "/images/categories/tools.jpg",
+      },
+    ],
+  },
+  infoSection: {
+    eyebrow: "WARISAN PERUSAHAAN",
+    heading: "Komitmen pada Keunggulan, Terus Berinovasi",
+    description:
+      "Formulasi perawatan rambut luar biasa adalah janji kami. Standar yang belum tercapai akan disempurnakan hingga sempurna.",
+    aboutCTA: "Tentang PT Alfa Beauty",
+    missionTitle: "Misi Kami",
+    missionDesc:
+      "Meningkatkan industri salon Indonesia melalui akses langsung ke brand profesional Eropa terverifikasi, edukasi teknis lanjutan, dan integritas produk tanpa kompromi.",
+    visionTitle: "Visi Kami",
+    visionDesc:
+      "Menjadi ekosistem perawatan rambut profesional paling tepercaya di Indonesia, dikenal atas keunggulan teknis, pasokan andal, dan dedikasi pada pertumbuhan industri salon.",
+  },
+  customMaklon: {
+    eyebrow: "FORMULASI KHUSUS & MAKLON OEM",
+    heading:
+      "Salon dan brand kecantikan terkemuka berinvestasi pada formulasi khusus. Wujudkan visi produk eksklusif Anda bersama kami.",
+    notSurePrefix: "Butuh konsultasi formulasi? ",
+    notSureCTA: "Hubungi tim ahli kami.",
+  },
+  standardsSection: {
+    eyebrow: "KEPATUHAN KETAT",
+    heading: "Standar Kualitas & Regulasi Produk",
+    description:
+      "Mitra laboratorium kami di Eropa dan Indonesia menjunjung tinggi etika dan keselamatan, memastikan setiap produk salon memenuhi standar regulasi tertinggi.",
+    items: [
+      "Tersertifikasi Resmi BPOM RI",
+      "Regulasi Kosmetik Uni Eropa No 1223/2009",
+      "Sertifikasi Halal MUI / BPJPH",
+      "Standar Manufaktur CPKB / GMP Kosmetik",
+      "Manajemen Mutu ISO 9001:2015",
+      "Uji Dermatologis Laboratorium Italia & Spanyol",
+      "Formula Pelurusan Bebas Formaldehida",
+      "Kepatuhan Internasional Bebas Uji Hewan (Cruelty-Free)",
+    ],
   },
   marquee: {
     innovation: "Inovasi Global",

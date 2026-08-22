@@ -29,7 +29,11 @@ import { EducationPanel } from "./nav/education-panel";
 import { PartnershipPanel } from "./nav/partnership-panel";
 import { MobileMenu } from "./nav/mobile-menu";
 
-/* SiteHeader — Fixed nav with left-aligned menu, mega-menu panels, right utility actions */
+/* ── Header Performance & Closing Timing Parameters (1:1 Yucca Parity) ── */
+const MENU_CLOSE_TIMEOUT_MS = 280;
+const SCROLL_DELTA_THRESHOLD = 6;
+const NAV_HOVER_DELAY_MS = 100;
+const BACKDROP_EXIT_DURATION_S = 0.25;
 
 export function SiteHeader(): React.JSX.Element {
     const pathname = usePathname();
@@ -44,16 +48,44 @@ export function SiteHeader(): React.JSX.Element {
     const menuWasOpen = React.useRef(false);
     const { scrollY } = useScroll();
     const lastScrollY = React.useRef(0);
+    const accumulatedDelta = React.useRef(0);
     const [scrollDirection, setScrollDirection] = React.useState<"up" | "down">("up");
     const rafId = React.useRef(0);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         cancelAnimationFrame(rafId.current);
         rafId.current = requestAnimationFrame(() => {
-            setScrolled(latest > 40);
-            if (Math.abs(latest - lastScrollY.current) > 12) {
-                setScrollDirection(latest > lastScrollY.current ? "down" : "up");
+            setScrolled(latest > 30);
+            const diff = latest - lastScrollY.current;
+
+            if (latest <= 30) {
+                // At the top of page: always show header
+                setScrollDirection("up");
+                accumulatedDelta.current = 0;
+            } else if (diff > 0) {
+                // Scrolling DOWN (even very slowly): accumulate delta
+                if (accumulatedDelta.current < 0) {
+                    accumulatedDelta.current = 0;
+                }
+                accumulatedDelta.current += diff;
+
+                // Close/hide header as soon as user has scrolled down by at least 4px total
+                if (accumulatedDelta.current >= 4) {
+                    setScrollDirection("down");
+                }
+            } else if (diff < 0) {
+                // Scrolling UP: accumulate negative delta
+                if (accumulatedDelta.current > 0) {
+                    accumulatedDelta.current = 0;
+                }
+                accumulatedDelta.current += diff;
+
+                // Reveal header when user scrolls up intentionally (>= 6px total)
+                if (accumulatedDelta.current <= -6) {
+                    setScrollDirection("up");
+                }
             }
+
             lastScrollY.current = latest;
         });
     });
@@ -63,7 +95,7 @@ export function SiteHeader(): React.JSX.Element {
             setMenuClosing(false);
         } else if (menuWasOpen.current) {
             setMenuClosing(true);
-            const id = setTimeout(() => setMenuClosing(false), 500);
+            const id = setTimeout(() => setMenuClosing(false), MENU_CLOSE_TIMEOUT_MS);
             return () => clearTimeout(id);
         }
         menuWasOpen.current = menuOpen;
@@ -86,14 +118,14 @@ export function SiteHeader(): React.JSX.Element {
         "before:content-[''] before:absolute before:bottom-[-1px] before:left-[0.6rem] before:right-[0.6rem] xl:before:left-[0.8rem] xl:before:right-[0.8rem]",
         "before:h-[2px]",
         "before:origin-bottom before:[transform:scaleY(0)]",
-        "before:transition-[transform,background-color] before:duration-[350ms] before:ease-[var(--ease)]",
+        "before:transition-[transform,background-color] before:duration-[350ms] before:ease-[cubic-bezier(0.22,1,0.36,1)]",
         isSolid ? "before:bg-foreground" : "before:bg-white",
     ].join(" "), [isSolid]);
 
     const triggerClasses = React.useMemo(() => cn(
         "relative h-full whitespace-nowrap",
         "bg-transparent px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em]",
-        "transition-colors duration-[350ms] ease-[var(--ease)]",
+        "transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
         "hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
         indicatorBar,
         "hover:before:[transform:scaleY(1)] data-[state=open]:before:[transform:scaleY(1)]",
@@ -104,7 +136,7 @@ export function SiteHeader(): React.JSX.Element {
 
     const directLinkClasses = React.useMemo(() => cn(
         "relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] whitespace-nowrap",
-        "transition-colors duration-[350ms] ease-[var(--ease)]",
+        "transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
         "hover:bg-transparent focus:bg-transparent",
         "data-[active=true]:bg-transparent",
         indicatorBar,
@@ -119,7 +151,7 @@ export function SiteHeader(): React.JSX.Element {
 
     return (
         <>
-        {/* Dark overlay behind mega-menu panels */}
+        {/* Dark overlay behind mega-menu panels (1:1 Yucca Smooth Fade) */}
         <AnimatePresence>
             {menuOpen && (
                 <motion.div
@@ -127,7 +159,7 @@ export function SiteHeader(): React.JSX.Element {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, ease: smoothEase }}
+                    transition={{ duration: BACKDROP_EXIT_DURATION_S, ease: [0.25, 1, 0.5, 1] }}
                     aria-hidden="true"
                 />
             )}
@@ -146,7 +178,7 @@ export function SiteHeader(): React.JSX.Element {
                     : "bg-transparent border-b border-white/10"
             )}
             style={{
-                transition: "border-color .5s var(--ease), background-color .5s var(--ease), translate .7s var(--ease), box-shadow .5s var(--ease)",
+                transition: "border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
         >
             <div className="mx-auto flex h-[var(--header-height,80px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12">
@@ -178,7 +210,7 @@ export function SiteHeader(): React.JSX.Element {
                         viewport={true}
                         fullWidth={true}
                         onValueChange={handleValueChange}
-                        delayDuration={120}
+                        delayDuration={NAV_HOVER_DELAY_MS}
                     >
                         <NavigationMenuList className="gap-0 h-full items-stretch">
                             <NavigationMenuItem value="products">

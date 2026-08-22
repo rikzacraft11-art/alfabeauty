@@ -15,7 +15,7 @@ const LanguageContext = React.createContext<LanguageContextValue | null>(null);
 const STORAGE_KEY = "alfa_beauty_lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = React.useState<Language>("id");
+  const [language, setLanguageState] = React.useState<Language>("en");
 
   React.useEffect(() => {
     try {
@@ -24,7 +24,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         setLanguageState(saved);
         document.documentElement.lang = saved;
       } else {
-        document.documentElement.lang = "id";
+        setLanguageState("en");
+        document.documentElement.lang = "en";
       }
     } catch {
       // Ignore storage errors in restricted contexts
@@ -69,10 +70,10 @@ export function useLanguage(): LanguageContextValue {
   if (!context) {
     // Fallback if rendered outside provider
     return {
-      language: "id",
+      language: "en",
       setLanguage: () => {},
       toggleLanguage: () => {},
-      dict: getDictionary("id"),
+      dict: getDictionary("en"),
     };
   }
   return context;
