@@ -28,3 +28,11 @@
 npm-debug.log*
 .DS_Store
 Thumbs.db
+
+# Heavy documentation & raw asset zip extracts
+docs/Informasi Kosmetik*
+docs/PDF Print*
+docs/SMOOVEE*
+**/Informasi Kosmetik*
+**/PDF Print*
+**/SMOOVEE*

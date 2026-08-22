@@ -52,9 +52,8 @@ export const idDictionary: Dictionary = {
     eyebrow: "STANDAR PROFESIONAL",
     heading:
       "Ciptakan standar keunggulan perawatan rambut di salon Anda. Wujudkan transformasi tak terlupakan bagi setiap klien.",
+    ctaPrefix: "Jelajahi seluruh portofolio salon kami —",
     seeAllProducts: "LIHAT SEMUA PRODUK",
-    notSurePrefix: "Butuh solusi khusus? ",
-    notSureCTA: "Konsultasikan bersama kami.",
   },
   solutions: {
     badge: "Solusi",
@@ -136,6 +135,8 @@ export const idDictionary: Dictionary = {
     eyebrow: "FORMULASI KHUSUS & MAKLON OEM",
     heading:
       "Salon dan brand kecantikan terkemuka berinvestasi pada formulasi khusus. Wujudkan visi produk eksklusif Anda bersama kami.",
+    seeAllProducts: "KONSULTASIKAN FORMULASI",
+    ctaPrefix: "Wujudkan formula eksklusif salon Anda —",
     notSurePrefix: "Butuh konsultasi formulasi? ",
     notSureCTA: "Hubungi tim ahli kami.",
   },

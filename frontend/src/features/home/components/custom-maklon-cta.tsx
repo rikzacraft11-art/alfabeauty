@@ -1,45 +1,39 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { NAV_LINKS } from "@/shared/lib/config";
 import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
- * CustomMaklonCTA (Calvin Klein Editorial Statement on Deep Maroon #5D221C)
- * Official Brand Dictionary Palette: Maroon #5D221C, White, Gold #EABD68
- * Fully localized: 100% ID in ID mode, 100% EN in EN mode.
+ * CustomMaklonCTA (Section 6 — Minimalist Pure Black Canvas #000000)
+ *
+ * - Pure luxury solid black background (#000000) without background images.
+ * - Left-Aligned Headline, Right-Aligned Button (Balanced Editorial Cadence).
+ * - Fully localized: 100% ID in ID mode, 100% EN in EN mode.
  * ───────────────────────────────────────────────────────────────────── */
 export function CustomMaklonCTA(): React.JSX.Element {
     const { dict } = useLanguage();
 
     return (
-        <section className="section section-cta section-cta-main relative bg-[#5D221C] text-white py-20 sm:py-28 lg:py-32 overflow-hidden">
-            {/* Subtle atmospheric luxury lighting on maroon */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,rgba(234,189,104,0.08)_0%,transparent_60%)] pointer-events-none" />
-
-            <div className="relative z-10 mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
-                <div>
-                    <h2 className="max-w-4xl text-[2.2rem] sm:text-[3.2rem] lg:text-[4rem] font-light sm:font-normal leading-[1.08] tracking-[-0.03em] text-white text-balance">
+        <section className="section section-cta section-cta-main relative z-10 border-b border-white/10 bg-[#000000] text-white py-20 sm:py-28 lg:py-32 overflow-hidden">
+            <div className="relative z-10 mx-auto max-w-[1540px] px-6 sm:px-10 lg:px-16">
+                {/* ─── Left-Aligned Headline ─── */}
+                <div className="mr-auto max-w-[880px] text-left">
+                    <h2 className="text-[1.85rem] sm:text-[2.6rem] lg:text-[3.3rem] font-light sm:font-normal leading-[1.18] tracking-[-0.02em] text-white text-balance">
                         {dict.customMaklon.heading}
                     </h2>
                 </div>
 
-                {/* Minimalist Action Link with Champagne Gold Underline */}
-                <div className="mt-14 sm:mt-20 pt-8 border-t border-white/20">
+                {/* ─── Right-Aligned Button (Balanced Editorial Composition) ─── */}
+                <div className="mt-10 sm:mt-14 flex items-center justify-end w-full">
                     <Link
                         href={NAV_LINKS.contact}
-                        className="group flex items-center justify-between py-2 text-[1.2rem] sm:text-[1.7rem] font-light tracking-[-0.01em] text-white transition-colors"
+                        className="group inline-flex items-center gap-2.5 text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white border-b border-white/90 pb-1.5 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
                     >
-                        <span className="flex items-center gap-3">
-                            <span className="text-white/85">{dict.customMaklon.notSurePrefix}</span>
-                            <span className="text-[#EABD68] font-normal border-b border-[#EABD68]/70 pb-0.5 transition-colors duration-200 group-hover:text-white group-hover:border-white">
-                                {dict.customMaklon.notSureCTA}
-                            </span>
-                        </span>
-                        <div className="flex h-11 w-11 items-center justify-center rounded-none border border-white/30 transition-all duration-300 group-hover:border-[#EABD68] group-hover:bg-[#EABD68] group-hover:text-black">
-                            <ArrowUpRight className="h-5 w-5" />
-                        </div>
+                        <span>{dict.customMaklon.seeAllProducts || "CONSULT WITH OUR EXPERTS"}</span>
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                     </Link>
                 </div>
             </div>

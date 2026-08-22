@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { draftMode, headers } from "next/headers";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Lexend_Deca } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_NAME, SITE_DOMAIN, CONTACT_EMAIL, INSTAGRAM_URL } from "@/shared/lib/config";
 import { SiteHeader } from "@/features/shell";
 import { MegaFooter } from "@/shared/components/layout/mega-footer";
+import { GlobalBreadcrumbs } from "@/shared/components/layout/global-breadcrumbs";
 import { LenisProvider } from "@/shared/components/providers/lenis-provider";
 import { LanguageProvider } from "@/shared/components/providers/language-provider";
 import { Preloader } from "@/shared/components/providers/preloader";
@@ -15,6 +16,13 @@ import "./globals.css";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const lexendDeca = Lexend_Deca({
+  variable: "--font-lexend-deca",
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
@@ -118,7 +126,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={montserrat.variable}>
+      <body className={`${montserrat.variable} ${lexendDeca.variable}`}>
         <LenisProvider>
           <LanguageProvider>
             <Preloader>
@@ -131,6 +139,7 @@ export default async function RootLayout({
               </a>
               <SiteHeader />
               <div className="relative z-10 bg-background shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
+                <GlobalBreadcrumbs />
                 <PageTransition>
                   {children}
                 </PageTransition>

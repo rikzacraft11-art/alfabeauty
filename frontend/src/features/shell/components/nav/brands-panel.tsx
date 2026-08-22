@@ -7,15 +7,24 @@ import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
 import { BRANDS } from "@/shared/lib/config";
 import { cn } from "@/shared/lib/utils";
 
+const brandSlugMap: Record<string, string> = {
+    "Alfaparf Milano Professional": "alfaparf",
+    "Farmavita": "farmavita",
+    "Montibello": "montibello",
+    "Gamma+ Professional": "gamma-plus",
+    "CORE": "core",
+    "SMOOVEE Hair & Body Care": "smoovee",
+};
+
 export function BrandsPanel() {
     return (
-        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[repeat(5,1fr)_220px] gap-3.5 px-6 py-8 lg:px-8">
-            {/* 5 Brand Cards in a single horizontal row */}
+        <div className="mx-auto grid h-[440px] max-w-[1540px] grid-cols-[repeat(6,1fr)_210px] gap-3 px-4 py-8 lg:px-6">
+            {/* 6 Brand Cards in a single horizontal row */}
             {BRANDS.map((brand) => (
                 <NavigationMenuLink key={brand.name} asChild>
                     <Link
-                        href={`/products?brand=${brand.name.toLowerCase().replace(/\s+/g, "-")}`}
-                        className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden bg-surface-elevated/75 border border-border-warm/60 p-5 transition-all duration-300 hover:bg-white hover:border-border-warm hover:shadow-[0_10px_28px_rgba(0,0,0,0.04)] text-foreground"
+                        href={`/brands/${brandSlugMap[brand.name] || "smoovee"}`}
+                        className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden bg-surface-elevated/75 border border-border-warm/60 p-4 transition-all duration-300 hover:bg-white hover:border-border-warm hover:shadow-[0_10px_28px_rgba(0,0,0,0.04)] text-foreground"
                     >
                         <div>
                             {/* Brand Logo Container */}

@@ -67,11 +67,6 @@ const nextConfig: NextConfig = {
         destination: "/shop/:path*",
         permanent: false,
       },
-      {
-        source: "/brands",
-        destination: "/shop",
-        permanent: false,
-      },
     ];
   },
 };

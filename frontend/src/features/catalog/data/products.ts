@@ -54,6 +54,7 @@ export const categories = [
     { id: "treatments", label: "Treatments" },
     { id: "tools", label: "Tools & Equipment" },
     { id: "barber", label: "Barber Essentials" },
+    { id: "body-scent", label: "Body & Scent Care" },
 ];
 
 export const brandFilters = [
@@ -62,6 +63,7 @@ export const brandFilters = [
     "Montibello",
     "Gamma+ Professional",
     "CORE",
+    "SMOOVEE Hair & Body Care",
 ];
 
 export const audienceFilters = [
@@ -125,8 +127,10 @@ export const products: Product[] = [
             "Chemically treated and sensitive hair requiring gentle perming"
         ],
         variants: ["HARD 400ml", "SOFT 400ml"],
-        image: "/images/products/core/CORE HEAT PERM/hero.webp",
+        isNew: true,
+        image: "/images/products/core/core-heat-pouches.png",
         gallery: [
+            "/images/products/core/core-heat-pouches.png",
             "/images/products/core/CORE HEAT PERM/pendukung-1.webp",
             "/images/products/core/CORE HEAT PERM/pendukung-2.webp"
         ],
@@ -1582,6 +1586,258 @@ export const products: Product[] = [
         infoSlides: [
             { type: "benefits", src: "/images/products/core/ALKALI REMOVER/pendukung-2.webp" }
         ]
+    },
+
+    /* ═════════════════════════════════════════════════════════════════════
+     * 6. SMOOVEE HAIR & BODY CARE (INDONESIA / BPOM CERTIFIED FORMULATION)
+     * ═════════════════════════════════════════════════════════════════════ */
+    {
+        id: "smoovee-hair-keratin-shampoo",
+        name: "Hair Keratin Shampoo",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "hair-care",
+        audience: "both",
+        description: "BPOM-notified hydrolyzed keratin shampoo formulated to cleanse excess scalp sebum, eliminate dandruff, and maintain optimal hair fiber hydration.",
+        variants: ["50 ml", "80 ml", "100 ml", "150 ml"],
+        image: "/images/products/smoovee/smoovee-shampoo.jpg",
+        isNew: true,
+        longDescription: "SMOOVEE Hair Keratin Shampoo is a professional salon formula engineered with Hydrolyzed Keratin, Argania Spinosa Kernel Oil, and Meadowfoam Seed Oil. It gently removes impurities and excess sebum from the scalp while reinforcing weakened cuticle layers.",
+        keyBenefits: [
+            "Membantu membersihkan kulit kepala dari minyak berlebih dan ketombe",
+            "Menjaga kelembapan kutikula rambut agar halus, lembut, dan tidak kering",
+            "Diperkaya Hydrolyzed Keratin dan minyak botani esensial",
+            "Tersertifikasi resmi BPOM oleh PT Gemma Natura Lestari"
+        ],
+        howToUse: "Basahkan rambut dengan air, kemudian tuangkan produk secukupnya di telapak tangan. Dengan lembut usapkan pada rambut hingga berbusa, lalu bersihkan dengan air hingga bersih.",
+        recommendedFor: ["Rambut kering & rusak", "Kulit kepala berminyak / berketombe", "Perawatan harian pasca-smoothing"]
+    },
+    {
+        id: "smoovee-hair-keratin-conditioner",
+        name: "Hair Keratin Conditioner",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "hair-care",
+        audience: "both",
+        description: "Restorative keratin conditioner that smooths frizz, detangles instantly, and seals cuticle moisture with Meadowfoam and Argan oil.",
+        variants: ["50 ml", "80 ml", "100 ml", "150 ml"],
+        image: "/images/products/smoovee/smoovee-conditioner.jpg",
+        isNew: true,
+        longDescription: "A rich emulsion enriched with Hydrolyzed Keratin, Squalane, and Meadowfoam Seed Oil that replenishes essential lipid barriers and leaves hair exceptionally silky and manageable.",
+        keyBenefits: [
+            "Menghaluskan batang rambut dan mencegah kusut seketika",
+            "Mengunci nutrisi keratin hingga ke ujung rambut",
+            "Formula ringan tanpa rasa lepek pada rambut tropis"
+        ],
+        howToUse: "Setelah keramas dengan SMOOVEE Shampoo, aplikasikan conditioner secara merata dari tengah hingga ujung rambut. Diamkan 2-3 menit, lalu bilas bersih.",
+        recommendedFor: ["Rambut mengembang & kusam", "Rambut diwarnai atau diluruskan"]
+    },
+    {
+        id: "smoovee-hair-keratin-mask",
+        name: "Hair Keratin Mask",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "treatments",
+        audience: "salon",
+        description: "Intensive deep-conditioning salon mask enriched with concentrated keratin and Ceramide NP to repair chemically processed hair.",
+        variants: ["100 ml", "250 ml", "500 ml"],
+        image: "/images/products/smoovee/smoovee-mask.jpg",
+        isNew: true,
+        longDescription: "Professional salon-grade keratin mask providing deep cortex restructuring for severely compromised hair fibers due to bleaching, heat styling, and chemical straightening.",
+        keyBenefits: [
+            "Restrukturisasi mendalam serat rambut rusak dan bercabang",
+            "Menutrisi dengan Ceramide NP dan Shea Butter murni",
+            "Memberikan elastisitas dan kilau kaca salon profesional"
+        ],
+        howToUse: "Aplikasikan pada rambut bersih dan lembap secara merata. Diamkan selama 10-15 menit (dapat menggunakan steamer untuk hasil maksimal), lalu bilas hingga bersih.",
+        recommendedFor: ["Rambut rusak parah / bleached", "Perawatan intensif salon mingguan"]
+    },
+    {
+        id: "smoovee-hair-keratin-oil",
+        name: "Hair Keratin Oil (Reformula)",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "treatments",
+        audience: "both",
+        description: "Weightless shine-enhancing keratin serum that shields against thermal styling damage and seals split ends with radiant luster.",
+        variants: ["30 ml", "60 ml", "100 ml"],
+        image: "/images/products/smoovee/smoovee-oil.jpg",
+        isNew: true,
+        longDescription: "Advanced reformula blending pure Argan Kernel Oil, Sunflower Seed Oil, and Hydrolyzed Keratin micro-droplets for instant glass-like radiance and thermal defense.",
+        keyBenefits: [
+            "Kilau instan tanpa rasa lengket atau berminyak",
+            "Perlindungan dari panas catokan dan pengering rambut",
+            "Mengontrol rambut mengembang seharian di cuaca lembap"
+        ],
+        howToUse: "Pompa 1-2 tetes pada telapak tangan, ratakan pada rambut setengah basah sebelum styling atau pada rambut kering sebagai sentuhan akhir.",
+        recommendedFor: ["Semua jenis rambut", "Finishing touch kilau harian"]
+    },
+    {
+        id: "smoovee-hair-keratin-smoothing-cream",
+        name: "Hair Keratin Smoothing Cream (Reformula)",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "treatments",
+        audience: "salon",
+        description: "Professional salon straightening and de-frizzing keratin cream for long-lasting sleek, silky, and disciplined hair transformations.",
+        variants: ["250 ml", "500 ml"],
+        image: "/images/products/smoovee/smoovee-treatment.jpg",
+        isNew: true,
+        longDescription: "Reformulated professional keratin smoothing cream engineered for salon specialists. Delivers discipline, silkiness, and volume control with maximum cuticle preservation.",
+        keyBenefits: [
+            "Formula pelurusan dan penjinak rambut mengembang profesional",
+            "Hasil rambut jatuh alami, lembut, dan berkilau tahan lama",
+            "Mengurangi waktu styling harian klien salon secara dramatis"
+        ],
+        howToUse: "Khusus penggunaan profesional salon. Aplikasikan section demi section sesuai petunjuk teknis pelurusan keratin salon.",
+        recommendedFor: ["Salon profesional", "Layanan pelurusan dan smoothing keratin"]
+    },
+    {
+        id: "smoovee-scent-manika",
+        name: "Hair & Body Scent — Manika",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-scent",
+        audience: "both",
+        description: "Multipurpose hair & body deodorant fragrance mist in signature Manika (Purple / Floral Elegance) with Aloe Vera and Collagen.",
+        variants: ["10 ml", "100 ml", "250 ml"],
+        image: "/images/products/smoovee/smoovee-scent-manika.jpg",
+        isNew: true,
+        longDescription: "SMOOVEE Hair & Body Scent Manika delivers an enchanting floral bouquet while conditioning hair and skin with Aloe Vera Extract, Collagen, and Argan Oil.",
+        keyBenefits: [
+            "Memberikan aroma keharuman floral mewah pada rambut dan tubuh",
+            "Membantu menjaga kelembapan kulit dan batang rambut",
+            "Diformulasikan dengan Aloe Vera, Collagen, dan Argan Oil"
+        ],
+        howToUse: "Untuk tubuh: semprotkan pada kulit bersih dan kering dengan jarak 15-20 cm. Untuk rambut: semprotkan pada batang rambut setelah keramas atau saat rambut kering.",
+        recommendedFor: ["Penyegar harian rambut & tubuh", "Parfum mist anti-bau asap/matahari"]
+    },
+    {
+        id: "smoovee-scent-rimba",
+        name: "Hair & Body Scent — Rimba",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-scent",
+        audience: "both",
+        description: "Invigorating woody-botanical hair & body fragrance mist in signature Rimba (Green / Earthy Forest) with Aloe Vera and Collagen.",
+        variants: ["10 ml", "100 ml", "250 ml"],
+        image: "/images/products/smoovee/smoovee-scent-rimba.jpg",
+        isNew: true,
+        longDescription: "SMOOVEE Hair & Body Scent Rimba captures the freshness of tropical green forests with crisp botanical undertones, enriched with nourishing plant actives.",
+        keyBenefits: [
+            "Aroma woody earthy yang segar dan menenangkan",
+            "Menghidrasi kulit dan rambut tanpa residu lengket",
+            "Aman untuk pemakaian harian berstandar BPOM"
+        ],
+        howToUse: "Semprotkan pada titik nadi tubuh dan semprotkan merata pada batang rambut.",
+        recommendedFor: ["Penyegar aktif harian", "Aroma segar uniseks"]
+    },
+    {
+        id: "smoovee-scent-sekar",
+        name: "Hair & Body Scent — Sekar",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-scent",
+        audience: "both",
+        description: "Romantic sweet blossom fragrance mist in signature Sekar (Pink / Sweet Blossom) with Aloe Vera, Collagen, and Argan Oil.",
+        variants: ["10 ml", "100 ml", "250 ml"],
+        image: "/images/products/smoovee/smoovee-scent-sekar.jpg",
+        isNew: true,
+        longDescription: "SMOOVEE Hair & Body Scent Sekar offers a joyful blossom scent that keeps hair and skin delicately fragranced and conditioned throughout the day.",
+        keyBenefits: [
+            "Aroma manis segar kelopak bunga musim semi",
+            "Menjaga kelembapan kulit dan kilau alami rambut",
+            "Kandungan Collagen dan Vitamin E yang menutrisi"
+        ],
+        howToUse: "Semprotkan pada tubuh dan batang rambut sesuai kebutuhan sepanjang hari.",
+        recommendedFor: ["Pecinta aroma manis & feminin", "Perawatan aroma setelah salon"]
+    },
+    {
+        id: "smoovee-scent-teduh",
+        name: "Hair & Body Scent — Teduh (Reformula)",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-scent",
+        audience: "both",
+        description: "Calming aquatic-fresh hair & body mist in signature Teduh (Blue / Fresh Breeze) with Aloe Vera and Argan Oil.",
+        variants: ["10 ml", "100 ml", "250 ml"],
+        image: "/images/products/smoovee/smoovee-scent-teduh.jpg",
+        isNew: true,
+        longDescription: "SMOOVEE Hair & Body Scent Teduh brings a soothing, refreshing breeze profile designed to neutralize odors and impart serene freshness.",
+        keyBenefits: [
+            "Aroma aquatic segar yang sejuk dan menenangkan",
+            "Menetralisir bau lingkungan pada rambut seketika",
+            "Formula ringan tidak membuat rambut kaku"
+        ],
+        howToUse: "Semprotkan pada kulit tubuh dan helai rambut kering kapan pun dibutuhkan.",
+        recommendedFor: ["Aktivitas luar ruangan", "Aroma bersih dan menyejukkan"]
+    },
+    {
+        id: "smoovee-butter-manika",
+        name: "Hand & Body Butter — Manika",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-butter",
+        audience: "both",
+        description: "Ultra-nourishing Ceramide NP and Shea body moisturizer in signature Manika (Purple / Floral) for deep 24H skin barrier hydration.",
+        variants: ["50 g", "100 g", "250 g"],
+        image: "/images/products/smoovee/smoovee-butter-manika.jpg",
+        isNew: true,
+        longDescription: "Rich moisturizing body butter formulated with Ceramide NP, Squalane, Shea Butter, and Meadowfoam Seed Oil to restore the skin moisture barrier and soften rough skin.",
+        keyBenefits: [
+            "Membantu menjaga kelembapan kulit agar halus, lembut, dan tidak kering",
+            "Memperkuat skin barrier dengan Ceramide NP dan Squalane",
+            "Tekstur krim kaya nutrisi yang meresap tanpa rasa berminyak"
+        ],
+        howToUse: "Tuangkan produk secukupnya, lalu usapkan pada permukaan badan atau tangan secara merata setelah mandi.",
+        recommendedFor: ["Kulit kering & dehidrasi", "Perawatan kelembapan tangan & tubuh"]
+    },
+    {
+        id: "smoovee-butter-rimba",
+        name: "Hand & Body Butter — Rimba (Reformula)",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-butter",
+        audience: "both",
+        description: "Restorative botanical body butter in signature Rimba (Green / Earthy) infused with Ceramide NP, Argan, and Olive Oil.",
+        variants: ["50 g", "100 g", "250 g"],
+        image: "/images/products/smoovee/smoovee-butter-rimba.jpg",
+        isNew: true,
+        longDescription: "Infused with olive oil, argan oil, and sunflower seed oil, SMOOVEE Rimba Body Butter revitalizes tired skin with earthy aromatherapy.",
+        keyBenefits: [
+            "Menutrisi kulit kering dengan minyak botani esensial",
+            "Aroma relaksasi herbal alami khas hutan tropis",
+            "Menjaga elastisitas dan kekenyalan kulit"
+        ],
+        howToUse: "Oleskan secara merata pada kulit tubuh yang bersih, terutama area siku, lutut, dan tangan.",
+        recommendedFor: ["Kulit bersisik / sangat kering", "Relaksasi harian"]
+    },
+    {
+        id: "smoovee-butter-sekar",
+        name: "Hand & Body Butter — Sekar (Reformula)",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-butter",
+        audience: "both",
+        description: "Luminous floral body butter in signature Sekar (Pink / Sweet Blossom) with Ceramide NP, Shea, and Squalane.",
+        variants: ["50 g", "100 g", "250 g"],
+        image: "/images/products/smoovee/smoovee-butter-sekar.jpg",
+        isNew: true,
+        longDescription: "A velvety butter offering intense hydration and skin conditioning paired with a romantic sweet blossom fragrance.",
+        keyBenefits: [
+            "Memberikan kelembutan sutra pada kulit tubuh",
+            "Menjaga hidrasi mendalam tanpa rasa lengket",
+            "Aroma manis segar yang tahan lama"
+        ],
+        howToUse: "Usapkan lembut pada seluruh tubuh setiap hari setelah mandi.",
+        recommendedFor: ["Semua jenis kulit", "Keharuman dan kelembutan ekstra"]
+    },
+    {
+        id: "smoovee-butter-teduh",
+        name: "Hand & Body Butter — Teduh (Reformula)",
+        brand: "SMOOVEE Hair & Body Care",
+        category: "body-butter",
+        audience: "both",
+        description: "Cooling hydrating body butter in signature Teduh (Blue / Fresh Breeze) with Ceramide NP, Beeswax, and Squalane.",
+        variants: ["50 g", "100 g", "250 g"],
+        image: "/images/products/smoovee/smoovee-butter-teduh.jpg",
+        isNew: true,
+        longDescription: "Formulated to soothe sun-exposed or dry air-conditioned skin with high-potency Ceramide NP, Beeswax, and Meadowfoam seed oil.",
+        keyBenefits: [
+            "Menenangkan kulit kering akibat paparan AC atau cuaca panas",
+            "Mengunci kelembapan alami kulit hingga 24 jam",
+            "Tekstur lembut yang cepat menyerap"
+        ],
+        howToUse: "Aplikasikan secara merata ke seluruh badan dan tangan setelah beraktivitas atau sebelum tidur.",
+        recommendedFor: ["Kulit kering akibat AC", "Hidrasi dan perlindungan harian"]
     }
 ];
 
@@ -1627,6 +1883,7 @@ export const categoryPills = [
     { id: "styling", label: "Styling" },
     { id: "tools", label: "Tools & Equipment" },
     { id: "barber", label: "Barber Essentials" },
+    { id: "body-scent", label: "Body & Scent Care" },
 ];
 
 export const brandFacets = [
@@ -1635,6 +1892,7 @@ export const brandFacets = [
     "Montibello",
     "Farmavita",
     "Gamma+ Professional",
+    "SMOOVEE Hair & Body Care",
 ];
 
 export const audienceFacets = [

@@ -50,9 +50,10 @@ export interface Dictionary {
   shopCTA: {
     eyebrow: string;
     heading: string;
+    ctaPrefix: string;
     seeAllProducts: string;
-    notSurePrefix: string;
-    notSureCTA: string;
+    notSurePrefix?: string;
+    notSureCTA?: string;
   };
   solutions: {
     badge: string;
@@ -91,6 +92,8 @@ export interface Dictionary {
   customMaklon: {
     eyebrow: string;
     heading: string;
+    seeAllProducts?: string;
+    ctaPrefix?: string;
     notSurePrefix: string;
     notSureCTA: string;
   };

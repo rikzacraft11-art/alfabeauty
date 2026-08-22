@@ -442,6 +442,25 @@
     mix-blend-mode: overlay;
   }
 
+  /* ─────────────────────────────────────────────────────────────────
+   * Floating Cinematic Silk Wave (Liquid Satin Breathing Physics)
+   * ───────────────────────────────────────────────────────────────── */
+  @keyframes silkUndulate {
+    0%, 100% {
+      transform: scale(1) translateY(0px) rotate(0deg);
+      filter: blur(0px) brightness(1);
+    }
+    50% {
+      transform: scale(1.03) translateY(-8px) rotate(0.4deg);
+      filter: blur(1.5px) brightness(1.15);
+    }
+  }
+
+  .animate-silk-undulate {
+    animation: silkUndulate 9s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+
   /* Lighter grain for cards / smaller surfaces */
   .grain-overlay-subtle::after {
     content: '';
@@ -821,5 +840,9 @@
   .trust-badge:hover {
     border-color: rgba(0, 0, 0, 0.2);
     color: rgba(0, 0, 0, 0.65);
+  }
+
+  .font-lexend {
+    font-family: var(--font-lexend-deca), sans-serif;
   }
 }

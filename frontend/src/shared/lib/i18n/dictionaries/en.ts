@@ -52,9 +52,8 @@ export const enDictionary: Dictionary = {
     eyebrow: "PROFESSIONAL STANDARD",
     heading:
       "Set the standard for haircare excellence in your salon. Let us help you make every client transformation memorable.",
+    ctaPrefix: "Explore our complete professional range —",
     seeAllProducts: "SEE ALL PRODUCTS",
-    notSurePrefix: "Not sure what's possible? ",
-    notSureCTA: "Get in touch to find out.",
   },
   solutions: {
     badge: "Solution",
@@ -136,6 +135,8 @@ export const enDictionary: Dictionary = {
     eyebrow: "CUSTOM FORMULATIONS & MAKLON OEM",
     heading:
       "Salons and beauty leaders that thrive invest in custom-developed haircare. Let us help bring your vision to life.",
+    seeAllProducts: "CONSULT WITH OUR EXPERTS",
+    ctaPrefix: "Create your signature haircare line —",
     notSurePrefix: "Not sure what's possible? ",
     notSureCTA: "Get in touch to find out.",
   },

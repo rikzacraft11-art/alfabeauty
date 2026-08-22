@@ -130,6 +130,15 @@ export const BRANDS: Brand[] = [
     description:
       "Advanced formulation systems for professional salon perm, alkali control, and hair restoration.",
   },
+  {
+    name: "SMOOVEE Hair & Body Care",
+    origin: "Indonesia",
+    flag: "🇮🇩",
+    logo: "/images/brands/smoovee/SMOOVEE Hair & Body Care_LOGO-01.png",
+    category: "Keratin Care & Body Fragrances",
+    description:
+      "Modern BPOM-certified tropical hair & body formulations with hydrolyzed keratin and essential botanical oils.",
+  },
 ];
 
 // ── Product Categories ──
@@ -141,6 +150,7 @@ export const PRODUCT_CATEGORIES = [
   "Treatments",
   "Tools & Equipment",
   "Barber Essentials",
+  "Body & Scent Care",
 ] as const;
 
 // ── Three Pillars (used in footer, navigation, etc.) ──
