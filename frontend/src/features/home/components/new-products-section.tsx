@@ -35,7 +35,7 @@ export function NewProductsSection(): React.JSX.Element {
                         <div className="mt-6 sm:mt-8">
                             <Link
                                 href={NAV_LINKS.products}
-                                className="group inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.02em] text-black border-b border-black pb-1 transition-all duration-200 hover:text-[#D9403A] hover:border-[#D9403A]"
+                                className="group inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.02em] text-black border-b border-black pb-1 transition-all duration-200 hover:text-brand-crimson hover:border-brand-crimson"
                             >
                                 <span>{dict.shopByCategory.viewAllProducts}</span>
                                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -64,11 +64,11 @@ export function NewProductsSection(): React.JSX.Element {
 
                                 {/* Category Title & Shop Now Underline Link */}
                                 <div className="mt-3.5 flex flex-col items-center text-center px-1">
-                                    <h3 className="text-[14.5px] sm:text-[15.5px] font-medium tracking-tight text-neutral-900 transition-colors group-hover:text-[#D9403A]">
+                                    <h3 className="text-[14.5px] sm:text-[15.5px] font-medium tracking-tight text-neutral-900 transition-colors group-hover:text-brand-crimson">
                                         {cat.title}
                                     </h3>
                                     
-                                    <span className="mt-1 inline-flex items-center gap-1 text-[11.5px] font-normal text-neutral-500 transition-all group-hover:text-[#D9403A] group-hover:underline underline-offset-2">
+                                    <span className="mt-1 inline-flex items-center gap-1 text-[11.5px] font-normal text-neutral-500 transition-all group-hover:text-brand-crimson group-hover:underline underline-offset-2">
                                         {dict.shopByCategory.shopNow}
                                         <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
                                     </span>

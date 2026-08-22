@@ -29,7 +29,7 @@ const lexendDeca = Lexend_Deca({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#a4161a",
+  themeColor: "#5D221C",
   width: "device-width",
   initialScale: 1,
 };

@@ -11,7 +11,7 @@
 // ── Global Official Brand Color Palette Dictionary ──
 export const BRAND_COLORS = {
   maroon: "#5D221C",   // Deep Maroon / Burgundy (Section 6, Maklon, Luxury Accents)
-  crimson: "#D9403A",  // Scarlet / Crimson Red (Primary CTA, Active Underlines, Hover States)
+  crimson: "#C8322C",  // Scarlet / Crimson Red (Primary CTA, Active Underlines, Hover States)
   gold: "#EABD68",     // Champagne Gold / Warm Amber (LED Halo, Badges, Highlights)
   green: "#1F9849",    // Emerald Green (WhatsApp, Contact Accent on Black/White/Gold)
   black: "#000000",    // Obsidian Black (Base Canvas, Typography, Dark Panels)

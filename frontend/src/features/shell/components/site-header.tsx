@@ -293,7 +293,7 @@ export function SiteHeader(): React.JSX.Element {
                                 ? "border-border-warm/60 bg-background text-foreground hover:border-foreground"
                                 : "border-white/20 bg-white/10 text-white hover:bg-white/20"
                         )}
-                        aria-label="Shopping Cart"
+                        aria-label="Shopping Cart (0 items)"
                     >
                         <ShoppingBag className="h-3.5 w-3.5" />
                         <span className="absolute -top-1 -right-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand-crimson px-1 text-[9px] font-bold text-white">

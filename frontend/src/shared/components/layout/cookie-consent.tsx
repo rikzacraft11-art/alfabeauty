@@ -48,12 +48,12 @@ export function CookieConsent() {
                 >
                     <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
                         <div className="flex-1">
-                            <p className="text-sm leading-relaxed text-text-muted">
+                            <p className="text-sm leading-relaxed text-neutral-700">
                                 We use cookies to enhance your experience. By continuing to visit this site
                                 you agree to our use of cookies.{" "}
                                 <Link
                                     href="/privacy"
-                                    className="underline underline-offset-4 transition-colors duration-300 hover:text-foreground"
+                                    className="underline underline-offset-4 font-medium text-foreground hover:text-brand-crimson transition-colors duration-300"
                                 >
                                     Privacy Policy
                                 </Link>
@@ -62,7 +62,7 @@ export function CookieConsent() {
                         <div className="flex items-center gap-3 shrink-0">
                             <button
                                 onClick={handleReject}
-                                className="px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] border border-border-warm/60 text-text-muted transition-all duration-300 hover:border-foreground/30 hover:text-foreground"
+                                className="px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] border border-neutral-400 text-neutral-800 transition-all duration-300 hover:border-foreground hover:text-foreground"
                             >
                                 Reject
                             </button>
@@ -74,7 +74,7 @@ export function CookieConsent() {
                             </button>
                             <button
                                 onClick={handleReject}
-                                className="flex h-8 w-8 items-center justify-center text-text-muted transition-colors duration-300 hover:text-foreground sm:hidden"
+                                className="flex h-8 w-8 items-center justify-center text-neutral-700 transition-colors duration-300 hover:text-foreground sm:hidden"
                                 aria-label="Dismiss cookie banner"
                             >
                                 <X className="h-4 w-4" />

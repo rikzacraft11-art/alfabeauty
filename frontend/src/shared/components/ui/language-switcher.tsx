@@ -30,7 +30,7 @@ export function LanguageSwitcher({
               ? "bg-brand-crimson text-white shadow-sm"
               : "text-foreground/70 hover:text-foreground"
           )}
-          aria-label="Pilih Bahasa Indonesia"
+          aria-label="ID - Pilih Bahasa Indonesia"
         >
           🇮🇩 ID
         </button>
@@ -43,7 +43,7 @@ export function LanguageSwitcher({
               ? "bg-brand-crimson text-white shadow-sm"
               : "text-foreground/70 hover:text-foreground"
           )}
-          aria-label="Select English"
+          aria-label="EN - Select English"
         >
           🇬🇧 EN
         </button>
@@ -79,10 +79,10 @@ export function LanguageSwitcher({
               ? "bg-foreground text-white shadow-xs"
               : "bg-white text-charcoal shadow-xs"
             : isSolid
-            ? "text-foreground/60 hover:text-foreground"
-            : "text-white/70 hover:text-white"
+            ? "text-foreground/80 hover:text-foreground"
+            : "text-white/90 hover:text-white"
         )}
-        aria-label="Ganti ke Bahasa Indonesia"
+        aria-label="ID - Ganti ke Bahasa Indonesia"
       >
         ID
       </button>
@@ -104,10 +104,10 @@ export function LanguageSwitcher({
               ? "bg-foreground text-white shadow-xs"
               : "bg-white text-charcoal shadow-xs"
             : isSolid
-            ? "text-foreground/60 hover:text-foreground"
-            : "text-white/70 hover:text-white"
+            ? "text-foreground/80 hover:text-foreground"
+            : "text-white/90 hover:text-white"
         )}
-        aria-label="Switch to English"
+        aria-label="EN - Switch to English"
       >
         EN
       </button>

@@ -70,10 +70,10 @@ function FAQAccordionItem({
                     aria-expanded={isOpen}
                     onClick={onToggle}
                 >
-                    <span className="text-[15px] sm:text-[16px] font-normal tracking-[-0.01em] text-foreground transition-colors group-hover:text-[#D9403A]">
+                    <span className="text-[15px] sm:text-[16px] font-normal tracking-[-0.01em] text-foreground transition-colors group-hover:text-brand-crimson">
                         {item.question}
                     </span>
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center text-foreground transition-transform duration-300 group-hover:text-[#D9403A]">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center text-foreground transition-transform duration-300 group-hover:text-brand-crimson">
                         {isOpen ? (
                             <Minus className="h-4 w-4" />
                         ) : (
@@ -117,7 +117,7 @@ export function FAQSection({
     heading,
     eyebrow,
 }: FAQSectionProps = {}) {
-    const { dict } = useLanguage();
+    const { dict, language } = useLanguage();
     const [openIndex, setOpenIndex] = React.useState<number | null>(null);
 
     const faqItems = items ?? dict.faq.items ?? DEFAULT_FAQ;
@@ -157,9 +157,10 @@ export function FAQSection({
                             <div className="mt-6">
                                 <Link
                                     href="/faq"
-                                    className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-[#D9403A] hover:text-[#D9403A]"
+                                    aria-label={language === "id" ? "Lihat seluruh pertanyaan umum (FAQ)" : "Explore all frequently asked questions (FAQ)"}
+                                    className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-brand-crimson hover:text-brand-crimson"
                                 >
-                                    <span>{dict.common.readMore}</span>
+                                    <span>{language === "id" ? "Lihat Seluruh FAQ" : "Explore Full FAQ"}</span>
                                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                                 </Link>
                             </div>

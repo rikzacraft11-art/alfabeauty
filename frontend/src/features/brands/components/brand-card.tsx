@@ -29,6 +29,7 @@ export function BrandCard({ brand }: BrandCardProps): React.JSX.Element {
                         src={brand.theme.wordmarkAsset.colored || brand.logo.dark || brand.logo.primary}
                         alt={brand.fullName}
                         fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-contain object-center transition-transform duration-500 ease-out group-hover:scale-105"
                     />
                 </div>

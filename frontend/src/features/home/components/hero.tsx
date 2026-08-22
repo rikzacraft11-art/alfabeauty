@@ -160,7 +160,7 @@ export function HeroSection(): React.JSX.Element {
                                 <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
                                     <Link
                                         href={NAV_LINKS.brands}
-                                        className="inline-flex items-center justify-center gap-2 rounded-none bg-[#D9403A] px-8 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#5D221C]"
+                                        className="inline-flex items-center justify-center gap-2 rounded-none bg-brand-crimson px-8 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#5D221C]"
                                     >
                                         <span>{dict.hero.exploreBrands}</span>
                                         <ArrowRight className="h-3.5 w-3.5" />
