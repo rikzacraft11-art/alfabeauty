@@ -107,6 +107,7 @@ export function ShopCTASection(): React.JSX.Element {
     return (
         <section
             ref={sectionRef}
+            id="shop-cta"
             className="section section-shop-cta relative z-10 w-full bg-[#000000] text-white h-[175vh]"
         >
             {/* ─── Sticky 100vh Viewport (Locks until hair wave animation completes) ─── */}

@@ -16,16 +16,18 @@ import Lenis from "lenis";
 interface LenisContextValue {
     stop: () => void;
     start: () => void;
+    scrollTo: (target: number | HTMLElement | string, options?: any) => void;
 }
 
 const LenisContext = createContext<LenisContextValue>({
     stop: () => {},
     start: () => {},
+    scrollTo: () => {},
 });
 
 export function useLenisControl() {
     const ctx = useContext(LenisContext);
-    return { stop: ctx.stop, start: ctx.start };
+    return { stop: ctx.stop, start: ctx.start, scrollTo: ctx.scrollTo };
 }
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
@@ -37,6 +39,23 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
 
     const start = useCallback(() => {
         lenisRef.current?.start();
+    }, []);
+
+    const scrollTo = useCallback((target: number | HTMLElement | string, options?: any) => {
+        if (lenisRef.current) {
+            lenisRef.current.scrollTo(target, {
+                duration: 1.0,
+                easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                ...options,
+            });
+        } else if (typeof target === "number") {
+            window.scrollTo({ top: target, behavior: "smooth" });
+        } else if (typeof target === "string") {
+            const el = document.querySelector(target);
+            el?.scrollIntoView({ behavior: "smooth" });
+        } else if (target instanceof HTMLElement) {
+            target.scrollIntoView({ behavior: "smooth" });
+        }
     }, []);
 
     useEffect(() => {
@@ -70,8 +89,8 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     const contextValue = useMemo(
-        () => ({ stop, start }),
-        [stop, start]
+        () => ({ stop, start, scrollTo }),
+        [stop, start, scrollTo]
     );
 
     return (

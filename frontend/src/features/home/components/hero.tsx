@@ -70,6 +70,7 @@ export function HeroSection(): React.JSX.Element {
     return (
         <section
             ref={containerRef}
+            id="hero"
             className="section section-hero relative z-10 w-full min-h-[175vh] bg-transparent"
         >
             {/* Sticky Viewport Container — Full-Bleed Edge-to-Edge at Scroll 0 */}
