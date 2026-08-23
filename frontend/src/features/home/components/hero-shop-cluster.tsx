@@ -49,17 +49,36 @@ export function HeroShopCluster(): React.JSX.Element {
                 if (heroScrollable > 0) {
                     const heroProgress = (scrollY - heroTop) / heroScrollable;
 
-                    // If user stopped in mid-morph (between 3% and 40% scroll)
-                    if (heroProgress > 0.03 && heroProgress < 0.40) {
+                    // When scrolling DOWN: if user stops mid-morph, complete smoothly down to Docked State (0.42)
+                    if (scrollDirection.current === "down" && heroProgress > 0.03 && heroProgress < 0.40) {
                         isProgrammaticSnap.current = true;
-
-                        const targetY = (scrollDirection.current === "down" || heroProgress >= 0.08)
-                            ? Math.round(heroTop + 0.42 * heroScrollable)
-                            : Math.round(heroTop);
+                        const targetY = Math.round(heroTop + 0.42 * heroScrollable);
+                        const fallbackTimer = setTimeout(() => {
+                            isProgrammaticSnap.current = false;
+                        }, 1000);
 
                         scrollTo(targetY, {
                             duration: 0.9,
                             onComplete: () => {
+                                clearTimeout(fallbackTimer);
+                                isProgrammaticSnap.current = false;
+                            },
+                        });
+                        return;
+                    }
+
+                    // When scrolling UP: if user stops mid-reverse-morph, complete smoothly up to Fullbleed State 1 (0.0)
+                    if (scrollDirection.current === "up" && heroProgress > 0.01 && heroProgress < 0.42) {
+                        isProgrammaticSnap.current = true;
+                        const targetY = Math.round(heroTop);
+                        const fallbackTimer = setTimeout(() => {
+                            isProgrammaticSnap.current = false;
+                        }, 1000);
+
+                        scrollTo(targetY, {
+                            duration: 0.9,
+                            onComplete: () => {
+                                clearTimeout(fallbackTimer);
                                 isProgrammaticSnap.current = false;
                             },
                         });
@@ -78,17 +97,36 @@ export function HeroShopCluster(): React.JSX.Element {
                 if (shopScrollable > 0) {
                     const shopProgress = (scrollY - shopTop) / shopScrollable;
 
-                    // If user stopped mid-wave drawing (between 3% and 50% scroll)
-                    if (shopProgress > 0.03 && shopProgress < 0.50) {
+                    // When scrolling DOWN: if user stops mid-wave, complete smoothly down to Drawn State (0.52)
+                    if (scrollDirection.current === "down" && shopProgress > 0.03 && shopProgress < 0.50) {
                         isProgrammaticSnap.current = true;
-
-                        const targetY = (scrollDirection.current === "down" || shopProgress >= 0.08)
-                            ? Math.round(shopTop + 0.52 * shopScrollable)
-                            : Math.round(shopTop);
+                        const targetY = Math.round(shopTop + 0.52 * shopScrollable);
+                        const fallbackTimer = setTimeout(() => {
+                            isProgrammaticSnap.current = false;
+                        }, 1000);
 
                         scrollTo(targetY, {
                             duration: 0.9,
                             onComplete: () => {
+                                clearTimeout(fallbackTimer);
+                                isProgrammaticSnap.current = false;
+                            },
+                        });
+                        return;
+                    }
+
+                    // When scrolling UP: if user stops mid-undrawing, complete smoothly up to start of Section 2 (0.0)
+                    if (scrollDirection.current === "up" && shopProgress > 0.01 && shopProgress < 0.52) {
+                        isProgrammaticSnap.current = true;
+                        const targetY = Math.round(shopTop);
+                        const fallbackTimer = setTimeout(() => {
+                            isProgrammaticSnap.current = false;
+                        }, 1000);
+
+                        scrollTo(targetY, {
+                            duration: 0.9,
+                            onComplete: () => {
+                                clearTimeout(fallbackTimer);
                                 isProgrammaticSnap.current = false;
                             },
                         });
@@ -100,9 +138,16 @@ export function HeroShopCluster(): React.JSX.Element {
 
         const handleScroll = () => {
             const currentY = window.scrollY;
-            if (currentY > lastScrollY.current) {
+            
+            // Ignore programmatic scroll events from interfering with user direction & debouncing
+            if (isProgrammaticSnap.current) {
+                lastScrollY.current = currentY;
+                return;
+            }
+
+            if (currentY > lastScrollY.current + 1) {
                 scrollDirection.current = "down";
-            } else if (currentY < lastScrollY.current) {
+            } else if (currentY < lastScrollY.current - 1) {
                 scrollDirection.current = "up";
             }
             lastScrollY.current = currentY;
