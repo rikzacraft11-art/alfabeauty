@@ -28,16 +28,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             >
                 {/* 1:1 Aspect Ratio Media Stage */}
                 <div className="relative aspect-square w-full overflow-hidden bg-[#FAF8F5] p-2 flex items-center justify-center">
-                    {/* Official Premium / Partner Badge (Top Left) */}
+                    {/* Official Partner / Restricted Badge (Top Left) */}
                     <div className="absolute left-2.5 top-2.5 z-10 flex flex-col gap-1">
-                        {isSalon || isDistributor ? (
+                        {(isSalon || isDistributor) && (
                             <span className="inline-flex items-center gap-1 rounded bg-brand-crimson/10 border border-brand-crimson/30 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-brand-crimson">
                                 <ShieldCheck className="h-3 w-3" />
                                 {isSalon ? "MITRA SALON" : "DISTRIBUTOR"}
-                            </span>
-                        ) : (
-                            <span className="inline-flex items-center gap-1 rounded bg-[#B38E5D]/10 border border-[#B38E5D]/30 px-2 py-0.5 text-[9.5px] font-mono font-bold uppercase tracking-wider text-[#8A6635]">
-                                PREMIUM
                             </span>
                         )}
 
@@ -84,16 +80,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <div className="flex flex-1 flex-col justify-between p-4 pt-3.5">
                     <div>
                         {/* Brand / Series Overline */}
-                        <div className="flex items-center justify-between">
-                            <span className="block text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 truncate">
-                                {product.brand}
-                            </span>
-                            {product.bpomNumber && (
-                                <span className="text-[9px] font-mono text-muted-foreground/50">
-                                    BPOM
-                                </span>
-                            )}
-                        </div>
+                        <span className="block text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 truncate">
+                            {product.brand}
+                        </span>
 
                         {/* Product Title */}
                         <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-brand-crimson">
@@ -128,11 +117,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                                     <span className="text-sm font-bold text-foreground tracking-tight">
                                         {pricing.formattedEffectivePrice}
                                     </span>
-                                    {pricing.canViewMsrp && (
-                                        <span className="text-[10px] font-mono text-muted-foreground/60">
-                                            / unit
-                                        </span>
-                                    )}
                                 </div>
                             )}
                         </div>
