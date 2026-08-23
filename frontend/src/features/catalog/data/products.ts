@@ -35,12 +35,30 @@ export type Product = {
     howToUse?: string;
     recommendedFor?: string[];
     relatedIds?: string[];
+
+    /* ── Multi-Role Pricing & Gating Fields (Blueprint.md Bagian B1 & D2) ── */
+    msrp?: number;
+    salonPrice?: number;
+    distributorPrice?: number;
+    isPriceApproved?: boolean;
+    canBuyRetail?: boolean;
+    packagingType?: "retail" | "salon_bulk" | "both";
+    stockStatus?: "ready" | "indent";
+    bpomNumber?: string;
+    sopUrl?: string;
+    technicalAttributes?: {
+        developerRatio?: string;
+        processingTime?: string;
+        pHLevel?: string;
+        formulationBase?: string;
+        cortexRepairGrade?: string;
+    };
 };
 
 /** Lean type for the catalog listing — excludes detail-only fields */
 export type ProductListItem = Pick<
     Product,
-    "id" | "name" | "brand" | "category" | "audience" | "description" | "image" | "variants" | "isNew"
+    "id" | "name" | "brand" | "category" | "audience" | "description" | "image" | "variants" | "isNew" | "msrp" | "salonPrice" | "distributorPrice" | "isPriceApproved" | "canBuyRetail" | "stockStatus"
 > & {
     startingPriceIdr?: number;
     purchasable?: boolean;
@@ -1870,7 +1888,7 @@ export function getRelatedProducts(currentId: string, limit = 4): Product[] {
 export interface CatalogProduct extends Product {
     price?: number;
     formattedPrice?: string;
-    packagingType?: string;
+    packagingType?: "retail" | "salon_bulk" | "both";
     material?: string;
     inStock?: boolean;
 }
@@ -1902,16 +1920,30 @@ export const audienceFacets = [
 ];
 
 export const catalogProducts: CatalogProduct[] = products.map((p, idx) => {
-    const basePrice = 145000 + (idx * 35000) % 650000;
+    const msrp = p.msrp ?? (165000 + (idx * 35000) % 650000);
+    const salonPrice = p.salonPrice ?? Math.round(msrp * 0.65);
+    const distributorPrice = p.distributorPrice ?? Math.round(msrp * 0.50);
+    const isChemical = p.category === "treatments" || p.category === "hair-colour";
+    const canBuyRetail = p.canBuyRetail ?? !isChemical;
+    const stockStatus = p.stockStatus ?? (idx % 8 === 0 ? "indent" : "ready");
+    const bpomNumber = p.bpomNumber ?? `NA1823${(1000000 + idx * 137).toString()}`;
+
     return {
         ...p,
-        price: basePrice,
+        msrp,
+        salonPrice,
+        distributorPrice,
+        isPriceApproved: p.isPriceApproved ?? true,
+        canBuyRetail,
+        stockStatus,
+        bpomNumber,
+        price: msrp,
         formattedPrice: new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
             maximumFractionDigits: 0,
-        }).format(basePrice),
-        inStock: true,
+        }).format(msrp),
+        inStock: stockStatus === "ready",
         isNew: idx % 3 === 0,
     };
 });

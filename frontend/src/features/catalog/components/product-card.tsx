@@ -3,14 +3,19 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { Star, ShieldCheck, Lock } from "lucide-react";
 import { type CatalogProduct } from "../data/products";
+import { useUserRole } from "@/shared/components/providers/role-provider";
+import { resolveProductRoleAccess } from "../lib/role-pricing";
 
 interface ProductCardProps {
     product: CatalogProduct;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+    const { role, config, isSalon, isDistributor } = useUserRole();
+    const pricing = resolveProductRoleAccess(product, role, config);
+
     // Deterministic rating & sales indicator based on product id
     const rating = 4.9;
     const reviewCount = ((product.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % 8) + 3) * 50;
@@ -23,21 +28,39 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             >
                 {/* 1:1 Aspect Ratio Media Stage */}
                 <div className="relative aspect-square w-full overflow-hidden bg-[#FAF8F5] p-2 flex items-center justify-center">
-                    {/* Official Premium Badge (Top Left - 1:1 Kérastase Inspiration) */}
-                    <div className="absolute left-2.5 top-2.5 z-10">
-                        <span className="inline-flex items-center gap-1 rounded bg-[#B38E5D]/10 border border-[#B38E5D]/30 px-2 py-0.5 text-[9.5px] font-mono font-bold uppercase tracking-wider text-[#8A6635]">
-                            PREMIUM
-                        </span>
+                    {/* Official Premium / Partner Badge (Top Left) */}
+                    <div className="absolute left-2.5 top-2.5 z-10 flex flex-col gap-1">
+                        {isSalon || isDistributor ? (
+                            <span className="inline-flex items-center gap-1 rounded bg-brand-crimson/10 border border-brand-crimson/30 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-brand-crimson">
+                                <ShieldCheck className="h-3 w-3" />
+                                {isSalon ? "MITRA SALON" : "DISTRIBUTOR"}
+                            </span>
+                        ) : (
+                            <span className="inline-flex items-center gap-1 rounded bg-[#B38E5D]/10 border border-[#B38E5D]/30 px-2 py-0.5 text-[9.5px] font-mono font-bold uppercase tracking-wider text-[#8A6635]">
+                                PREMIUM
+                            </span>
+                        )}
+
+                        {pricing.isRestrictedForRole && (
+                            <span className="inline-flex items-center gap-1 rounded bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider text-amber-700">
+                                <Lock className="h-2.5 w-2.5" />
+                                Salon Only
+                            </span>
+                        )}
                     </div>
 
-                    {/* NEW Status Badge (Top Right) */}
-                    {product.isNew && (
-                        <div className="absolute right-2.5 top-2.5 z-10">
+                    {/* NEW / Indent Status Badge (Top Right) */}
+                    <div className="absolute right-2.5 top-2.5 z-10 flex flex-col items-end gap-1">
+                        {product.stockStatus === "indent" ? (
+                            <span className="inline-block rounded-sm bg-amber-600 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-white shadow-xs">
+                                INDENT
+                            </span>
+                        ) : product.isNew ? (
                             <span className="inline-block rounded-sm bg-foreground px-2 py-0.5 text-[9.5px] font-mono font-bold uppercase tracking-wider text-background shadow-xs">
                                 NEW
                             </span>
-                        </div>
-                    )}
+                        ) : null}
+                    </div>
 
                     {/* Packshot Image */}
                     {product.image ? (
@@ -61,9 +84,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <div className="flex flex-1 flex-col justify-between p-4 pt-3.5">
                     <div>
                         {/* Brand / Series Overline */}
-                        <span className="block text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 truncate">
-                            {product.brand}
-                        </span>
+                        <div className="flex items-center justify-between">
+                            <span className="block text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 truncate">
+                                {product.brand}
+                            </span>
+                            {product.bpomNumber && (
+                                <span className="text-[9px] font-mono text-muted-foreground/50">
+                                    BPOM
+                                </span>
+                            )}
+                        </div>
 
                         {/* Product Title */}
                         <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-brand-crimson">
@@ -73,30 +103,62 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
                     {/* Price & Social Proof Rating Line */}
                     <div className="mt-3.5 pt-2.5 border-t border-black/[0.05] flex flex-col gap-1.5">
-                        <div className="flex items-baseline justify-between">
-                            <span className="text-sm font-bold text-foreground tracking-tight">
-                                {product.formattedPrice || `Rp ${product.price?.toLocaleString("id-ID") || "150.000"}`}
-                            </span>
-                            <span className="text-[10px] font-mono text-muted-foreground/60">
-                                / unit
-                            </span>
+                        {/* Role-based price display */}
+                        <div className="flex flex-col">
+                            {pricing.canViewNetPrice && pricing.netPrice ? (
+                                <div>
+                                    <div className="flex items-baseline justify-between">
+                                        <span className="text-sm font-bold text-brand-crimson tracking-tight">
+                                            {pricing.formattedNetPrice}
+                                        </span>
+                                        {pricing.discountPercent && (
+                                            <span className="rounded bg-brand-crimson/10 px-1.5 py-0.2 text-[9.5px] font-bold text-brand-crimson">
+                                                -{pricing.discountPercent}%
+                                            </span>
+                                        )}
+                                    </div>
+                                    {pricing.msrpPrice && (
+                                        <span className="text-[10px] text-muted-foreground/60 line-through">
+                                            MSRP: {pricing.formattedMsrp}
+                                        </span>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="flex items-baseline justify-between">
+                                    <span className="text-sm font-bold text-foreground tracking-tight">
+                                        {pricing.formattedEffectivePrice}
+                                    </span>
+                                    {pricing.canViewMsrp && (
+                                        <span className="text-[10px] font-mono text-muted-foreground/60">
+                                            / unit
+                                        </span>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
-                        {/* Social Proof Rating & Sales (1:1 Kérastase Style) */}
-                        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                            <div className="flex items-center gap-0.5 text-amber-500 font-semibold text-[11px]">
-                                <Star className="h-3 w-3 fill-amber-400 text-amber-500" />
-                                <span>{rating}</span>
+                        {/* Social Proof Rating & Sales */}
+                        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                            <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-0.5 text-amber-500 font-semibold text-[11px]">
+                                    <Star className="h-3 w-3 fill-amber-400 text-amber-500" />
+                                    <span>{rating}</span>
+                                </div>
+                                <span className="text-black/20 text-[9px]">•</span>
+                                <span className="text-[10.5px] text-muted-foreground/80 font-normal">
+                                    {reviewCount}+ Terjual
+                                </span>
                             </div>
-                            <span className="text-black/20 text-[9px]">•</span>
-                            <span className="text-[10.5px] text-muted-foreground/80 font-normal">
-                                {reviewCount}+ Terjual
+
+                            {/* Stock status indicator */}
+                            <span className={`text-[9.5px] font-medium ${product.stockStatus === "indent" ? "text-amber-600" : "text-emerald-600"}`}>
+                                {product.stockStatus === "indent" ? "Indent" : "Ready"}
                             </span>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom accent color hover line (Matching Brand Card) */}
+                {/* Bottom accent color hover line */}
                 <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-brand-crimson transition-[width] duration-400 ease-out group-hover:w-full" />
             </Link>
         </article>

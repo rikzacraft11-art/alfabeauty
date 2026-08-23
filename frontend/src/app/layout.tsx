@@ -9,6 +9,7 @@ import { MegaFooter } from "@/shared/components/layout/mega-footer";
 import { GlobalBreadcrumbs } from "@/shared/components/layout/global-breadcrumbs";
 import { LenisProvider } from "@/shared/components/providers/lenis-provider";
 import { LanguageProvider } from "@/shared/components/providers/language-provider";
+import { RoleProvider } from "@/shared/components/providers/role-provider";
 import { Preloader } from "@/shared/components/providers/preloader";
 import { PageTransition } from "@/shared/components/providers/page-transition";
 import { CookieConsent } from "@/shared/components/layout/cookie-consent";
@@ -129,24 +130,26 @@ export default async function RootLayout({
       <body className={`${montserrat.variable} ${lexendDeca.variable}`}>
         <LenisProvider>
           <LanguageProvider>
-            <Preloader>
-              {/* Skip to main content — keyboard accessibility */}
-              <a
-                href="#main-content"
-                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-foreground focus:px-6 focus:py-3 focus:text-[11px] focus:font-bold focus:uppercase focus:tracking-[0.2em] focus:text-white"
-              >
-                Skip to content
-              </a>
-              <SiteHeader />
-              <div className="relative z-10 bg-background shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
-                <GlobalBreadcrumbs />
-                <PageTransition>
-                  {children}
-                </PageTransition>
-              </div>
-              <MegaFooter />
-              <CookieConsent />
-            </Preloader>
+            <RoleProvider>
+              <Preloader>
+                {/* Skip to main content — keyboard accessibility */}
+                <a
+                  href="#main-content"
+                  className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-foreground focus:px-6 focus:py-3 focus:text-[11px] focus:font-bold focus:uppercase focus:tracking-[0.2em] focus:text-white"
+                >
+                  Skip to content
+                </a>
+                <SiteHeader />
+                <div className="relative z-10 bg-background shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
+                  <GlobalBreadcrumbs />
+                  <PageTransition>
+                    {children}
+                  </PageTransition>
+                </div>
+                <MegaFooter />
+                <CookieConsent />
+              </Preloader>
+            </RoleProvider>
           </LanguageProvider>
         </LenisProvider>
         {gaId && <GoogleAnalytics gaId={gaId} />}

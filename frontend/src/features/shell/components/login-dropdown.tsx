@@ -2,12 +2,21 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Sparkles, ArrowRight, User, Building2, ChevronDown } from "lucide-react";
+import { Sparkles, ArrowRight, User, Building2, ChevronDown, ShieldCheck, Check, RotateCcw, CreditCard } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useUserRole, type UserRole } from "@/shared/components/providers/role-provider";
 
 export const LoginDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState<"retail" | "b2b">("retail");
+    const { role, setRole, user, isGuest, isSalon, isDistributor, isConsumer, isPartnerPending } = useUserRole();
+
+    const roleBadges: Record<UserRole, { label: string; icon: string; bg: string }> = {
+        guest: { label: "Guest", icon: "👤", bg: "bg-neutral-100 text-neutral-800" },
+        consumer: { label: "Konsumen", icon: "🛍️", bg: "bg-blue-100 text-blue-900" },
+        partner_pending: { label: "Mitra (Pending)", icon: "⏳", bg: "bg-amber-100 text-amber-900" },
+        salon_verified: { label: "Mitra Salon", icon: "✂️", bg: "bg-red-100 text-red-900" },
+        distributor_verified: { label: "Distributor", icon: "🏢", bg: "bg-emerald-100 text-emerald-900" },
+    };
 
     return (
         <div
@@ -15,22 +24,27 @@ export const LoginDropdown: React.FC = () => {
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
         >
-            {/* Trigger Button (Pill Button 1:1 Yucca) */}
+            {/* Trigger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background transition-colors duration-200 hover:bg-foreground/85"
+                className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                    !isGuest
+                        ? "bg-brand-crimson text-white hover:bg-brand-dark"
+                        : "bg-foreground text-background hover:bg-foreground/85"
+                }`}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
             >
-                <span>Login</span>
+                <span>{roleBadges[role].icon}</span>
+                <span className="max-w-[110px] truncate">{isGuest ? "Login" : user.name.split(" ")[0]}</span>
                 <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                    className={`h-3 w-3 transition-transform duration-200 ${
                         isOpen ? "rotate-180" : ""
                     }`}
                 />
             </button>
 
-            {/* Dual-Pane Dropdown Menu (1:1 Yucca .h-account-dropdown) */}
+            {/* Account & Role Switcher Dropdown */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -38,106 +52,107 @@ export const LoginDropdown: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         transition={{ duration: 0.2 }}
-                        className="h-account-dropdown absolute right-0 top-full z-50 mt-2 w-[340px] overflow-hidden rounded-2xl border border-border/50 bg-background/95 p-5 shadow-2xl backdrop-blur-xl"
+                        className="h-account-dropdown absolute right-0 top-full z-50 mt-2 w-[340px] overflow-hidden rounded-2xl border border-border/60 bg-background/95 p-5 shadow-2xl backdrop-blur-xl"
                     >
-                        {/* Tab Switcher (Shop vs B2B Portal) */}
-                        <div className="flex border-b border-border/40 pb-3">
-                            <button
-                                onClick={() => setActiveTab("retail")}
-                                className={`relative flex-1 pb-1 text-xs font-bold uppercase tracking-wider transition-colors ${
-                                    activeTab === "retail"
-                                        ? "text-foreground"
-                                        : "text-muted-foreground hover:text-foreground"
-                                }`}
-                            >
-                                <span className="flex items-center justify-center gap-1.5">
-                                    <User className="h-3.5 w-3.5" />
-                                    <span>Mitra Salon</span>
+                        {/* Current User Role Info Card */}
+                        <div className="rounded-xl border border-border-warm/60 bg-surface-elevated/70 p-3.5">
+                            <div className="flex items-center justify-between">
+                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${roleBadges[role].bg}`}>
+                                    {roleBadges[role].icon} {roleBadges[role].label}
                                 </span>
-                                {activeTab === "retail" && (
-                                    <motion.div
-                                        layoutId="login-tab-line"
-                                        className="absolute -bottom-[13px] left-0 right-0 h-[2px] bg-foreground"
-                                    />
+                                {user.isVerified && (
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700">
+                                        <ShieldCheck className="h-3 w-3" /> Terverifikasi
+                                    </span>
                                 )}
-                            </button>
+                            </div>
 
-                            <button
-                                onClick={() => setActiveTab("b2b")}
-                                className={`relative flex-1 pb-1 text-xs font-bold uppercase tracking-wider transition-colors ${
-                                    activeTab === "b2b"
-                                        ? "text-foreground"
-                                        : "text-muted-foreground hover:text-foreground"
-                                }`}
-                            >
-                                <span className="flex items-center justify-center gap-1.5">
-                                    <Building2 className="h-3.5 w-3.5" />
-                                    <span>B2B Portal</span>
-                                </span>
-                                {activeTab === "b2b" && (
-                                    <motion.div
-                                        layoutId="login-tab-line"
-                                        className="absolute -bottom-[13px] left-0 right-0 h-[2px] bg-foreground"
-                                    />
-                                )}
-                            </button>
-                        </div>
+                            <p className="mt-2 text-sm font-bold text-foreground truncate">
+                                {user.name}
+                            </p>
+                            {user.businessName && (
+                                <p className="text-[11px] text-muted-foreground truncate">
+                                    {user.businessName}
+                                </p>
+                            )}
 
-                        {/* Tab Content Panes */}
-                        <div className="mt-4">
-                            {activeTab === "retail" ? (
-                                <div className="space-y-4">
-                                    <p className="text-xs leading-relaxed text-muted-foreground">
-                                        Masuk untuk belanja produk salon resmi, pantau pesanan, dan dapatkan cashback 5% melalui Alfa Rewards.
-                                    </p>
-
-                                    <Link
-                                        href="/login"
-                                        className="flex w-full items-center justify-center rounded-xl bg-foreground py-2.5 text-xs font-semibold text-background transition-opacity hover:opacity-90"
-                                    >
-                                        Login Mitra Salon
-                                    </Link>
-
-                                    <p className="text-center text-[11px] text-muted-foreground">
-                                        Belum punya akun?{" "}
-                                        <Link href="/register" className="font-semibold text-foreground underline underline-offset-2">
-                                            Daftar disini
-                                        </Link>
-                                    </p>
-
-                                    {/* Alfa Rewards Banner */}
-                                    <div className="rounded-xl bg-[#12271D] p-3 text-[#FAF9F5]">
-                                        <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#FAF9F5]/70">
-                                            <Sparkles className="h-3 w-3" />
-                                            <span>Alfa Rewards</span>
-                                        </div>
-                                        <p className="mt-1 text-[11px] text-[#FAF9F5]/90">
-                                            Dapatkan cashback 5% untuk setiap pembelanjaan rutin.
-                                        </p>
+                            {/* Points & Plafon Counter for Partners */}
+                            {(isSalon || isDistributor) && (
+                                <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border-warm/50 pt-2.5 text-[11px]">
+                                    <div>
+                                        <span className="block text-[10px] text-muted-foreground">Poin Loyalitas</span>
+                                        <span className="font-bold text-emerald-700">Rp {user.pointsBalance.toLocaleString("id-ID")}</span>
                                     </div>
-                                </div>
-                            ) : (
-                                <div className="space-y-4">
-                                    <p className="text-xs leading-relaxed text-muted-foreground">
-                                        Portal khusus untuk distributor terverifikasi, maklon formulasi kustom, dan pesanan grosir volume besar.
-                                    </p>
-
-                                    <Link
-                                        href="/partnership"
-                                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-foreground py-2.5 text-xs font-semibold text-background transition-opacity hover:opacity-90"
-                                    >
-                                        <span>Buka Portal B2B / Maklon</span>
-                                        <ArrowRight className="h-3.5 w-3.5" />
-                                    </Link>
-
-                                    <p className="text-center text-[11px] text-muted-foreground">
-                                        Ingin menjadi distributor resmi?{" "}
-                                        <Link href="/partnership" className="font-semibold text-foreground underline underline-offset-2">
-                                            Pelajari syarat
-                                        </Link>
-                                    </p>
+                                    {user.creditLimit && (
+                                        <div>
+                                            <span className="block text-[10px] text-muted-foreground">Sisa Plafon Tempo</span>
+                                            <span className="font-bold text-foreground">
+                                                Rp {((user.creditLimit || 0) - (user.usedCredit || 0)).toLocaleString("id-ID")}
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             )}
+                        </div>
+
+                        {/* Interactive Role Switcher for Testing (Blueprint.md Principles) */}
+                        <div className="mt-4">
+                            <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                                Simulasi Peran Pengguna (Blueprint.md):
+                            </p>
+                            <div className="grid grid-cols-1 gap-1.5">
+                                {(
+                                    [
+                                        { id: "guest", label: "Guest (Pengunjung)", sub: "MSRP publik (C1) · Login untuk harga mitra" },
+                                        { id: "consumer", label: "Konsumen Terdaftar", sub: "MSRP · Checkout SKU white-list" },
+                                        { id: "salon_verified", label: "Salon / Barber Resmi", sub: "Harga Net Salon (-35%) · Order grosir" },
+                                        { id: "distributor_verified", label: "Distributor Resmi", sub: "Harga Net Distributor (-50%) · Tier MOQ" },
+                                        { id: "partner_pending", label: "Pendaftar Mitra", sub: "Verifikasi dokumen SLA ≤ 4 jam" },
+                                    ] as const
+                                ).map((r) => {
+                                    const isSelected = role === r.id;
+                                    return (
+                                        <button
+                                            key={r.id}
+                                            onClick={() => setRole(r.id)}
+                                            className={`flex items-start justify-between rounded-lg border p-2 text-left transition-all ${
+                                                isSelected
+                                                    ? "border-brand-crimson bg-brand-crimson/5 text-brand-crimson"
+                                                    : "border-border-warm/50 bg-background/50 hover:bg-surface-elevated text-foreground"
+                                            }`}
+                                        >
+                                            <div>
+                                                <span className="text-[12px] font-semibold flex items-center gap-1.5">
+                                                    <span>{roleBadges[r.id].icon}</span>
+                                                    <span>{r.label}</span>
+                                                </span>
+                                                <span className="block text-[10px] text-muted-foreground/80 mt-0.5">
+                                                    {r.sub}
+                                                </span>
+                                            </div>
+                                            {isSelected && (
+                                                <Check className="h-3.5 w-3.5 shrink-0 text-brand-crimson mt-0.5" />
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Direct Navigation Links */}
+                        <div className="mt-4 border-t border-border-warm/50 pt-3 flex items-center justify-between text-[11.5px]">
+                            <Link
+                                href="/partnership"
+                                className="font-semibold text-brand-crimson hover:underline"
+                            >
+                                Formulir Kemitraan
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="text-muted-foreground hover:text-foreground"
+                            >
+                                Hubungi CS
+                            </Link>
                         </div>
                     </motion.div>
                 )}

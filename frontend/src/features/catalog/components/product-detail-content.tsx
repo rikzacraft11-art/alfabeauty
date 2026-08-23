@@ -26,6 +26,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AddToCartPanel } from "@/features/commerce/components/add-to-cart-panel";
 import type { CommerceOffer } from "@/shared/lib/commerce/types";
 
+import { useUserRole } from "@/shared/components/providers/role-provider";
+import { resolveProductRoleAccess } from "../lib/role-pricing";
+import { ShieldCheck, FileCheck, AlertTriangle, Download, Building2, UserCheck, Sparkles } from "lucide-react";
+
 export function ProductDetailContent({
     product,
     catalogProducts = allProducts,
@@ -37,6 +41,9 @@ export function ProductDetailContent({
     catalogPath?: string;
     offers?: CommerceOffer[];
 }): React.JSX.Element {
+    const { role, config, isSalon, isDistributor, isConsumer, isGuest } = useUserRole();
+    const pricing = resolveProductRoleAccess(product, role, config);
+
     // ─── Gallery & Image States ───
     const allImages = React.useMemo(() => {
         const list: { src: string; alt: string; type: string }[] = [];
@@ -81,7 +88,6 @@ export function ProductDetailContent({
     }, [catalogProducts, product]);
 
     const complementaryProducts = React.useMemo(() => {
-        // Find products from other categories/brands to create rich cross-engagement
         return catalogProducts
             .filter((p) => p.id !== product.id && p.brand !== product.brand)
             .slice(0, 4);
@@ -189,8 +195,8 @@ export function ProductDetailContent({
 
                     {/* RIGHT: Product Details & Drop Reveal Menu */}
                     <div className="flex flex-col justify-start">
-                        {/* Header metadata */}
-                        <div className="mb-4 flex items-center gap-3">
+                        {/* Header metadata & BPOM verification */}
+                        <div className="mb-4 flex flex-wrap items-center gap-3">
                             <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
                                 {product.brand}
                             </span>
@@ -201,6 +207,15 @@ export function ProductDetailContent({
                             >
                                 {product.category}
                             </Badge>
+                            {product.bpomNumber && (
+                                <>
+                                    <span className="h-3 w-px bg-border-warm" />
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-mono text-muted-foreground/80">
+                                        <FileCheck className="h-3 w-3 text-emerald-600" />
+                                        BPOM: {product.bpomNumber}
+                                    </span>
+                                </>
+                            )}
                         </div>
 
                         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -210,6 +225,76 @@ export function ProductDetailContent({
                         <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
                             {product.description}
                         </p>
+
+                        {/* ─── DYNAMIC ROLE PRICING BOX (Blueprint.md Bagian B1 & D2) ─── */}
+                        <div className="mt-6 rounded-lg border border-border-warm/70 bg-surface-elevated/70 p-4.5 sm:p-5">
+                            <div className="flex items-center justify-between">
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand-crimson">
+                                    {isSalon && <ShieldCheck className="h-3.5 w-3.5" />}
+                                    {isDistributor && <Building2 className="h-3.5 w-3.5" />}
+                                    {isConsumer && <UserCheck className="h-3.5 w-3.5" />}
+                                    {pricing.tierLabel}
+                                </span>
+                                <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded ${product.stockStatus === "indent" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"}`}>
+                                    {product.stockStatus === "indent" ? "STATUS: INDENT" : "STATUS: READY"}
+                                </span>
+                            </div>
+
+                            {/* Price values */}
+                            <div className="mt-3 flex flex-wrap items-baseline gap-3">
+                                {pricing.canViewNetPrice && pricing.netPrice ? (
+                                    <>
+                                        <span className="text-2xl font-bold tracking-tight text-brand-crimson sm:text-3xl">
+                                            {pricing.formattedNetPrice}
+                                        </span>
+                                        {pricing.msrpPrice && (
+                                            <span className="text-sm font-medium text-muted-foreground/70 line-through">
+                                                MSRP: {pricing.formattedMsrp}
+                                            </span>
+                                        )}
+                                        {pricing.discountPercent && (
+                                            <span className="rounded bg-brand-crimson/10 px-2 py-0.5 text-xs font-bold text-brand-crimson">
+                                                Hemat {pricing.discountPercent}%
+                                            </span>
+                                        )}
+                                    </>
+                                ) : (
+                                    <span className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                                        {pricing.formattedEffectivePrice}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Loyalty points preview for verified partners */}
+                            {pricing.pointsEarnedPreview > 0 && (
+                                <p className="mt-2.5 flex items-center gap-1.5 text-[11.5px] font-medium text-emerald-700">
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                    Dapatkan estimasi +Rp {pricing.pointsEarnedPreview.toLocaleString("id-ID")} Poin Loyalitas Mitra setelah order lunas.
+                                </p>
+                            )}
+
+                            {/* Guest prompt to login */}
+                            {isGuest && (
+                                <p className="mt-2 text-[12px] text-muted-foreground">
+                                    Daftarkan salon Anda untuk melihat daftar harga net mitra resmi dan akses pemesanan grosir.
+                                </p>
+                            )}
+                        </div>
+
+                        {/* ─── CHEMICAL SAFETY CALLOUT ("Kapan Anda Butuh Profesional" - M1 & B7) ─── */}
+                        {pricing.isRestrictedForRole && (
+                            <div className="mt-4 flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-amber-900">
+                                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                                <div className="text-[12.5px] leading-relaxed">
+                                    <p className="font-bold text-amber-800">
+                                        Perawatan Khusus Profesional Salon
+                                    </p>
+                                    <p className="mt-1 text-amber-700/90">
+                                        {pricing.restrictionReason}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* ─── DROP REVEAL (ACCORDION) SECTIONS (Yucca Style with Slow Reveal) ─── */}
                         <div className="mt-8 border-t border-border-warm/60">
@@ -240,8 +325,21 @@ export function ProductDetailContent({
                                             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="pb-5 pt-1 text-[13.5px] leading-relaxed text-muted-foreground/90">
+                                            <div className="pb-5 pt-1 text-[13.5px] leading-relaxed text-muted-foreground/90 space-y-2">
                                                 <p>{product.longDescription || product.description}</p>
+                                                {product.technicalAttributes && (
+                                                    <div className="mt-3 rounded border border-border-warm/60 bg-surface-elevated/40 p-3 text-[12px] space-y-1">
+                                                        {product.technicalAttributes.developerRatio && (
+                                                            <p><span className="font-semibold text-foreground">Mixing Ratio:</span> {product.technicalAttributes.developerRatio}</p>
+                                                        )}
+                                                        {product.technicalAttributes.processingTime && (
+                                                            <p><span className="font-semibold text-foreground">Processing Time:</span> {product.technicalAttributes.processingTime}</p>
+                                                        )}
+                                                        {product.technicalAttributes.pHLevel && (
+                                                            <p><span className="font-semibold text-foreground">pH Level:</span> {product.technicalAttributes.pHLevel}</p>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
                                         </motion.div>
                                     )}
@@ -276,12 +374,29 @@ export function ProductDetailContent({
                                                 transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                                                 className="overflow-hidden"
                                             >
-                                                <div className="pb-5 pt-1">
+                                                <div className="pb-5 pt-1 space-y-3">
                                                     <div className="border-l-2 border-brand-crimson bg-surface-elevated/50 p-4">
                                                         <p className="text-[13px] leading-relaxed text-foreground/90">
                                                             {product.howToUse}
                                                         </p>
                                                     </div>
+
+                                                    {/* Official SOP Access for Verified Partners (N9) */}
+                                                    {(isSalon || isDistributor) && (
+                                                        <div className="flex items-center justify-between rounded border border-border-warm/60 bg-surface-elevated/60 p-3">
+                                                            <div className="flex items-center gap-2 text-[12px] font-medium text-foreground">
+                                                                <FileCheck className="h-4 w-4 text-brand-crimson" />
+                                                                <span>Official Salon SOP & Technical Chart (PDF)</span>
+                                                            </div>
+                                                            <a
+                                                                href={pricing.sopUrl || "#"}
+                                                                className="inline-flex items-center gap-1 rounded bg-foreground px-2.5 py-1 text-[11px] font-bold text-white transition-colors hover:bg-brand-crimson"
+                                                            >
+                                                                <Download className="h-3 w-3" />
+                                                                Unduh SOP
+                                                            </a>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </motion.div>
                                         )}
@@ -431,7 +546,7 @@ export function ProductDetailContent({
                                                     As an exclusive distributor, Alfa Beauty provides tiered wholesale pricing, technical masterclasses, and dedicated account management for registered salon and barbershop partners.
                                                 </p>
                                                 <p className="text-[12px] text-brand-crimson font-medium">
-                                                    Contact our salon specialists below to request wholesale price lists or starter trial packages.
+                                                    Daftarkan salon Anda untuk mendapatkan fasilitas tempo pembayaran, plafon kredit kemitraan, dan sertifikasi resmi Alfa Beauty Academy.
                                                 </p>
                                             </div>
                                         </motion.div>
@@ -440,18 +555,51 @@ export function ProductDetailContent({
                             </div>
                         </div>
 
-                        {/* CTA Action */}
+                        {/* CTA Action Matrix (Blueprint.md D2) */}
                         <div className="mt-8">
-                            <AddToCartPanel offers={offers} />
+                            {pricing.canDirectBuy ? (
+                                <AddToCartPanel offers={offers} />
+                            ) : pricing.ctaType === "login_required" ? (
+                                <div className="space-y-3">
+                                    <Link
+                                        href="/partnership"
+                                        className="flex w-full items-center justify-center gap-2 rounded bg-foreground py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-brand-crimson"
+                                    >
+                                        <ShieldCheck className="h-4 w-4" />
+                                        Masuk / Daftar Akun Salon
+                                    </Link>
+                                    <p className="text-center text-[11px] text-muted-foreground">
+                                        Pendaftaran salon diverifikasi dalam ≤ 4 jam kerja.
+                                    </p>
+                                </div>
+                            ) : pricing.ctaType === "professional_service_only" ? (
+                                <div className="space-y-3">
+                                    <Link
+                                        href="/partnership"
+                                        className="flex w-full items-center justify-center gap-2 rounded bg-brand-crimson py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-brand-dark"
+                                    >
+                                        <Building2 className="h-4 w-4" />
+                                        Temukan Salon Mitra Terdekat
+                                    </Link>
+                                    <p className="text-center text-[11px] text-muted-foreground">
+                                        Perawatan kimia profesional hanya tersedia melalui salon bersertifikasi.
+                                    </p>
+                                </div>
+                            ) : (
+                                <Link
+                                    href={pricing.ctaHref || "/contact"}
+                                    className="flex w-full items-center justify-center gap-2 rounded bg-foreground py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-brand-crimson"
+                                >
+                                    {pricing.ctaLabel}
+                                </Link>
+                            )}
+
                             <div className="mt-4">
-                            <ProductWhatsAppCTA
-                                productName={product.name}
-                                brandName={product.brand}
-                            />
+                                <ProductWhatsAppCTA
+                                    productName={product.name}
+                                    brandName={product.brand}
+                                />
                             </div>
-                            <p className="mt-3 text-[12px] text-muted-foreground">
-                                Commerce uses demo or Midtrans Sandbox payment only. Contact our specialists for real commercial inquiries.
-                            </p>
                         </div>
                     </div>
                 </div>
