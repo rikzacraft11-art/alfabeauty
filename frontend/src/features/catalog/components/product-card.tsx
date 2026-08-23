@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShieldCheck, Lock } from "lucide-react";
+import { Star } from "lucide-react";
 import { type CatalogProduct } from "../data/products";
 import { useUserRole } from "@/shared/components/providers/role-provider";
 import { resolveProductRoleAccess } from "../lib/role-pricing";
@@ -21,30 +21,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const reviewCount = ((product.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % 8) + 3) * 50;
 
     return (
-        <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white border border-black/[0.06] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
+        <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
             <Link
                 href={`/products/${product.id}`}
                 className="flex h-full flex-col justify-between"
             >
                 {/* 1:1 Aspect Ratio Media Stage */}
                 <div className="relative aspect-square w-full overflow-hidden bg-[#FAF8F5] p-2 flex items-center justify-center">
-                    {/* Official Partner / Restricted Badge (Top Left) */}
-                    <div className="absolute left-2.5 top-2.5 z-10 flex flex-col gap-1">
-                        {(isSalon || isDistributor) && (
-                            <span className="inline-flex items-center gap-1 rounded bg-brand-crimson/10 border border-brand-crimson/30 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-brand-crimson">
-                                <ShieldCheck className="h-3 w-3" />
-                                {isSalon ? "MITRA SALON" : "DISTRIBUTOR"}
-                            </span>
-                        )}
-
-                        {pricing.isRestrictedForRole && (
-                            <span className="inline-flex items-center gap-1 rounded bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider text-amber-700">
-                                <Lock className="h-2.5 w-2.5" />
-                                Salon Only
-                            </span>
-                        )}
-                    </div>
-
                     {/* NEW / Indent Status Badge (Top Right) */}
                     <div className="absolute right-2.5 top-2.5 z-10 flex flex-col items-end gap-1">
                         {product.stockStatus === "indent" ? (
@@ -91,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     </div>
 
                     {/* Price & Social Proof Rating Line */}
-                    <div className="mt-3.5 pt-2.5 border-t border-black/[0.05] flex flex-col gap-1.5">
+                    <div className="mt-3.5 pt-2 flex flex-col gap-1.5">
                         {/* Role-based price display */}
                         <div className="flex flex-col">
                             {pricing.canViewNetPrice && pricing.netPrice ? (
