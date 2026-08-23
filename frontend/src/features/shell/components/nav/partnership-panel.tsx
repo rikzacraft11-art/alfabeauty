@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
@@ -22,7 +23,7 @@ const PARTNERSHIP_ITEMS = [
     },
 ];
 
-export function PartnershipPanel() {
+export const PartnershipPanel = React.memo(function PartnershipPanel() {
     return (
         <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[1.1fr_1fr] gap-0 px-8 py-10 lg:px-12">
             {/* Left: Partnership Showcase */}
@@ -108,4 +109,4 @@ export function PartnershipPanel() {
             </div>
         </div>
     );
-}
+});

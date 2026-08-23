@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
@@ -28,7 +29,7 @@ const EDUCATION_ITEMS = [
     },
 ];
 
-export function EducationPanel() {
+export const EducationPanel = React.memo(function EducationPanel() {
     const featured = getFeaturedEvent();
 
     return (
@@ -124,4 +125,4 @@ export function EducationPanel() {
             </div>
         </div>
     );
-}
+});

@@ -44,7 +44,7 @@ const DEFAULT_IMAGE = "/images/products/gamma-plus/XCELL CLIPPER/hero.webp";
 const DEFAULT_TITLE = "Explore Our\nProduct Collection";
 const DEFAULT_SUBLABEL = "Curated professional-grade products from the world's most trusted salon brands.";
 
-export function ProductsPanel() {
+export const ProductsPanel = React.memo(function ProductsPanel() {
     const [activeCategory, setActiveCategory] = React.useState<string | null>(null);
 
     const currentImage = activeCategory ? CATEGORIES_DATA[activeCategory]?.image ?? DEFAULT_IMAGE : DEFAULT_IMAGE;
@@ -52,7 +52,7 @@ export function ProductsPanel() {
     const currentSubline = activeCategory ? CATEGORIES_DATA[activeCategory]?.description : DEFAULT_SUBLABEL;
 
     return (
-        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[1.1fr_1.9fr] gap-4 px-8 py-10 lg:px-12">
+        <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[1.1fr_1fr] gap-4 px-8 py-10 lg:px-12">
             {/* Left: Dynamic Master Showcase Card */}
             <div className="relative flex flex-col justify-between overflow-hidden bg-charcoal border border-border-warm/30 p-8 lg:p-10 pr-12 text-white">
                 {/* Ambient background glow */}
@@ -67,6 +67,7 @@ export function ProductsPanel() {
                             alt=""
                             fill
                             sizes="30vw"
+                            loading="lazy"
                             className="object-contain object-right opacity-45 mix-blend-screen transition-all duration-500 ease-out"
                             style={{
                                 maskImage: "linear-gradient(to right, transparent 0%, black 25%)",
@@ -105,37 +106,41 @@ export function ProductsPanel() {
                 {/* Bottom accent line */}
                 <div className="absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-brand-crimson via-brand-crimson/50 to-transparent" />
             </div>
+            {/* Right: Clean 2-Column Category Grid */}
+            <div className="grid grid-cols-2 gap-2.5">
+                {PRODUCT_CATEGORIES.slice(0, 6).map((cat) => {
+                    const meta = CATEGORIES_DATA[cat];
+                    const isSelected = activeCategory === cat;
 
-            {/* Right: Editorial Category Grid (2 columns x 3 rows with gap) */}
-            <div className="grid grid-cols-2 gap-3.5">
-                {PRODUCT_CATEGORIES.map((cat) => {
-                    const data = CATEGORIES_DATA[cat];
                     return (
                         <NavigationMenuLink key={cat} asChild>
                             <Link
                                 href={`/products?category=${cat.toLowerCase().replace(/\s+&?\s*/g, "-")}`}
-                                className="group relative flex min-h-[116px] flex-col justify-between overflow-hidden bg-surface-elevated/75 border border-border-warm/60 p-5 transition-all duration-300 hover:bg-white hover:border-border-warm hover:shadow-[0_10px_28px_rgba(0,0,0,0.04)] text-foreground"
                                 onMouseEnter={() => setActiveCategory(cat)}
                                 onMouseLeave={() => setActiveCategory(null)}
+                                className={`group/item flex flex-col justify-center rounded-none border p-3.5 transition-all duration-200 ${
+                                    isSelected
+                                        ? "border-brand-crimson/50 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                                        : "border-border-warm/50 bg-surface-elevated/60 hover:border-border-warm hover:bg-white"
+                                }`}
                             >
-                                <div>
-                                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/60 transition-colors duration-300 group-hover:text-brand-crimson">
-                                        {data?.subline ?? "Professional Series"}
-                                    </p>
-                                    <h4 className="mt-1 text-[15px] font-bold tracking-tight text-foreground transition-colors duration-300">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[13.5px] font-bold tracking-tight text-foreground transition-colors group-hover/item:text-brand-crimson">
                                         {cat}
-                                    </h4>
-                                </div>
-
-                                <div className="mt-3 flex items-center justify-between">
-                                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground/70 transition-colors duration-300 group-hover:text-foreground">
-                                        Explore Category
-                                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 text-muted-foreground/50 group-hover:text-brand-crimson" />
                                     </span>
+                                    <ArrowRight
+                                        className={`h-3.5 w-3.5 transition-all duration-200 ${
+                                            isSelected
+                                                ? "translate-x-0.5 text-brand-crimson opacity-100"
+                                                : "text-muted-foreground/30 opacity-0 group-hover/item:translate-x-0.5 group-hover/item:opacity-100"
+                                        }`}
+                                    />
                                 </div>
-
-                                {/* Red accent hover underline */}
-                                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-500 ease-out group-hover:w-full" />
+                                {meta && (
+                                    <p className="mt-1 text-[11px] font-medium text-muted-foreground/80 line-clamp-1">
+                                        {meta.subline}
+                                    </p>
+                                )}
                             </Link>
                         </NavigationMenuLink>
                     );
@@ -143,4 +148,4 @@ export function ProductsPanel() {
             </div>
         </div>
     );
-}
+});

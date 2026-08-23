@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -16,7 +17,7 @@ const brandSlugMap: Record<string, string> = {
     "SMOOVEE Hair & Body Care": "smoovee",
 };
 
-export function BrandsPanel() {
+export const BrandsPanel = React.memo(function BrandsPanel() {
     return (
         <div className="mx-auto grid h-[440px] max-w-[1540px] grid-cols-[repeat(6,1fr)_210px] gap-3 px-4 py-8 lg:px-6">
             {/* 6 Brand Cards in a single horizontal row */}
@@ -34,6 +35,7 @@ export function BrandsPanel() {
                                     alt={`${brand.name} logo`}
                                     width={140}
                                     height={40}
+                                    loading="lazy"
                                     className={cn(
                                         "w-auto object-contain",
                                         brand.name === "CORE" ? "h-8 sm:h-9" : "h-6 sm:h-7"
@@ -95,4 +97,4 @@ export function BrandsPanel() {
             </div>
         </div>
     );
-}
+});

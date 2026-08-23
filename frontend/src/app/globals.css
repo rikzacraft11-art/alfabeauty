@@ -860,6 +860,53 @@
     will-change: transform, opacity;
   }
 
+  .header-gpu {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    will-change: transform, background-color, border-color, box-shadow;
+  }
+
+  .header-hidden {
+    transform: translate3d(0, -102%, 0) !important;
+  }
+
+  .header-nav-indicator {
+    position: relative;
+  }
+
+  .header-nav-indicator::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0.6rem;
+    right: 0.6rem;
+    height: 2px;
+    transform-origin: bottom;
+    transform: scaleY(0);
+    transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), background-color 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (min-width: 1280px) {
+    .header-nav-indicator::before {
+      left: 0.8rem;
+      right: 0.8rem;
+    }
+  }
+
+  .header-nav-indicator:hover::before,
+  .header-nav-indicator[data-state="open"]::before,
+  .header-nav-indicator[data-active="true"]::before {
+    transform: scaleY(1);
+  }
+
+  .header-nav-solid::before {
+    background-color: var(--foreground);
+  }
+
+  .header-nav-transparent::before {
+    background-color: #ffffff;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, ::before, ::after {
       animation-duration: 0.01ms !important;

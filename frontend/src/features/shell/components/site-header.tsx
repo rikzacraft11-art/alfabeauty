@@ -125,35 +125,19 @@ export function SiteHeader(): React.JSX.Element {
     const isHidden = scrollDirection === "down" && scrolled && !menuOpen && !mobileOpen && !menuClosing;
     const hasElevation = scrolled && !menuOpen;
 
-    const indicatorBar = React.useMemo(() => [
-        "before:content-[''] before:absolute before:bottom-[-1px] before:left-[0.6rem] before:right-[0.6rem] xl:before:left-[0.8rem] xl:before:right-[0.8rem]",
-        "before:h-[2px]",
-        "before:origin-bottom before:[transform:scaleY(0)]",
-        "before:transition-[transform,background-color] before:duration-[350ms] before:ease-[cubic-bezier(0.22,1,0.36,1)]",
-        isSolid ? "before:bg-foreground" : "before:bg-white",
-    ].join(" "), [isSolid]);
-
     const triggerClasses = React.useMemo(() => cn(
-        "relative h-full whitespace-nowrap",
-        "bg-transparent px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em]",
-        "transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-        "hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
-        indicatorBar,
-        "hover:before:[transform:scaleY(1)] data-[state=open]:before:[transform:scaleY(1)]",
+        "header-nav-indicator relative h-full whitespace-nowrap bg-transparent px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
         isSolid
-            ? "text-foreground/90 hover:text-foreground data-[state=open]:text-foreground"
-            : "text-white/90 hover:text-white data-[state=open]:text-white"
-    ), [isSolid, indicatorBar]);
+            ? "header-nav-solid text-foreground/90 hover:text-foreground data-[state=open]:text-foreground"
+            : "header-nav-transparent text-white/90 hover:text-white data-[state=open]:text-white"
+    ), [isSolid]);
 
     const directLinkClasses = React.useMemo(() => cn(
-        "relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] whitespace-nowrap",
-        "transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-        "hover:bg-transparent focus:bg-transparent",
-        "data-[active=true]:bg-transparent",
-        indicatorBar,
-        "hover:before:[transform:scaleY(1)]",
-        isSolid ? "text-foreground/90 hover:text-foreground" : "text-white/90 hover:text-white"
-    ), [isSolid, indicatorBar]);
+        "header-nav-indicator relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] whitespace-nowrap transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[active=true]:bg-transparent",
+        isSolid
+            ? "header-nav-solid text-foreground/90 hover:text-foreground"
+            : "header-nav-transparent text-white/90 hover:text-white"
+    ), [isSolid]);
 
     const handleMouseEnter = React.useCallback(() => setHeaderHovered(true), []);
     const handleMouseLeave = React.useCallback(() => setHeaderHovered(false), []);
@@ -180,17 +164,14 @@ export function SiteHeader(): React.JSX.Element {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className={cn(
-                "fixed top-0 left-0 right-0 z-50",
-                isHidden && "-translate-y-[102%]",
+                "fixed top-0 left-0 right-0 z-50 header-gpu transition-[background-color,border-color,box-shadow,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                isHidden && "header-hidden",
                 menuClosing && "pointer-events-none",
                 hasElevation && "shadow-warm-sm",
                 isSolid
                     ? "bg-background border-b border-border-warm/60"
                     : "bg-transparent border-b border-white/10"
             )}
-            style={{
-                transition: "border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-            }}
         >
             <div className="mx-auto flex h-[var(--header-height,80px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12">
                 {/* ─── Left Group: Logo + Left-Aligned Desktop Navigation ─── */}
