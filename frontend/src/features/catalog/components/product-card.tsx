@@ -13,7 +13,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-    const { role, config, isSalon, isDistributor } = useUserRole();
+    const { role, config } = useUserRole();
     const pricing = resolveProductRoleAccess(product, role, config);
 
     // Deterministic rating & sales indicator based on product id
@@ -21,13 +21,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const reviewCount = ((product.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % 8) + 3) * 50;
 
     return (
-        <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
+        <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white border border-black/[0.06] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
             <Link
                 href={`/products/${product.id}`}
                 className="flex h-full flex-col justify-between"
             >
-                {/* 1:1 Aspect Ratio Media Stage */}
-                <div className="relative aspect-square w-full overflow-hidden bg-[#FAF8F5] p-2 flex items-center justify-center">
+                {/* 1:1 Aspect Ratio Media Stage — Fullbleed Packshot Frame */}
+                <div className="relative aspect-square w-full overflow-hidden bg-surface-elevated">
                     {/* NEW / Indent Status Badge (Top Right) */}
                     <div className="absolute right-2.5 top-2.5 z-10 flex flex-col items-end gap-1">
                         {product.stockStatus === "indent" ? (
@@ -41,17 +41,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         ) : null}
                     </div>
 
-                    {/* Packshot Image */}
+                    {/* Packshot Image — Fills entire 1:1 square frame */}
                     {product.image ? (
-                        <div className="relative h-full w-full">
-                            <Image
-                                src={product.image}
-                                alt={product.name}
-                                fill
-                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
-                                className="object-cover"
-                            />
-                        </div>
+                        <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+                            className="object-cover w-full h-full"
+                        />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center bg-muted/40 text-xs text-muted-foreground">
                             <span>No Image</span>
@@ -74,7 +72,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     </div>
 
                     {/* Price & Social Proof Rating Line */}
-                    <div className="mt-3.5 pt-2 flex flex-col gap-1.5">
+                    <div className="mt-3.5 pt-2.5 border-t border-black/[0.05] flex flex-col gap-1.5">
                         {/* Role-based price display */}
                         <div className="flex flex-col">
                             {pricing.canViewNetPrice && pricing.netPrice ? (
