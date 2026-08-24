@@ -47,6 +47,10 @@ export const enDictionary: Dictionary = {
       "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia's premier salons and barbers for over 18 years.",
     exploreBrands: "EXPLORE BRANDS",
     partnerWithUs: "PARTNER WITH US",
+    scrollPrompt: "SCROLL TO EXPLORE",
+    dockedBadge: "EXCLUSIVE NATIONAL DISTRIBUTOR",
+    dockedHeading: "World-Class Hair Innovation for Premier Salons",
+    dockedDescription: "18 years curating elite salon formulations from Italy & Spain.",
   },
   shopCTA: {
     eyebrow: "PROFESSIONAL STANDARD",

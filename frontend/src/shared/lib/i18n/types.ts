@@ -46,6 +46,10 @@ export interface Dictionary {
     description: string;
     exploreBrands: string;
     partnerWithUs: string;
+    scrollPrompt?: string;
+    dockedBadge?: string;
+    dockedHeading?: string;
+    dockedDescription?: string;
   };
   shopCTA: {
     eyebrow: string;

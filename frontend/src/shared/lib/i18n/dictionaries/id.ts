@@ -47,6 +47,10 @@ export const idDictionary: Dictionary = {
       "Importir dan distributor tunggal brand perawatan rambut profesional Italia dan Spanyol, melayani salon dan barber terkemuka di seluruh Indonesia.",
     exploreBrands: "JELAJAHI BRAND",
     partnerWithUs: "KEMITRAAN SALON",
+    scrollPrompt: "GULIR UNTUK MENJELAJAH",
+    dockedBadge: "DISTRIBUTOR RESMI NASIONAL",
+    dockedHeading: "Inovasi Rambut Kelas Dunia untuk Salon Premier",
+    dockedDescription: "18 tahun mengkurasi formula salon terbaik dari Italia & Spanyol.",
   },
   shopCTA: {
     eyebrow: "STANDAR PROFESIONAL",
