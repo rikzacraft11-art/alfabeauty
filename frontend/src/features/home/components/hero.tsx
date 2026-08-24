@@ -2,20 +2,18 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
-import { AnimatedButton } from "@/shared/components/ui/animated-button";
+import { ArrowRight } from "lucide-react";
 import { TextReveal } from "@/shared/components/motion/text-reveal";
 import { FadeIn } from "@/shared/components/motion/fade-in";
-import { ESTABLISHED_YEAR, NAV_LINKS, BRAND_COLORS } from "@/shared/lib/config";
+import { NAV_LINKS } from "@/shared/lib/config";
 import { getHeroTiming } from "@/shared/lib/motion";
 import { useLanguage } from "@/shared/components/providers/language-provider";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 /* ─────────────────────────────────────────────────────────────────────
  * HeroSection (Dynamic Full-Bleed Video Canvas + Centered Salon Morph)
- * Option 2 Enhanced: Scroll Prompt Guide, Synchronized Text Transition,
- * and Purposeful Stage 2 Docked Showcase Stage.
+ * Copywriting & buttons remain steadfastly in place without fading.
+ * Minimalist "Scroll to explore" guide provides subtle user guidance.
  * ───────────────────────────────────────────────────────────────────── */
 export function HeroSection(): React.JSX.Element {
     const { dict } = useLanguage();
@@ -23,7 +21,7 @@ export function HeroSection(): React.JSX.Element {
     const videoRef = React.useRef<HTMLVideoElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    // Extended, stable scroll track (175vh) for ample comfortable viewing of the docked state
+    // Extended, stable scroll track (175vh) for smooth docked viewing
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"],
@@ -37,20 +35,9 @@ export function HeroSection(): React.JSX.Element {
     // Backlight glow fades in smoothly as video scales down away from edges
     const mirrorFrameOpacity = useTransform(scrollYProgress, [0.10, 0.35], [0, 1], { clamp: true });
 
-    // 2. Initial State 1 Copywriting Overlay & Gradient (Fades out gently in tandem with video morph)
-    const state1OverlayOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0], { clamp: true });
-    const state1OverlayY = useTransform(scrollYProgress, [0, 0.12], [0, -25], { clamp: true });
-    const state1PointerEvents = useTransform(scrollYProgress, (v) => v > 0.10 ? "none" : "auto");
-    const gradientOpacity = useTransform(scrollYProgress, [0, 0.14], [1, 0], { clamp: true });
-
-    // 3. Minimalist Scroll Prompt Indicator (Guides user at scroll 0, dissolves upon initial movement)
-    const scrollPromptOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0], { clamp: true });
-    const scrollPromptY = useTransform(scrollYProgress, [0, 0.05], [0, 16], { clamp: true });
-
-    // 4. Stage 2 Docked Showcase Content (Revealed inside docked frame with purposeful caption & CTAs)
-    const state2Opacity = useTransform(scrollYProgress, [0, 0.16, 0.28, 0.75, 0.92], [0, 0, 1, 1, 0], { clamp: true });
-    const state2Y = useTransform(scrollYProgress, [0, 0.16, 0.28], [24, 24, 0], { clamp: true });
-    const state2PointerEvents = useTransform(scrollYProgress, (v) => (v < 0.18 || v > 0.88) ? "none" : "auto");
+    // 2. Minimalist Scroll Prompt Indicator (Guides user at scroll 0, dissolves upon initial movement)
+    const scrollPromptOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0], { clamp: true });
+    const scrollPromptY = useTransform(scrollYProgress, [0, 0.06], [0, 16], { clamp: true });
 
     React.useEffect(() => {
         const video = videoRef.current;
@@ -118,31 +105,15 @@ export function HeroSection(): React.JSX.Element {
                             />
                         </div>
 
-                        {/* Neutral Clean Gradient for Crisp Text Readability at Scroll 0 (Fades out gently on scroll) */}
-                        <motion.div 
-                            style={{ opacity: gradientOpacity }}
-                            className="absolute inset-0 pointer-events-none z-0"
-                        >
+                        {/* Neutral Clean Gradient for Crisp Text Readability Across All Video Frames */}
+                        <div className="absolute inset-0 pointer-events-none z-0">
                             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
                             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
-                        </motion.div>
-
-                        {/* Subtle Bottom Vignette for Stage 2 Docked Content Readability */}
-                        <motion.div
-                            style={{ opacity: state2Opacity }}
-                            className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"
-                        />
+                        </div>
                     </div>
 
-                    {/* ─── State 1 Initial Full-Bleed Content (Smooth Dissolve on Scroll) ─── */}
-                    <motion.div
-                        style={{
-                            opacity: state1OverlayOpacity,
-                            y: state1OverlayY,
-                            pointerEvents: state1PointerEvents,
-                        }}
-                        className="relative z-10 h-full items-center mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12"
-                    >
+                    {/* ─── Copywriting & Action Buttons (Permanently Preserved & Crisp) ─── */}
+                    <div className="relative z-10 h-full flex items-center mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
                         <div className="max-w-3xl pt-[var(--header-height,80px)]">
                             <FadeIn delay={HERO_TIMING.eyebrow} blur scale>
                                 <p className="eyebrow text-white/70 font-semibold tracking-[0.25em]">
@@ -195,52 +166,10 @@ export function HeroSection(): React.JSX.Element {
                                 </FadeIn>
                             </div>
                         </div>
-                    </motion.div>
-
-                    {/* ─── State 2 Docked Video Showcase Stage (Revealed Inside Docked Frame) ─── */}
-                    <motion.div
-                        style={{
-                            opacity: state2Opacity,
-                            y: state2Y,
-                            pointerEvents: state2PointerEvents,
-                        }}
-                        className="absolute inset-x-0 bottom-0 z-20 flex flex-col justify-end p-6 sm:p-8 lg:p-10"
-                    >
-                        <div className="mx-auto w-full max-w-4xl flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-                            <div className="max-w-xl">
-                                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#EABD68] backdrop-blur-md border border-white/15">
-                                    <Sparkles className="h-3 w-3" />
-                                    {dict.hero.dockedBadge || "EXCLUSIVE NATIONAL DISTRIBUTOR"}
-                                </span>
-                                <h2 className="mt-3 text-lg sm:text-2xl font-bold tracking-tight text-white">
-                                    {dict.hero.dockedHeading || "World-Class Hair Innovation for Premier Salons"}
-                                </h2>
-                                <p className="mt-1 text-xs sm:text-sm text-white/75 line-clamp-2">
-                                    {dict.hero.dockedDescription || "18 years curating elite salon formulations from Italy & Spain."}
-                                </p>
-                            </div>
-
-                            <div className="flex items-center gap-3 shrink-0">
-                                <Link
-                                    href={NAV_LINKS.brands}
-                                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-crimson px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-lg transition-all duration-200 hover:bg-brand-dark hover:scale-105"
-                                >
-                                    <span>{dict.hero.exploreBrands}</span>
-                                    <ArrowRight className="h-3 w-3" />
-                                </Link>
-
-                                <Link
-                                    href={NAV_LINKS.partnership}
-                                    className="inline-flex items-center justify-center gap-1.5 rounded-full bg-white/15 px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-white backdrop-blur-md border border-white/20 transition-all duration-200 hover:bg-white/25"
-                                >
-                                    <span>{dict.hero.partnerWithUs}</span>
-                                </Link>
-                            </div>
-                        </div>
-                    </motion.div>
+                    </div>
                 </motion.div>
 
-                {/* ─── Minimalist Scroll Guide Indicator at Scroll 0 (Bottom Center / Right) ─── */}
+                {/* ─── Minimalist Scroll Guide Indicator at Scroll 0 (Bottom Right) ─── */}
                 <motion.div
                     style={{
                         opacity: scrollPromptOpacity,
