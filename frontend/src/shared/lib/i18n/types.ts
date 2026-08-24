@@ -83,6 +83,19 @@ export interface Dictionary {
       image: string;
     }[];
   };
+  brandShowroom: {
+    eyebrow: string;
+    heading: string;
+    explore: string;
+    brands: {
+      id: string;
+      name: string;
+      logo: string;
+      heroProduct: string;
+      heroImage: string;
+      href: string;
+    }[];
+  };
   infoSection: {
     eyebrow: string;
     heading: string;

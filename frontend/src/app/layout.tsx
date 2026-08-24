@@ -140,7 +140,7 @@ export default async function RootLayout({
                   Skip to content
                 </a>
                 <SiteHeader />
-                <div className="relative z-10 bg-background shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
+                <div className="relative z-20 bg-background shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
                   <GlobalBreadcrumbs />
                   <PageTransition>
                     {children}

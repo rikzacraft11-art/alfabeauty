@@ -6,6 +6,7 @@ export { ShopCTASection } from "./components/shop-cta-section";
 export { SolutionsSection } from "./components/solutions-section";
 export { InfoSection } from "./components/info-section";
 export { NewProductsSection } from "./components/new-products-section";
+export { BrandShowroom } from "./components/brand-showroom";
 export { CustomMaklonCTA } from "./components/custom-maklon-cta";
 export { StandardsSection } from "./components/standards-section";
 export { FAQSection } from "./components/faq-section";

@@ -12,9 +12,9 @@ import { useLanguage } from "@/shared/components/providers/language-provider";
 /* ─────────────────────────────────────────────────────────────────────
  * FAQSection — Inline FAQ accordion for every page.
  *
- * GAP-SHARED-01: Yucca displays 3–7 contextual FAQ on every page.
- * Alfa Beauty now mirrors this pattern with an accordion component
- * that accepts optional per-page questions or falls back to defaults.
+ * Smooth Accordion Physics:
+ * - Menghilangkan onHover auto-open yang menyebabkan layout thrashing & getaran.
+ * - Akordion murni membuka/menutup via onClick dengan transisi height yang sangat halus.
  * ───────────────────────────────────────────────────────────────────── */
 
 export interface FAQItem {
@@ -50,30 +50,25 @@ function FAQAccordionItem({
     index,
     isOpen,
     onToggle,
-    onHover,
 }: {
     item: FAQItem;
     index: number;
     isOpen: boolean;
     onToggle: () => void;
-    onHover?: () => void;
 }) {
     return (
-        <FadeIn delay={index * 0.06} blur>
-            <div
-                className="group border-b border-border-warm/60 transition-colors hover:border-black/50"
-                onMouseEnter={onHover}
-            >
+        <FadeIn delay={index * 0.05} blur>
+            <div className="group border-b border-border-warm/60">
                 <button
                     type="button"
-                    className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors duration-200"
+                    className="flex w-full items-center justify-between gap-4 py-5 text-left transition-opacity duration-200 cursor-pointer select-none"
                     aria-expanded={isOpen}
                     onClick={onToggle}
                 >
-                    <span className="text-[15px] sm:text-[16px] font-normal tracking-[-0.01em] text-foreground transition-colors group-hover:text-brand-crimson">
+                    <span className="text-[15px] sm:text-[16px] font-normal tracking-[-0.01em] text-foreground transition-opacity group-hover:opacity-75">
                         {item.question}
                     </span>
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center text-foreground transition-transform duration-300 group-hover:text-brand-crimson">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center text-foreground transition-transform duration-200">
                         {isOpen ? (
                             <Minus className="h-4 w-4" />
                         ) : (
@@ -84,12 +79,12 @@ function FAQAccordionItem({
                 <AnimatePresence initial={false}>
                     {isOpen && (
                         <motion.div
-                            initial={{ height: 0, opacity: 0, y: -4 }}
-                            animate={{ height: "auto", opacity: 1, y: 0 }}
-                            exit={{ height: 0, opacity: 0, y: -4 }}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
                             transition={{
-                                height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-                                opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+                                height: { duration: 0.32, ease: [0.25, 1, 0.5, 1] },
+                                opacity: { duration: 0.25, ease: "linear" },
                             }}
                             className="overflow-hidden"
                         >
@@ -122,19 +117,16 @@ export function FAQSection({
 
     const faqItems = items ?? dict.faq.items ?? DEFAULT_FAQ;
     const faqHeading = heading ?? dict.faq.heading ?? "Frequently Asked Questions";
-    const faqEyebrow = eyebrow ?? dict.faq.eyebrow ?? "Have Questions?";
+    const faqEyebrow = eyebrow ?? dict.faq.eyebrow ?? "Support Hub";
     const faqDescription = dict.faq.description ?? "Everything you need to know about our products, salon partnership, and distribution.";
 
     return (
-        <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-20 sm:py-28 lg:py-36 text-foreground border-b border-border-warm/60">
-            <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+        <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-12 sm:py-20 lg:py-32 text-foreground border-t border-b border-border-warm/80">
+            <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
                 <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-16">
                     {/* Left — heading */}
                     <div className="lg:col-span-4">
-                        <FadeIn blur scale>
-                            <p className="eyebrow">{faqEyebrow}</p>
-                        </FadeIn>
-                        <div className="mt-3">
+                        <div>
                             <TextReveal
                                 as="h2"
                                 className="heading-section"
@@ -158,7 +150,7 @@ export function FAQSection({
                                 <Link
                                     href="/faq"
                                     aria-label={language === "id" ? "Lihat seluruh pertanyaan umum (FAQ)" : "Explore all frequently asked questions (FAQ)"}
-                                    className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:border-brand-crimson hover:text-brand-crimson"
+                                    className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:opacity-70"
                                 >
                                     <span>{language === "id" ? "Lihat Seluruh FAQ" : "Explore Full FAQ"}</span>
                                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -167,7 +159,7 @@ export function FAQSection({
                         </FadeIn>
                     </div>
 
-                    {/* Right — accordion with hover slow reveal */}
+                    {/* Right — accordion (Only opens on explicit click, perfectly smooth) */}
                     <div className="lg:col-span-8">
                         <LineGrow className="h-px bg-border-warm mb-0 lg:hidden" />
                         <div className="space-y-1">
@@ -178,7 +170,6 @@ export function FAQSection({
                                     index={index}
                                     isOpen={openIndex === index}
                                     onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-                                    onHover={() => setOpenIndex(index)}
                                 />
                             ))}
                         </div>

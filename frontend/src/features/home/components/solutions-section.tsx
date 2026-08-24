@@ -23,7 +23,7 @@ export function SolutionsSection(): React.JSX.Element {
     const solutions = dict.solutions?.items ?? [];
 
     return (
-        <section className="section section-solutions relative min-h-[700px] lg:min-h-[820px] w-full overflow-hidden bg-[#1D1D1B] text-foreground flex items-center justify-center">
+        <section className="section section-solutions relative min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] w-full overflow-hidden bg-[#1D1D1B] text-foreground flex items-center justify-center">
             {/* Dynamic Cinematic Photographic Background Cross-Fade */}
             <div className="absolute inset-0 z-0">
                 {solutions.map((sol, idx) => (
@@ -49,8 +49,8 @@ export function SolutionsSection(): React.JSX.Element {
             </div>
 
             {/* Interactive Solution Cards Container */}
-            <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
-                <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8 items-stretch">
+            <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-24">
+                <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-3 lg:gap-8 items-stretch">
                     {solutions.map((item, index) => {
                         const isActive = index === activeIndex;
 
@@ -62,27 +62,27 @@ export function SolutionsSection(): React.JSX.Element {
                                     initial={{ opacity: 0.9 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.25 }}
-                                    className="relative z-20 flex h-[430px] sm:h-[460px] lg:h-[480px] w-full flex-col justify-between rounded-none bg-white p-8 sm:p-10 lg:p-12 text-[#111111] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+                                    className="relative z-20 flex h-[360px] sm:h-[400px] lg:h-[460px] w-full flex-col justify-between rounded-none bg-white p-6 sm:p-8 lg:p-10 text-[#111111] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
                                 >
                                     <div>
-                                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson mb-3 block">
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson mb-2.5 block">
                                             0{index + 1}
                                         </span>
-                                        <h3 className="text-[1.65rem] sm:text-[1.95rem] lg:text-[2.2rem] font-light sm:font-normal leading-[1.14] tracking-[-0.02em] text-[#111111]">
+                                        <h3 className="text-[1.5rem] sm:text-[1.8rem] lg:text-[2.1rem] font-light sm:font-normal leading-[1.14] tracking-[-0.02em] text-[#111111]">
                                             {item.title}
                                         </h3>
 
-                                        <p className="mt-4 text-[13.5px] sm:text-[14px] leading-relaxed text-[#4A4A48] font-normal">
+                                        <p className="mt-3 sm:mt-4 text-[13px] sm:text-[14px] leading-relaxed text-[#4A4A48] font-normal">
                                             {item.description}
                                         </p>
                                     </div>
 
-                                    <div className="pt-4">
-                                        <div className="mb-5 h-px w-full bg-[#E5E0D8]" />
+                                    <div className="pt-3">
+                                        <div className="mb-4 h-px w-full bg-[#E5E0D8]" />
 
                                         <Link
                                             href={item.href}
-                                            className="group inline-flex items-center gap-2 text-[11.5px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-brand-crimson hover:border-brand-crimson"
+                                            className="group inline-flex items-center gap-2 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-brand-crimson hover:border-brand-crimson"
                                         >
                                             <span>{dict.solutions.exploreSolution}</span>
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -98,7 +98,7 @@ export function SolutionsSection(): React.JSX.Element {
                                 key={item.id}
                                 onMouseEnter={() => setActiveIndex(index)}
                                 onClick={() => setActiveIndex(index)}
-                                className="group relative z-10 flex h-[430px] sm:h-[460px] lg:h-[480px] w-full cursor-pointer flex-col items-center justify-center rounded-none bg-black/40 p-8 sm:p-10 text-center backdrop-blur-md border border-white/15 transition-all duration-300 hover:bg-black/60 hover:border-white/40"
+                                className="group relative z-10 flex h-[360px] sm:h-[400px] lg:h-[460px] w-full cursor-pointer flex-col items-center justify-center rounded-none bg-black/40 p-6 sm:p-8 text-center backdrop-blur-md border border-white/15 transition-all duration-300 hover:bg-black/60 hover:border-white/40"
                             >
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60 mb-3">
                                     0{index + 1}
