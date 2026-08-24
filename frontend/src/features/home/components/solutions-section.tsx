@@ -50,40 +50,39 @@ export function SolutionsSection(): React.JSX.Element {
 
             {/* Interactive Solution Cards Container */}
             <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
-                <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8 items-center">
+                <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8 items-stretch">
                     {solutions.map((item, index) => {
                         const isActive = index === activeIndex;
 
                         if (isActive) {
-                            // ─── Active Panel (Calvin Klein Minimalist Solid White with Underline CTA) ───
+                            // ─── Active Panel (Minimalist Solid White with Consistent Dimensions) ───
                             return (
                                 <motion.div
                                     key={item.id}
-                                    layout
-                                    initial={{ scale: 0.98, opacity: 0.9 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                    className="relative z-20 flex min-h-[400px] sm:min-h-[440px] lg:min-h-[480px] flex-col justify-between rounded-none bg-white p-8 sm:p-10 lg:p-12 text-[#111111] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+                                    initial={{ opacity: 0.9 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.25 }}
+                                    className="relative z-20 flex h-[430px] sm:h-[460px] lg:h-[480px] w-full flex-col justify-between rounded-none bg-white p-8 sm:p-10 lg:p-12 text-[#111111] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
                                 >
                                     <div>
-                                        <div className="mb-4 inline-block border-b-2 border-brand-crimson pb-1 text-[10.5px] font-bold uppercase tracking-[0.22em] text-brand-crimson">
-                                            {dict.solutions.badge} 0{index + 1}
-                                        </div>
-                                        <h3 className="text-[1.85rem] sm:text-[2.2rem] lg:text-[2.5rem] font-light sm:font-normal leading-[1.12] tracking-[-0.02em] text-[#111111]">
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson mb-3 block">
+                                            0{index + 1}
+                                        </span>
+                                        <h3 className="text-[1.65rem] sm:text-[1.95rem] lg:text-[2.2rem] font-light sm:font-normal leading-[1.14] tracking-[-0.02em] text-[#111111]">
                                             {item.title}
                                         </h3>
 
-                                        <p className="mt-5 text-[14.5px] sm:text-[15px] leading-relaxed text-[#4A4A48] font-normal">
+                                        <p className="mt-4 text-[13.5px] sm:text-[14px] leading-relaxed text-[#4A4A48] font-normal">
                                             {item.description}
                                         </p>
                                     </div>
 
-                                    <div className="mt-8 pt-4">
-                                        <div className="mb-6 h-px w-full bg-[#E5E0D8]" />
+                                    <div className="pt-4">
+                                        <div className="mb-5 h-px w-full bg-[#E5E0D8]" />
 
                                         <Link
                                             href={item.href}
-                                            className="group inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-brand-crimson hover:border-brand-crimson"
+                                            className="group inline-flex items-center gap-2 text-[11.5px] font-bold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-colors duration-200 hover:text-brand-crimson hover:border-brand-crimson"
                                         >
                                             <span>{dict.solutions.exploreSolution}</span>
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -93,14 +92,13 @@ export function SolutionsSection(): React.JSX.Element {
                             );
                         }
 
-                        // ─── Inactive Panel (Calvin Klein Sleek Frameless Glass with Underline Hover) ───
+                        // ─── Inactive Panel (Sleek Frameless Glass with Consistent Dimensions) ───
                         return (
                             <motion.div
                                 key={item.id}
-                                layout
                                 onMouseEnter={() => setActiveIndex(index)}
                                 onClick={() => setActiveIndex(index)}
-                                className="group relative z-10 flex min-h-[340px] sm:min-h-[380px] lg:min-h-[420px] cursor-pointer flex-col items-center justify-center rounded-none bg-black/40 p-8 sm:p-10 text-center backdrop-blur-md border border-white/15 transition-all duration-300 hover:bg-black/60 hover:border-white/40"
+                                className="group relative z-10 flex h-[430px] sm:h-[460px] lg:h-[480px] w-full cursor-pointer flex-col items-center justify-center rounded-none bg-black/40 p-8 sm:p-10 text-center backdrop-blur-md border border-white/15 transition-all duration-300 hover:bg-black/60 hover:border-white/40"
                             >
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60 mb-3">
                                     0{index + 1}

@@ -66,7 +66,7 @@ export const idDictionary: Dictionary = {
     items: [
       {
         id: "rebonding",
-        title: "Solusi Pelurusan & Rebonding",
+        title: "Pelurusan & Rebonding",
         description:
           "Formula pelurusan presisi tinggi dengan pH controller eksklusif. Menghasilkan rambut lurus alami, berkilau, dan bebas frizzy.",
         href: "/products?category=treatments",
@@ -74,7 +74,7 @@ export const idDictionary: Dictionary = {
       },
       {
         id: "colouring",
-        title: "Solusi Pewarnaan & Bleaching",
+        title: "Pewarnaan & Bleaching",
         description:
           "Teknologi micro-pigment Italia dengan botanical oil pelindung ikatan rambut. Warna kaya, intens, dan tahan lama.",
         href: "/products?category=hair-colour",
@@ -82,7 +82,7 @@ export const idDictionary: Dictionary = {
       },
       {
         id: "barber",
-        title: "Solusi Barber & Hardware Presisi",
+        title: "Barber & Hardware Presisi",
         description:
           "Peralatan profesional motor digital 120.000 RPM dengan bilah titanium presisi untuk kebutuhan salon berkecepatan tinggi.",
         href: "/products?category=tools",
