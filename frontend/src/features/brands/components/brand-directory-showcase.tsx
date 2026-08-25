@@ -5,8 +5,7 @@ import { brands } from "../data/brands";
 import { BrandCard } from "./brand-card";
 import { products } from "@/features/catalog/data/products";
 import { useLanguage } from "@/shared/components/providers/language-provider";
-import { Sparkles, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Sparkles } from "lucide-react";
 
 export function BrandDirectoryShowcase(): React.JSX.Element {
     const { language } = useLanguage();

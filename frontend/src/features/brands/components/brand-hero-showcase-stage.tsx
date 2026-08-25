@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Sparkles, Droplets, Wind, ShieldCheck } from "lucide-react";
 import { type Brand } from "../data/brands";
 import { type Product } from "@/features/catalog/data/products";
 import { cn } from "@/shared/lib/utils";
@@ -149,13 +147,7 @@ export function BrandHeroShowcaseStage({
     };
 
     // Active Colors & Theme Tokens
-    const activeColor = isSmoovee ? currentScent.color : brand.theme.primaryColor;
     const activeGlow = isSmoovee ? currentScent.glowColor : `${brand.theme.primaryColor}30`;
-    const targetProductHref = isSmoovee
-        ? `/shop/${currentScent.productId}`
-        : spotlightProduct
-        ? `/shop/${spotlightProduct.id}`
-        : "/shop";
 
     return (
         <div

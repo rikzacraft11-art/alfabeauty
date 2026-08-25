@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Sparkles, ArrowRight, User, Building2, ChevronDown, ShieldCheck, Check, RotateCcw, CreditCard } from "lucide-react";
+import { ChevronDown, ShieldCheck, Check } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUserRole, type UserRole } from "@/shared/components/providers/role-provider";
 
 export const LoginDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { role, setRole, user, isGuest, isSalon, isDistributor, isConsumer, isPartnerPending } = useUserRole();
+    const { role, setRole, user, isGuest, isSalon, isDistributor } = useUserRole();
 
     const roleBadges: Record<UserRole, { label: string; icon: string; bg: string }> = {
         guest: { label: "Guest", icon: "👤", bg: "bg-neutral-100 text-neutral-800" },

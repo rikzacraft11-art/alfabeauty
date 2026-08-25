@@ -7,7 +7,6 @@ import { ChevronRight, Home } from "lucide-react";
 import { useLanguage } from "@/shared/components/providers/language-provider";
 import { brands } from "@/features/brands/data/brands";
 import { products } from "@/features/catalog/data/products";
-import { cn } from "@/shared/lib/utils";
 
 // Static Route Translation Map
 const ROUTE_LABELS: Record<string, { en: string; id: string }> = {

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { PARALLAX } from "@/shared/lib/motion";
+import { cn } from "@/shared/lib/utils";
 
 /* ─────────────────────────────────────────────────────────────────────
  * useParallax V4 — Scroll-linked parallax offset with opacity fade.
@@ -38,7 +39,7 @@ interface ParallaxProps {
 export function Parallax({ children, speed = PARALLAX.default, className, fade }: ParallaxProps) {
     const { ref, y, opacity } = useParallax({ speed });
     return (
-        <div ref={ref} className={className} style={{ overflow: "hidden" }}>
+        <div ref={ref} className={cn("relative overflow-hidden", className)}>
             <motion.div style={{ y, ...(fade ? { opacity } : {}) }}>
                 {children}
             </motion.div>
@@ -165,7 +166,7 @@ interface LineGrowProps {
 export function LineGrow({ className, vertical }: LineGrowProps) {
     const { ref, ...scaleProps } = useLineGrow({ vertical });
     return (
-        <div ref={ref} className="overflow-hidden">
+        <div ref={ref} className="relative overflow-hidden">
             <motion.div
                 className={className ?? (vertical ? "w-px bg-border-warm h-full" : "h-px bg-border-warm")}
                 style={{ ...scaleProps, transformOrigin: vertical ? "top" : "left" }}

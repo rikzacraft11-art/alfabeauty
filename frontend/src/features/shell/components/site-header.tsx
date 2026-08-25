@@ -20,7 +20,6 @@ import { useLanguage } from "@/shared/components/providers/language-provider";
 import { cn } from "@/shared/lib/utils";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { SITE_NAME, SITE_SHORT_NAME } from "@/shared/lib/config";
-import { smoothEase } from "@/shared/lib/motion";
 import { useLenisControl } from "@/shared/components/providers/lenis-provider";
 import { LoginDropdown } from "./login-dropdown";
 import { ProductsPanel } from "./nav/products-panel";
@@ -31,7 +30,7 @@ import { MobileMenu } from "./nav/mobile-menu";
 
 /* ── Header Performance & Closing Timing Parameters (1:1 Yucca Parity) ── */
 const MENU_CLOSE_TIMEOUT_MS = 280;
-const SCROLL_DELTA_THRESHOLD = 6;
+const SCROLL_DELTA_THRESHOLD = 4;
 const NAV_HOVER_DELAY_MS = 100;
 const BACKDROP_EXIT_DURATION_S = 0.25;
 
@@ -78,8 +77,8 @@ export function SiteHeader(): React.JSX.Element {
                 }
                 accumulatedDelta.current += diff;
 
-                // Close/hide header as soon as user has scrolled down by at least 4px total
-                if (accumulatedDelta.current >= 4 && currentDirectionRef.current !== "down") {
+                // Close/hide header as soon as user has scrolled down by at least SCROLL_DELTA_THRESHOLD px total
+                if (accumulatedDelta.current >= SCROLL_DELTA_THRESHOLD && currentDirectionRef.current !== "down") {
                     currentDirectionRef.current = "down";
                     setScrollDirection("down");
                 }
@@ -173,7 +172,7 @@ export function SiteHeader(): React.JSX.Element {
                     : "bg-transparent border-b border-white/10"
             )}
         >
-            <div className="mx-auto flex h-[var(--header-height,80px)] max-w-[1440px] items-center justify-between px-6 sm:px-8 lg:px-12">
+            <div className="mx-auto flex h-[var(--header-height,80px)] w-full max-w-[1720px] items-center justify-between px-6 sm:px-10 lg:px-16 xl:px-20">
                 {/* ─── Left Group: Logo + Left-Aligned Desktop Navigation ─── */}
                 <div className="flex items-center gap-5 xl:gap-8 h-full">
                     {/* Logo */}

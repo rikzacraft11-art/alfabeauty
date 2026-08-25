@@ -4,13 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-    ArrowLeft,
     ArrowRight,
-    ChevronLeft,
-    ChevronRight,
-    ShieldCheck,
-    Sparkles,
-    MapPin,
     Star,
     Check,
     Plus,
@@ -22,7 +16,7 @@ import {
 import { type Brand } from "../data/brands";
 import { type Product, ProductCard } from "@/features/catalog";
 import { useLanguage } from "@/shared/components/providers/language-provider";
-import { NAV_LINKS, WHATSAPP_URL } from "@/shared/lib/config";
+import { NAV_LINKS } from "@/shared/lib/config";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
 import { BrandHeroShowcaseStage } from "./brand-hero-showcase-stage";
@@ -37,10 +31,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
     const isId = language === "id";
 
     // Dynamic localized strings
-    const tagline = isId && brand.taglineId ? brand.taglineId : brand.tagline;
-    const description = isId && brand.descriptionId ? brand.descriptionId : brand.description;
     const storyParagraphs = isId && brand.storyId ? brand.storyId : brand.story;
-    const pillars = isId && brand.pillarsId ? brand.pillarsId : brand.pillars;
     const collections = isId && brand.collectionsId ? brand.collectionsId : brand.collections;
     const ingredients = isId && brand.keyIngredientsId ? brand.keyIngredientsId : brand.keyIngredients;
     const benefitAreas = isId && brand.benefitAreasId ? brand.benefitAreasId : brand.benefitAreas;
@@ -55,26 +46,6 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
     const [selectedCategory, setSelectedCategory] = React.useState<string>("all");
     const [activeTab, setActiveTab] = React.useState<"benefits" | "lab" | "faqs">("benefits");
     const [openFaqIndex, setOpenFaqIndex] = React.useState<number | null>(0);
-
-    // Horizontal Product Slider in Section 2
-    const sliderRef = React.useRef<HTMLDivElement>(null);
-    const [canScrollLeft, setCanScrollLeft] = React.useState(false);
-    const [canScrollRight, setCanScrollRight] = React.useState(true);
-
-    const checkSliderScroll = () => {
-        if (sliderRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
-            setCanScrollLeft(scrollLeft > 10);
-            setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
-        }
-    };
-
-    const handleSliderScroll = (direction: "left" | "right") => {
-        if (sliderRef.current) {
-            const offset = direction === "left" ? -300 : 300;
-            sliderRef.current.scrollBy({ left: offset, behavior: "smooth" });
-        }
-    };
 
     const spotlightProducts = React.useMemo(() => {
         if (!products || products.length === 0) return [];

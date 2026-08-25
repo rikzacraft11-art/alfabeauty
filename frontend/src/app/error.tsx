@@ -1,14 +1,19 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/shared/components/ui/button";
 
 export default function Error({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }): React.JSX.Element {
+  React.useEffect(() => {
+    console.error("[ErrorBoundary] Unhandled route error:", error);
+  }, [error]);
   return (
     <>
       <main id="main-content" className="relative z-10 flex min-h-[80dvh] items-center justify-center bg-background px-6 pt-[var(--header-height)]">

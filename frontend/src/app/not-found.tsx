@@ -30,7 +30,7 @@ export default function NotFound(): React.JSX.Element {
               size="lg"
               className="border-border-warm px-8 py-6 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300"
             >
-              <Link href="/products">Browse Products</Link>
+              <Link href="/shop">Browse Products</Link>
             </Button>
           </div>
         </div>

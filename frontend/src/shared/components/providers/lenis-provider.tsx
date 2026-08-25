@@ -13,10 +13,12 @@ import Lenis from "lenis";
  *   - wheelMultiplier 1.0
  */
 
+type LenisScrollToOptions = Parameters<Lenis["scrollTo"]>[1];
+
 interface LenisContextValue {
     stop: () => void;
     start: () => void;
-    scrollTo: (target: number | HTMLElement | string, options?: any) => void;
+    scrollTo: (target: number | HTMLElement | string, options?: LenisScrollToOptions) => void;
 }
 
 const LenisContext = createContext<LenisContextValue>({
@@ -41,7 +43,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
         lenisRef.current?.start();
     }, []);
 
-    const scrollTo = useCallback((target: number | HTMLElement | string, options?: any) => {
+    const scrollTo = useCallback((target: number | HTMLElement | string, options?: LenisScrollToOptions) => {
         if (lenisRef.current) {
             lenisRef.current.scrollTo(target, {
                 duration: 1.0,
@@ -74,7 +76,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
 
         lenisRef.current = lenis;
         if (typeof window !== "undefined") {
-            (window as any).__lenis = lenis;
+            (window as Window & { __lenis?: Lenis }).__lenis = lenis;
         }
 
         let rafId: number;
@@ -89,7 +91,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
             lenis.destroy();
             lenisRef.current = null;
             if (typeof window !== "undefined") {
-                delete (window as any).__lenis;
+                delete (window as Window & { __lenis?: Lenis }).__lenis;
             }
         };
     }, []);

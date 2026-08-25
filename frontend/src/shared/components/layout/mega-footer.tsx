@@ -59,9 +59,9 @@ export function MegaFooter(): React.JSX.Element {
     <>
       {/* ─── Universal Curtain Reveal Footer (z-0 behind z-20 main content, fully clickable) ─── */}
       <footer
-        className="sticky bottom-0 z-0 pointer-events-auto flex min-h-[100dvh] w-full flex-col justify-between bg-[#FFFFFF] text-[#111111] px-5 sm:px-10 lg:px-20 py-6 sm:py-10 lg:py-14 border-t border-[#EAE6DF] overflow-hidden"
+        className="sticky bottom-0 z-0 pointer-events-auto flex min-h-[100dvh] w-full flex-col justify-between bg-[#FFFFFF] text-[#111111] px-6 sm:px-10 lg:px-16 xl:px-20 py-6 sm:py-10 lg:py-14 border-t border-[#EAE6DF] overflow-hidden"
       >
-        <div className="mx-auto flex h-full w-full max-w-[1540px] flex-col justify-between flex-1 gap-6 sm:gap-8">
+        <div className="mx-auto flex h-full w-full max-w-[1720px] flex-col justify-between flex-1 gap-6 sm:gap-8">
           
           {/* ═══════════════════════════════════════════════════════
               DESKTOP LAYOUT (>= 1024px)

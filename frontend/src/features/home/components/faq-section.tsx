@@ -122,11 +122,16 @@ export function FAQSection({
 
     return (
         <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-12 sm:py-20 lg:py-32 text-foreground border-t border-b border-border-warm/80">
-            <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+            <div className="mx-auto w-full max-w-[1720px] px-6 sm:px-10 lg:px-16 xl:px-20">
                 <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-16">
                     {/* Left — heading */}
                     <div className="lg:col-span-4">
                         <div>
+                            <FadeIn delay={0.1} blur>
+                                <p className="eyebrow mb-3 text-brand-crimson font-semibold tracking-[0.2em] uppercase text-[11px]">
+                                    {faqEyebrow}
+                                </p>
+                            </FadeIn>
                             <TextReveal
                                 as="h2"
                                 className="heading-section"

@@ -68,6 +68,16 @@ export const ShopHeader: React.FC<ShopHeaderProps> = ({
                                 aria-label="Search products"
                                 className="w-full bg-transparent font-serif text-2xl font-light tracking-tight text-foreground outline-none placeholder:text-muted-foreground/60 sm:text-3xl lg:text-4xl"
                             />
+                            {searchQuery && onClearSearch && (
+                                <button
+                                    type="button"
+                                    onClick={onClearSearch}
+                                    className="ml-2 p-1 text-muted-foreground hover:text-foreground transition-colors"
+                                    aria-label="Clear search"
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>

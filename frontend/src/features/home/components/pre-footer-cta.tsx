@@ -1,107 +1,88 @@
 "use client";
 
+import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/shared/components/providers/language-provider";
 import { FadeIn } from "@/shared/components/motion/fade-in";
-import { TextReveal } from "@/shared/components/motion/text-reveal";
-import { AnimatedButton } from "@/shared/components/ui/animated-button";
-import { Button } from "@/shared/components/ui/button";
 import { staggerMedium, fadeInUp } from "@/shared/lib/motion";
 
 /**
- * PreFooterCTA V2 — Dramatic full-width CTA banner with rolling marquee.
+ * PreFooterCTA — Minimalist High-Fashion Solid Black CTA Banner
  *
- * V2 upgrades:
- *   - Rolling marquee text band for ambient movement
- *   - Deeper atmospheric layering (dual vignette + radial glow)
- *   - Enhanced grain depth
+ * - Pure solid black background (#000000) with zero red tints.
+ * - Elegant luxury typography hierarchy with lightweight modern fonts.
+ * - Fully localized: 100% ID in ID mode, 100% EN in EN mode.
  */
+export function PreFooterCTA(): React.JSX.Element {
+    const { dict } = useLanguage();
+    const preFooter = dict.preFooter;
 
-export function PreFooterCTA() {
     return (
-        <section className="pre-footer-cta relative py-14 sm:py-24 lg:py-36 bg-foreground text-background overflow-hidden">
-            {/* Grain overlay */}
-            <div className="pointer-events-none absolute inset-0 z-10" />
-
-            {/* Warm vignette */}
+        <section className="pre-footer-cta relative py-16 sm:py-24 lg:py-32 bg-[#000000] text-white border-t border-white/10 overflow-hidden">
+            {/* Subtle monochrome ambient depth gradient */}
             <div
                 className="pointer-events-none absolute inset-0 z-[1]"
                 aria-hidden="true"
                 style={{
                     background:
-                        "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.4) 100%)",
+                        "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 70%)",
                 }}
             />
 
-            {/* Brand warm radial glow */}
-            <div
-                className="pointer-events-none absolute inset-0 z-[1]"
-                aria-hidden="true"
-                style={{
-                    background:
-                        "radial-gradient(ellipse at 30% 60%, rgba(164,22,26,0.08) 0%, transparent 60%)",
-                }}
-            />
-
-
-
-            <div className="relative z-20 mx-auto max-w-4xl px-6 text-center">
+            <div className="relative z-10 mx-auto max-w-4xl px-6 sm:px-10 text-center flex flex-col items-center">
+                {/* Eyebrow */}
                 <FadeIn>
-                    <p className="text-xs tracking-[0.2em] uppercase text-background/50 mb-6 font-light">
-                        Ready to Transform Your Salon?
+                    <p className="text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-white/50 mb-3.5 sm:mb-5 font-semibold">
+                        {preFooter?.eyebrow ?? "READY TO ELEVATE YOUR SALON?"}
                     </p>
                 </FadeIn>
 
-                <TextReveal
-                    as="h2"
-                    split="word"
-                    blur
-                    className="heading-section text-background"
-                    lines={[
-                        "Elevate Your Craft With",
-                        "Premium Professional Products",
-                    ]}
-                />
+                {/* Main Headline (Refined Luxury Light Typography) */}
+                <FadeIn delay={0.1}>
+                    <h2 className="text-[1.85rem] sm:text-[2.6rem] lg:text-[3.2rem] font-light leading-[1.12] tracking-[-0.03em] text-white text-balance max-w-3xl mx-auto">
+                        {preFooter?.headingLine1 ?? "Elevate Your Craft With"}{" "}
+                        <span className="font-light text-white/95">
+                            {preFooter?.headingLine2 ?? "Premium Professional Products"}
+                        </span>
+                    </h2>
+                </FadeIn>
 
-                <FadeIn delay={0.4}>
-                    <p className="text-base lg:text-lg font-light text-background/60 max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Join hundreds of salon professionals who trust Alfa Beauty Pro Store
-                        for world-class brands, expert education, and dedicated partnership.
+                {/* Narrative Description */}
+                <FadeIn delay={0.2}>
+                    <p className="text-[13px] sm:text-[15px] font-normal leading-relaxed text-white/60 max-w-xl mx-auto mt-4 sm:mt-5 mb-8 sm:mb-11">
+                        {preFooter?.description ??
+                            "Join hundreds of salon professionals who trust Alfa Beauty for world-class brands, expert education, and dedicated partnership."}
                     </p>
                 </FadeIn>
 
+                {/* Dual Action Buttons */}
                 <motion.div
                     variants={staggerMedium}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.5 }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                    className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto"
                 >
-                    <motion.div variants={fadeInUp}>
-                        <AnimatedButton
+                    <motion.div variants={fadeInUp} className="w-full sm:w-auto">
+                        <Link
                             href="/products"
-                            fillClass="bg-foreground"
-                            fillTextClass="text-white"
-                            className="bg-background text-foreground"
+                            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-none bg-white px-7 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.18em] text-[#0A0A0A] transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.25)]"
                         >
-                            Explore Products
-                            <ArrowRight className="h-4 w-4" />
-                        </AnimatedButton>
+                            <span>{preFooter?.exploreProducts ?? "Explore Products"}</span>
+                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
                     </motion.div>
 
-                    <motion.div variants={fadeInUp}>
-                        <Button
-                            asChild
-                            variant="outline"
-                            size="lg"
-                            className="border-background/20 bg-transparent px-8 py-6 text-[11px] font-bold uppercase tracking-[0.15em] text-background transition-colors duration-300 hover:border-background/40 hover:bg-white/10"
+                    <motion.div variants={fadeInUp} className="w-full sm:w-auto">
+                        <Link
+                            href="/partnership"
+                            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-none border border-white/25 bg-transparent px-7 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:border-white hover:bg-white/10"
                         >
-                            <Link href="/partnership">
-                                Become a Partner
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </Button>
+                            <span>{preFooter?.becomePartner ?? "Become a Partner"}</span>
+                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
                     </motion.div>
                 </motion.div>
             </div>

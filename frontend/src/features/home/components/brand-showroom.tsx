@@ -89,15 +89,29 @@ export function BrandShowroom(): React.JSX.Element {
     const [activeId, setActiveId] = React.useState<string>("alfaparf");
     const activeBrand = brands.find((b) => b.id === activeId) ?? brands[0];
 
+    const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+    const [scrollProgress, setScrollProgress] = React.useState(0);
+
+    const handleScroll = React.useCallback(() => {
+        const el = scrollContainerRef.current;
+        if (!el) return;
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll <= 0) {
+            setScrollProgress(0);
+            return;
+        }
+        setScrollProgress(Math.min(Math.max(el.scrollLeft / maxScroll, 0), 1));
+    }, []);
+
     return (
-        <section id="brand-showroom" className="relative w-full bg-[#0B0B0B] text-white overflow-hidden">
+        <section id="brand-showroom" className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-hidden border-b border-[#E5E5E5]">
             {/* ═══════════════════════════════════════════════════════
-                TOP SECTION: 50/50 High-Fashion Editorial Split
+                TOP SECTION: 50/50 High-Fashion Editorial Split (Pure White Canvas)
             ═══════════════════════════════════════════════════════ */}
             <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[580px] lg:min-h-[720px] xl:min-h-[780px]">
                 
-                {/* ─── LEFT HALF: Pure Minimalist Dark Editorial Canvas ─── */}
-                <div className="flex flex-col justify-center p-8 sm:p-14 lg:p-18 xl:p-24 z-10">
+                {/* ─── LEFT HALF: Pure Minimalist White Editorial Canvas ─── */}
+                <div className="flex flex-col justify-center p-8 sm:p-14 lg:p-18 xl:p-24 z-10 bg-[#FFFFFF]">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeBrand.id}
@@ -107,18 +121,25 @@ export function BrandShowroom(): React.JSX.Element {
                             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                             className="max-w-[580px]"
                         >
+                            {/* Eyebrow */}
+                            <div className="mb-4 sm:mb-6">
+                                <span className="inline-block text-[10.5px] font-bold uppercase tracking-[0.25em] text-[#B38728]">
+                                    {activeBrand.name}
+                                </span>
+                            </div>
+
                             {/* Main Serif Headline */}
-                            <h2 className="text-[2.2rem] sm:text-[3rem] lg:text-[3.4rem] xl:text-[4rem] font-light leading-[1.12] tracking-[-0.03em] text-white">
+                            <h2 className="text-[2.2rem] sm:text-[3rem] lg:text-[3.4rem] xl:text-[4rem] font-light leading-[1.12] tracking-[-0.03em] text-[#111111]">
                                 {activeBrand.headline.split("&")[0]}
                                 {activeBrand.headline.includes("&") && (
-                                    <span className="font-serif italic text-white/80 font-normal">
+                                    <span className="font-serif italic text-[#333333] font-normal">
                                         & {activeBrand.headline.split("&")[1]}
                                     </span>
                                 )}
                             </h2>
 
                             {/* Refined Description */}
-                            <p className="mt-6 text-[14px] sm:text-[15.5px] font-light leading-relaxed text-white/60">
+                            <p className="mt-6 text-[14px] sm:text-[15.5px] font-normal leading-relaxed text-[#666666]">
                                 {activeBrand.description}
                             </p>
                         </motion.div>
@@ -126,7 +147,7 @@ export function BrandShowroom(): React.JSX.Element {
                 </div>
 
                 {/* ─── RIGHT HALF: Full-Bleed High-Fashion Editorial Stage ─── */}
-                <div className="relative w-full h-[460px] sm:h-[560px] lg:h-full overflow-hidden bg-[#141414]">
+                <div className="relative w-full h-[460px] sm:h-[560px] lg:h-full overflow-hidden bg-[#F5F5F5]">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeBrand.id}
@@ -146,7 +167,7 @@ export function BrandShowroom(): React.JSX.Element {
                             />
 
                             {/* Subtle luxury edge gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none lg:bg-gradient-to-r lg:from-[#0B0B0B]/20 lg:via-transparent lg:to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
                         </motion.div>
                     </AnimatePresence>
 
@@ -154,7 +175,7 @@ export function BrandShowroom(): React.JSX.Element {
                     <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20">
                         <Link
                             href={activeBrand.href}
-                            className="group inline-flex items-center gap-2 text-[11.5px] sm:text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white border-b border-white/70 pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-white hover:text-white"
+                            className="group inline-flex items-center gap-2 text-[11.5px] sm:text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white border-b border-white/80 pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-white hover:text-white"
                         >
                             <span>{activeBrand.subheading}</span>
                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -167,55 +188,73 @@ export function BrandShowroom(): React.JSX.Element {
                 BOTTOM SECTION: Clean White Brand Selector Bar
                 (Klik untuk Mengganti Brand Aktif)
             ═══════════════════════════════════════════════════════ */}
-            <div className="w-full bg-[#FFFFFF] text-[#111111] py-8 sm:py-10 px-6 sm:px-12 lg:px-18 border-t border-b border-[#E5E5E5]">
-                <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
+            <div className="w-full bg-[#FFFFFF] text-[#111111] py-6 sm:py-9 px-5 sm:px-10 lg:px-16 xl:px-20 border-t border-b border-[#E5E5E5]">
+                <div className="w-full max-w-[1720px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-10">
                     
-                    {/* Left Label */}
+                    {/* Left Label (Without Colon) */}
                     <div className="text-center md:text-left shrink-0">
                         <p className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight">
-                            OUR EXCLUSIVE<br />BRAND PORTFOLIO:
+                            OUR EXCLUSIVE<span className="hidden md:inline"><br /></span><span className="md:hidden"> </span>BRAND PORTFOLIO
                         </p>
                     </div>
 
-                    {/* Right Interactive Brand Logo Buttons */}
-                    <div className="flex flex-wrap items-center justify-center md:justify-end gap-7 sm:gap-10 lg:gap-14 w-full">
-                        {brands.map((brand) => {
-                            const isActive = brand.id === activeId;
-                            return (
-                                <button
-                                    key={brand.id}
-                                    type="button"
-                                    onClick={() => setActiveId(brand.id)}
-                                    className={`group relative flex flex-col items-center py-2 transition-all duration-300 cursor-pointer ${
-                                        isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
-                                    }`}
-                                    title={`Select ${brand.name}`}
-                                >
-                                    <div className="relative h-7 sm:h-8 w-24 sm:w-30">
-                                        <Image
-                                            src={brand.logo}
-                                            alt={brand.name}
-                                            fill
-                                            sizes="130px"
-                                            className={`object-contain transition-all duration-300 ${
-                                                isActive
-                                                    ? "filter grayscale contrast-125 brightness-0"
-                                                    : "filter grayscale contrast-100"
-                                            }`}
-                                        />
-                                    </div>
+                    {/* Right Interactive Brand Logo Strip with Custom Scroll Indicator */}
+                    <div className="w-full flex flex-col items-center md:items-end">
+                        <div
+                            ref={scrollContainerRef}
+                            onScroll={handleScroll}
+                            className="flex items-center justify-start md:justify-end gap-6 sm:gap-8 lg:gap-12 w-full overflow-x-auto no-scrollbar py-2 px-1"
+                        >
+                            {brands.map((brand) => {
+                                const isActive = brand.id === activeId;
+                                return (
+                                    <button
+                                        key={brand.id}
+                                        type="button"
+                                        onClick={() => setActiveId(brand.id)}
+                                        className={`group relative flex flex-col items-center py-2 shrink-0 transition-all duration-300 cursor-pointer ${
+                                            isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
+                                        }`}
+                                        title={`Select ${brand.name}`}
+                                    >
+                                        <div className="relative h-6 sm:h-8 w-20 sm:w-28">
+                                            <Image
+                                                src={brand.logo}
+                                                alt={brand.name}
+                                                fill
+                                                sizes="120px"
+                                                className={`object-contain transition-all duration-300 ${
+                                                    isActive
+                                                        ? "filter grayscale contrast-125 brightness-0"
+                                                        : "filter grayscale contrast-100"
+                                                }`}
+                                            />
+                                        </div>
 
-                                    {/* Active Underline Gold Indicator */}
-                                    {isActive && (
-                                        <motion.div
-                                            layoutId="activeWhiteBrandIndicator"
-                                            className="absolute -bottom-2 w-8 h-[2px] bg-[#D4AF37]"
-                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                        />
-                                    )}
-                                </button>
-                            );
-                        })}
+                                        {/* Active Underline Gold Indicator */}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="activeWhiteBrandIndicator"
+                                                className="absolute -bottom-1 sm:-bottom-2 w-7 sm:w-8 h-[2px] bg-[#D4AF37]"
+                                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                            />
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Minimalist Custom Scroll Track Indicator (Mobile Only) */}
+                        <div className="md:hidden mt-2.5 flex items-center justify-center" aria-hidden="true">
+                            <div className="w-16 h-[2px] bg-[#EAE6DF] rounded-full overflow-hidden relative">
+                                <div
+                                    className="h-full w-6 bg-[#111111] rounded-full transition-transform duration-75 ease-out"
+                                    style={{
+                                        transform: `translateX(${scrollProgress * 40}px)`,
+                                    }}
+                                />
+                            </div>
+                        </div>
                     </div>
 
                 </div>

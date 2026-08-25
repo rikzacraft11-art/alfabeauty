@@ -18,7 +18,6 @@ import { Separator } from "@/shared/components/ui/separator";
 import { ProductWhatsAppCTA } from "./product-whatsapp-cta";
 import {
     type Product,
-    getProductsByBrand,
     products as allProducts,
 } from "../data/products";
 import { cn } from "@/shared/lib/utils";

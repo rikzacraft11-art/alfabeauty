@@ -21,17 +21,17 @@ export const metadata: Metadata = {
 export default function HomePage(): React.JSX.Element {
   return (
     <main id="main-content" className="relative z-10 bg-background">
-      {/* ─── Section 1 (Hero) & Section 2 (Shop CTA) Pure Black Canvas ─── */}
+      {/* ─── Section 1 (Hero) & Section 2 (Shop CTA) ─── */}
       <HeroShopCluster />
 
-      {/* ─── Section 3: Salon & Haircare Solutions ─── */}
-      <SolutionsSection />
+      {/* ─── Section 3: High-Fashion Editorial Brand Showcase ─── */}
+      <BrandShowroom />
 
       {/* ─── Section 4: Excellence, Mission & Vision ─── */}
       <InfoSection />
 
-      {/* ─── Section 5: High-Fashion Editorial Brand Showcase ─── */}
-      <BrandShowroom />
+      {/* ─── Section 5: Salon & Haircare Solutions ─── */}
+      <SolutionsSection />
 
       {/* ─── Section 6: Quality & Product Standards ─── */}
       <StandardsSection />

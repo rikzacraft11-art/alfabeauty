@@ -9,6 +9,7 @@ import { FadeIn } from "@/shared/components/motion/fade-in";
 import { NAV_LINKS } from "@/shared/lib/config";
 import { getHeroTiming } from "@/shared/lib/motion";
 import { useLanguage } from "@/shared/components/providers/language-provider";
+import { cn } from "@/shared/lib/utils";
 import { motion, useScroll, useTransform, AnimatePresence, type Transition } from "framer-motion";
 
 interface HeroSlideItem {
@@ -42,6 +43,84 @@ const HERO_SLIDES: HeroSlideItem[] = [
     },
 ];
 
+interface PersistentHeroVideoProps {
+    src?: string;
+    poster?: string;
+    className?: string;
+    sharedTimeRef: React.RefObject<number>;
+    isIntersectingRef: React.RefObject<boolean>;
+}
+
+function PersistentHeroVideo({
+    src,
+    poster,
+    className,
+    sharedTimeRef,
+    isIntersectingRef,
+}: PersistentHeroVideoProps): React.JSX.Element {
+    const videoRef = React.useRef<HTMLVideoElement>(null);
+
+    React.useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const restoreTimeAndPlay = () => {
+            if (sharedTimeRef.current > 0 && Math.abs(video.currentTime - sharedTimeRef.current) > 0.3) {
+                try {
+                    video.currentTime = sharedTimeRef.current;
+                } catch {
+                    // Ignore seek errors if video is not ready
+                }
+            }
+            if (isIntersectingRef.current) {
+                video.play().catch(() => {});
+            }
+        };
+
+        const handleTimeUpdate = () => {
+            if (video.currentTime > 0) {
+                sharedTimeRef.current = video.currentTime;
+            }
+        };
+
+        video.addEventListener("timeupdate", handleTimeUpdate);
+        video.addEventListener("loadedmetadata", restoreTimeAndPlay);
+
+        if (video.readyState >= 1) {
+            restoreTimeAndPlay();
+        } else if (isIntersectingRef.current) {
+            video.play().catch(() => {});
+        }
+
+        return () => {
+            if (video) {
+                if (video.currentTime > 0) {
+                    sharedTimeRef.current = video.currentTime;
+                }
+                video.removeEventListener("timeupdate", handleTimeUpdate);
+                video.removeEventListener("loadedmetadata", restoreTimeAndPlay);
+            }
+        };
+    }, [sharedTimeRef, isIntersectingRef]);
+
+    return (
+        <video
+            ref={videoRef}
+            src={src}
+            poster={poster}
+            className={className}
+            muted
+            loop
+            playsInline
+            autoPlay
+            preload="auto"
+            disablePictureInPicture
+            disableRemotePlayback
+            aria-hidden="true"
+        />
+    );
+}
+
 /* ─────────────────────────────────────────────────────────────────────
  * HeroSection (Dynamic Full-Bleed 3-Panel Panoramic Carousel Showcase)
  * Center frame hosts persistent copywriting & CTAs.
@@ -50,8 +129,9 @@ const HERO_SLIDES: HeroSlideItem[] = [
 export function HeroSection(): React.JSX.Element {
     const { dict } = useLanguage();
     const HERO_TIMING = getHeroTiming();
-    const videoRef = React.useRef<HTMLVideoElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const videoTimeRef = React.useRef<number>(0);
+    const isIntersectingRef = React.useRef<boolean>(true);
 
     // Extended, stable scroll track (175vh) for smooth docked viewing
     const { scrollYProgress } = useScroll({
@@ -126,27 +206,18 @@ export function HeroSection(): React.JSX.Element {
     };
 
     React.useEffect(() => {
-        const video = videoRef.current;
         const container = containerRef.current;
-        if (!video || !container) return;
+        if (!container) return;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) {
-                    if (!video.src && currentSlide.videoSrc) {
-                        video.src = currentSlide.videoSrc;
-                        video.load();
-                    }
-                    video.play().catch(() => {});
-                } else {
-                    video.pause();
-                }
+                isIntersectingRef.current = entry.isIntersecting;
             },
             { threshold: 0.05 }
         );
         observer.observe(container);
         return () => observer.disconnect();
-    }, [currentSlide]);
+    }, []);
 
     return (
         <section
@@ -160,7 +231,7 @@ export function HeroSection(): React.JSX.Element {
                 {/* ─── 3-Panel Panoramic Track Container ─── */}
                 <div className="relative w-full h-full flex items-center justify-center">
 
-                    {/* ◀ Left Preview Frame (Synchronized Smooth Slide) */}
+                    {/* ◀ Left Preview Frame (Synchronized Smooth Slide with Fade & Scrim) */}
                     <motion.div
                         style={{
                             scale: videoScale,
@@ -169,7 +240,7 @@ export function HeroSection(): React.JSX.Element {
                             borderRadius: videoBorderRadius,
                         }}
                         onClick={handlePrev}
-                        className="absolute inset-0 z-0 w-full h-full will-change-transform bg-black origin-center cursor-pointer gpu-layer overflow-hidden shadow-2xl"
+                        className="group absolute inset-0 z-0 w-full h-full will-change-transform bg-black origin-center cursor-pointer overflow-hidden hidden md:block"
                         aria-label="Previous Showcase Frame"
                     >
                         <div className="relative h-full w-full overflow-hidden">
@@ -185,14 +256,12 @@ export function HeroSection(): React.JSX.Element {
                                     className="absolute inset-0 h-full w-full will-change-transform"
                                 >
                                     {leftSlide.type === "video" ? (
-                                        <video
+                                        <PersistentHeroVideo
                                             src={leftSlide.videoSrc}
                                             poster={leftSlide.posterSrc}
                                             className="h-full w-full object-cover"
-                                            muted
-                                            loop
-                                            playsInline
-                                            autoPlay
+                                            sharedTimeRef={videoTimeRef}
+                                            isIntersectingRef={isIntersectingRef}
                                         />
                                     ) : (
                                         <Image
@@ -205,6 +274,10 @@ export function HeroSection(): React.JSX.Element {
                                     )}
                                 </motion.div>
                             </AnimatePresence>
+
+                            {/* Multi-Layer Scrim & Atmospheric Gradient Fade for Left Frame */}
+                            <div className="pointer-events-none absolute inset-0 z-10 bg-black/60 transition-colors duration-300 group-hover:bg-black/35" />
+                            <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/40 to-black/60" />
                         </div>
                     </motion.div>
 
@@ -215,17 +288,17 @@ export function HeroSection(): React.JSX.Element {
                             y: videoY,
                             borderRadius: videoBorderRadius,
                         }}
-                        className="relative z-10 w-full h-full will-change-transform bg-black origin-center gpu-layer shadow-2xl"
+                        onPanEnd={(_, info) => {
+                            if (info.offset.x < -35) {
+                                handleNext();
+                            } else if (info.offset.x > 35) {
+                                handlePrev();
+                            }
+                        }}
+                        className="relative z-10 w-full h-full will-change-transform bg-black origin-center overflow-hidden touch-pan-y"
                     >
-                        {/* Luminous Golden Backlight Shadow (Fades in smoothly as video scales inward) */}
-                        <motion.div
-                            style={{ opacity: mirrorFrameOpacity }}
-                            className="pointer-events-none absolute -inset-3 sm:-inset-6 lg:-inset-10 rounded-[inherit] bg-[#EABD68]/30 blur-2xl sm:blur-3xl -z-10 gpu-layer"
-                            aria-hidden="true"
-                        />
-
                         {/* Media Stage (Video or High-Res Solution Visual with Smooth Directional Slide) */}
-                        <div className="absolute inset-0 z-0 overflow-hidden rounded-[inherit]">
+                        <div className="absolute inset-0 z-0 overflow-hidden">
                             <AnimatePresence initial={false} custom={direction}>
                                 <motion.div
                                     key={currentSlide.id + "-center-" + page}
@@ -238,19 +311,12 @@ export function HeroSection(): React.JSX.Element {
                                     className="absolute inset-0 h-full w-full pointer-events-none will-change-transform"
                                 >
                                     {currentSlide.type === "video" ? (
-                                        <video
-                                            ref={videoRef}
+                                        <PersistentHeroVideo
                                             src={currentSlide.videoSrc}
                                             poster={currentSlide.posterSrc}
                                             className="absolute inset-0 h-full w-full object-cover"
-                                            muted
-                                            loop
-                                            playsInline
-                                            autoPlay
-                                            preload="none"
-                                            disablePictureInPicture
-                                            disableRemotePlayback
-                                            aria-hidden="true"
+                                            sharedTimeRef={videoTimeRef}
+                                            isIntersectingRef={isIntersectingRef}
                                         />
                                     ) : (
                                         <Image
@@ -273,15 +339,15 @@ export function HeroSection(): React.JSX.Element {
                         </div>
 
                         {/* ─── Copywriting & Action Buttons (Permanently Preserved & Crisp) ─── */}
-                        <div className="relative z-10 h-full flex items-center mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
-                            <div className="max-w-3xl pt-[var(--header-height,80px)]">
+                        <div className="relative z-10 h-full flex items-center mx-auto w-full max-w-[1720px] px-6 sm:px-10 lg:px-16 xl:px-20">
+                            <div className="max-w-3xl pt-[calc(var(--header-height,60px)+12px)] sm:pt-[var(--header-height,80px)]">
                                 <FadeIn delay={HERO_TIMING.eyebrow} blur scale>
                                     <p className="eyebrow text-white/70 font-semibold tracking-[0.25em]">
                                         {dict.hero.eyebrow}
                                     </p>
                                 </FadeIn>
 
-                                <div className="mt-5">
+                                <div className="mt-4 sm:mt-5">
                                     <TextReveal
                                         as="h1"
                                         className="heading-display text-white text-balance"
@@ -298,17 +364,17 @@ export function HeroSection(): React.JSX.Element {
                                 </div>
 
                                 <FadeIn delay={HERO_TIMING.body} blur>
-                                    <p className="mt-4 sm:mt-8 max-w-xl body-prose text-white/80">
+                                    <p className="mt-3 sm:mt-8 max-w-xl body-prose text-white/80">
                                         {dict.hero.description}
                                     </p>
                                 </FadeIn>
 
                                 {/* Minimalist Professional Button & Underline Pair */}
-                                <div className="mt-6 sm:mt-10 flex flex-col gap-5 sm:flex-row items-start sm:items-center">
+                                <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-5 sm:flex-row items-start sm:items-center">
                                     <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
                                         <Link
                                             href={NAV_LINKS.brands}
-                                            className="inline-flex items-center justify-center gap-2 rounded-none bg-brand-crimson px-8 py-3.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#5D221C]"
+                                            className="inline-flex items-center justify-center gap-2 rounded-none bg-brand-crimson px-7 sm:px-8 py-3 sm:py-3.5 text-[12px] sm:text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#5D221C]"
                                         >
                                             <span>{dict.hero.exploreBrands}</span>
                                             <ArrowRight className="h-3.5 w-3.5" />
@@ -318,7 +384,7 @@ export function HeroSection(): React.JSX.Element {
                                     <FadeIn delay={HERO_TIMING.cta + 0.12} direction="up" blur>
                                         <Link
                                             href={NAV_LINKS.partnership}
-                                            className="group inline-flex items-center gap-1.5 text-[12.5px] font-medium uppercase tracking-[0.14em] text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
+                                            className="group inline-flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-medium uppercase tracking-[0.14em] text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
                                         >
                                             <span>{dict.hero.partnerWithUs}</span>
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -329,7 +395,7 @@ export function HeroSection(): React.JSX.Element {
                         </div>
                     </motion.div>
 
-                    {/* ▶ Right Preview Frame (Synchronized Smooth Slide) */}
+                    {/* ▶ Right Preview Frame (Synchronized Smooth Slide with Fade & Scrim) */}
                     <motion.div
                         style={{
                             scale: videoScale,
@@ -338,7 +404,7 @@ export function HeroSection(): React.JSX.Element {
                             borderRadius: videoBorderRadius,
                         }}
                         onClick={handleNext}
-                        className="absolute inset-0 z-0 w-full h-full will-change-transform bg-black origin-center cursor-pointer gpu-layer overflow-hidden shadow-2xl"
+                        className="group absolute inset-0 z-0 w-full h-full will-change-transform bg-black origin-center cursor-pointer overflow-hidden hidden md:block"
                         aria-label="Next Showcase Frame"
                     >
                         <div className="relative h-full w-full overflow-hidden">
@@ -354,14 +420,12 @@ export function HeroSection(): React.JSX.Element {
                                     className="absolute inset-0 h-full w-full will-change-transform"
                                 >
                                     {rightSlide.type === "video" ? (
-                                        <video
+                                        <PersistentHeroVideo
                                             src={rightSlide.videoSrc}
                                             poster={rightSlide.posterSrc}
                                             className="h-full w-full object-cover"
-                                            muted
-                                            loop
-                                            playsInline
-                                            autoPlay
+                                            sharedTimeRef={videoTimeRef}
+                                            isIntersectingRef={isIntersectingRef}
                                         />
                                     ) : (
                                         <Image
@@ -374,11 +438,27 @@ export function HeroSection(): React.JSX.Element {
                                     )}
                                 </motion.div>
                             </AnimatePresence>
+
+                            {/* Multi-Layer Scrim & Atmospheric Gradient Fade for Right Frame */}
+                            <div className="pointer-events-none absolute inset-0 z-10 bg-black/60 transition-colors duration-300 group-hover:bg-black/35" />
+                            <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-l from-black/90 via-black/40 to-black/60" />
                         </div>
                     </motion.div>
                 </div>
 
-                {/* ─── Infinite Carousel Nav Arrows (Option 2: Minimalist Hairline Glass - Docked Only) ─── */}
+                {/* ─── Viewport Atmospheric Edge Fades (Smoothly dissolves side cards into screen margins during docked scroll) ─── */}
+                <motion.div
+                    style={{ opacity: mirrorFrameOpacity }}
+                    className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden md:block w-28 sm:w-44 lg:w-72 bg-gradient-to-r from-black via-black/85 to-transparent"
+                    aria-hidden="true"
+                />
+                <motion.div
+                    style={{ opacity: mirrorFrameOpacity }}
+                    className="pointer-events-none absolute inset-y-0 right-0 z-20 hidden md:block w-28 sm:w-44 lg:w-72 bg-gradient-to-l from-black via-black/85 to-transparent"
+                    aria-hidden="true"
+                />
+
+                {/* ─── Infinite Carousel Nav Arrows (Minimalist Hairline Glass - Docked Only, Desktop & Tablet) ─── */}
                 <motion.button
                     style={{
                         opacity: navButtonsOpacity,
@@ -387,7 +467,7 @@ export function HeroSection(): React.JSX.Element {
                     }}
                     onClick={handlePrev}
                     aria-label="Previous Slide"
-                    className="group absolute left-4 sm:left-8 lg:left-12 z-30 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/25 bg-black/40 text-white/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-110 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white hover:shadow-[0_0_20px_rgba(186,24,27,0.4)]"
+                    className="group absolute left-4 sm:left-8 lg:left-12 z-30 hidden md:flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/25 bg-black/40 text-white/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-110 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white hover:shadow-[0_0_20px_rgba(186,24,27,0.4)]"
                 >
                     <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
                 </motion.button>
@@ -400,10 +480,34 @@ export function HeroSection(): React.JSX.Element {
                     }}
                     onClick={handleNext}
                     aria-label="Next Slide"
-                    className="group absolute right-4 sm:right-8 lg:right-12 z-30 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/25 bg-black/40 text-white/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-110 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white hover:shadow-[0_0_20px_rgba(186,24,27,0.4)]"
+                    className="group absolute right-4 sm:right-8 lg:right-12 z-30 hidden md:flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/25 bg-black/40 text-white/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-110 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white hover:shadow-[0_0_20px_rgba(186,24,27,0.4)]"
                 >
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </motion.button>
+
+                {/* ─── Mobile Interactive Pagination Dots (Docked Only) ─── */}
+                <motion.div
+                    style={{
+                        opacity: navButtonsOpacity,
+                        pointerEvents: navButtonsPointerEvents,
+                    }}
+                    className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex md:hidden items-center gap-2"
+                    aria-label="Carousel Pagination"
+                >
+                    {HERO_SLIDES.map((slide, idx) => (
+                        <button
+                            key={slide.id}
+                            onClick={() => setPage(() => [idx, idx > activeIndex ? 1 : -1])}
+                            aria-label={`Go to slide ${idx + 1}`}
+                            className={cn(
+                                "h-1.5 rounded-full transition-all duration-300",
+                                idx === activeIndex
+                                    ? "w-7 bg-brand-crimson"
+                                    : "w-2 bg-white/40 hover:bg-white/70"
+                            )}
+                        />
+                    ))}
+                </motion.div>
 
                 {/* ─── Minimalist Scroll Guide Indicator at Scroll 0 (Bottom Right) ─── */}
                 <motion.div

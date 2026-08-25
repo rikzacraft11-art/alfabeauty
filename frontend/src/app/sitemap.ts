@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_DOMAIN } from "@/shared/lib/config";
 import { getCatalogProductSlugs } from "@/shared/lib/sanity/catalog";
 import { events, articles } from "@/features/education/components/education-data";
+import { brands } from "@/features/brands/data/brands";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
@@ -22,7 +23,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_DOMAIN}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  /* ── Dynamic: brand product pages ── */
+  /* ── Dynamic: brand mini-sites ── */
+  const brandRoutes: MetadataRoute.Sitemap = brands.map((b) => ({
+    url: `${SITE_DOMAIN}/brands/${b.slug}`,
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  /* ── Dynamic: product pages ── */
   const productRoutes: MetadataRoute.Sitemap = productSlugs.map((slug) => ({
     url: `${SITE_DOMAIN}/shop/${slug}`,
     lastModified,
@@ -46,5 +55,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...productRoutes, ...eventRoutes, ...articleRoutes];
+  return [...staticRoutes, ...brandRoutes, ...productRoutes, ...eventRoutes, ...articleRoutes];
 }

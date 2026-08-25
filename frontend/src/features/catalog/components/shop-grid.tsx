@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ShopHeader } from "./shop-header";
 import { ShopToolbar } from "./shop-toolbar";
 import { ShopSidebarFilters } from "./shop-sidebar-filters";
@@ -12,14 +12,12 @@ import {
     categoryPills,
     brandFacets,
     audienceFacets,
-    type CatalogProduct,
 } from "../data/products";
 import { type SortOption } from "../types/catalog.types";
 import { Sheet, SheetContent, SheetTitle } from "@/shared/components/ui/sheet";
 
 export const ShopGrid: React.FC = () => {
     const searchParams = useSearchParams();
-    const router = useRouter();
 
     // ─── Query State Sync ───
     const initialCategory = searchParams.get("category") || searchParams.get("product_cat") || "all";
