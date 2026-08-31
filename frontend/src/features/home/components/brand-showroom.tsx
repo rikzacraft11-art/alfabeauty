@@ -5,86 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
  * BrandShowroom (Section 5 — High-Fashion Editorial Brand Showcase)
  *
  * Typography & Layout System:
- * - Menggunakan font sistem standar yang konsisten dengan seluruh website.
- * - Tombol di pojok kanan bawah menggunakan gaya uppercase tracked link
- *   bergaris bawah yang konsisten dengan section lainnya.
+ * - Fully bilingual (100% ID in Indonesian mode, 100% EN in English mode)
+ * - Uses standardized design system typography and tracked links.
  * ───────────────────────────────────────────────────────────────────── */
 
-interface BrandItem {
-    id: string;
-    slug: string;
-    name: string;
-    headline: string;
-    subheading: string;
-    description: string;
-    editorialImage: string;
-    logo: string;
-    href: string;
-}
-
 export function BrandShowroom(): React.JSX.Element {
-    const brands: BrandItem[] = [
-        {
-            id: "alfaparf",
-            slug: "alfaparf",
-            name: "Alfaparf Milano",
-            headline: "Creating captivating salon transformations & Italian master formulations.",
-            subheading: "Explore Alfaparf Milano",
-            description: "The global gold standard for instant crystal shine, thermal protection, and weightless silk fiber finish.",
-            editorialImage: "/images/home/editorial-alfaparf.jpg",
-            logo: "/images/brands/alfaparf-milano.webp",
-            href: "/brands/alfaparf",
-        },
-        {
-            id: "montibello",
-            slug: "montibello",
-            name: "Montibello",
-            headline: "Mediterranean botanical science & bespoke luxury hair elixirs.",
-            subheading: "Explore Montibello",
-            description: "Pure amber argan and tsubaki flower nectar providing deep lipid renewal and cuticle sealing.",
-            editorialImage: "/images/home/editorial-montibello.jpg",
-            logo: "/images/brands/montibello.webp",
-            href: "/brands/montibello",
-        },
-        {
-            id: "gammaplus",
-            slug: "gamma-plus",
-            name: "Gamma+ Professional",
-            headline: "High-precision Italian engineering & acoustic digital styling tools.",
-            subheading: "Explore Gamma+ Professional",
-            description: "Whisper-quiet 110,000 RPM brushless digital micro-motor with ion active conditioning.",
-            editorialImage: "/images/home/editorial-gammaplus.jpg",
-            logo: "/images/brands/gamma-plus.webp",
-            href: "/brands/gamma-plus",
-        },
-        {
-            id: "farmavita",
-            slug: "farmavita",
-            name: "Farmavita",
-            headline: "Vibrant permanent salon color & Mediterranean oil infusions.",
-            subheading: "Explore Farmavita",
-            description: "Enriched with argan oil and botanical pigments for luminous, high-definition salon coloring.",
-            editorialImage: "/images/home/editorial-alfaparf.jpg",
-            logo: "/images/brands/farmavita.webp",
-            href: "/brands/farmavita",
-        },
-        {
-            id: "core",
-            slug: "core",
-            name: "Core Professional",
-            headline: "Essential salon workstation precision & ergonomic daily reliability.",
-            subheading: "Explore Core Professional",
-            description: "Built for high-volume master stylists demanding durable, unyielding salon performance.",
-            editorialImage: "/images/home/editorial-gammaplus.jpg",
-            logo: "/images/brands/core.webp",
-            href: "/brands/core",
-        },
-    ];
+    const { dict } = useLanguage();
+    const brands = dict.brandShowroom.brands;
 
     const [activeId, setActiveId] = React.useState<string>("alfaparf");
     const activeBrand = brands.find((b) => b.id === activeId) ?? brands[0];
@@ -109,7 +42,7 @@ export function BrandShowroom(): React.JSX.Element {
                 TOP SECTION: 50/50 High-Fashion Editorial Split (Pure White Canvas)
             ═══════════════════════════════════════════════════════ */}
             <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[580px] lg:min-h-[720px] xl:min-h-[780px]">
-                
+
                 {/* ─── LEFT HALF: Pure Minimalist White Editorial Canvas ─── */}
                 <div className="flex flex-col justify-center p-8 sm:p-14 lg:p-18 xl:p-24 z-10 bg-[#FFFFFF]">
                     <AnimatePresence mode="wait">
@@ -190,11 +123,11 @@ export function BrandShowroom(): React.JSX.Element {
             ═══════════════════════════════════════════════════════ */}
             <div className="w-full bg-[#FFFFFF] text-[#111111] py-6 sm:py-9 px-5 sm:px-10 lg:px-16 xl:px-20 border-t border-b border-[#E5E5E5]">
                 <div className="w-full max-w-[1720px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-10">
-                    
-                    {/* Left Label (Without Colon) */}
+
+                    {/* Left Label (Without Colon, Bilingual) */}
                     <div className="text-center md:text-left shrink-0">
-                        <p className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight">
-                            OUR EXCLUSIVE<span className="hidden md:inline"><br /></span><span className="md:hidden"> </span>BRAND PORTFOLIO
+                        <p className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight max-w-[160px]">
+                            {dict.brandShowroom.brandPortfolioLabel}
                         </p>
                     </div>
 
@@ -212,9 +145,8 @@ export function BrandShowroom(): React.JSX.Element {
                                         key={brand.id}
                                         type="button"
                                         onClick={() => setActiveId(brand.id)}
-                                        className={`group relative flex flex-col items-center py-2 shrink-0 transition-all duration-300 cursor-pointer ${
-                                            isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
-                                        }`}
+                                        className={`group relative flex flex-col items-center py-2 shrink-0 transition-all duration-300 cursor-pointer ${isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
+                                            }`}
                                         title={`Select ${brand.name}`}
                                     >
                                         <div className="relative h-6 sm:h-8 w-20 sm:w-28">
@@ -223,11 +155,10 @@ export function BrandShowroom(): React.JSX.Element {
                                                 alt={brand.name}
                                                 fill
                                                 sizes="120px"
-                                                className={`object-contain transition-all duration-300 ${
-                                                    isActive
+                                                className={`object-contain transition-all duration-300 ${isActive
                                                         ? "filter grayscale contrast-125 brightness-0"
                                                         : "filter grayscale contrast-100"
-                                                }`}
+                                                    }`}
                                             />
                                         </div>
 

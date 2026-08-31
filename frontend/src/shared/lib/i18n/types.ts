@@ -87,12 +87,16 @@ export interface Dictionary {
     eyebrow: string;
     heading: string;
     explore: string;
+    brandPortfolioLabel: string;
     brands: {
       id: string;
+      slug: string;
       name: string;
+      headline: string;
+      subheading: string;
+      description: string;
+      editorialImage: string;
       logo: string;
-      heroProduct: string;
-      heroImage: string;
       href: string;
     }[];
   };
@@ -260,5 +264,18 @@ export interface Dictionary {
     description: string;
     formTitle: string;
     formSubtitle: string;
+  };
+  contactPage: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    formEyebrow: string;
+    formTitle: string;
+    formDescription: string;
+    infoEyebrow: string;
+    infoTitle: string;
+    infoDescription: string;
+    faqEyebrow: string;
+    faqTitle: string;
   };
 }

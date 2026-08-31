@@ -188,7 +188,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                     className="flex w-full items-center justify-center gap-2 border border-border-warm/80 bg-surface-elevated py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-300 hover:bg-muted/40"
                 >
                     <MessageCircle className="h-3.5 w-3.5 text-whatsapp" />
-                    WhatsApp Consultation
+                    {dict.common.whatsappConsultation}
                 </a>
 
                 {/* Three pillars */}

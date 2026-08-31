@@ -8,6 +8,8 @@ import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
 import { BRANDS } from "@/shared/lib/config";
 import { cn } from "@/shared/lib/utils";
 
+import { useLanguage } from "@/shared/components/providers/language-provider";
+
 const brandSlugMap: Record<string, string> = {
     "Alfaparf Milano Professional": "alfaparf",
     "Farmavita": "farmavita",
@@ -18,6 +20,8 @@ const brandSlugMap: Record<string, string> = {
 };
 
 export const BrandsPanel = React.memo(function BrandsPanel() {
+    const { dict, language } = useLanguage();
+
     return (
         <div className="mx-auto grid h-[440px] max-w-[1540px] grid-cols-[repeat(6,1fr)_210px] gap-3 px-4 py-8 lg:px-6">
             {/* 6 Brand Cards in a single horizontal row */}
@@ -57,7 +61,7 @@ export const BrandsPanel = React.memo(function BrandsPanel() {
                         <div className="pt-4">
                             <div className="mb-3.5 h-px bg-border-warm/40" />
                             <span className="inline-flex w-full items-center justify-between text-[11px] font-semibold text-muted-foreground/70 transition-colors duration-300 group-hover:text-foreground">
-                                <span>Explore Brand</span>
+                                <span>{dict.brands.exploreBrand || (language === "id" ? "Lihat Produk" : "Explore Brand")}</span>
                                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 text-muted-foreground/50 group-hover:text-brand-crimson" />
                             </span>
                         </div>
@@ -72,13 +76,15 @@ export const BrandsPanel = React.memo(function BrandsPanel() {
             <div className="flex flex-col justify-between border-l border-border-warm/40 pl-6 py-2">
                 <div>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
-                        Looking for something?
+                        {language === "id" ? "Butuh Bantuan?" : "Looking for something?"}
                     </p>
                     <h4 className="mt-2 text-[16px] font-bold leading-snug text-foreground">
-                        Need Help Choosing?
+                        {language === "id" ? "Bingung Memilih?" : "Need Help Choosing?"}
                     </h4>
                     <p className="mt-2.5 text-[12px] leading-relaxed text-muted-foreground/75">
-                        Our curation team can help source and recommend exclusive lineups for your salon needs.
+                        {language === "id"
+                            ? "Tim kami siap merekomendasikan produk dan brand eksklusif yang sesuai untuk salon Anda."
+                            : "Our curation team can help source and recommend exclusive lineups for your salon needs."}
                     </p>
                 </div>
 
@@ -89,7 +95,7 @@ export const BrandsPanel = React.memo(function BrandsPanel() {
                             href="/contact"
                             className="group/link flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 hover:text-foreground"
                         >
-                            <span>Contact Us</span>
+                            <span>{dict.common.contactUs}</span>
                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:translate-x-1 text-muted-foreground/60 group-hover/link:text-brand-crimson" />
                         </Link>
                     </NavigationMenuLink>

@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import {
     Clock,
@@ -20,44 +22,70 @@ const ContactForm = dynamic(
 import { WhatsAppCTA } from "@/shared/components/ui/whatsapp-cta";
 import { FadeIn } from "@/shared/components/motion/fade-in";
 import { WHATSAPP_DISPLAY, CONTACT_EMAIL, OPERATING_HOURS, SITE_ADDRESS } from "@/shared/lib/config";
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
- * Contact Page — Agency-Level Polish
- *
- *   §1. Hero
- *   §2. Form + Meet Us (2-column)
- *   §3. FAQ (accordion)
- *   §4. CTA Band
+ * Contact Page — Fully Bilingual (ID / EN)
  * ───────────────────────────────────────────────────────────────────── */
 
-const faqs = [
-    {
-        q: "What brands do you distribute?",
-        a: "We are the official Indonesian distributor for four globally recognized professional haircare brands: Alfaparf Milano (Italy), Farmavita (Italy), Montibello (Spain), and Gamma+ Professional (Italy). Each brand covers specific needs from color and care to tools and styling.",
-    },
-    {
-        q: "Do you supply nationwide?",
-        a: "Yes. We have an established distribution network covering major cities across Indonesia including Jakarta, Surabaya, Bandung, Bali, Medan, and many more. We deliver directly to professional salons and barbershops.",
-    },
-    {
-        q: "How do I become a partner?",
-        a: "Visit our Partnership page and fill out the Become Partner form. Our team will review your application and reach out within 2 business days to discuss how we can support your salon or barbershop.",
-    },
-    {
-        q: "Do you offer training for salon professionals?",
-        a: "Absolutely. We run regular technical trainings, workshops, and masterclasses covering color techniques, hair treatments, barbering, and business skills. Check our Education & Events page for upcoming sessions.",
-    },
-    {
-        q: "What is the minimum order requirement?",
-        a: "Minimum order quantities vary by brand and product line. Contact our sales team for specific details and pricing tailored to your salon or barbershop's needs.",
-    },
-    {
-        q: "Do you offer product samples?",
-        a: "We can arrange product demonstrations and samples for qualified salon and barbershop professionals. Reach out to our team via WhatsApp or the contact form to discuss your requirements.",
-    },
-];
-
 export function ContactPageContent() {
+    const { dict, language } = useLanguage();
+    const isId = language === "id";
+
+    const faqs = isId
+        ? [
+              {
+                  q: "Brand apa saja yang didistribusikan secara resmi oleh Alfa Beauty?",
+                  a: "PT Alfa Beauty Cosmetica merupakan importir dan distributor eksklusif untuk brand internasional terkemuka seperti Alfaparf Milano Professional, Farmavita, Montibello, CORE Japan, dan Gamma+ Professional.",
+              },
+              {
+                  q: "Apakah Alfa Beauty melayani pengiriman ke luar pulau Jawa?",
+                  a: "Ya. Kami memiliki jaringan distribusi resmi yang menjangkau seluruh 34 provinsi di Indonesia termasuk Jakarta, Surabaya, Bandung, Bali, Medan, Makassar, dan kota-kota lainnya.",
+              },
+              {
+                  q: "Bagaimana cara mendaftar menjadi mitra salon resmi?",
+                  a: "Kunjungi halaman Kemitraan dan isi formulir pendaftaran mitra, atau hubungi tim kami via WhatsApp. Tim representatif kami akan menghubungi Anda dalam waktu 1-2 hari kerja.",
+              },
+              {
+                  q: "Apakah tersedia program pelatihan teknis untuk staf salon?",
+                  a: "Tentu. Melalui Alfa Beauty Academy, kami menyelenggarakan workshop dan masterclass rutin seputar teknik pewarnaan lanjutan, perm modern, pemotongan rambut, dan manajemen bisnis salon.",
+              },
+              {
+                  q: "Berapa batas minimum pemesanan (MOQ) untuk salon?",
+                  a: "Ketentuan minimum pemesanan bervariasi sesuai lini brand dan kategori produk. Silakan hubungi tim sales kami untuk mendapatkan penawaran dan daftar harga khusus B2B salon.",
+              },
+              {
+                  q: "Apakah kami bisa mendapatkan demo produk atau tester?",
+                  a: "Kami dapat mengatur demonstrasi produk dan tester khusus bagi pemilik salon atau profesional yang memenuhi kualifikasi. Hubungi tim kami via WhatsApp untuk berdiskusi lebih lanjut.",
+              },
+          ]
+        : [
+              {
+                  q: "What brands do you distribute?",
+                  a: "We are the official Indonesian distributor for leading professional haircare brands: Alfaparf Milano (Italy), Farmavita (Italy), Montibello (Spain), and Gamma+ Professional (Italy).",
+              },
+              {
+                  q: "Do you supply nationwide?",
+                  a: "Yes. We have an established distribution network covering major cities across Indonesia including Jakarta, Surabaya, Bandung, Bali, Medan, and many more.",
+              },
+              {
+                  q: "How do I become a partner?",
+                  a: "Visit our Partnership page and fill out the Become Partner form. Our team will review your application and reach out within 2 business days.",
+              },
+              {
+                  q: "Do you offer training for salon professionals?",
+                  a: "Absolutely. We run regular technical trainings, workshops, and masterclasses covering color techniques, hair treatments, barbering, and business skills.",
+              },
+              {
+                  q: "What is the minimum order requirement?",
+                  a: "Minimum order quantities vary by brand and product line. Contact our sales team for specific details and pricing tailored to your salon's needs.",
+              },
+              {
+                  q: "Do you offer product samples?",
+                  a: "We can arrange product demonstrations and samples for qualified salon and barbershop professionals. Reach out to our team via WhatsApp.",
+              },
+          ];
+
     return (
         <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── §1: Hero ─── */}
@@ -65,16 +93,13 @@ export function ContactPageContent() {
                 <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-2xl text-center">
                         <p className="eyebrow">
-                            Contact Us
+                            {dict.contactPage.eyebrow}
                         </p>
                         <h1 className="mt-4 heading-display text-foreground">
-                            Get in Touch
+                            {dict.contactPage.title}
                         </h1>
                         <p className="mt-7 body-prose">
-                            Have a question? That&apos;s our favourite
-                            topic. Whether it&apos;s about products,
-                            partnership, training, or anything else —
-                            our team is ready to help.
+                            {dict.contactPage.description}
                         </p>
                     </div>
                 </div>
@@ -82,22 +107,19 @@ export function ContactPageContent() {
 
             {/* ─── §2: Form + Meet Us ─── */}
             <FadeIn>
-            <section
-                className="bg-background py-14 sm:py-20 lg:py-28"
-            >
+            <section className="bg-background py-14 sm:py-20 lg:py-28">
                 <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
                         {/* Left: Contact Form */}
                         <div className="order-2 lg:order-1">
                             <p className="eyebrow text-text-muted">
-                                Send a Message
+                                {dict.contactPage.formEyebrow}
                             </p>
                             <h2 className="mt-3 heading-section text-foreground">
-                                Tell us about your needs
+                                {dict.contactPage.formTitle}
                             </h2>
                             <p className="mt-4 text-[13px] leading-[1.85] text-text-muted">
-                                Fill out the form below and we&apos;ll
-                                get back to you as soon as possible.
+                                {dict.contactPage.formDescription}
                             </p>
 
                             <div className="mt-8 border border-border-warm/60 bg-background p-5 sm:p-8 lg:p-10">
@@ -108,10 +130,10 @@ export function ContactPageContent() {
                         {/* Right: Meet Us Info Cards */}
                         <div className="order-1 lg:order-2">
                             <p className="eyebrow text-text-muted">
-                                Meet Us
+                                {dict.contactPage.infoEyebrow}
                             </p>
                             <h2 className="mt-3 heading-section text-foreground">
-                                Get in touch directly
+                                {dict.contactPage.infoTitle}
                             </h2>
 
                             <div className="mt-8 space-y-5">
@@ -122,15 +144,11 @@ export function ContactPageContent() {
                                             <MapPin className="h-5 w-5 text-foreground/50" />
                                         </div>
                                         <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
-                                            Our Address
+                                            {isId ? "Alamat Kantor" : "Our Address"}
                                         </p>
                                     </div>
                                     <p className="mt-4 body-prose">
                                         {SITE_ADDRESS}
-                                    </p>
-                                    <p className="mt-1 text-[12px] text-text-muted italic">
-                                        Full address will be updated
-                                        soon
                                     </p>
                                 </div>
 
@@ -170,21 +188,21 @@ export function ContactPageContent() {
                                             <Clock className="h-5 w-5 text-foreground/50" />
                                         </div>
                                         <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
-                                            Operating Hours
+                                            {isId ? "Jam Operasional" : "Operating Hours"}
                                         </p>
                                     </div>
                                     <div className="mt-4 space-y-2.5">
                                         <div className="flex items-center justify-between text-[13px]">
                                             <span className="text-charcoal">
-                                                {OPERATING_HOURS.days}
+                                                {isId ? dict.footer.days : OPERATING_HOURS.days}
                                             </span>
                                             <span className="font-semibold text-foreground">
-                                                {OPERATING_HOURS.hours}
+                                                {isId ? dict.footer.hours : OPERATING_HOURS.hours}
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between text-[13px]">
                                             <span className="text-text-muted">
-                                                {OPERATING_HOURS.note}
+                                                {isId ? dict.footer.note : OPERATING_HOURS.note}
                                             </span>
                                         </div>
                                     </div>
@@ -196,7 +214,7 @@ export function ContactPageContent() {
                                     className="flex w-full items-center justify-center gap-2.5 bg-foreground px-6 py-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-foreground/90"
                                 >
                                     <MessageCircle className="h-4 w-4" />
-                                    Chat on WhatsApp
+                                    {isId ? "Konsultasi via WhatsApp" : "Chat on WhatsApp"}
                                 </WhatsAppCTA>
                             </div>
                         </div>
@@ -209,26 +227,21 @@ export function ContactPageContent() {
 
             {/* ─── §3: FAQ ─── */}
             <FadeIn>
-            <section
-                className="bg-surface py-14 sm:py-20 lg:py-28"
-            >
+            <section className="bg-surface py-14 sm:py-20 lg:py-28">
                 <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
                         {/* Left: heading */}
                         <div>
                             <p className="eyebrow text-text-muted">
-                                FAQ
+                                {dict.contactPage.faqEyebrow}
                             </p>
                             <h2 className="mt-3 heading-section text-foreground">
-                                Frequently Asked
-                                <br />
-                                Questions
+                                {dict.contactPage.faqTitle}
                             </h2>
                             <p className="mt-5 body-prose text-text-muted">
-                                Can&apos;t find what you&apos;re
-                                looking for? Reach out to our team
-                                directly via WhatsApp or the contact
-                                form above.
+                                {isId
+                                    ? "Tidak menemukan jawaban yang Anda cari? Hubungi tim kami langsung via WhatsApp atau formulir kontak."
+                                    : "Can't find what you're looking for? Reach out to our team directly via WhatsApp or the contact form above."}
                             </p>
                         </div>
 
@@ -257,7 +270,6 @@ export function ContactPageContent() {
                 </div>
             </section>
             </FadeIn>
-
         </main>
     );
 }

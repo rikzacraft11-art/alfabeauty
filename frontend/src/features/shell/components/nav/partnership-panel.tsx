@@ -4,26 +4,38 @@ import * as React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
-
-const PARTNERSHIP_ITEMS = [
-    {
-        title: "Salon Partnership",
-        description: "Exclusive pricing, priority access, and dedicated support for your salon.",
-        href: "/partnership",
-    },
-    {
-        title: "Distribution",
-        description: "Become an authorized distributor. Nationwide opportunities available.",
-        href: "/partnership",
-    },
-    {
-        title: "Education Partner",
-        description: "Collaborate with Alfa Beauty Academy to host training programs.",
-        href: "/partnership",
-    },
-];
+import { useLanguage } from "@/shared/components/providers/language-provider";
 
 export const PartnershipPanel = React.memo(function PartnershipPanel() {
+    const { dict, language } = useLanguage();
+
+    const partnershipItems = [
+        {
+            title: language === "id" ? "Kemitraan Salon" : "Salon Partnership",
+            description:
+                language === "id"
+                    ? "Harga khusus B2B, akses produk prioritas, dan dukungan dedikasi untuk salon Anda."
+                    : "Exclusive pricing, priority access, and dedicated support for your salon.",
+            href: "/partnership",
+        },
+        {
+            title: language === "id" ? "Distribusi Resmi" : "Distribution",
+            description:
+                language === "id"
+                    ? "Jadilah distributor resmi terverifikasi. Peluang kemitraan nasional terbuka luas."
+                    : "Become an authorized distributor. Nationwide opportunities available.",
+            href: "/partnership",
+        },
+        {
+            title: language === "id" ? "Mitra Edukasi" : "Education Partner",
+            description:
+                language === "id"
+                    ? "Kolaborasi dengan Alfa Beauty Academy untuk menyelenggarakan program pelatihan teknis."
+                    : "Collaborate with Alfa Beauty Academy to host training programs.",
+            href: "/partnership",
+        },
+    ];
+
     return (
         <div className="mx-auto grid h-[440px] max-w-[1400px] grid-cols-[1.1fr_1fr] gap-0 px-8 py-10 lg:px-12">
             {/* Left: Partnership Showcase */}
@@ -33,13 +45,23 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
 
                 <div className="relative z-10">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-                        Become a Partner
+                        {language === "id" ? "Menjadi Mitra" : "Become a Partner"}
                     </p>
                     <h3 className="mt-2 text-[1.5rem] font-bold leading-tight text-white">
-                        Grow With<br />Indonesia&apos;s Leading<br />Beauty Network
+                        {language === "id" ? (
+                            <>
+                                Berkembang Bersama<br />Jaringan Kecantikan<br />Terdepan Indonesia
+                            </>
+                        ) : (
+                            <>
+                                Grow With<br />Indonesia&apos;s Leading<br />Beauty Network
+                            </>
+                        )}
                     </h3>
                     <p className="mt-3 max-w-[340px] text-[13px] leading-relaxed text-white/50">
-                        Join our network of professional salons, barbershops, and distributors across Indonesia.
+                        {language === "id"
+                            ? "Bergabunglah dengan jaringan salon profesional, barbershop, dan distributor kami di seluruh Indonesia."
+                            : "Join our network of professional salons, barbershops, and distributors across Indonesia."}
                     </p>
                 </div>
 
@@ -50,7 +72,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                             href="/partnership"
                             className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors duration-300 hover:text-white"
                         >
-                            Explore Partnership
+                            {language === "id" ? "Eksplorasi Kemitraan" : "Explore Partnership"}
                             <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </NavigationMenuLink>
@@ -59,7 +81,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
 
             {/* Right: Partnership Types Grid */}
             <div className="grid grid-cols-2 gap-px bg-border-warm/20">
-                {PARTNERSHIP_ITEMS.map((item) => (
+                {partnershipItems.map((item) => (
                     <NavigationMenuLink key={item.title} asChild>
                         <Link
                             href={item.href}
@@ -72,7 +94,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                                 {item.description}
                             </p>
                             <span className="mt-2 inline-flex items-center gap-1 text-[11px] text-muted-foreground/60 transition-colors duration-300 group-hover:text-foreground">
-                                Learn More
+                                {dict.common.learnMore}
                                 <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
                             </span>
                             <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-crimson transition-[width] duration-500 group-hover:w-full" />
@@ -84,13 +106,15 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                 <div className="flex flex-col justify-between bg-background p-5">
                     <div>
                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
-                            Ready to Partner?
+                            {language === "id" ? "Siap Bermitra?" : "Ready to Partner?"}
                         </p>
                         <h4 className="mt-2 text-[14px] font-bold leading-snug">
-                            Get Started Today
+                            {language === "id" ? "Mulai Hari Ini" : "Get Started Today"}
                         </h4>
                         <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground/60">
-                            Contact our partnership team to discuss the best option for your business.
+                            {language === "id"
+                                ? "Hubungi tim kemitraan kami untuk mendiskusikan opsi terbaik bagi bisnis salon Anda."
+                                : "Contact our partnership team to discuss the best option for your business."}
                         </p>
                     </div>
                     <div className="mt-3">
@@ -100,7 +124,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                                 href="/contact"
                                 className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/60 transition-colors duration-300 hover:text-foreground"
                             >
-                                Contact Us
+                                {dict.common.contactUs}
                                 <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </NavigationMenuLink>

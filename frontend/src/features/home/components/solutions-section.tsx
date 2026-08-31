@@ -38,14 +38,15 @@ export function SolutionsSection(): React.JSX.Element {
                             src={sol.bgImage}
                             alt={sol.title}
                             fill
-                            className="object-cover brightness-[0.55] contrast-[1.05]"
+                            unoptimized
+                            className="object-cover brightness-[0.72] contrast-[1.05]"
                             sizes="100vw"
                             priority={idx === 0}
                         />
                     </div>
                 ))}
                 {/* Subtle dark gradient overlay for depth */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/50" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/45" />
             </div>
 
             {/* Interactive Solution Cards Container */}
@@ -63,10 +64,11 @@ export function SolutionsSection(): React.JSX.Element {
                                     src={item.bgImage}
                                     alt={item.title}
                                     fill
-                                    className="object-cover brightness-[0.45] contrast-[1.05]"
+                                    unoptimized
+                                    className="object-cover brightness-[0.55] contrast-[1.05]"
                                     sizes="(max-width: 768px) 100vw, 33vw"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/30" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/25" />
                             </div>
 
                             {/* Card Content (Title + Number + Explore Solution Only - No Copywriting on Mobile) */}
