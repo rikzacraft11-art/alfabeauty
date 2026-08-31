@@ -15,17 +15,17 @@ import { trackEvent } from "@/shared/lib/analytics";
 import { useLanguage } from "@/shared/components/providers/language-provider";
 
 /* ─────────────────────────────────────────────────────────────────────
- * MEGA FOOTER — 1:1 Yucca Reference Parity (.section-footer)
+ * MEGA FOOTER — Option A: Editorial High-Fashion Architecture
  *
  * Visual & Interactive Hierarchy:
- * 1. Top row: "Innovated for Industry Leaders." headline + [ ↑ ] Back-to-Top
+ * 1. Top row: "Innovated for Industry Leaders." headline + Sharp [ ↑ ] Button
  * 2. Middle 4-column strip:
  *    - Col 1: Large Brand Mark
- *    - Col 2, 3, 4: Solution Cards (Smoothing, Coloring, Barber)
- *      - Default: Rounded card with subtle warm background & dark typography.
- *      - Hover: Smoothly morphs into a rounded product card showing the
- *        full-bleed product image background with dark vignette scrim & white centered title.
- *        (Zero paragraph copywriting, 100% 1:1 Yucca fidelity).
+ *    - Col 2, 3, 4: Sharp Solution Cards (Smoothing, Coloring, Barber)
+ *      - Default: Sharp architectural card (rounded-none) with clean index & dark typography.
+ *      - Hover: Smoothly reveals full-bleed product image background with dark vignette scrim,
+ *        crisp white centered title, and expanding bottom crimson hairline.
+ *        (Zero paragraph copywriting, pure editorial precision).
  * 3. Bottom row: Unified legal & social bar with strictly 1 horizontal row of legal links.
  * ───────────────────────────────────────────────────────────────────── */
 
@@ -68,12 +68,12 @@ export function MegaFooter(): React.JSX.Element {
     <>
       {/* ─── Universal Curtain Reveal Footer (z-0 behind z-20 main content, fully clickable) ─── */}
       <footer
-        className="sticky bottom-0 z-0 pointer-events-auto flex min-h-[100dvh] w-full flex-col justify-between bg-[#EDE9E1] text-[#111111] px-6 sm:px-10 lg:px-16 xl:px-20 py-6 sm:py-10 lg:py-14 border-t border-[#D5D0C7] overflow-hidden"
+        className="sticky bottom-0 z-0 pointer-events-auto flex min-h-[100dvh] w-full flex-col justify-between bg-[#FFFFFF] text-[#111111] px-6 sm:px-10 lg:px-16 xl:px-20 py-6 sm:py-10 lg:py-14 border-t border-[#EAE6DF] overflow-hidden"
       >
         <div className="mx-auto flex h-full w-full max-w-[1720px] flex-col justify-between flex-1 gap-6 sm:gap-8">
           
           {/* ═══════════════════════════════════════════════════════
-              DESKTOP LAYOUT (>= 1024px) — 1:1 Yucca Architecture
+              DESKTOP LAYOUT (>= 1024px) — Sharp Editorial Architecture
           ═══════════════════════════════════════════════════════ */}
           <div className="hidden lg:flex flex-col justify-between h-full w-full flex-1 gap-8">
             {/* Desktop Row 1: Header */}
@@ -84,7 +84,7 @@ export function MegaFooter(): React.JSX.Element {
 
               <button
                 onClick={scrollToTop}
-                className="group relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#111111]/20 bg-[#F5F2EB] text-[#111111] transition-all duration-300 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white cursor-pointer shadow-sm active:scale-95"
+                className="group relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-none border border-[#111111]/20 bg-white text-[#111111] transition-all duration-300 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white cursor-pointer shadow-sm active:scale-95"
                 aria-label="Back to top"
               >
                 <div className="relative flex flex-col items-center justify-center">
@@ -94,7 +94,7 @@ export function MegaFooter(): React.JSX.Element {
               </button>
             </div>
 
-            {/* Desktop Row 2: 4-Column Strip with 1:1 Yucca Hover Morphing */}
+            {/* Desktop Row 2: 4-Column Strip with Sharp Editorial Hover Reveal */}
             <div className="grid w-full grid-cols-4 gap-6 xl:gap-8 items-stretch my-auto py-4">
               {/* Column 1: Large Brand Mark */}
               <Link
@@ -116,11 +116,11 @@ export function MegaFooter(): React.JSX.Element {
               </Link>
 
               {/* Columns 2, 3, 4: Solution Cards with Product Background on Hover */}
-              {footerSolutions.map((item) => (
+              {footerSolutions.map((item, idx) => (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="group relative flex aspect-square w-full cursor-pointer items-center justify-center rounded-[28px] xl:rounded-[36px] border border-[#D5D0C7] bg-[#E3DFD7] p-8 xl:p-10 text-center transition-all duration-500 hover:rounded-[44px] hover:border-transparent hover:shadow-[0_20px_48px_rgba(0,0,0,0.22)] active:scale-[0.99] overflow-hidden"
+                  className="group relative flex aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-[#E8E4DC] bg-[#FBF9F6] p-8 xl:p-10 text-center transition-all duration-400 hover:bg-[#FFFFFF] hover:border-[#111111]/30 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] active:scale-[0.99] overflow-hidden"
                 >
                   {/* Hover Product Background Image */}
                   <div className="absolute inset-0 z-0 opacity-0 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-105">
@@ -129,7 +129,7 @@ export function MegaFooter(): React.JSX.Element {
                       alt={item.title}
                       fill
                       unoptimized
-                      className="object-cover brightness-[0.75] contrast-[1.05]"
+                      className="object-cover brightness-[0.72] contrast-[1.05]"
                       sizes="25vw"
                     />
                     {/* Dark Vignette Overlay for Crisp Typography Readability */}
@@ -137,19 +137,25 @@ export function MegaFooter(): React.JSX.Element {
                   </div>
 
                   {/* Centered Typography (No Paragraph Copywriting) */}
-                  <div className="relative z-10 flex flex-col items-center justify-center px-4">
-                    <span className="block text-[1.45rem] xl:text-[1.85rem] font-normal leading-snug tracking-[-0.01em] text-[#111111] transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                  <div className="relative z-10 flex flex-col items-center justify-center gap-3 px-4">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson group-hover:text-[#EABD68] transition-colors duration-300">
+                      0{idx + 1}
+                    </span>
+                    <span className="block text-[1.4rem] xl:text-[1.8rem] font-light leading-snug tracking-[-0.01em] text-[#111111] transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
                       {item.title}
                     </span>
                   </div>
+
+                  {/* Bottom Dual Accent Hairline (Aligned with Section 2) */}
+                  <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-brand-crimson via-[#EABD68] to-transparent transition-[width] duration-400 ease-out group-hover:w-full z-20" />
                 </Link>
               ))}
             </div>
 
             {/* Desktop Row 3: Legal Bar */}
-            <div className="w-full rounded-2xl border border-[#D5D0C7] bg-[#E3DFD7]/60 px-8 py-5 flex items-center justify-between gap-4 text-[13px] text-[#555555]">
+            <div className="w-full rounded-none border-t border-[#EAE6DF] pt-6 pb-2 flex items-center justify-between gap-4 text-[13px] text-[#555555]">
               <div className="flex items-center gap-8">
-                <p className="flex items-center gap-1.5 font-normal text-[#555555]">
+                <p className="flex items-center gap-1.5 font-normal text-[#666666]">
                   <span>©</span>
                   <span>Alfa Beauty {currentYear}. {dict.footer.copyright || (language === "id" ? "Semua Hak Dilindungi" : "All Rights Reserved")}</span>
                 </p>
@@ -183,7 +189,7 @@ export function MegaFooter(): React.JSX.Element {
 
 
           {/* ═══════════════════════════════════════════════════════
-              MOBILE LAYOUT (< 1024px) — 1:1 Yucca Reference Parity
+              MOBILE LAYOUT (< 1024px) — Sharp Editorial Architecture
           ═══════════════════════════════════════════════════════ */}
           <div className="flex lg:hidden flex-col justify-between h-full w-full flex-1 gap-5 py-2">
             
@@ -199,7 +205,7 @@ export function MegaFooter(): React.JSX.Element {
 
               <button
                 onClick={scrollToTop}
-                className="group relative flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl border border-[#111111]/30 bg-[#F5F2EB] text-[#111111] transition-all active:scale-95 shadow-sm"
+                className="group relative flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-none border border-[#111111]/30 bg-white text-[#111111] transition-all active:scale-95 shadow-sm"
                 aria-label="Back to top"
               >
                 <ArrowUp className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -226,7 +232,7 @@ export function MegaFooter(): React.JSX.Element {
               {/* Card 1: Smoothing Solutions */}
               <Link
                 href={footerSolutions[0].href}
-                className="group relative col-span-1 flex items-center justify-center py-5 px-3 sm:py-6 sm:px-4 rounded-2xl border border-[#D5D0C7] bg-[#E3DFD7] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
+                className="group relative col-span-1 flex items-center justify-center py-5 px-3 sm:py-6 sm:px-4 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Image
@@ -247,7 +253,7 @@ export function MegaFooter(): React.JSX.Element {
               {/* Card 2: Coloring Solutions */}
               <Link
                 href={footerSolutions[1].href}
-                className="group relative col-span-1 flex items-center justify-center py-5 px-3 sm:py-6 sm:px-4 rounded-2xl border border-[#D5D0C7] bg-[#E3DFD7] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
+                className="group relative col-span-1 flex items-center justify-center py-5 px-3 sm:py-6 sm:px-4 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Image
@@ -268,7 +274,7 @@ export function MegaFooter(): React.JSX.Element {
               {/* Card 3: Barber Solutions (Full Width Bottom) */}
               <Link
                 href={footerSolutions[2].href}
-                className="group relative col-span-2 flex items-center justify-center py-5 px-4 sm:py-6 sm:px-6 rounded-2xl border border-[#D5D0C7] bg-[#E3DFD7] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
+                className="group relative col-span-2 flex items-center justify-center py-5 px-4 sm:py-6 sm:px-6 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Image
@@ -288,7 +294,7 @@ export function MegaFooter(): React.JSX.Element {
             </div>
 
             {/* Mobile Unified Legal Container Box */}
-            <div className="w-full rounded-2xl border border-[#D5D0C7] bg-[#E3DFD7]/80 p-4 sm:p-5 flex flex-col items-center gap-3 text-center">
+            <div className="w-full rounded-none border border-[#D5D0C7] bg-[#FBF9F6] p-4 sm:p-5 flex flex-col items-center gap-3 text-center">
               {/* Legal Links (Always strictly 1 horizontal row side by side) */}
               <div className="flex flex-nowrap items-center justify-center gap-3 sm:gap-6 text-[10.5px] sm:text-[12.5px] text-[#222222] font-normal w-full">
                 <Link href={NAV_LINKS.contact} className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors">
