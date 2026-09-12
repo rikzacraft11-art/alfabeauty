@@ -90,7 +90,7 @@ export function ContactPageContent() {
         <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── §1: Hero ─── */}
             <section className="bg-surface py-14 sm:py-20 lg:py-28">
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-2xl text-center">
                         <p className="eyebrow">
                             {dict.contactPage.eyebrow}
@@ -108,7 +108,7 @@ export function ContactPageContent() {
             {/* ─── §2: Form + Meet Us ─── */}
             <FadeIn>
             <section className="bg-background py-14 sm:py-20 lg:py-28">
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
                         {/* Left: Contact Form */}
                         <div className="order-2 lg:order-1">
@@ -118,11 +118,11 @@ export function ContactPageContent() {
                             <h2 className="mt-3 heading-section text-foreground">
                                 {dict.contactPage.formTitle}
                             </h2>
-                            <p className="mt-4 text-[13px] leading-[1.85] text-text-muted">
+                            <p className="mt-4 text-body text-text-muted">
                                 {dict.contactPage.formDescription}
                             </p>
 
-                            <div className="mt-8 border border-border-warm/60 bg-background p-5 sm:p-8 lg:p-10">
+                            <div className="mt-8 border border-border-warm/60 bg-background p-4 sm:p-8 lg:p-10">
                                 <ContactForm />
                             </div>
                         </div>
@@ -136,14 +136,14 @@ export function ContactPageContent() {
                                 {dict.contactPage.infoTitle}
                             </h2>
 
-                            <div className="mt-8 space-y-5">
+                            <div className="mt-8 space-y-4 sm:space-y-5">
                                 {/* Address Card */}
-                                <div className="border border-border-warm/60 p-6 transition-all duration-300 hover:shadow-sm">
+                                <div className="border border-border-warm/60 p-5 sm:p-6 transition-all duration-300 hover:shadow-sm">
                                     <div className="flex items-center gap-3">
                                         <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-foreground/5">
                                             <MapPin className="h-5 w-5 text-foreground/50" />
                                         </div>
-                                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <p className="text-eyebrow text-foreground">
                                             {isId ? "Alamat Kantor" : "Our Address"}
                                         </p>
                                     </div>
@@ -153,12 +153,12 @@ export function ContactPageContent() {
                                 </div>
 
                                 {/* Phone & Email Card */}
-                                <div className="border border-border-warm/60 p-6 transition-all duration-300 hover:shadow-sm">
+                                <div className="border border-border-warm/60 p-5 sm:p-6 transition-all duration-300 hover:shadow-sm">
                                     <div className="flex items-center gap-3">
                                         <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-foreground/5">
                                             <Phone className="h-5 w-5 text-foreground/50" />
                                         </div>
-                                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <p className="text-eyebrow text-foreground">
                                             WhatsApp &amp; Email
                                         </p>
                                     </div>
@@ -166,14 +166,14 @@ export function ContactPageContent() {
                                         <WhatsAppCTA
                                             location="contact_phone"
                                             variant="ghost"
-                                            className="flex items-center gap-2 p-0 h-auto text-[14px] font-semibold text-foreground transition-colors duration-300 hover:text-foreground/70 hover:bg-transparent"
+                                            className="flex items-center gap-2 p-0 h-auto min-h-[44px] text-body font-semibold text-foreground transition-colors duration-300 hover:text-foreground/70 hover:bg-transparent"
                                         >
                                             <MessageCircle className="h-4 w-4" />
                                             {WHATSAPP_DISPLAY}
                                         </WhatsAppCTA>
                                         <a
                                             href={`mailto:${CONTACT_EMAIL}`}
-                                            className="flex items-center gap-2 text-[14px] text-charcoal transition-colors hover:text-foreground"
+                                            className="flex items-center gap-2 min-h-[44px] text-body text-charcoal transition-colors hover:text-foreground"
                                         >
                                             <Mail className="h-4 w-4 text-text-muted" />
                                             {CONTACT_EMAIL}
@@ -182,17 +182,17 @@ export function ContactPageContent() {
                                 </div>
 
                                 {/* Operating Times Card */}
-                                <div className="border border-border-warm/60 p-6 transition-all duration-300 hover:shadow-sm">
+                                <div className="border border-border-warm/60 p-5 sm:p-6 transition-all duration-300 hover:shadow-sm">
                                     <div className="flex items-center gap-3">
                                         <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-foreground/5">
                                             <Clock className="h-5 w-5 text-foreground/50" />
                                         </div>
-                                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <p className="text-eyebrow text-foreground">
                                             {isId ? "Jam Operasional" : "Operating Hours"}
                                         </p>
                                     </div>
                                     <div className="mt-4 space-y-2.5">
-                                        <div className="flex items-center justify-between text-[13px]">
+                                        <div className="flex items-center justify-between text-caption">
                                             <span className="text-charcoal">
                                                 {isId ? dict.footer.days : OPERATING_HOURS.days}
                                             </span>
@@ -200,7 +200,7 @@ export function ContactPageContent() {
                                                 {isId ? dict.footer.hours : OPERATING_HOURS.hours}
                                             </span>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px]">
+                                        <div className="flex items-center justify-between text-caption">
                                             <span className="text-text-muted">
                                                 {isId ? dict.footer.note : OPERATING_HOURS.note}
                                             </span>
@@ -211,7 +211,7 @@ export function ContactPageContent() {
                                 {/* Quick WhatsApp */}
                                 <WhatsAppCTA
                                     location="contact_chat"
-                                    className="flex w-full items-center justify-center gap-2.5 bg-foreground px-6 py-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-foreground/90"
+                                    className="flex w-full min-h-[48px] items-center justify-center gap-2.5 bg-foreground px-6 py-3.5 text-cta font-bold text-white transition-all duration-300 hover:bg-foreground/90 active:scale-[0.98]"
                                 >
                                     <MessageCircle className="h-4 w-4" />
                                     {isId ? "Konsultasi via WhatsApp" : "Chat on WhatsApp"}
@@ -228,7 +228,7 @@ export function ContactPageContent() {
             {/* ─── §3: FAQ ─── */}
             <FadeIn>
             <section className="bg-surface py-14 sm:py-20 lg:py-28">
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
                         {/* Left: heading */}
                         <div>
@@ -257,10 +257,10 @@ export function ContactPageContent() {
                                     value={`faq-${i}`}
                                     className="border-b border-border-warm/60"
                                 >
-                                    <AccordionTrigger className="py-5 text-[14px] font-semibold text-foreground hover:no-underline">
+                                    <AccordionTrigger className="min-h-[48px] py-4 sm:py-5 text-left text-subtitle font-semibold text-foreground hover:no-underline">
                                         {faq.q}
                                     </AccordionTrigger>
-                                    <AccordionContent className="text-[14px] leading-[1.85] text-charcoal">
+                                    <AccordionContent className="text-body text-charcoal pb-4">
                                         {faq.a}
                                     </AccordionContent>
                                 </AccordionItem>

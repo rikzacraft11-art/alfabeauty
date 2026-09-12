@@ -82,7 +82,7 @@ export function PartnershipPageContent() {
         <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── §1: Hero ─── */}
             <section className="bg-surface py-14 sm:py-20 lg:py-28">
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-2xl text-center">
                         <p className="eyebrow">
                             Partnership
@@ -107,7 +107,7 @@ export function PartnershipPageContent() {
             <section
                 className="bg-background py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
                         {/* For International Principals */}
                         <div className="border border-border-warm/60 p-6 sm:p-8 transition-all duration-300 hover:shadow-sm lg:p-12">
@@ -115,22 +115,22 @@ export function PartnershipPageContent() {
                                 <div className="flex h-10 w-10 items-center justify-center bg-foreground/5">
                                     <Globe2 className="h-5 w-5 text-foreground/50" />
                                 </div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                <p className="text-eyebrow text-foreground">
                                     For International Principals
                                 </p>
                             </div>
 
-                            <h3 className="mt-7 text-[1.25rem] font-bold leading-[1.2] tracking-[-0.015em] text-foreground">
+                            <h3 className="mt-7 text-h3 font-bold text-foreground">
                                 Expand your reach in Indonesia
                             </h3>
 
                             <div className="mt-8 space-y-6">
                                 {benefitsPrincipal.map((b) => (
                                     <div key={b.title}>
-                                        <p className="text-[14px] font-semibold text-foreground">
+                                        <p className="text-subtitle font-semibold text-foreground">
                                             {b.title}
                                         </p>
-                                        <p className="mt-1.5 text-[13px] leading-[1.75] text-text-muted">
+                                        <p className="mt-1.5 text-body text-text-muted">
                                             {b.desc}
                                         </p>
                                     </div>
@@ -144,23 +144,23 @@ export function PartnershipPageContent() {
                                 <div className="flex h-10 w-10 items-center justify-center bg-foreground/5">
                                     <Store className="h-5 w-5 text-foreground/50" />
                                 </div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                <p className="text-eyebrow text-foreground">
                                     For Professional Salons &amp;
                                     Barbershops
                                 </p>
                             </div>
 
-                            <h3 className="mt-7 text-[1.25rem] font-bold leading-[1.2] tracking-[-0.015em] text-foreground">
+                            <h3 className="mt-7 text-h3 font-bold text-foreground">
                                 Elevate your service quality
                             </h3>
 
                             <div className="mt-8 space-y-6">
                                 {benefitsSalon.map((b) => (
                                     <div key={b.title}>
-                                        <p className="text-[14px] font-semibold text-foreground">
+                                        <p className="text-subtitle font-semibold text-foreground">
                                             {b.title}
                                         </p>
-                                        <p className="mt-1.5 text-[13px] leading-[1.75] text-text-muted">
+                                        <p className="mt-1.5 text-body text-text-muted">
                                             {b.desc}
                                         </p>
                                     </div>
@@ -179,7 +179,7 @@ export function PartnershipPageContent() {
             <section
                 className="bg-background py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="text-center">
                         <p className="eyebrow">
                             Process
@@ -200,13 +200,13 @@ export function PartnershipPageContent() {
                                     <div className="mx-auto flex h-14 w-14 items-center justify-center border border-border-warm/60">
                                         <Icon className="h-6 w-6 text-foreground/40" />
                                     </div>
-                                    <p className="mt-5 text-[2rem] font-bold text-foreground/10">
+                                    <p className="mt-5 text-h1 font-bold text-foreground/10">
                                         {step.step}
                                     </p>
-                                    <h3 className="mt-2 text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                    <h3 className="mt-2 text-cta font-bold text-foreground">
                                         {step.title}
                                     </h3>
-                                    <p className="mt-3 text-[13px] leading-[1.75] text-text-muted">
+                                    <p className="mt-3 text-body text-text-muted">
                                         {step.desc}
                                     </p>
                                 </div>
@@ -223,7 +223,7 @@ export function PartnershipPageContent() {
                 id="become-partner"
                 className="bg-surface py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
                         {/* Left: intro */}
                         <div>
@@ -243,20 +243,20 @@ export function PartnershipPageContent() {
                             <Separator className="my-8 bg-border-warm/40" />
 
                             <div className="space-y-4">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                <p className="text-eyebrow text-foreground">
                                     Prefer to talk directly?
                                 </p>
                                 <WhatsAppCTA
                                     location="partnership_sidebar"
                                     message={`Hi, saya tertarik untuk bermitra dengan ${SITE_SHORT_NAME}.`}
                                     variant="ghost"
-                                    className="inline-flex items-center gap-2 px-0 text-[13px] font-semibold text-foreground transition-colors hover:bg-transparent hover:text-foreground/70"
+                                    className="inline-flex items-center gap-2 px-0 text-cta font-semibold text-foreground transition-colors hover:bg-transparent hover:text-foreground/70"
                                 >
                                     Chat via WhatsApp
                                     <ArrowRight className="h-3.5 w-3.5" />
                                 </WhatsAppCTA>
 
-                                <p className="text-[12px] text-text-muted">
+                                <p className="text-caption text-text-muted">
                                     or email us at{" "}
                                     <a
                                         href={`mailto:${CONTACT_EMAIL}`}
@@ -269,7 +269,7 @@ export function PartnershipPageContent() {
                         </div>
 
                         {/* Right: form */}
-                        <div className="border border-border-warm/60 bg-background p-5 sm:p-8 lg:p-12">
+                        <div className="border border-border-warm/60 bg-background p-4 sm:p-8 lg:p-12">
                             <PartnershipForm />
                         </div>
                     </div>
@@ -282,11 +282,11 @@ export function PartnershipPageContent() {
             <section
                 className="bg-foreground py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 text-center sm:px-8 lg:px-12">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">
+                <div className="mx-auto max-w-[1400px] px-4 text-center sm:px-8 lg:px-12">
+                    <p className="text-eyebrow text-white/50">
                         Our Commitment
                     </p>
-                    <p className="mx-auto mt-8 max-w-2xl text-[16px] leading-[1.85] text-white/70 italic lg:text-[18px]">
+                    <p className="mx-auto mt-8 max-w-2xl text-body-lg text-white/70 italic">
                         &ldquo;{SITE_NAME} is a trusted
                         distribution partner for global professional
                         haircare suppliers and a reliable supplier for

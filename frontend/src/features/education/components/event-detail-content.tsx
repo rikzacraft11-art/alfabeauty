@@ -51,7 +51,7 @@ export function EventDetailContent({
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <nav
                     aria-label="Breadcrumb"
-                    className="flex items-center gap-1.5 py-6 text-[12px] text-text-muted"
+                    className="flex items-center gap-1.5 py-6 text-caption text-text-muted"
                 >
                     <Link
                         href="/"
@@ -84,22 +84,22 @@ export function EventDetailContent({
                             <div className="relative flex aspect-[4/3] sm:aspect-square items-center justify-center border border-border-warm/60 bg-gradient-to-br from-foreground/[0.02] to-foreground/[0.06]">
                                 <div className="text-center">
                                     <Star className="mx-auto h-14 w-14 text-foreground/10" />
-                                    <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                    <p className="mt-4 text-eyebrow font-bold text-text-muted">
                                         {event.brand}
                                     </p>
-                                    <p className="mt-1 text-[11px] text-text-muted">
+                                    <p className="mt-1 text-caption text-text-muted">
                                         Event photo placeholder
                                     </p>
                                 </div>
 
                                 {/* Type badge */}
-                                <span className="absolute left-4 top-4 inline-block bg-foreground px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+                                <span className="absolute left-4 top-4 inline-block bg-foreground px-3 py-1.5 text-tiny font-bold uppercase tracking-[0.2em] text-white">
                                     {getEventTypeLabel(event.type)}
                                 </span>
 
                                 {/* Upcoming badge */}
                                 {event.isUpcoming && (
-                                    <span className="absolute right-4 top-4 inline-block bg-foreground/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+                                    <span className="absolute right-4 top-4 inline-block bg-foreground/80 px-3 py-1.5 text-tiny font-bold uppercase tracking-[0.2em] text-white">
                                         Upcoming
                                     </span>
                                 )}
@@ -113,13 +113,13 @@ export function EventDetailContent({
                         <div className="flex flex-wrap items-center gap-2">
                             <Badge
                                 variant="outline"
-                                className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted"
+                                className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted"
                             >
                                 {event.brand}
                             </Badge>
                             <Badge
                                 variant="outline"
-                                className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted"
+                                className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted"
                             >
                                 {audienceLabel}
                             </Badge>
@@ -137,10 +137,10 @@ export function EventDetailContent({
                         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="border border-border-warm/60 p-5 transition-all duration-300 hover:shadow-sm">
                                 <Calendar className="h-4 w-4 text-foreground/40" />
-                                <p className="mt-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                <p className="mt-2.5 text-eyebrow font-bold text-text-muted">
                                     Date
                                 </p>
-                                <p className="mt-1 text-[13px] font-semibold text-foreground">
+                                <p className="mt-1 text-caption font-semibold text-foreground">
                                     {formatDate(event.date)}
                                     {event.endDate &&
                                         ` – ${formatDate(event.endDate)}`}
@@ -148,28 +148,28 @@ export function EventDetailContent({
                             </div>
                             <div className="border border-border-warm/60 p-5 transition-all duration-300 hover:shadow-sm">
                                 <MapPin className="h-4 w-4 text-foreground/40" />
-                                <p className="mt-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                <p className="mt-2.5 text-eyebrow font-bold text-text-muted">
                                     Location
                                 </p>
-                                <p className="mt-1 text-[13px] font-semibold text-foreground">
+                                <p className="mt-1 text-caption font-semibold text-foreground">
                                     {event.location}
                                 </p>
                             </div>
                             <div className="border border-border-warm/60 p-5 transition-all duration-300 hover:shadow-sm">
                                 <Clock className="h-4 w-4 text-foreground/40" />
-                                <p className="mt-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                <p className="mt-2.5 text-eyebrow font-bold text-text-muted">
                                     Duration
                                 </p>
-                                <p className="mt-1 text-[13px] font-semibold text-foreground">
+                                <p className="mt-1 text-caption font-semibold text-foreground">
                                     {event.duration}
                                 </p>
                             </div>
                             <div className="border border-border-warm/60 p-5 transition-all duration-300 hover:shadow-sm">
                                 <Users className="h-4 w-4 text-foreground/40" />
-                                <p className="mt-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                <p className="mt-2.5 text-eyebrow font-bold text-text-muted">
                                     Capacity
                                 </p>
-                                <p className="mt-1 text-[13px] font-semibold text-foreground">
+                                <p className="mt-1 text-caption font-semibold text-foreground">
                                     {event.capacity} seats
                                 </p>
                             </div>
@@ -177,10 +177,10 @@ export function EventDetailContent({
 
                         {/* Instructor */}
                         <div className="mt-6 border border-border-warm/60 p-5">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                            <p className="text-eyebrow font-bold text-text-muted">
                                 Instructor / Led by
                             </p>
-                            <p className="mt-1.5 text-[14px] font-semibold text-foreground">
+                            <p className="mt-1.5 text-subtitle font-semibold text-foreground">
                                 {event.instructor}
                             </p>
                         </div>
@@ -190,12 +190,12 @@ export function EventDetailContent({
                             <WhatsAppCTA
                                 location="event_register"
                                 message={whatsappMessage}
-                                className="mt-8 flex w-full items-center justify-center gap-2.5 bg-foreground px-8 py-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-foreground/90"
+                                className="mt-8 flex min-h-[48px] w-full items-center justify-center gap-2.5 bg-foreground px-8 py-3.5 text-cta font-bold text-white transition-all duration-300 hover:bg-foreground/90"
                             >
                                 Register via WhatsApp
                             </WhatsAppCTA>
                         ) : (
-                            <div className="mt-8 flex w-full items-center justify-center gap-2 bg-surface px-8 py-4 text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                            <div className="mt-8 flex min-h-[48px] w-full items-center justify-center gap-2 bg-surface px-8 py-3.5 text-cta font-bold text-text-muted">
                                 Event has ended
                             </div>
                         )}
@@ -204,7 +204,7 @@ export function EventDetailContent({
 
                         {/* Long description */}
                         <div>
-                            <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                            <h2 className="text-eyebrow font-bold text-foreground">
                                 About This Event
                             </h2>
                             <p className="mt-5 body-prose">
@@ -215,7 +215,7 @@ export function EventDetailContent({
                         {/* Highlights */}
                         {event.highlights.length > 0 && (
                             <div className="mt-12">
-                                <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                <h2 className="text-eyebrow font-bold text-foreground">
                                     What You&apos;ll Learn
                                 </h2>
                                 <div className="mt-5 space-y-3">
@@ -225,10 +225,10 @@ export function EventDetailContent({
                                                 key={highlight}
                                                 className="flex items-start gap-4 border border-border-warm/60 p-5 transition-all duration-300 hover:shadow-sm"
                                             >
-                                                <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-foreground text-[11px] font-bold text-white">
+                                                <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-foreground text-tiny font-bold text-white">
                                                     {i + 1}
                                                 </span>
-                                                <p className="text-[14px] leading-[1.75] text-charcoal">
+                                                <p className="text-body leading-[1.75] text-charcoal">
                                                     {highlight}
                                                 </p>
                                             </div>
@@ -240,10 +240,10 @@ export function EventDetailContent({
 
                         {/* Help section */}
                         <div className="mt-12 bg-surface p-7">
-                            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                            <p className="text-eyebrow font-bold text-foreground">
                                 Questions about this event?
                             </p>
-                            <p className="mt-3 text-[13px] leading-[1.85] text-text-muted">
+                            <p className="mt-3 text-body leading-[1.85] text-text-muted">
                                 Contact our education team for more
                                 information about this event, custom
                                 training sessions, or group registrations.
@@ -252,7 +252,7 @@ export function EventDetailContent({
                                 location="event_help"
                                 message={`Hi, saya ingin bertanya tentang event "${event.title}".`}
                                 variant="ghost"
-                                className="mt-4 inline-flex items-center gap-2 p-0 h-auto text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors hover:text-foreground/70 hover:bg-transparent"
+                                className="mt-4 inline-flex items-center gap-2 p-0 h-auto text-cta font-bold text-foreground transition-colors hover:text-foreground/70 hover:bg-transparent"
                             >
                                 Chat with us
                             </WhatsAppCTA>
@@ -285,11 +285,11 @@ export function EventDetailContent({
                                     <div className="relative flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-surface to-surface-elevated">
                                         <div className="text-center">
                                             <Calendar className="mx-auto h-8 w-8 text-text-muted/20" />
-                                            <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                            <p className="mt-2 text-eyebrow font-bold text-text-muted">
                                                 {rel.brand}
                                             </p>
                                         </div>
-                                        <span className="absolute left-3 top-3 inline-block bg-foreground px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                                        <span className="absolute left-3 top-3 inline-block bg-foreground px-2.5 py-1.5 text-tiny font-bold uppercase tracking-[0.2em] text-white">
                                             {getEventTypeLabel(
                                                 rel.type
                                             )}
@@ -297,14 +297,14 @@ export function EventDetailContent({
                                     </div>
 
                                     <div className="p-6">
-                                        <p className="text-[11px] text-text-muted">
+                                        <p className="text-caption text-text-muted">
                                             {formatDate(rel.date)} ·{" "}
                                             {rel.location}
                                         </p>
-                                        <h3 className="mt-2.5 text-[14px] font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70">
+                                        <h3 className="mt-2.5 text-subtitle font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70">
                                             {rel.title}
                                         </h3>
-                                        <div className="mt-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <div className="mt-4 flex items-center gap-2 text-cta font-bold text-foreground">
                                             View Details
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                                         </div>

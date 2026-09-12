@@ -50,7 +50,7 @@ export function ArticleDetailContent({
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <nav
                     aria-label="Breadcrumb"
-                    className="flex items-center gap-1.5 py-6 text-[12px] text-text-muted"
+                    className="flex items-center gap-1.5 py-6 text-caption text-text-muted"
                 >
                     <Link
                         href="/"
@@ -78,10 +78,10 @@ export function ArticleDetailContent({
             <article className="mx-auto max-w-3xl px-6 py-14 sm:px-8 lg:py-20">
                 {/* Category & read time */}
                 <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">
+                    <span className="text-eyebrow font-bold text-foreground/40">
                         {article.category}
                     </span>
-                    <span className="flex items-center gap-1.5 text-[11px] text-text-muted">
+                    <span className="flex items-center gap-1.5 text-caption text-text-muted">
                         <Clock className="h-3 w-3" />
                         {article.readTime}
                     </span>
@@ -98,22 +98,22 @@ export function ArticleDetailContent({
                         <User className="h-5 w-5 text-text-muted/40" />
                     </div>
                     <div>
-                        <p className="text-[13px] font-semibold text-foreground">
+                        <p className="text-caption font-semibold text-foreground">
                             {article.author}
                         </p>
-                        <p className="text-[12px] text-text-muted">
+                        <p className="text-caption text-text-muted">
                             {formatDate(article.date)}
                         </p>
                     </div>
                 </div>
 
                 {/* Excerpt */}
-                <p className="mt-10 text-[15px] font-medium leading-[1.85] text-charcoal italic lg:text-[16px]">
+                <p className="mt-10 text-subtitle font-medium leading-[1.85] text-charcoal italic">
                     {article.excerpt}
                 </p>
 
                 {/* Body prose */}
-                <div className="mt-10 text-[14px] leading-[1.9] text-charcoal whitespace-pre-line lg:text-[15px]">
+                <div className="mt-10 text-body leading-[1.9] text-charcoal whitespace-pre-line">
                     {article.content}
                 </div>
 
@@ -123,7 +123,7 @@ export function ArticleDetailContent({
                         <Badge
                             key={tag}
                             variant="outline"
-                            className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted"
+                            className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted"
                         >
                             {tag}
                         </Badge>
@@ -134,10 +134,10 @@ export function ArticleDetailContent({
 
                 {/* WhatsApp CTA */}
                 <FadeIn className="bg-surface p-8 text-center lg:p-10">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                    <p className="text-eyebrow font-bold text-foreground">
                         Questions about this topic?
                     </p>
-                    <p className="mx-auto mt-3 max-w-md text-[13px] leading-[1.85] text-text-muted">
+                    <p className="mx-auto mt-3 max-w-md text-body leading-[1.85] text-text-muted">
                         Our technical team is ready to help you implement
                         what you&apos;ve learned. Get in touch for
                         personalized advice.
@@ -145,7 +145,7 @@ export function ArticleDetailContent({
                     <WhatsAppCTA
                         location="article_detail"
                         message={`Hi, saya ingin bertanya tentang artikel "${article.title}".`}
-                        className="mt-6 inline-flex items-center gap-2.5 bg-foreground px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-foreground/90"
+                        className="mt-6 inline-flex min-h-[48px] items-center gap-2.5 bg-foreground px-8 py-3.5 text-cta font-bold text-white transition-all duration-300 hover:bg-foreground/90"
                     >
                         Consult via WhatsApp
                     </WhatsAppCTA>
@@ -179,23 +179,23 @@ export function ArticleDetailContent({
 
                                     <div className="p-7">
                                         <div className="flex items-center gap-3">
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">
+                                            <span className="text-eyebrow font-bold text-foreground/40">
                                                 {rel.category}
                                             </span>
-                                            <span className="text-[11px] text-text-muted">
+                                            <span className="text-caption text-text-muted">
                                                 {rel.readTime}
                                             </span>
                                         </div>
 
-                                        <h3 className="mt-3 text-[14px] font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70 line-clamp-2">
+                                        <h3 className="mt-3 text-subtitle font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70 line-clamp-2">
                                             {rel.title}
                                         </h3>
 
-                                        <p className="mt-2 text-[13px] leading-[1.75] text-text-muted line-clamp-2">
+                                        <p className="mt-2 text-body leading-[1.75] text-text-muted line-clamp-2">
                                             {rel.excerpt}
                                         </p>
 
-                                        <div className="mt-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <div className="mt-5 flex items-center gap-2 text-cta font-bold text-foreground">
                                             Read Article
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                                         </div>

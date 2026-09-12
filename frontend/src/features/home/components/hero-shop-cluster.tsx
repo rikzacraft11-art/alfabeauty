@@ -26,7 +26,8 @@ export function HeroShopCluster(): React.JSX.Element {
 
     React.useEffect(() => {
         const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (prefersReduced) return;
+        const isMobile = window.innerWidth < 768;
+        if (prefersReduced || isMobile) return;
 
         const handleUserInteraction = () => {
             // User resumed manual input: cancel any programmatic snap immediately

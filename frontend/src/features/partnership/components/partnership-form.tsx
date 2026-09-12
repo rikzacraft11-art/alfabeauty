@@ -299,7 +299,7 @@ export function PartnershipForm(): React.JSX.Element {
                         >
                             <SelectTrigger
                                 className={cn(
-                                    "w-full border bg-background py-2.5 text-sm",
+                                    "w-full min-h-[44px] sm:min-h-[40px] border bg-background px-4 py-2.5 text-base sm:text-sm",
                                     errors.salon_type
                                         ? "border-brand-crimson"
                                         : "border-border-warm"
@@ -450,7 +450,7 @@ export function PartnershipForm(): React.JSX.Element {
                                         )
                                     }
                                 >
-                                    <SelectTrigger className="w-full border border-border-warm bg-background py-2.5 text-sm">
+                                    <SelectTrigger className="w-full min-h-[44px] sm:min-h-[40px] border border-border-warm bg-background px-4 py-2.5 text-base sm:text-sm">
                                         <SelectValue placeholder="Select range" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -557,7 +557,7 @@ export function PartnershipForm(): React.JSX.Element {
             <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex w-full items-center justify-center gap-2 bg-brand-crimson px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] text-white hover:bg-brand-dark-crimson disabled:opacity-60 disabled:cursor-not-allowed sm:w-auto"
+                className="flex w-full min-h-[48px] items-center justify-center gap-2 bg-brand-crimson px-8 py-3.5 text-cta font-bold text-white hover:bg-brand-dark-crimson disabled:opacity-60 disabled:cursor-not-allowed sm:w-auto active:scale-[0.99] transition-transform"
             >
                 {isSubmitting ? (
                     <>

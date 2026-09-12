@@ -44,10 +44,10 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
                 <div className="relative z-10">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                    <p className="text-tiny font-bold tracking-[0.2em] text-white/40">
                         {language === "id" ? "Menjadi Mitra" : "Become a Partner"}
                     </p>
-                    <h3 className="mt-2 text-[1.5rem] font-bold leading-tight text-white">
+                    <h3 className="mt-2 text-h3 font-bold leading-tight text-white">
                         {language === "id" ? (
                             <>
                                 Berkembang Bersama<br />Jaringan Kecantikan<br />Terdepan Indonesia
@@ -58,7 +58,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                             </>
                         )}
                     </h3>
-                    <p className="mt-3 max-w-[340px] text-[13px] leading-relaxed text-white/50">
+                    <p className="mt-3 max-w-[340px] text-caption leading-relaxed text-white/50">
                         {language === "id"
                             ? "Bergabunglah dengan jaringan salon profesional, barbershop, dan distributor kami di seluruh Indonesia."
                             : "Join our network of professional salons, barbershops, and distributors across Indonesia."}
@@ -70,7 +70,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                     <NavigationMenuLink asChild>
                         <Link
                             href="/partnership"
-                            className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors duration-300 hover:text-white"
+                            className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-cta font-bold text-white/60 transition-colors duration-300 hover:text-white"
                         >
                             {language === "id" ? "Eksplorasi Kemitraan" : "Explore Partnership"}
                             <ArrowRight className="h-3.5 w-3.5" />
@@ -87,13 +87,13 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                             href={item.href}
                             className="group relative flex min-h-[120px] flex-col justify-end overflow-hidden bg-background p-5"
                         >
-                            <h4 className="text-[13px] font-bold leading-snug group-hover:underline underline-offset-4 decoration-foreground/30">
+                            <h4 className="text-subtitle font-bold leading-snug group-hover:underline underline-offset-4 decoration-foreground/30">
                                 {item.title}
                             </h4>
-                            <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground/60 transition-colors duration-300 group-hover:text-muted-foreground">
+                            <p className="mt-1.5 text-caption leading-relaxed text-muted-foreground/60 transition-colors duration-300 group-hover:text-muted-foreground">
                                 {item.description}
                             </p>
-                            <span className="mt-2 inline-flex items-center gap-1 text-[11px] text-muted-foreground/60 transition-colors duration-300 group-hover:text-foreground">
+                            <span className="mt-2 inline-flex items-center gap-1 text-cta text-muted-foreground/60 transition-colors duration-300 group-hover:text-foreground">
                                 {dict.common.learnMore}
                                 <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
                             </span>
@@ -105,13 +105,13 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                 {/* CTA cell */}
                 <div className="flex flex-col justify-between bg-background p-5">
                     <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
+                        <p className="text-tiny font-bold tracking-[0.2em] text-muted-foreground/50">
                             {language === "id" ? "Siap Bermitra?" : "Ready to Partner?"}
                         </p>
-                        <h4 className="mt-2 text-[14px] font-bold leading-snug">
+                        <h4 className="mt-2 text-subtitle font-bold leading-snug">
                             {language === "id" ? "Mulai Hari Ini" : "Get Started Today"}
                         </h4>
-                        <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground/60">
+                        <p className="mt-1.5 text-caption leading-relaxed text-muted-foreground/60">
                             {language === "id"
                                 ? "Hubungi tim kemitraan kami untuk mendiskusikan opsi terbaik bagi bisnis salon Anda."
                                 : "Contact our partnership team to discuss the best option for your business."}
@@ -122,7 +122,7 @@ export const PartnershipPanel = React.memo(function PartnershipPanel() {
                         <NavigationMenuLink asChild>
                             <Link
                                 href="/contact"
-                                className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/60 transition-colors duration-300 hover:text-foreground"
+                                className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-cta font-bold text-foreground/60 transition-colors duration-300 hover:text-foreground"
                             >
                                 {dict.common.contactUs}
                                 <ArrowRight className="h-3.5 w-3.5" />

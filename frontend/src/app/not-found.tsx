@@ -17,7 +17,7 @@ export default function NotFound(): React.JSX.Element {
             <Button
               asChild
               size="lg"
-              className="bg-foreground px-8 py-6 text-[11px] font-bold uppercase tracking-[0.2em] text-white hover:bg-foreground/90"
+              className="bg-foreground px-8 py-6 text-cta font-bold text-white hover:bg-foreground/90"
             >
               <Link href="/">
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -28,7 +28,7 @@ export default function NotFound(): React.JSX.Element {
               asChild
               variant="outline"
               size="lg"
-              className="border-border-warm px-8 py-6 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300"
+              className="border-border-warm px-8 py-6 text-cta font-bold transition-colors duration-300"
             >
               <Link href="/shop">Browse Products</Link>
             </Button>

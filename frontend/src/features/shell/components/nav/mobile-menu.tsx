@@ -75,11 +75,11 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
             aria-label="Mobile navigation"
         >
             {/* Header */}
-            <div className="flex h-[var(--header-height,80px)] items-center justify-between border-b border-border-warm/40 px-6">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{dict.nav.menu}</span>
+            <div className="flex h-[var(--header-height,56px)] items-center justify-between border-b border-border-warm/40 px-6 pt-[env(safe-area-inset-top,0px)]">
+                <span className="text-eyebrow">{dict.nav.menu}</span>
                 <button
                     onClick={onClose}
-                    className="flex h-10 w-10 items-center justify-center text-foreground/60 transition-colors duration-300 hover:text-foreground"
+                    className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center text-foreground/60 transition-colors duration-300 hover:text-foreground active:scale-95"
                     aria-label="Close menu"
                 >
                     <X className="h-5 w-5" />
@@ -99,7 +99,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                             <div>
                                 <button
                                     onClick={() => toggleSection(section.label)}
-                                    className="flex w-full items-center justify-between px-6 py-3.5 text-left text-[12px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 hover:bg-muted/40"
+                                    className="flex w-full min-h-[48px] items-center justify-between px-6 py-3.5 text-left text-cta font-bold transition-colors duration-200 hover:bg-muted/40 active:bg-muted/60"
                                 >
                                     {section.label}
                                     <ChevronRight
@@ -124,7 +124,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                                                         key={child.label}
                                                         href={child.href}
                                                         onClick={onClose}
-                                                        className="block py-2.5 text-[12px] text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                                                        className="flex min-h-[40px] items-center py-2 text-caption font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground active:text-brand-crimson"
                                                     >
                                                         {child.label}
                                                     </Link>
@@ -138,7 +138,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                             <Link
                                 href={section.href}
                                 onClick={onClose}
-                                className="flex items-center px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 hover:bg-muted/40"
+                                className="flex min-h-[48px] items-center px-6 py-3.5 text-cta font-bold transition-colors duration-200 hover:bg-muted/40 active:bg-muted/60"
                             >
                                 {section.label}
                             </Link>
@@ -152,7 +152,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                     <Link
                         href="/partnership"
                         onClick={onClose}
-                        className="flex items-center justify-between p-3 rounded-lg border border-border-warm/60 bg-surface text-xs font-semibold uppercase tracking-[0.12em] text-foreground hover:bg-surface-elevated transition-colors"
+                        className="flex min-h-[44px] items-center justify-between p-3 rounded-lg border border-border-warm/60 bg-surface text-cta font-semibold text-foreground hover:bg-surface-elevated active:scale-[0.98] transition-all"
                     >
                         <span className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-brand-crimson" />
@@ -164,7 +164,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                     <Link
                         href="/partnership"
                         onClick={onClose}
-                        className="flex items-center justify-between p-3 rounded-lg bg-foreground text-white text-xs font-semibold uppercase tracking-[0.12em] hover:bg-foreground/90 transition-colors"
+                        className="flex min-h-[44px] items-center justify-between p-3 rounded-lg bg-foreground text-white text-cta font-semibold hover:bg-foreground/90 active:scale-[0.98] transition-all"
                     >
                         <span>{dict.nav.partnerLogin}</span>
                         <ArrowRight className="h-3.5 w-3.5 text-white/80" />
@@ -172,10 +172,10 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                 </motion.div>
             </div>
 
-            {/* Bottom Section */}
+            {/* Bottom Section with Safe-Area Inset */}
             <motion.div
                 variants={mobileMenuItemFade}
-                className="border-t border-border-warm/30 p-5"
+                className="border-t border-border-warm/30 p-5 pb-[max(1.25rem,calc(env(safe-area-inset-bottom,0px)+0.75rem))]"
             >
                 <a
                     href={WHATSAPP_URL}
@@ -185,7 +185,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                         trackEvent("cta_whatsapp_click", { location: "mobile_menu" });
                         onClose();
                     }}
-                    className="flex w-full items-center justify-center gap-2 border border-border-warm/80 bg-surface-elevated py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-300 hover:bg-muted/40"
+                    className="flex w-full min-h-[44px] items-center justify-center gap-2 border border-border-warm/80 bg-surface-elevated py-3 text-cta font-bold text-foreground transition-colors duration-200 hover:bg-muted/40 active:scale-[0.98]"
                 >
                     <MessageCircle className="h-3.5 w-3.5 text-whatsapp" />
                     {dict.common.whatsappConsultation}
@@ -198,7 +198,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                             key={pillar.label}
                             href={pillar.href}
                             onClick={onClose}
-                            className="py-2 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70 transition-colors duration-300 hover:text-foreground"
+                            className="flex min-h-[40px] items-center justify-center py-2 text-center text-tiny font-semibold uppercase tracking-[0.12em] text-muted-foreground/70 transition-colors duration-200 hover:text-foreground active:text-foreground"
                         >
                             {pillar.label}
                         </Link>

@@ -51,7 +51,7 @@ export function AnimatedButton({
     // Match shadcn button styling
     "btn-animated group/btn inline-flex items-center justify-center",
     "h-10 px-8 py-6",
-    "text-[11px] font-bold uppercase tracking-[0.15em]",
+    "text-cta font-bold",
     "rounded-sm transition-colors",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
     "disabled:pointer-events-none disabled:opacity-50",

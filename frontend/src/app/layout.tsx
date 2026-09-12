@@ -33,6 +33,7 @@ export const viewport: Viewport = {
   themeColor: "#5D221C",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
@@ -135,7 +136,7 @@ export default async function RootLayout({
                 {/* Skip to main content — keyboard accessibility */}
                 <a
                   href="#main-content"
-                  className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-foreground focus:px-6 focus:py-3 focus:text-[11px] focus:font-bold focus:uppercase focus:tracking-[0.2em] focus:text-white"
+                  className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-foreground focus:px-6 focus:py-3 focus:text-cta focus:font-bold focus:text-white"
                 >
                   Skip to content
                 </a>

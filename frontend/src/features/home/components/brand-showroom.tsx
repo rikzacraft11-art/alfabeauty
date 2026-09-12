@@ -25,6 +25,18 @@ export function BrandShowroom(): React.JSX.Element {
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const [scrollProgress, setScrollProgress] = React.useState(0);
 
+    const handleNextBrand = React.useCallback(() => {
+        const idx = brands.findIndex((b) => b.id === activeId);
+        const nextIdx = (idx + 1) % brands.length;
+        setActiveId(brands[nextIdx].id);
+    }, [brands, activeId]);
+
+    const handlePrevBrand = React.useCallback(() => {
+        const idx = brands.findIndex((b) => b.id === activeId);
+        const prevIdx = (idx - 1 + brands.length) % brands.length;
+        setActiveId(brands[prevIdx].id);
+    }, [brands, activeId]);
+
     const handleScroll = React.useCallback(() => {
         const el = scrollContainerRef.current;
         if (!el) return;
@@ -56,13 +68,13 @@ export function BrandShowroom(): React.JSX.Element {
                         >
                             {/* Eyebrow */}
                             <div className="mb-4 sm:mb-6">
-                                <span className="inline-block text-[10.5px] font-bold uppercase tracking-[0.25em] text-[#B38728]">
+                                <span className="inline-block text-tiny font-bold uppercase tracking-[0.25em] text-[#B38728]">
                                     {activeBrand.name}
                                 </span>
                             </div>
 
                             {/* Main Serif Headline */}
-                            <h2 className="text-[2.2rem] sm:text-[3rem] lg:text-[3.4rem] xl:text-[4rem] font-light leading-[1.12] tracking-[-0.03em] text-[#111111]">
+                            <h2 className="text-h2 font-light text-[#111111]">
                                 {activeBrand.headline.split("&")[0]}
                                 {activeBrand.headline.includes("&") && (
                                     <span className="font-serif italic text-[#333333] font-normal">
@@ -72,7 +84,7 @@ export function BrandShowroom(): React.JSX.Element {
                             </h2>
 
                             {/* Refined Description */}
-                            <p className="mt-6 text-[14px] sm:text-[15.5px] font-normal leading-relaxed text-[#666666]">
+                            <p className="mt-6 text-body font-normal text-[#666666]">
                                 {activeBrand.description}
                             </p>
                         </motion.div>
@@ -88,7 +100,14 @@ export function BrandShowroom(): React.JSX.Element {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                            className="absolute inset-0 w-full h-full"
+                            onPanEnd={(_, info) => {
+                                if (info.offset.x < -30) {
+                                    handleNextBrand();
+                                } else if (info.offset.x > 30) {
+                                    handlePrevBrand();
+                                }
+                            }}
+                            className="absolute inset-0 w-full h-full touch-pan-y"
                         >
                             <Image
                                 src={activeBrand.editorialImage}
@@ -108,7 +127,7 @@ export function BrandShowroom(): React.JSX.Element {
                     <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20">
                         <Link
                             href={activeBrand.href}
-                            className="group inline-flex items-center gap-2 text-[11.5px] sm:text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white border-b border-white/80 pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-white hover:text-white"
+                            className="group inline-flex min-h-[44px] items-center gap-2 text-cta font-semibold text-white border-b border-white/80 pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-white hover:text-white active:scale-[0.98]"
                         >
                             <span>{activeBrand.subheading}</span>
                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -126,7 +145,7 @@ export function BrandShowroom(): React.JSX.Element {
 
                     {/* Left Label (Without Colon, Bilingual) */}
                     <div className="text-center md:text-left shrink-0">
-                        <p className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight max-w-[160px]">
+                        <p className="text-tiny font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight max-w-[160px]">
                             {dict.brandShowroom.brandPortfolioLabel}
                         </p>
                     </div>
@@ -145,7 +164,7 @@ export function BrandShowroom(): React.JSX.Element {
                                         key={brand.id}
                                         type="button"
                                         onClick={() => setActiveId(brand.id)}
-                                        className={`group relative flex flex-col items-center py-2 shrink-0 transition-all duration-300 cursor-pointer ${isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
+                                        className={`group relative flex min-h-[44px] flex-col items-center justify-center px-2 py-2 shrink-0 transition-all duration-300 cursor-pointer active:scale-95 ${isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
                                             }`}
                                         title={`Select ${brand.name}`}
                                     >

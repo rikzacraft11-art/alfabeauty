@@ -54,7 +54,7 @@ export const EducationPanel = React.memo(function EducationPanel() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
                 <div className="relative z-10">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                    <p className="text-tiny font-bold tracking-[0.2em] text-white/40">
                         {featured
                             ? (language === "id" ? "Event Unggulan" : "Featured Event")
                             : "Alfa Beauty Academy"}
@@ -62,10 +62,10 @@ export const EducationPanel = React.memo(function EducationPanel() {
 
                     {featured ? (
                         <>
-                            <h3 className="mt-2 text-[1.5rem] font-bold leading-tight text-white">
+                            <h3 className="mt-2 text-h3 font-bold leading-tight text-white">
                                 {featured.title}
                             </h3>
-                            <div className="mt-2 flex items-center gap-2 text-[11px] text-white/40">
+                            <div className="mt-2 flex items-center gap-2 text-caption text-white/40">
                                 <Calendar className="h-3 w-3" />
                                 <span>
                                     {new Date(featured.date).toLocaleDateString(language === "id" ? "id-ID" : "en-GB", {
@@ -86,13 +86,13 @@ export const EducationPanel = React.memo(function EducationPanel() {
                                 <span>·</span>
                                 <span>{featured.location}</span>
                             </div>
-                            <p className="mt-3 max-w-[340px] text-[13px] leading-relaxed text-white/50">
+                            <p className="mt-3 max-w-[340px] text-caption leading-relaxed text-white/50">
                                 {featured.description}
                             </p>
                         </>
                     ) : (
                         <>
-                            <h3 className="mt-2 text-[1.5rem] font-bold leading-tight text-white">
+                            <h3 className="mt-2 text-h3 font-bold leading-tight text-white">
                                 {language === "id" ? (
                                     <>
                                         Tingkatkan Keahlian<br />Profesional Anda
@@ -103,7 +103,7 @@ export const EducationPanel = React.memo(function EducationPanel() {
                                     </>
                                 )}
                             </h3>
-                            <p className="mt-3 max-w-[340px] text-[13px] leading-relaxed text-white/50">
+                            <p className="mt-3 max-w-[340px] text-caption leading-relaxed text-white/50">
                                 {language === "id"
                                     ? "Program edukasi profesional yang dirancang untuk pertumbuhan salon dan industri barber."
                                     : "Professional education programs designed for salon and barber industry growth."}
@@ -117,7 +117,7 @@ export const EducationPanel = React.memo(function EducationPanel() {
                     <NavigationMenuLink asChild>
                         <Link
                             href={featured ? `/education/events/${featured.id}` : "/education"}
-                            className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors duration-300 hover:text-white"
+                            className="flex flex-row items-center justify-between gap-0 rounded-none p-0 text-cta font-bold text-white/60 transition-colors duration-300 hover:text-white"
                         >
                             {featured
                                 ? (language === "id" ? "Lihat Detail Event" : "View Event Details")
@@ -136,13 +136,13 @@ export const EducationPanel = React.memo(function EducationPanel() {
                             href={item.href}
                             className="group relative flex min-h-[120px] flex-col justify-end overflow-hidden bg-background p-5"
                         >
-                            <h4 className="text-[13px] font-bold leading-snug group-hover:underline underline-offset-4 decoration-foreground/30">
+                            <h4 className="text-subtitle font-bold leading-snug group-hover:underline underline-offset-4 decoration-foreground/30">
                                 {item.title}
                             </h4>
-                            <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground/60 transition-colors duration-300 group-hover:text-muted-foreground">
+                            <p className="mt-1.5 text-caption leading-relaxed text-muted-foreground/60 transition-colors duration-300 group-hover:text-muted-foreground">
                                 {item.description}
                             </p>
-                            <span className="mt-2 inline-flex items-center gap-1 text-[11px] text-muted-foreground/60 transition-colors duration-300 group-hover:text-foreground">
+                            <span className="mt-2 inline-flex items-center gap-1 text-cta text-muted-foreground/60 transition-colors duration-300 group-hover:text-foreground">
                                 {dict.common.explore}
                                 <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
                             </span>

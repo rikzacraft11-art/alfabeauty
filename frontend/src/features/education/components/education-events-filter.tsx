@@ -60,7 +60,7 @@ export function EducationEventsFilter({
                         aria-label="Search events"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full border border-border-warm/60 bg-background py-2.5 pl-10 pr-4 text-[13px] outline-none transition-colors focus:border-foreground"
+                        className="w-full border border-border-warm/60 bg-background py-2.5 pl-10 pr-4 text-base sm:text-caption outline-none transition-colors focus:border-foreground"
                     />
                 </div>
             </div>
@@ -94,10 +94,10 @@ export function EducationEventsFilter({
             {filteredEvents.length === 0 && (
                 <div className="mt-10 py-16 text-center">
                     <Scissors className="mx-auto h-10 w-10 text-text-muted/20" />
-                    <p className="mt-4 text-[14px] font-semibold text-foreground">
+                    <p className="mt-4 text-subtitle font-semibold text-foreground">
                         No events found
                     </p>
-                    <p className="mt-1.5 text-[13px] text-text-muted">
+                    <p className="mt-1.5 text-caption text-text-muted">
                         Try adjusting your filters or search terms.
                     </p>
                     <Button
@@ -106,7 +106,7 @@ export function EducationEventsFilter({
                             setActiveFilter("all");
                             setSearchQuery("");
                         }}
-                        className="mt-5 text-[12px] font-semibold text-foreground underline underline-offset-4 hover:text-foreground/70"
+                        className="mt-5 text-caption font-semibold text-foreground underline underline-offset-4 hover:text-foreground/70"
                     >
                         Clear all filters
                     </Button>
@@ -128,19 +128,19 @@ function EventCard({ event }: { event: EducationEvent }) {
             <div className="relative flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-surface to-surface-elevated">
                 <div className="text-center">
                     <Calendar className="mx-auto h-8 w-8 text-text-muted/20" />
-                    <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                    <p className="mt-2 text-tiny font-bold tracking-[0.2em] text-text-muted">
                         {event.brand}
                     </p>
                 </div>
                 {/* Type badge */}
-                <span className="absolute left-3 top-3 inline-block bg-foreground px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                <span className="absolute left-3 top-3 inline-block bg-foreground px-2.5 py-1.5 text-tiny font-bold tracking-[0.2em] text-white">
                     {getEventTypeLabel(event.type)}
                 </span>
             </div>
 
             <div className="p-6">
                 {/* Date row */}
-                <div className="flex flex-wrap items-center gap-3 text-[11px] text-text-muted">
+                <div className="flex flex-wrap items-center gap-3 text-caption text-text-muted">
                     <span className="flex items-center gap-1.5">
                         <Calendar className="h-3 w-3" />
                         {formatDate(event.date)}
@@ -151,11 +151,11 @@ function EventCard({ event }: { event: EducationEvent }) {
                     </span>
                 </div>
 
-                <h3 className="mt-3 text-[14px] font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70">
+                <h3 className="mt-3 text-subtitle font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70">
                     {event.title}
                 </h3>
 
-                <p className="mt-2 text-[13px] leading-[1.75] text-text-muted line-clamp-2">
+                <p className="mt-2 text-caption leading-relaxed text-text-muted line-clamp-2">
                     {event.description}
                 </p>
 
@@ -163,7 +163,7 @@ function EventCard({ event }: { event: EducationEvent }) {
                 <div className="mt-4 flex flex-wrap gap-1.5">
                     <Badge
                         variant="outline"
-                        className="border-border-warm/60 text-[9px] uppercase tracking-[0.15em] text-text-muted"
+                        className="border-border-warm/60 text-tiny text-text-muted"
                     >
                         {event.audience === "both"
                             ? "Salon & Barber"
@@ -173,14 +173,14 @@ function EventCard({ event }: { event: EducationEvent }) {
                     </Badge>
                     <Badge
                         variant="outline"
-                        className="border-border-warm/60 text-[9px] uppercase tracking-[0.15em] text-text-muted"
+                        className="border-border-warm/60 text-tiny text-text-muted"
                     >
                         <Clock className="mr-1 h-2.5 w-2.5" />
                         {event.duration}
                     </Badge>
                 </div>
 
-                <div className="mt-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                <div className="mt-5 flex items-center gap-2 text-cta font-bold text-foreground">
                     View Details
                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </div>

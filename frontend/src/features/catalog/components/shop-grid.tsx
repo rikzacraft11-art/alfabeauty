@@ -242,8 +242,8 @@ export const ShopGrid: React.FC = () => {
                                 </button>
                             </div>
                         ) : (
-                            <div className="s-products-list grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                                {/* Slot 1: Editorial Delivery Promo Card (1:1 Yucca style) */}
+                            <div className="s-products-list grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 xl:grid-cols-4">
+                                {/* Slot 1: Editorial Delivery Promo Card (1:1 Yucca style, spans 2 cols on mobile) */}
                                 <DeliveryPromoCard />
 
                                 {/* Products Batch 1 */}
@@ -251,7 +251,7 @@ export const ShopGrid: React.FC = () => {
                                     <ProductCard key={product.id} product={product} />
                                 ))}
 
-                                {/* Slot 7: Editorial Rewards Ad Card (1:1 Yucca style) */}
+                                {/* Slot 7: Editorial Rewards Ad Card (1:1 Yucca style, spans 2 cols on mobile) */}
                                 {filteredProducts.length >= 5 && <RewardsPromoCard />}
 
                                 {/* Products Batch 2 */}

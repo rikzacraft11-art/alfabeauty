@@ -113,10 +113,10 @@ export function ProductDetailContent({
     return (
         <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── Breadcrumb ─── */}
-            <nav aria-label="Breadcrumb" className="mx-auto max-w-[1400px] px-6 py-6 sm:px-8 lg:px-12">
+            <nav aria-label="Breadcrumb" className="mx-auto max-w-[1400px] px-4 py-4 sm:py-6 sm:px-8 lg:px-12">
                 <Link
                     href={catalogPath}
-                    className="group inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                    className="group inline-flex min-h-[44px] items-center gap-2 text-cta font-bold text-muted-foreground transition-colors hover:text-foreground active:opacity-70"
                 >
                     <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
                     Back to Products Catalog
@@ -124,7 +124,7 @@ export function ProductDetailContent({
             </nav>
 
             {/* ─── Main Hero Split Studio ─── */}
-            <section className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+            <section className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                 <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
                     {/* LEFT: Interactive Gallery Viewer */}
                     <div className="flex flex-col gap-4">
@@ -151,14 +151,14 @@ export function ProductDetailContent({
                             )}
 
                             {/* Zoom prompt badge */}
-                            <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full border border-border-warm/60 bg-background/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground backdrop-blur-sm transition-all duration-300 group-hover:bg-foreground group-hover:text-white">
+                            <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full border border-border-warm/60 bg-background/80 px-3 py-1 text-tiny font-semibold text-muted-foreground backdrop-blur-sm transition-all duration-300 group-hover:bg-foreground group-hover:text-white">
                                 <Maximize2 className="h-3 w-3" />
                                 <span>Click to Expand</span>
                             </div>
 
                             {/* Type tag */}
                             {activeImage && (
-                                <div className="absolute bottom-4 left-4 rounded-full border border-border-warm/60 bg-background/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-brand-crimson backdrop-blur-sm">
+                                <div className="absolute bottom-4 left-4 rounded-full border border-border-warm/60 bg-background/80 px-3 py-1 text-tiny font-bold text-brand-crimson backdrop-blur-sm">
                                     {activeImage.type}
                                 </div>
                             )}
@@ -166,14 +166,14 @@ export function ProductDetailContent({
 
                         {/* Thumbnail Strip */}
                         {allImages.length > 1 && (
-                            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                            <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
                                 {allImages.map((img, idx) => (
                                     <button
                                         key={idx}
                                         type="button"
                                         onClick={() => setActiveImageIndex(idx)}
                                         className={cn(
-                                            "relative aspect-square h-20 shrink-0 overflow-hidden border bg-surface-elevated/50 transition-all duration-200",
+                                            "relative aspect-square h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden border bg-surface-elevated/50 transition-all duration-200 active:scale-95",
                                             activeImageIndex === idx
                                                 ? "border-brand-crimson ring-1 ring-brand-crimson"
                                                 : "border-border-warm/60 hover:border-foreground/40 opacity-70 hover:opacity-100"
@@ -196,20 +196,20 @@ export function ProductDetailContent({
                     <div className="flex flex-col justify-start">
                         {/* Header metadata & BPOM verification */}
                         <div className="mb-4 flex flex-wrap items-center gap-3">
-                            <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
+                            <span className="text-eyebrow font-bold tracking-[0.25em] text-brand-crimson">
                                 {product.brand}
                             </span>
                             <span className="h-3 w-px bg-border-warm" />
                             <Badge
                                 variant="outline"
-                                className="border-border-warm/80 font-mono text-[10px] uppercase tracking-wider text-muted-foreground"
+                                className="border-border-warm/80 font-mono text-tiny text-muted-foreground"
                             >
                                 {product.category}
                             </Badge>
                             {product.bpomNumber && (
                                 <>
                                     <span className="h-3 w-px bg-border-warm" />
-                                    <span className="inline-flex items-center gap-1 text-[10px] font-mono text-muted-foreground/80">
+                                    <span className="inline-flex items-center gap-1 text-tiny font-mono text-muted-foreground/80">
                                         <FileCheck className="h-3 w-3 text-emerald-600" />
                                         BPOM: {product.bpomNumber}
                                     </span>
@@ -217,24 +217,24 @@ export function ProductDetailContent({
                             )}
                         </div>
 
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                        <h1 className="text-h1 font-bold text-foreground">
                             {product.name}
                         </h1>
 
-                        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+                        <p className="mt-4 text-body text-muted-foreground">
                             {product.description}
                         </p>
 
                         {/* ─── DYNAMIC ROLE PRICING BOX (Blueprint.md Bagian B1 & D2) ─── */}
                         <div className="mt-6 rounded-lg border border-border-warm/70 bg-surface-elevated/70 p-4.5 sm:p-5">
                             <div className="flex items-center justify-between">
-                                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand-crimson">
+                                <span className="inline-flex items-center gap-1.5 text-eyebrow font-bold text-brand-crimson">
                                     {isSalon && <ShieldCheck className="h-3.5 w-3.5" />}
                                     {isDistributor && <Building2 className="h-3.5 w-3.5" />}
                                     {isConsumer && <UserCheck className="h-3.5 w-3.5" />}
                                     {pricing.tierLabel}
                                 </span>
-                                <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded ${product.stockStatus === "indent" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"}`}>
+                                <span className={`text-tiny font-mono font-semibold px-2 py-0.5 rounded ${product.stockStatus === "indent" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"}`}>
                                     {product.stockStatus === "indent" ? "STATUS: INDENT" : "STATUS: READY"}
                                 </span>
                             </div>
@@ -266,7 +266,7 @@ export function ProductDetailContent({
 
                             {/* Loyalty points preview for verified partners */}
                             {pricing.pointsEarnedPreview > 0 && (
-                                <p className="mt-2.5 flex items-center gap-1.5 text-[11.5px] font-medium text-emerald-700">
+                                <p className="mt-2.5 flex items-center gap-1.5 text-caption font-medium text-emerald-700">
                                     <Sparkles className="h-3.5 w-3.5" />
                                     Dapatkan estimasi +Rp {pricing.pointsEarnedPreview.toLocaleString("id-ID")} Poin Loyalitas Mitra setelah order lunas.
                                 </p>
@@ -274,7 +274,7 @@ export function ProductDetailContent({
 
                             {/* Guest prompt to login */}
                             {isGuest && (
-                                <p className="mt-2 text-[12px] text-muted-foreground">
+                                <p className="mt-2 text-caption text-muted-foreground">
                                     Daftarkan salon Anda untuk melihat daftar harga net mitra resmi dan akses pemesanan grosir.
                                 </p>
                             )}
@@ -284,7 +284,7 @@ export function ProductDetailContent({
                         {pricing.isRestrictedForRole && (
                             <div className="mt-4 flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-amber-900">
                                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
-                                <div className="text-[12.5px] leading-relaxed">
+                                <div className="text-caption leading-relaxed">
                                     <p className="font-bold text-amber-800">
                                         Perawatan Khusus Profesional Salon
                                     </p>
@@ -304,7 +304,7 @@ export function ProductDetailContent({
                                     onClick={() => toggleSection("description")}
                                     className="flex w-full items-center justify-between py-4 text-left transition-colors hover:text-brand-crimson"
                                 >
-                                    <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                    <span className="text-cta font-bold text-foreground">
                                         01. Description & Technical Overview
                                     </span>
                                     <ChevronDown
@@ -324,10 +324,10 @@ export function ProductDetailContent({
                                             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="pb-5 pt-1 text-[13.5px] leading-relaxed text-muted-foreground/90 space-y-2">
+                                            <div className="pb-5 pt-1 text-caption leading-relaxed text-muted-foreground/90 space-y-2">
                                                 <p>{product.longDescription || product.description}</p>
                                                 {product.technicalAttributes && (
-                                                    <div className="mt-3 rounded border border-border-warm/60 bg-surface-elevated/40 p-3 text-[12px] space-y-1">
+                                                    <div className="mt-3 rounded border border-border-warm/60 bg-surface-elevated/40 p-3 text-caption space-y-1">
                                                         {product.technicalAttributes.developerRatio && (
                                                             <p><span className="font-semibold text-foreground">Mixing Ratio:</span> {product.technicalAttributes.developerRatio}</p>
                                                         )}
@@ -353,7 +353,7 @@ export function ProductDetailContent({
                                         onClick={() => toggleSection("howToUse")}
                                         className="flex w-full items-center justify-between py-4 text-left transition-colors hover:text-brand-crimson"
                                     >
-                                        <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <span className="text-cta font-bold text-foreground">
                                             02. How to Use & Application Protocol
                                         </span>
                                         <ChevronDown
@@ -375,7 +375,7 @@ export function ProductDetailContent({
                                             >
                                                 <div className="pb-5 pt-1 space-y-3">
                                                     <div className="border-l-2 border-brand-crimson bg-surface-elevated/50 p-4">
-                                                        <p className="text-[13px] leading-relaxed text-foreground/90">
+                                                        <p className="text-caption leading-relaxed text-foreground/90">
                                                             {product.howToUse}
                                                         </p>
                                                     </div>
@@ -383,13 +383,13 @@ export function ProductDetailContent({
                                                     {/* Official SOP Access for Verified Partners (N9) */}
                                                     {(isSalon || isDistributor) && (
                                                         <div className="flex items-center justify-between rounded border border-border-warm/60 bg-surface-elevated/60 p-3">
-                                                            <div className="flex items-center gap-2 text-[12px] font-medium text-foreground">
+                                                            <div className="flex items-center gap-2 text-caption font-medium text-foreground">
                                                                 <FileCheck className="h-4 w-4 text-brand-crimson" />
                                                                 <span>Official Salon SOP & Technical Chart (PDF)</span>
                                                             </div>
                                                             <a
                                                                 href={pricing.sopUrl || "#"}
-                                                                className="inline-flex items-center gap-1 rounded bg-foreground px-2.5 py-1 text-[11px] font-bold text-white transition-colors hover:bg-brand-crimson"
+                                                                className="inline-flex items-center gap-1 rounded bg-foreground px-2.5 py-1 text-cta font-bold text-white transition-colors hover:bg-brand-crimson"
                                                             >
                                                                 <Download className="h-3 w-3" />
                                                                 Unduh SOP
@@ -411,7 +411,7 @@ export function ProductDetailContent({
                                         onClick={() => toggleSection("keyBenefits")}
                                         className="flex w-full items-center justify-between py-4 text-left transition-colors hover:text-brand-crimson"
                                     >
-                                        <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <span className="text-cta font-bold text-foreground">
                                             03. Key Benefits & Results
                                         </span>
                                         <ChevronDown
@@ -436,7 +436,7 @@ export function ProductDetailContent({
                                                         {product.keyBenefits.map((benefit, i) => (
                                                             <li key={i} className="flex items-start gap-2.5">
                                                                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-crimson" />
-                                                                <span className="text-[13px] leading-relaxed text-muted-foreground/90">
+                                                                <span className="text-caption leading-relaxed text-muted-foreground/90">
                                                                     {benefit}
                                                                 </span>
                                                             </li>
@@ -457,7 +457,7 @@ export function ProductDetailContent({
                                         onClick={() => toggleSection("variants")}
                                         className="flex w-full items-center justify-between py-4 text-left transition-colors hover:text-brand-crimson"
                                     >
-                                        <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                        <span className="text-cta font-bold text-foreground">
                                             04. Formats, Sizes & Specifications
                                         </span>
                                         <ChevronDown
@@ -478,7 +478,7 @@ export function ProductDetailContent({
                                                 className="overflow-hidden"
                                             >
                                                 <div className="pb-5 pt-1">
-                                                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                                                    <p className="mb-2 text-eyebrow font-semibold text-muted-foreground/70">
                                                         Available Options:
                                                     </p>
                                                     <div className="flex flex-wrap gap-2">
@@ -486,7 +486,7 @@ export function ProductDetailContent({
                                                             <Badge
                                                                 key={v}
                                                                 variant="outline"
-                                                                className="border-border-warm/80 bg-surface-elevated px-3 py-1 text-[12px] font-medium text-foreground"
+                                                                className="border-border-warm/80 bg-surface-elevated px-3 py-1 text-caption font-medium text-foreground"
                                                             >
                                                                 {v}
                                                             </Badge>
@@ -494,12 +494,12 @@ export function ProductDetailContent({
                                                     </div>
                                                     {product.recommendedFor && product.recommendedFor.length > 0 && (
                                                         <div className="mt-4">
-                                                            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                                                            <p className="mb-1.5 text-eyebrow font-semibold text-muted-foreground/70">
                                                                 Recommended For:
                                                             </p>
                                                             <ul className="space-y-1">
                                                                 {product.recommendedFor.map((rec, i) => (
-                                                                    <li key={i} className="text-[12px] text-muted-foreground/90">
+                                                                    <li key={i} className="text-caption text-muted-foreground/90">
                                                                         • {rec}
                                                                     </li>
                                                                 ))}
@@ -520,7 +520,7 @@ export function ProductDetailContent({
                                     onClick={() => toggleSection("pricing")}
                                     className="flex w-full items-center justify-between py-4 text-left transition-colors hover:text-brand-crimson"
                                 >
-                                    <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                    <span className="text-cta font-bold text-foreground">
                                         05. Professional Salon Pricing & Partnership
                                     </span>
                                     <ChevronDown
@@ -540,11 +540,11 @@ export function ProductDetailContent({
                                             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="pb-5 pt-1 text-[13px] leading-relaxed text-muted-foreground/90 space-y-2">
+                                            <div className="pb-5 pt-1 text-caption leading-relaxed text-muted-foreground/90 space-y-2">
                                                 <p>
                                                     As an exclusive distributor, Alfa Beauty provides tiered wholesale pricing, technical masterclasses, and dedicated account management for registered salon and barbershop partners.
                                                 </p>
-                                                <p className="text-[12px] text-brand-crimson font-medium">
+                                                <p className="text-caption text-brand-crimson font-medium">
                                                     Daftarkan salon Anda untuk mendapatkan fasilitas tempo pembayaran, plafon kredit kemitraan, dan sertifikasi resmi Alfa Beauty Academy.
                                                 </p>
                                             </div>
@@ -562,12 +562,12 @@ export function ProductDetailContent({
                                 <div className="space-y-3">
                                     <Link
                                         href="/partnership"
-                                        className="flex w-full items-center justify-center gap-2 rounded bg-foreground py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-brand-crimson"
+                                        className="flex w-full min-h-[48px] items-center justify-center gap-2 rounded bg-foreground py-3.5 text-center text-cta font-bold text-white transition-all hover:bg-brand-crimson active:scale-[0.98]"
                                     >
                                         <ShieldCheck className="h-4 w-4" />
                                         Masuk / Daftar Akun Salon
                                     </Link>
-                                    <p className="text-center text-[11px] text-muted-foreground">
+                                    <p className="text-center text-tiny text-muted-foreground">
                                         Pendaftaran salon diverifikasi dalam ≤ 4 jam kerja.
                                     </p>
                                 </div>
@@ -575,19 +575,19 @@ export function ProductDetailContent({
                                 <div className="space-y-3">
                                     <Link
                                         href="/partnership"
-                                        className="flex w-full items-center justify-center gap-2 rounded bg-brand-crimson py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-brand-dark"
+                                        className="flex w-full min-h-[48px] items-center justify-center gap-2 rounded bg-brand-crimson py-3.5 text-center text-cta font-bold text-white transition-all hover:bg-brand-dark active:scale-[0.98]"
                                     >
                                         <Building2 className="h-4 w-4" />
                                         Temukan Salon Mitra Terdekat
                                     </Link>
-                                    <p className="text-center text-[11px] text-muted-foreground">
+                                    <p className="text-center text-tiny text-muted-foreground">
                                         Perawatan kimia profesional hanya tersedia melalui salon bersertifikasi.
                                     </p>
                                 </div>
                             ) : (
                                 <Link
                                     href={pricing.ctaHref || "/contact"}
-                                    className="flex w-full items-center justify-center gap-2 rounded bg-foreground py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-brand-crimson"
+                                    className="flex w-full min-h-[48px] items-center justify-center gap-2 rounded bg-foreground py-3.5 text-center text-cta font-bold text-white transition-all hover:bg-brand-crimson active:scale-[0.98]"
                                 >
                                     {pricing.ctaLabel}
                                 </Link>
@@ -606,18 +606,18 @@ export function ProductDetailContent({
 
             {/* ─── INFOGRAPHICS & TECHNICAL FEATURE DOSSIER ─── */}
             {product.infoSlides && product.infoSlides.length > 0 && (
-                <section className="mt-20 border-t border-border-warm/50 bg-surface-elevated/40 py-16">
-                    <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <section className="mt-14 sm:mt-20 border-t border-border-warm/50 bg-surface-elevated/40 py-12 sm:py-16">
+                    <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                         <div className="mb-10 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
+                                <p className="text-eyebrow text-brand-crimson">
                                     Technical Infographics
                                 </p>
-                                <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                                <h2 className="mt-1 text-h2 font-bold text-foreground">
                                     Product Features & Formulation Science
                                 </h2>
                             </div>
-                            <p className="text-[12px] text-muted-foreground">
+                            <p className="text-caption text-muted-foreground">
                                 Click any slide below to expand in high resolution
                             </p>
                         </div>
@@ -642,10 +642,10 @@ export function ProductDetailContent({
                                         />
                                         <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
                                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3.5 text-white">
-                                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
+                                            <p className="text-tiny font-bold uppercase tracking-[0.2em] text-brand-crimson">
                                                 {slide.type}
                                             </p>
-                                            <p className="text-[11px] font-medium opacity-80">
+                                            <p className="text-tiny font-medium opacity-80">
                                                 Tap to view detail →
                                             </p>
                                         </div>
@@ -659,20 +659,20 @@ export function ProductDetailContent({
 
             {/* ─── ENGAGEMENT SECTION 1: MORE FROM THIS BRAND ─── */}
             {brandProducts.length > 0 && (
-                <section className="border-t border-border-warm/50 py-16">
-                    <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <section className="border-t border-border-warm/50 py-12 sm:py-16">
+                    <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                         <div className="mb-10 flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
+                                <p className="text-eyebrow text-brand-crimson">
                                     Brand Portfolio
                                 </p>
-                                <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                                <h2 className="mt-1 text-h2 font-bold text-foreground">
                                     More from {product.brand}
                                 </h2>
                             </div>
                             <Link
                                 href={`${catalogPath}?brand=${product.brand.toLowerCase().replace(/\s+/g, "-")}`}
-                                className="group inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors hover:text-brand-crimson"
+                                className="group inline-flex items-center gap-1.5 text-cta font-bold text-foreground transition-colors hover:text-brand-crimson"
                             >
                                 <span>View Brand Lineup</span>
                                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 text-brand-crimson" />
@@ -699,18 +699,18 @@ export function ProductDetailContent({
                                     </div>
 
                                     <div>
-                                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 group-hover:text-brand-crimson">
+                                        <span className="text-tiny font-bold uppercase tracking-[0.2em] text-muted-foreground/60 group-hover:text-brand-crimson">
                                             {item.category}
                                         </span>
-                                        <h4 className="mt-1 text-[14px] font-bold tracking-tight text-foreground line-clamp-1">
+                                        <h4 className="mt-1 text-subtitle font-bold text-foreground line-clamp-1">
                                             {item.name}
                                         </h4>
-                                        <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground/75 line-clamp-2">
+                                        <p className="mt-1 text-caption leading-relaxed text-muted-foreground/75 line-clamp-2">
                                             {item.description}
                                         </p>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-border-warm/40 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover:text-foreground">
+                                    <div className="mt-4 pt-3 border-t border-border-warm/40 flex items-center justify-between text-tiny font-bold uppercase tracking-wider text-muted-foreground group-hover:text-foreground">
                                         <span>View Product</span>
                                         <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1 text-brand-crimson" />
                                     </div>
@@ -726,20 +726,20 @@ export function ProductDetailContent({
 
             {/* ─── ENGAGEMENT SECTION 2: COMPLEMENTARY SALON RITUALS (Cross-Brand) ─── */}
             {complementaryProducts.length > 0 && (
-                <section className="border-t border-border-warm/50 bg-surface-elevated/30 py-16">
-                    <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <section className="border-t border-border-warm/50 bg-surface-elevated/30 py-12 sm:py-16">
+                    <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                         <div className="mb-10 flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
+                                <p className="text-eyebrow text-brand-crimson">
                                     Curated Recommendations
                                 </p>
-                                <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                                <h2 className="mt-1 text-h2 font-bold text-foreground">
                                     Complementary Salon Pairings
                                 </h2>
                             </div>
                             <Link
                                 href={catalogPath}
-                                className="group inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors hover:text-brand-crimson"
+                                className="group inline-flex items-center gap-1.5 text-cta font-bold text-foreground transition-colors hover:text-brand-crimson"
                             >
                                 <span>Explore All Categories</span>
                                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 text-brand-crimson" />
@@ -767,23 +767,23 @@ export function ProductDetailContent({
 
                                     <div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
+                                            <span className="text-tiny font-bold uppercase tracking-[0.2em] text-brand-crimson">
                                                 {item.brand}
                                             </span>
-                                            <span className="text-[9px] uppercase tracking-wider text-muted-foreground/60">
+                                            <span className="text-tiny uppercase tracking-wider text-muted-foreground/60">
                                                 {item.category}
                                             </span>
                                         </div>
-                                        <h4 className="mt-1.5 text-[14px] font-bold tracking-tight text-foreground line-clamp-1">
+                                        <h4 className="mt-1.5 text-subtitle font-bold text-foreground line-clamp-1">
                                             {item.name}
                                         </h4>
-                                        <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground/75 line-clamp-2">
+                                        <p className="mt-1 text-caption leading-relaxed text-muted-foreground/75 line-clamp-2">
                                             {item.description}
                                         </p>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-border-warm/40 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover:text-foreground">
-                                        <span>Discover Lineup</span>
+                                    <div className="mt-4 pt-3 border-t border-border-warm/40 flex items-center justify-between text-tiny font-bold uppercase tracking-wider text-muted-foreground group-hover:text-foreground">
+                                        <span>View Product</span>
                                         <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1 text-brand-crimson" />
                                     </div>
 
@@ -811,19 +811,19 @@ export function ProductDetailContent({
                         aria-label="Close fullscreen image"
                     />
                     {/* Top bar */}
-                    <div className="absolute left-6 right-6 top-6 z-10 flex items-center justify-between text-white">
+                    <div className="absolute left-4 right-4 sm:left-6 sm:right-6 top-[max(1rem,env(safe-area-inset-top))] z-10 flex items-center justify-between text-white">
                         <div>
-                            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
+                            <p className="text-eyebrow font-bold text-brand-crimson">
                                 {allImages[lightboxIndex]?.type} · {product.name}
                             </p>
-                            <p className="text-[13px] text-white/70">
+                            <p className="text-caption text-white/70">
                                 Image {lightboxIndex + 1} of {allImages.length}
                             </p>
                         </div>
                         <button
                             type="button"
                             onClick={() => setLightboxIndex(null)}
-                            className="rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
+                            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20 active:scale-95"
                             aria-label="Close Fullscreen"
                         >
                             <X className="h-5 w-5" />
@@ -839,7 +839,7 @@ export function ProductDetailContent({
                                     e.stopPropagation();
                                     setLightboxIndex((prev) => (prev !== null ? (prev - 1 + allImages.length) % allImages.length : 0));
                                 }}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 z-10"
+                                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 active:scale-95 z-10"
                                 aria-label="Previous Image"
                             >
                                 <ChevronLeft className="h-6 w-6" />
@@ -850,7 +850,7 @@ export function ProductDetailContent({
                                     e.stopPropagation();
                                     setLightboxIndex((prev) => (prev !== null ? (prev + 1) % allImages.length : 0));
                                 }}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 z-10"
+                                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 active:scale-95 z-10"
                                 aria-label="Next Image"
                             >
                                 <ChevronRight className="h-6 w-6" />

@@ -62,13 +62,13 @@ export function CookieConsent() {
                         <div className="flex items-center gap-3 shrink-0">
                             <button
                                 onClick={handleReject}
-                                className="px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] border border-neutral-400 text-neutral-800 transition-all duration-300 hover:border-foreground hover:text-foreground"
+                                className="px-5 py-2.5 text-cta font-bold border border-neutral-400 text-neutral-800 transition-all duration-300 hover:border-foreground hover:text-foreground"
                             >
                                 Reject
                             </button>
                             <button
                                 onClick={handleAccept}
-                                className="px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] bg-foreground text-background transition-all duration-300 hover:bg-foreground/90"
+                                className="px-5 py-2.5 text-cta font-bold bg-foreground text-background transition-all duration-300 hover:bg-foreground/90"
                             >
                                 Accept All
                             </button>

@@ -105,7 +105,7 @@ export function Preloader({ children }: { children: React.ReactNode }) {
                                 />
                             </motion.div>
                             <motion.span
-                                className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/80"
+                                className="text-eyebrow font-bold tracking-[0.3em] text-white/80"
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={
                                     exit
@@ -123,7 +123,7 @@ export function Preloader({ children }: { children: React.ReactNode }) {
 
                             {/* Progress counter */}
                             <motion.span
-                                className="mt-2 text-[10px] font-medium tabular-nums tracking-widest text-white/40"
+                                className="mt-2 text-tiny font-medium tabular-nums text-white/40"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: exit ? 0 : 1 }}
                                 transition={{ delay: 0.4, duration: 0.5 }}

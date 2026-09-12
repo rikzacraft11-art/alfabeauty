@@ -132,8 +132,17 @@ export function HeroSection(): React.JSX.Element {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const videoTimeRef = React.useRef<number>(0);
     const isIntersectingRef = React.useRef<boolean>(true);
+    const [isDesktop, setIsDesktop] = React.useState(false);
 
-    // Extended, stable scroll track (175vh) for smooth docked viewing
+    React.useEffect(() => {
+        const mql = window.matchMedia("(min-width: 768px)");
+        setIsDesktop(mql.matches);
+        const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+        mql.addEventListener("change", onChange);
+        return () => mql.removeEventListener("change", onChange);
+    }, []);
+
+    // Extended, stable scroll track (175vh) for smooth docked viewing on desktop
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"],
@@ -223,10 +232,10 @@ export function HeroSection(): React.JSX.Element {
         <section
             ref={containerRef}
             id="hero"
-            className="section section-hero relative z-10 w-full min-h-[175vh] bg-transparent"
+            className="section section-hero relative z-10 w-full min-h-[100dvh] md:min-h-[175vh] bg-black"
         >
             {/* Sticky Viewport Container — Full-Bleed Edge-to-Edge at Scroll 0 */}
-            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-black p-0">
+            <div className="relative md:sticky top-0 h-[100dvh] md:h-screen w-full flex items-center justify-center overflow-hidden bg-black p-0">
                 
                 {/* ─── 3-Panel Panoramic Track Container ─── */}
                 <div className="relative w-full h-full flex items-center justify-center">
@@ -284,14 +293,14 @@ export function HeroSection(): React.JSX.Element {
                     {/* ─── Center Active Hero Frame with Persistent Copywriting & Smooth Slide ─── */}
                     <motion.div
                         style={{
-                            scale: videoScale,
-                            y: videoY,
-                            borderRadius: videoBorderRadius,
+                            scale: isDesktop ? videoScale : 1,
+                            y: isDesktop ? videoY : 0,
+                            borderRadius: isDesktop ? videoBorderRadius : 0,
                         }}
                         onPanEnd={(_, info) => {
-                            if (info.offset.x < -35) {
+                            if (info.offset.x < -30) {
                                 handleNext();
-                            } else if (info.offset.x > 35) {
+                            } else if (info.offset.x > 30) {
                                 handlePrev();
                             }
                         }}
@@ -339,15 +348,15 @@ export function HeroSection(): React.JSX.Element {
                         </div>
 
                         {/* ─── Copywriting & Action Buttons (Permanently Preserved & Crisp) ─── */}
-                        <div className="relative z-10 h-full flex items-center mx-auto w-full max-w-[1720px] px-6 sm:px-10 lg:px-16 xl:px-20">
-                            <div className="max-w-3xl pt-[calc(var(--header-height,60px)+12px)] sm:pt-[var(--header-height,80px)]">
+                        <div className="relative z-10 h-full flex items-center mx-auto w-full max-w-[1720px] px-5 sm:px-10 lg:px-16 xl:px-20">
+                            <div className="max-w-3xl pt-[calc(var(--header-height,56px)+20px)] sm:pt-[var(--header-height,80px)] pb-12 sm:pb-0">
                                 <FadeIn delay={HERO_TIMING.eyebrow} blur scale>
                                     <p className="eyebrow text-white/70 font-semibold tracking-[0.25em]">
                                         {dict.hero.eyebrow}
                                     </p>
                                 </FadeIn>
 
-                                <div className="mt-4 sm:mt-5">
+                                <div className="mt-3.5 sm:mt-5">
                                     <TextReveal
                                         as="h1"
                                         className="heading-display text-white text-balance"
@@ -364,17 +373,17 @@ export function HeroSection(): React.JSX.Element {
                                 </div>
 
                                 <FadeIn delay={HERO_TIMING.body} blur>
-                                    <p className="mt-3 sm:mt-8 max-w-xl body-prose text-white/80">
+                                    <p className="mt-3 sm:mt-8 max-w-xl text-body text-white/80">
                                         {dict.hero.description}
                                     </p>
                                 </FadeIn>
 
                                 {/* Minimalist Professional Button & Underline Pair */}
-                                <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-5 sm:flex-row items-start sm:items-center">
+                                <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3.5 sm:gap-5 items-stretch sm:items-center">
                                     <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
                                         <Link
                                             href={NAV_LINKS.brands}
-                                            className="inline-flex items-center justify-center gap-2 rounded-none bg-brand-crimson px-7 sm:px-8 py-3 sm:py-3.5 text-[12px] sm:text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-[#5D221C]"
+                                            className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-none bg-brand-crimson px-7 sm:px-8 py-3.5 text-cta font-bold text-white transition-colors duration-200 hover:bg-[#5D221C] active:scale-[0.98]"
                                         >
                                             <span>{dict.hero.exploreBrands}</span>
                                             <ArrowRight className="h-3.5 w-3.5" />
@@ -384,7 +393,7 @@ export function HeroSection(): React.JSX.Element {
                                     <FadeIn delay={HERO_TIMING.cta + 0.12} direction="up" blur>
                                         <Link
                                             href={NAV_LINKS.partnership}
-                                            className="group inline-flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-medium uppercase tracking-[0.14em] text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
+                                            className="group inline-flex min-h-[44px] items-center justify-center sm:justify-start gap-1.5 text-cta font-semibold text-white border-b border-white/80 pb-1 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68] active:text-[#EABD68]"
                                         >
                                             <span>{dict.hero.partnerWithUs}</span>
                                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -485,13 +494,9 @@ export function HeroSection(): React.JSX.Element {
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </motion.button>
 
-                {/* ─── Mobile Interactive Pagination Dots (Docked Only) ─── */}
-                <motion.div
-                    style={{
-                        opacity: navButtonsOpacity,
-                        pointerEvents: navButtonsPointerEvents,
-                    }}
-                    className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex md:hidden items-center gap-2"
+                {/* ─── Mobile Interactive Pagination Dots (Always accessible on mobile) ─── */}
+                <div
+                    className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex md:hidden items-center gap-1.5"
                     aria-label="Carousel Pagination"
                 >
                     {HERO_SLIDES.map((slide, idx) => (
@@ -499,26 +504,30 @@ export function HeroSection(): React.JSX.Element {
                             key={slide.id}
                             onClick={() => setPage(() => [idx, idx > activeIndex ? 1 : -1])}
                             aria-label={`Go to slide ${idx + 1}`}
-                            className={cn(
-                                "h-1.5 rounded-full transition-all duration-300",
-                                idx === activeIndex
-                                    ? "w-7 bg-brand-crimson"
-                                    : "w-2 bg-white/40 hover:bg-white/70"
-                            )}
-                        />
+                            className="flex h-11 w-9 items-center justify-center p-1.5"
+                        >
+                            <span
+                                className={cn(
+                                    "h-1.5 rounded-full transition-all duration-300",
+                                    idx === activeIndex
+                                        ? "w-7 bg-brand-crimson"
+                                        : "w-2 bg-white/40 hover:bg-white/70"
+                                )}
+                            />
+                        </button>
                     ))}
-                </motion.div>
+                </div>
 
-                {/* ─── Minimalist Scroll Guide Indicator at Scroll 0 (Bottom Right) ─── */}
+                {/* ─── Minimalist Scroll Guide Indicator at Scroll 0 (Desktop Only, Bottom Right) ─── */}
                 <motion.div
                     style={{
-                        opacity: scrollPromptOpacity,
-                        y: scrollPromptY,
+                        opacity: isDesktop ? scrollPromptOpacity : 0,
+                        y: isDesktop ? scrollPromptY : 0,
                     }}
-                    className="pointer-events-none absolute bottom-8 sm:bottom-10 right-6 sm:right-12 z-30 flex items-center gap-3"
+                    className="pointer-events-none absolute bottom-8 sm:bottom-10 right-6 sm:right-12 z-30 hidden md:flex items-center gap-3"
                     aria-hidden="true"
                 >
-                    <span className="text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-white/60">
+                    <span className="text-tiny font-mono font-semibold uppercase tracking-[0.25em] text-white/60">
                         {dict.hero.scrollPrompt || "SCROLL TO EXPLORE"}
                     </span>
                     <div className="relative h-9 w-5 rounded-full border border-white/30 flex justify-center p-1">

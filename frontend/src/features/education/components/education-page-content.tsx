@@ -66,7 +66,7 @@ export function EducationPageContent() {
                                 enhancement for hairdressers, barbers, and
                                 salon teams.
                             </p>
-                            <p className="mt-6 text-[13px] italic leading-[1.85] text-text-muted">
+                            <p className="mt-6 text-caption italic leading-[1.85] text-text-muted">
                                 &ldquo;We believe long-term success is
                                 built on knowledge, not short-term
                                 tactics.&rdquo;
@@ -78,10 +78,10 @@ export function EducationPageContent() {
                             <div className="flex aspect-[16/9] sm:aspect-[4/3] w-full items-center justify-center border border-dashed border-border-warm/60 bg-surface-elevated">
                                 <div className="text-center">
                                     <BookOpen className="mx-auto h-10 w-10 text-text-muted/30" />
-                                    <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                    <p className="mt-3 text-eyebrow font-bold text-text-muted">
                                         Education &amp; Training
                                     </p>
-                                    <p className="mt-1 text-[11px] text-text-muted">
+                                    <p className="mt-1 text-caption text-text-muted">
                                         Photo placeholder
                                     </p>
                                 </div>
@@ -118,13 +118,13 @@ export function EducationPageContent() {
                             key={stat.label}
                             className="text-center lg:text-left"
                         >
-                            <p className="text-[2rem] font-bold tracking-tight text-foreground lg:text-[2.5rem]">
+                            <p className="text-h2 font-bold tracking-tight text-foreground">
                                 {stat.value}
                             </p>
-                            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground">
+                            <p className="mt-1.5 text-eyebrow font-semibold text-foreground">
                                 {stat.label}
                             </p>
-                            <p className="mt-1 text-[12px] text-text-muted">
+                            <p className="mt-1 text-caption text-text-muted">
                                 {stat.sub}
                             </p>
                         </div>
@@ -156,15 +156,15 @@ export function EducationPageContent() {
                                 <div className="relative flex aspect-[16/9] sm:aspect-[16/10] items-center justify-center bg-gradient-to-br from-foreground/[0.02] to-foreground/[0.06] lg:aspect-auto lg:min-h-[400px]">
                                     <div className="text-center">
                                         <Star className="mx-auto h-12 w-12 text-foreground/15" />
-                                        <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted">
+                                        <p className="mt-3 text-eyebrow font-bold text-text-muted">
                                             {featuredEvent.brand}
                                         </p>
-                                        <p className="mt-1 text-[11px] text-text-muted">
+                                        <p className="mt-1 text-caption text-text-muted">
                                             Event photo placeholder
                                         </p>
                                     </div>
                                     {/* Type badge */}
-                                    <span className="absolute left-4 top-4 inline-block bg-foreground px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+                                    <span className="absolute left-4 top-4 inline-block bg-foreground px-3 py-1.5 text-tiny font-bold uppercase tracking-[0.2em] text-white">
                                         {getEventTypeLabel(
                                             featuredEvent.type
                                         )}
@@ -173,7 +173,7 @@ export function EducationPageContent() {
 
                                 {/* Info */}
                                 <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-12">
-                                    <div className="flex flex-wrap items-center gap-4 text-[12px] text-text-muted">
+                                    <div className="flex flex-wrap items-center gap-4 text-caption text-text-muted">
                                         <span className="flex items-center gap-1.5">
                                             <Calendar className="h-3.5 w-3.5" />
                                             {formatDate(
@@ -193,24 +193,24 @@ export function EducationPageContent() {
                                         </span>
                                     </div>
 
-                                    <h3 className="mt-5 text-[1.5rem] font-bold leading-[1.2] tracking-[-0.015em] text-foreground transition-colors group-hover:text-foreground/70 lg:text-[1.75rem]">
+                                    <h3 className="mt-5 text-h3 font-bold leading-[1.2] tracking-[-0.015em] text-foreground transition-colors group-hover:text-foreground/70">
                                         {featuredEvent.title}
                                     </h3>
 
-                                    <p className="mt-4 text-[14px] leading-[1.85] text-charcoal">
+                                    <p className="mt-4 text-body leading-[1.85] text-charcoal">
                                         {featuredEvent.description}
                                     </p>
 
                                     <div className="mt-4 flex flex-wrap gap-2">
                                         <Badge
                                             variant="outline"
-                                            className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted"
+                                            className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted"
                                         >
                                             {featuredEvent.brand}
                                         </Badge>
                                         <Badge
                                             variant="outline"
-                                            className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted"
+                                            className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted"
                                         >
                                             {featuredEvent.audience ===
                                                 "both"
@@ -222,7 +222,7 @@ export function EducationPageContent() {
                                         </Badge>
                                     </div>
 
-                                    <div className="mt-7 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                    <div className="mt-7 flex items-center gap-2 text-cta font-bold text-foreground">
                                         View Details
                                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                                     </div>
@@ -265,22 +265,22 @@ export function EducationPageContent() {
                                 href={`/education/events/${event.id}`}
                                 className="group flex flex-col gap-3 py-5 transition-colors hover:bg-surface/50 sm:flex-row sm:items-center sm:gap-6 px-4 -mx-4"
                             >
-                                <span className="shrink-0 text-[12px] font-semibold text-text-muted w-28">
+                                <span className="shrink-0 text-caption font-semibold text-text-muted w-28">
                                     {formatDate(event.date)}
                                 </span>
-                                <span className="text-[14px] font-semibold text-foreground transition-colors group-hover:text-foreground/70 flex-1">
+                                <span className="text-subtitle font-semibold text-foreground transition-colors group-hover:text-foreground/70 flex-1">
                                     {event.title}
                                 </span>
                                 <div className="flex items-center gap-3">
                                     <Badge
                                         variant="outline"
-                                        className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted shrink-0"
+                                        className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted shrink-0"
                                     >
                                         {event.brand}
                                     </Badge>
                                     <Badge
                                         variant="outline"
-                                        className="border-border-warm/60 text-[10px] uppercase tracking-[0.15em] text-text-muted shrink-0"
+                                        className="border-border-warm/60 text-tiny uppercase tracking-[0.15em] text-text-muted shrink-0"
                                     >
                                         {event.location}
                                     </Badge>
@@ -326,23 +326,23 @@ export function EducationPageContent() {
 
                                 <div className="p-7">
                                     <div className="flex items-center gap-3">
-                                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">
+                                        <span className="text-eyebrow font-bold text-foreground/40">
                                             {article.category}
                                         </span>
-                                        <span className="text-[11px] text-text-muted">
+                                        <span className="text-caption text-text-muted">
                                             {article.readTime}
                                         </span>
                                     </div>
 
-                                    <h3 className="mt-3 text-[14px] font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70 line-clamp-2">
+                                    <h3 className="mt-3 text-subtitle font-bold leading-snug text-foreground transition-colors group-hover:text-foreground/70 line-clamp-2">
                                         {article.title}
                                     </h3>
 
-                                    <p className="mt-2 text-[13px] leading-[1.75] text-text-muted line-clamp-3">
+                                    <p className="mt-2 text-body leading-[1.75] text-text-muted line-clamp-3">
                                         {article.excerpt}
                                     </p>
 
-                                    <div className="mt-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground">
+                                    <div className="mt-5 flex items-center gap-2 text-cta font-bold text-foreground">
                                         Read Article
                                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                                     </div>
@@ -360,13 +360,13 @@ export function EducationPageContent() {
                 className="bg-foreground py-14 sm:py-20 lg:py-28"
             >
                 <div className="mx-auto max-w-[1400px] px-6 text-center sm:px-8 lg:px-12">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">
+                    <p className="text-eyebrow font-bold text-white/50">
                         Education Partnership
                     </p>
                     <h2 className="mt-5 heading-section text-white">
                         Want to host a training session?
                     </h2>
-                    <p className="mx-auto mt-6 max-w-lg text-[14px] leading-[1.85] text-white/60">
+                    <p className="mx-auto mt-6 max-w-lg text-body leading-[1.85] text-white/60">
                         We bring our education programs directly to your
                         salon or barbershop. Contact us to discuss custom
                         training sessions for your team.
@@ -374,7 +374,7 @@ export function EducationPageContent() {
                     <WhatsAppCTA
                         location="education_page"
                         message="Hi, saya ingin menanyakan tentang program edukasi dan training untuk tim kami."
-                        className="mt-10 inline-flex items-center gap-2.5 bg-background px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-all duration-300 hover:bg-background/90"
+                        className="mt-10 inline-flex min-h-[48px] items-center gap-2.5 bg-background px-8 py-3.5 text-cta font-bold text-foreground transition-all duration-300 hover:bg-background/90"
                     >
                         <MessageCircle className="h-4 w-4" />
                         Consult via WhatsApp

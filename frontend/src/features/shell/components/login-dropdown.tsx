@@ -57,11 +57,11 @@ export const LoginDropdown: React.FC = () => {
                         {/* Current User Role Info Card */}
                         <div className="rounded-xl border border-border-warm/60 bg-surface-elevated/70 p-3.5">
                             <div className="flex items-center justify-between">
-                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${roleBadges[role].bg}`}>
+                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-tiny font-bold ${roleBadges[role].bg}`}>
                                     {roleBadges[role].icon} {roleBadges[role].label}
                                 </span>
                                 {user.isVerified && (
-                                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700">
+                                    <span className="inline-flex items-center gap-1 text-tiny font-semibold text-emerald-700">
                                         <ShieldCheck className="h-3 w-3" /> Terverifikasi
                                     </span>
                                 )}
@@ -71,21 +71,21 @@ export const LoginDropdown: React.FC = () => {
                                 {user.name}
                             </p>
                             {user.businessName && (
-                                <p className="text-[11px] text-muted-foreground truncate">
+                                <p className="text-caption text-muted-foreground truncate">
                                     {user.businessName}
                                 </p>
                             )}
 
                             {/* Points & Plafon Counter for Partners */}
                             {(isSalon || isDistributor) && (
-                                <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border-warm/50 pt-2.5 text-[11px]">
+                                <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border-warm/50 pt-2.5 text-caption">
                                     <div>
-                                        <span className="block text-[10px] text-muted-foreground">Poin Loyalitas</span>
+                                        <span className="block text-tiny text-muted-foreground">Poin Loyalitas</span>
                                         <span className="font-bold text-emerald-700">Rp {user.pointsBalance.toLocaleString("id-ID")}</span>
                                     </div>
                                     {user.creditLimit && (
                                         <div>
-                                            <span className="block text-[10px] text-muted-foreground">Sisa Plafon Tempo</span>
+                                            <span className="block text-tiny text-muted-foreground">Sisa Plafon Tempo</span>
                                             <span className="font-bold text-foreground">
                                                 Rp {((user.creditLimit || 0) - (user.usedCredit || 0)).toLocaleString("id-ID")}
                                             </span>
@@ -97,7 +97,7 @@ export const LoginDropdown: React.FC = () => {
 
                         {/* Interactive Role Switcher for Testing (Blueprint.md Principles) */}
                         <div className="mt-4">
-                            <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                            <p className="mb-2 text-tiny font-bold text-muted-foreground">
                                 Simulasi Peran Pengguna (Blueprint.md):
                             </p>
                             <div className="grid grid-cols-1 gap-1.5">
@@ -122,11 +122,11 @@ export const LoginDropdown: React.FC = () => {
                                             }`}
                                         >
                                             <div>
-                                                <span className="text-[12px] font-semibold flex items-center gap-1.5">
+                                                <span className="text-caption font-semibold flex items-center gap-1.5">
                                                     <span>{roleBadges[r.id].icon}</span>
                                                     <span>{r.label}</span>
                                                 </span>
-                                                <span className="block text-[10px] text-muted-foreground/80 mt-0.5">
+                                                <span className="block text-tiny normal-case tracking-normal text-muted-foreground/80 mt-0.5">
                                                     {r.sub}
                                                 </span>
                                             </div>
@@ -140,7 +140,7 @@ export const LoginDropdown: React.FC = () => {
                         </div>
 
                         {/* Direct Navigation Links */}
-                        <div className="mt-4 border-t border-border-warm/50 pt-3 flex items-center justify-between text-[11.5px]">
+                        <div className="mt-4 border-t border-border-warm/50 pt-3 flex items-center justify-between text-caption">
                             <Link
                                 href="/partnership"
                                 className="font-semibold text-brand-crimson hover:underline"

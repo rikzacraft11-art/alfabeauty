@@ -51,7 +51,7 @@ export function CertificationBadges() {
         <section className="border-y border-border-warm/40 bg-surface py-8 sm:py-12 lg:py-20">
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <FadeIn blur>
-                    <p className="text-center text-[10px] font-bold uppercase tracking-[0.25em] text-text-muted/60 mb-6 sm:mb-10">
+                    <p className="text-center text-tiny font-bold tracking-[0.25em] text-text-muted/60 mb-6 sm:mb-10">
                         Trusted Certifications & Guarantees
                     </p>
                 </FadeIn>
@@ -74,7 +74,7 @@ export function CertificationBadges() {
                                 <p className="text-xs font-bold uppercase tracking-[0.1em]">
                                     {cert.label}
                                 </p>
-                                <p className="mt-1 text-[11px] leading-relaxed text-text-muted/70">
+                                <p className="mt-1 text-caption leading-relaxed text-text-muted/70">
                                     {cert.description}
                                 </p>
                             </div>

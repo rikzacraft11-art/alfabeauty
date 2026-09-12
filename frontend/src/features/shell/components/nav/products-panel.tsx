@@ -121,15 +121,15 @@ export const ProductsPanel = React.memo(function ProductsPanel() {
                 </div>
 
                 <div className="relative z-10">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson">
+                    <p className="text-tiny font-bold tracking-[0.25em] text-brand-crimson">
                         {activeCategory
                             ? `${language === "id" ? "Kategori" : "Category"} · ${CATEGORIES_DATA[activeCategory]?.title[language] || activeCategory}`
                             : (language === "id" ? "Rangkaian Profesional" : "Professional Range")}
                     </p>
-                    <h3 className="mt-2.5 text-[1.65rem] font-bold leading-tight tracking-tight text-white whitespace-pre-line">
+                    <h3 className="mt-2.5 text-h3 font-bold text-white whitespace-pre-line">
                         {currentTitle}
                     </h3>
-                    <p className="mt-3 max-w-[300px] text-[13px] leading-relaxed text-white/60 transition-all duration-300">
+                    <p className="mt-3 max-w-[300px] text-caption text-white/60 transition-all duration-300">
                         {currentSubline}
                     </p>
                 </div>
@@ -139,7 +139,7 @@ export const ProductsPanel = React.memo(function ProductsPanel() {
                     <NavigationMenuLink asChild>
                         <Link
                             href={activeCategory ? `/products?category=${activeCategory.toLowerCase().replace(/\s+&?\s*/g, "-")}` : "/products"}
-                            className="group/link flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 transition-colors duration-300 hover:text-white"
+                            className="group/link flex flex-row items-center justify-between gap-0 rounded-none p-0 text-cta font-bold text-white/70 transition-colors duration-300 hover:text-white"
                         >
                             <span>
                                 {activeCategory
@@ -176,7 +176,7 @@ export const ProductsPanel = React.memo(function ProductsPanel() {
                                 }`}
                             >
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[13.5px] font-bold tracking-tight text-foreground transition-colors group-hover/item:text-brand-crimson">
+                                    <span className="text-subtitle font-bold tracking-tight text-foreground transition-colors group-hover/item:text-brand-crimson">
                                         {displayTitle}
                                     </span>
                                     <ArrowRight
@@ -188,7 +188,7 @@ export const ProductsPanel = React.memo(function ProductsPanel() {
                                     />
                                 </div>
                                 {displaySubline && (
-                                    <p className="mt-1 text-[11px] font-medium text-muted-foreground/80 line-clamp-1">
+                                    <p className="mt-1 text-caption text-muted-foreground/80 line-clamp-1">
                                         {displaySubline}
                                     </p>
                                 )}

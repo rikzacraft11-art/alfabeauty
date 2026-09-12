@@ -87,7 +87,7 @@ export function GlobalBreadcrumbs(): React.JSX.Element | null {
             className="w-full bg-transparent transition-colors pt-[var(--header-height,80px)]"
         >
             <div className="mx-auto flex max-w-[1440px] items-center px-6 sm:px-8 lg:px-12 py-3">
-                <ol className="flex flex-wrap items-center gap-2 text-[11px] font-medium tracking-wide text-muted-foreground/75">
+                <ol className="flex flex-wrap items-center gap-2 text-caption font-medium tracking-wide text-muted-foreground/75">
                     {/* Home Root */}
                     <li className="flex items-center">
                         <Link

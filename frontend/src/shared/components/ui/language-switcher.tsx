@@ -73,7 +73,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => setLanguage("id")}
         className={cn(
-          "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300",
+          "rounded-full px-2 py-0.5 text-tiny font-bold transition-all duration-300",
           language === "id"
             ? isSolid
               ? "bg-foreground text-white shadow-xs"
@@ -98,7 +98,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => setLanguage("en")}
         className={cn(
-          "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300",
+          "rounded-full px-2 py-0.5 text-tiny font-bold transition-all duration-300",
           language === "en"
             ? isSolid
               ? "bg-foreground text-white shadow-xs"

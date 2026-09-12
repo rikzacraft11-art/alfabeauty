@@ -19,7 +19,7 @@ export function ProductWhatsAppCTA({
             location="product_detail"
             productName={productName}
             message={`Saya tertarik dengan produk ${productName} dari ${brandName}`}
-            className="inline-flex w-full items-center justify-center gap-3 bg-foreground px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-foreground/90 sm:w-auto"
+            className="inline-flex min-h-[48px] w-full items-center justify-center gap-3 bg-foreground px-8 py-3 text-cta font-bold text-white transition-all hover:bg-foreground/90 sm:w-auto"
         >
             Inquire about this product
         </WhatsAppCTA>

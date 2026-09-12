@@ -31,11 +31,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     {/* NEW / Indent Status Badge (Top Right) */}
                     <div className="absolute right-2.5 top-2.5 z-10 flex flex-col items-end gap-1">
                         {product.stockStatus === "indent" ? (
-                            <span className="inline-block rounded-sm bg-amber-600 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-white shadow-xs">
+                            <span className="inline-block rounded-sm bg-amber-600 px-2 py-0.5 text-tiny font-mono font-bold uppercase tracking-wider text-white shadow-xs">
                                 INDENT
                             </span>
                         ) : product.isNew ? (
-                            <span className="inline-block rounded-sm bg-foreground px-2 py-0.5 text-[9.5px] font-mono font-bold uppercase tracking-wider text-background shadow-xs">
+                            <span className="inline-block rounded-sm bg-foreground px-2 py-0.5 text-tiny font-mono font-bold uppercase tracking-wider text-background shadow-xs">
                                 NEW
                             </span>
                         ) : null}
@@ -51,51 +51,51 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                             className="object-cover w-full h-full"
                         />
                     ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-muted/40 text-xs text-muted-foreground">
+                        <div className="flex h-full w-full items-center justify-center bg-muted/40 text-caption text-muted-foreground">
                             <span>No Image</span>
                         </div>
                     )}
                 </div>
 
                 {/* Product Content Info */}
-                <div className="flex flex-1 flex-col justify-between p-4 pt-3.5">
+                <div className="flex flex-1 flex-col justify-between p-3 sm:p-4 sm:pt-3.5">
                     <div>
                         {/* Brand / Series Overline */}
-                        <span className="block text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 truncate">
+                        <span className="block text-tiny font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 truncate">
                             {product.brand}
                         </span>
 
                         {/* Product Title */}
-                        <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-brand-crimson">
+                        <h3 className="mt-1 line-clamp-2 text-subtitle font-semibold text-foreground transition-colors duration-300 group-hover:text-brand-crimson">
                             {product.name}
                         </h3>
                     </div>
 
                     {/* Price & Social Proof Rating Line */}
-                    <div className="mt-3.5 pt-2.5 border-t border-black/[0.05] flex flex-col gap-1.5">
+                    <div className="mt-2.5 sm:mt-3.5 pt-2 sm:pt-2.5 border-t border-black/[0.05] flex flex-col gap-1.5">
                         {/* Role-based price display */}
                         <div className="flex flex-col">
                             {pricing.canViewNetPrice && pricing.netPrice ? (
                                 <div>
                                     <div className="flex items-baseline justify-between">
-                                        <span className="text-sm font-bold text-brand-crimson tracking-tight">
+                                        <span className="text-subtitle font-bold text-brand-crimson tracking-tight">
                                             {pricing.formattedNetPrice}
                                         </span>
                                         {pricing.discountPercent && (
-                                            <span className="rounded bg-brand-crimson/10 px-1.5 py-0.2 text-[9.5px] font-bold text-brand-crimson">
+                                            <span className="rounded bg-brand-crimson/10 px-1 py-0.2 text-tiny font-bold text-brand-crimson">
                                                 -{pricing.discountPercent}%
                                             </span>
                                         )}
                                     </div>
                                     {pricing.msrpPrice && (
-                                        <span className="text-[10px] text-muted-foreground/60 line-through">
+                                        <span className="text-tiny text-muted-foreground/60 line-through">
                                             MSRP: {pricing.formattedMsrp}
                                         </span>
                                     )}
                                 </div>
                             ) : (
                                 <div className="flex items-baseline justify-between">
-                                    <span className="text-sm font-bold text-foreground tracking-tight">
+                                    <span className="text-subtitle font-bold text-foreground tracking-tight">
                                         {pricing.formattedEffectivePrice}
                                     </span>
                                 </div>
@@ -103,20 +103,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         </div>
 
                         {/* Social Proof Rating & Sales */}
-                        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                            <div className="flex items-center gap-1.5">
-                                <div className="flex items-center gap-0.5 text-amber-500 font-semibold text-[11px]">
-                                    <Star className="h-3 w-3 fill-amber-400 text-amber-500" />
+                        <div className="flex items-center justify-between text-tiny text-muted-foreground">
+                            <div className="flex items-center gap-1 sm:gap-1.5">
+                                <div className="flex items-center gap-0.5 text-amber-500 font-semibold text-tiny">
+                                    <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-amber-400 text-amber-500" />
                                     <span>{rating}</span>
                                 </div>
-                                <span className="text-black/20 text-[9px]">•</span>
-                                <span className="text-[10.5px] text-muted-foreground/80 font-normal">
+                                <span className="text-black/20 text-[8px] sm:text-[9px]">•</span>
+                                <span className="text-tiny text-muted-foreground/80 font-normal">
                                     {reviewCount}+ Terjual
                                 </span>
                             </div>
 
                             {/* Stock status indicator */}
-                            <span className={`text-[9.5px] font-medium ${product.stockStatus === "indent" ? "text-amber-600" : "text-emerald-600"}`}>
+                            <span className={`text-tiny font-medium ${product.stockStatus === "indent" ? "text-amber-600" : "text-emerald-600"}`}>
                                 {product.stockStatus === "indent" ? "Indent" : "Ready"}
                             </span>
                         </div>

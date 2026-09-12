@@ -36,7 +36,7 @@ export function BrandCard({ brand }: BrandCardProps): React.JSX.Element {
             </div>
 
             {/* Bottom Action Link */}
-            <div className="pt-6 border-t border-border-warm/40 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-foreground group-hover:text-brand-crimson transition-colors">
+            <div className="pt-6 border-t border-border-warm/40 flex items-center justify-between text-cta font-semibold text-foreground group-hover:text-brand-crimson transition-colors">
                 <span>{isId ? "Jelajahi Brand" : "Explore Brand"}</span>
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </div>

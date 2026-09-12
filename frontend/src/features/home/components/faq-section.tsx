@@ -61,11 +61,11 @@ function FAQAccordionItem({
             <div className="group border-b border-border-warm/60">
                 <button
                     type="button"
-                    className="flex w-full items-center justify-between gap-4 py-5 text-left transition-opacity duration-200 cursor-pointer select-none"
+                    className="flex w-full min-h-[52px] items-center justify-between gap-4 py-4 sm:py-5 text-left transition-opacity duration-200 cursor-pointer select-none active:opacity-75"
                     aria-expanded={isOpen}
                     onClick={onToggle}
                 >
-                    <span className="text-[15px] sm:text-[16px] font-normal tracking-[-0.01em] text-foreground transition-opacity group-hover:opacity-75">
+                    <span className="text-subtitle font-normal text-foreground transition-opacity group-hover:opacity-75">
                         {item.question}
                     </span>
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center text-foreground transition-transform duration-200">
@@ -89,7 +89,7 @@ function FAQAccordionItem({
                             className="overflow-hidden"
                         >
                             <div className="pb-6 pr-6 sm:pr-12">
-                                <p className="text-[14px] sm:text-[14.5px] leading-relaxed text-muted-foreground font-normal">
+                                <p className="text-body leading-relaxed text-muted-foreground font-normal">
                                     {item.answer}
                                 </p>
                             </div>
@@ -121,14 +121,14 @@ export function FAQSection({
     const faqDescription = dict.faq.description ?? "Everything you need to know about our products, salon partnership, and distribution.";
 
     return (
-        <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-12 sm:py-20 lg:py-32 text-foreground border-t border-b border-border-warm/80">
-            <div className="mx-auto w-full max-w-[1720px] px-6 sm:px-10 lg:px-16 xl:px-20">
+        <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-12 sm:py-20 lg:py-32 text-foreground border-t border-b border-border-warm/80 scroll-mt-[calc(var(--header-height,56px)+16px)]">
+            <div className="mx-auto w-full max-w-[1720px] px-5 sm:px-10 lg:px-16 xl:px-20">
                 <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-16">
                     {/* Left — heading */}
                     <div className="lg:col-span-4">
                         <div>
                             <FadeIn delay={0.1} blur>
-                                <p className="eyebrow mb-3 text-brand-crimson font-semibold tracking-[0.2em] uppercase text-[11px]">
+                                <p className="eyebrow mb-3 text-brand-crimson">
                                     {faqEyebrow}
                                 </p>
                             </FadeIn>
@@ -155,7 +155,7 @@ export function FAQSection({
                                 <Link
                                     href="/faq"
                                     aria-label={language === "id" ? "Lihat seluruh pertanyaan umum (FAQ)" : "Explore all frequently asked questions (FAQ)"}
-                                    className="group inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:opacity-70"
+                                    className="group inline-flex items-center gap-1.5 text-cta font-semibold text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:opacity-70"
                                 >
                                     <span>{language === "id" ? "Lihat Seluruh FAQ" : "Explore Full FAQ"}</span>
                                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

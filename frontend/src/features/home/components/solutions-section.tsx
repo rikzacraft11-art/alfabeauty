@@ -23,7 +23,25 @@ import { useLanguage } from "@/shared/components/providers/language-provider";
 export function SolutionsSection(): React.JSX.Element {
     const { dict } = useLanguage();
     const [activeIndex, setActiveIndex] = React.useState(0);
+    const [mobileIndex, setMobileIndex] = React.useState(0);
+    const mobileScrollRef = React.useRef<HTMLDivElement>(null);
     const solutions = dict.solutions?.items ?? [];
+
+    const handleMobileScroll = React.useCallback(() => {
+        const el = mobileScrollRef.current;
+        if (!el || solutions.length === 0) return;
+        const cardWidth = el.scrollWidth / solutions.length;
+        const newIndex = Math.round(el.scrollLeft / cardWidth);
+        setMobileIndex(Math.min(Math.max(newIndex, 0), solutions.length - 1));
+    }, [solutions.length]);
+
+    const scrollMobileTo = React.useCallback((idx: number) => {
+        const el = mobileScrollRef.current;
+        if (!el || solutions.length === 0) return;
+        const cardWidth = el.scrollWidth / solutions.length;
+        el.scrollTo({ left: idx * cardWidth, behavior: "smooth" });
+        setMobileIndex(idx);
+    }, [solutions.length]);
 
     return (
         <section className="section section-solutions relative min-h-[720px] sm:min-h-[800px] lg:min-h-[880px] xl:min-h-[940px] 2xl:min-h-[1000px] w-full overflow-hidden bg-[#0A0A0A] text-white flex items-center justify-center border-b border-white/10 py-16 sm:py-20 lg:py-28 xl:py-32">
@@ -46,54 +64,86 @@ export function SolutionsSection(): React.JSX.Element {
             {/* ═══════════════════════════════════════════════════════
                 2. INTERACTIVE IN-CARD EDITORIAL GALLERY
             ═══════════════════════════════════════════════════════ */}
-            <div className="relative z-10 mx-auto w-full max-w-[1540px] px-6 sm:px-10 lg:px-16 xl:px-20">
+            <div className="relative z-10 mx-auto w-full max-w-[1540px] px-5 sm:px-10 lg:px-16 xl:px-20">
                 
-                {/* ─── Mobile Viewport (< md): Stacked Sharp Luxury Gallery Cards ─── */}
-                <div className="md:hidden flex flex-col gap-4 w-full">
-                    {solutions.map((item, index) => (
-                        <div
-                            key={item.id}
-                            className="relative flex h-[210px] sm:h-[240px] w-full flex-col justify-between overflow-hidden rounded-none bg-black/75 p-6 text-white border border-white/20 shadow-[0_16px_36px_rgba(0,0,0,0.5)]"
-                        >
-                            {/* In-Card Product Image with Dark Scrim */}
-                            <div className="absolute inset-0 z-0">
-                                <Image
-                                    src={item.bgImage}
-                                    alt={item.title}
-                                    fill
-                                    unoptimized
-                                    className="object-cover brightness-[0.55] contrast-[1.05]"
-                                    sizes="(max-width: 768px) 100vw, 33vw"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/35" />
-                            </div>
-
-                            {/* Card Content */}
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#EABD68]">
-                                        0{index + 1}
-                                    </span>
-                                    <span className="h-1 w-1 rounded-full bg-[#EABD68]" />
+                {/* ─── Mobile Viewport (< md): Swipeable Editorial Card Carousel ─── */}
+                <div className="md:hidden flex flex-col items-center w-full">
+                    {/* Horizontal Snap Scroll Track */}
+                    <div
+                        ref={mobileScrollRef}
+                        onScroll={handleMobileScroll}
+                        className="flex w-full gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar px-1 py-2"
+                    >
+                        {solutions.map((item, index) => (
+                            <div
+                                key={item.id}
+                                className="relative flex w-[86vw] max-w-[360px] shrink-0 snap-center flex-col overflow-hidden rounded-none border border-[#EAE6DF] bg-white shadow-[0_16px_40px_rgba(0,0,0,0.6)]"
+                            >
+                                {/* Top Half: Product Visual Media Stage */}
+                                <div className="relative h-[200px] w-full overflow-hidden bg-black">
+                                    <Image
+                                        src={item.bgImage}
+                                        alt={item.title}
+                                        fill
+                                        unoptimized
+                                        className="object-cover brightness-[0.75] contrast-[1.05]"
+                                        sizes="86vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                                    {/* Index Badge */}
+                                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-black/60 backdrop-blur-xs px-3 py-1 border border-white/15">
+                                        <span className="text-tiny font-bold uppercase tracking-[0.25em] text-[#EABD68]">
+                                            0{index + 1}
+                                        </span>
+                                        <span className="h-1 w-1 rounded-full bg-[#EABD68]" />
+                                    </div>
                                 </div>
-                                <h3 className="text-[1.35rem] sm:text-[1.6rem] font-light leading-[1.15] tracking-[-0.02em] text-white">
-                                    {item.title}
-                                </h3>
-                            </div>
 
-                            <div className="relative z-10 pt-2">
-                                <div className="mb-3 h-px w-full bg-white/20" />
+                                {/* Bottom Half: Crisp Editorial Content & Preserved Description */}
+                                <div className="flex flex-1 flex-col justify-between p-6 border-t-[3px] border-t-brand-crimson text-[#111111]">
+                                    <div>
+                                        <h3 className="text-h3 font-light text-[#111111]">
+                                            {item.title}
+                                        </h3>
+                                        <p className="mt-3 text-body leading-relaxed text-[#555555] font-normal">
+                                            {item.description}
+                                        </p>
+                                    </div>
 
-                                <Link
-                                    href={item.href}
-                                    className="group inline-flex items-center gap-2 text-[11.5px] font-bold uppercase tracking-[0.18em] text-white border-b border-[#EABD68] pb-0.5 transition-colors duration-200 hover:text-[#EABD68]"
-                                >
-                                    <span>{dict.solutions.exploreSolution}</span>
-                                    <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-1 text-[#EABD68]" />
-                                </Link>
+                                    <div className="mt-6 pt-4 border-t border-[#EAE6DF]">
+                                        <Link
+                                            href={item.href}
+                                            className="group inline-flex min-h-[44px] items-center gap-2 text-cta font-bold text-[#111111] border-b border-[#111111] pb-1 transition-all duration-200 hover:text-brand-crimson hover:border-brand-crimson active:text-brand-crimson"
+                                        >
+                                            <span>{dict.solutions.exploreSolution}</span>
+                                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1.5 text-brand-crimson" />
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    {/* Mobile Pagination Indicator Dots */}
+                    <div className="flex items-center gap-1 mt-6" aria-label="Solutions Carousel Pagination">
+                        {solutions.map((item, idx) => (
+                            <button
+                                key={item.id}
+                                onClick={() => scrollMobileTo(idx)}
+                                aria-label={`Go to solution ${idx + 1}`}
+                                className="flex h-11 w-8 items-center justify-center p-1"
+                            >
+                                <span
+                                    className={cn(
+                                        "h-1.5 rounded-full transition-all duration-300",
+                                        idx === mobileIndex
+                                            ? "w-7 bg-brand-crimson"
+                                            : "w-2 bg-white/40 hover:bg-white/70"
+                                    )}
+                                />
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* ─── Desktop & Tablet Viewport (>= md): In-Card Editorial Gallery ─── */}
@@ -150,13 +200,13 @@ export function SolutionsSection(): React.JSX.Element {
                                             : "opacity-100 scale-100 pointer-events-auto"
                                     )}
                                 >
-                                    <span className="text-[10.5px] font-bold uppercase tracking-[0.25em] text-[#EABD68] mb-2.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                                    <span className="text-tiny font-bold uppercase tracking-[0.25em] text-[#EABD68] mb-2.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                                         0{index + 1}
                                     </span>
-                                    <h3 className="text-[1.4rem] lg:text-[1.7rem] xl:text-[1.9rem] font-light leading-[1.2] tracking-[-0.015em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                                    <h3 className="text-h3 font-light text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
                                         {item.title}
                                     </h3>
-                                    <span className="mt-3.5 inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/60 border-b border-transparent transition-colors duration-200 group-hover:text-white group-hover:border-white/60 pb-0.5">
+                                    <span className="mt-3.5 inline-flex items-center gap-1.5 text-cta font-semibold text-white/60 border-b border-transparent transition-colors duration-200 group-hover:text-white group-hover:border-white/60 pb-0.5">
                                         <span>{dict.solutions.viewDetails || "VIEW DETAILS"}</span>
                                         <ArrowRight className="h-3 w-3" />
                                     </span>
@@ -174,19 +224,19 @@ export function SolutionsSection(): React.JSX.Element {
                                     <div>
                                         {/* Number & Indicator */}
                                         <div className="flex items-center gap-2 mb-3">
-                                            <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-crimson">
+                                            <span className="text-tiny font-bold uppercase tracking-[0.28em] text-brand-crimson">
                                                 0{index + 1}
                                             </span>
                                             <span className="h-1.5 w-1.5 rounded-full bg-[#EABD68]" />
                                         </div>
 
                                         {/* Headline Title */}
-                                        <h3 className="text-[1.85rem] lg:text-[2.2rem] xl:text-[2.45rem] font-light leading-[1.12] tracking-[-0.025em] text-[#111111]">
+                                        <h3 className="text-h2 font-light text-[#111111]">
                                             {item.title}
                                         </h3>
 
                                         {/* Narrative Description Copywriting */}
-                                        <p className="mt-4 text-[13.5px] lg:text-[15px] xl:text-[15.5px] font-normal leading-relaxed text-[#555555]">
+                                        <p className="mt-4 text-body font-normal text-[#555555]">
                                             {item.description}
                                         </p>
                                     </div>
@@ -196,7 +246,7 @@ export function SolutionsSection(): React.JSX.Element {
 
                                         <Link
                                             href={item.href}
-                                            className="group inline-flex items-center gap-2.5 text-[12px] lg:text-[13px] font-semibold uppercase tracking-[0.18em] text-[#111111] border-b border-[#111111] pb-1 transition-all duration-200 hover:text-brand-crimson hover:border-brand-crimson"
+                                            className="group inline-flex items-center gap-2.5 text-cta font-semibold text-[#111111] border-b border-[#111111] pb-1 transition-all duration-200 hover:text-brand-crimson hover:border-brand-crimson"
                                         >
                                             <span>{dict.solutions.exploreSolution}</span>
                                             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5 text-brand-crimson" />

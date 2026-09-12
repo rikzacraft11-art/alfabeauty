@@ -55,7 +55,7 @@ export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.
                                 <div className="absolute inset-0 bg-gradient-to-br from-surface via-surface/60 to-background opacity-90" />
                                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(164,22,26,0.06)_0%,transparent_60%)]" />
                                 <div className="relative flex flex-col items-center justify-center z-10 opacity-40">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-foreground mb-4">Masterclass & Academy</span>
+                                    <span className="text-tiny font-bold tracking-[0.4em] text-foreground mb-4">Masterclass & Academy</span>
                                     <div className="h-[1px] w-16 bg-foreground" />
                                 </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
@@ -70,7 +70,7 @@ export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.
                             whileInView="visible"
                             viewport={{ once: true }}
                         >
-                            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+                            <p className="text-eyebrow text-white">
                                 Education & Training
                             </p>
                         </motion.div>
@@ -124,10 +124,10 @@ export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.
                                     className="flex items-start gap-3 border-l-2 border-border-warm pl-4 transition-colors duration-[600ms] ease-[var(--ease)] hover:border-brand-crimson"
                                     variants={listItemFadeIn}
                                 >
-                                    <span className="text-[11px] font-bold tabular-nums text-brand-crimson/50 mt-1">
+                                    <span className="text-eyebrow font-bold tabular-nums text-brand-crimson/50 mt-1">
                                         {String(i + 1).padStart(2, "0")}
                                     </span>
-                                    <span className="text-sm leading-7 text-charcoal">
+                                    <span className="text-body text-charcoal">
                                         {item}
                                     </span>
                                 </motion.li>
@@ -135,7 +135,7 @@ export function FeatureSplit({ reverse = false }: FeatureSplitProps): React.JSX.
                         </motion.ul>
 
                         <FadeIn delay={0.6} direction="right" blur dramatic>
-                            <p className="mt-6 text-sm italic leading-7 text-text-muted">
+                            <p className="mt-6 text-body italic text-text-muted">
                                 We believe long-term success is built on knowledge,
                                 not short-term tactics.
                             </p>

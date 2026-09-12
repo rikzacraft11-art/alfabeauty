@@ -66,9 +66,9 @@ export function MegaFooter(): React.JSX.Element {
 
   return (
     <>
-      {/* ─── Universal Curtain Reveal Footer (z-0 behind z-20 main content, fully clickable) ─── */}
+      {/* ─── Universal Curtain Reveal Footer (Sticky curtain reveal across all viewports) ─── */}
       <footer
-        className="sticky bottom-0 z-0 pointer-events-auto flex min-h-[100dvh] w-full flex-col justify-between bg-[#FFFFFF] text-[#111111] px-6 sm:px-10 lg:px-16 xl:px-20 py-6 sm:py-10 lg:py-14 border-t border-[#EAE6DF] overflow-hidden"
+        className="sticky bottom-0 z-0 pointer-events-auto flex min-h-[100dvh] w-full flex-col justify-between bg-[#FFFFFF] text-[#111111] px-5 sm:px-10 lg:px-16 xl:px-20 pt-16 sm:pt-20 lg:pt-14 pb-6 sm:pb-8 lg:pb-14 border-t border-[#EAE6DF] overflow-hidden"
       >
         <div className="mx-auto flex h-full w-full max-w-[1720px] flex-col justify-between flex-1 gap-6 sm:gap-8">
           
@@ -78,7 +78,7 @@ export function MegaFooter(): React.JSX.Element {
           <div className="hidden lg:flex flex-col justify-between h-full w-full flex-1 gap-8">
             {/* Desktop Row 1: Header */}
             <div className="flex w-full items-start justify-between gap-6 pt-2">
-              <h2 className="text-[3.6rem] xl:text-[4.4rem] font-normal leading-[1.04] tracking-[-0.03em] text-[#111111] max-w-4xl text-balance">
+              <h2 className="text-display font-normal leading-[1.04] tracking-[-0.03em] text-[#111111] max-w-4xl text-balance">
                 {language === "id" ? "Inovasi untuk Pemimpin Industri." : "Innovated for Industry Leaders."}
               </h2>
 
@@ -138,10 +138,10 @@ export function MegaFooter(): React.JSX.Element {
 
                   {/* Centered Typography (No Paragraph Copywriting) */}
                   <div className="relative z-10 flex flex-col items-center justify-center gap-3 px-4">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-crimson group-hover:text-[#EABD68] transition-colors duration-300">
+                    <span className="text-eyebrow font-bold text-brand-crimson group-hover:text-[#EABD68] transition-colors duration-300">
                       0{idx + 1}
                     </span>
-                    <span className="block text-[1.4rem] xl:text-[1.8rem] font-light leading-snug tracking-[-0.01em] text-[#111111] transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                    <span className="block text-h3 font-light leading-snug tracking-[-0.01em] text-[#111111] transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
                       {item.title}
                     </span>
                   </div>
@@ -153,7 +153,7 @@ export function MegaFooter(): React.JSX.Element {
             </div>
 
             {/* Desktop Row 3: Legal Bar */}
-            <div className="w-full rounded-none border-t border-[#EAE6DF] pt-6 pb-2 flex items-center justify-between gap-4 text-[13px] text-[#555555]">
+            <div className="w-full rounded-none border-t border-[#EAE6DF] pt-6 pb-2 flex items-center justify-between gap-4 text-caption text-[#555555]">
               <div className="flex items-center gap-8">
                 <p className="flex items-center gap-1.5 font-normal text-[#666666]">
                   <span>©</span>
@@ -173,7 +173,7 @@ export function MegaFooter(): React.JSX.Element {
                 </div>
               </div>
 
-              <div className="flex items-center gap-8 uppercase tracking-[0.12em] text-[11px] font-semibold text-[#555555]">
+              <div className="flex items-center gap-8 text-cta font-semibold text-[#555555]">
                 <Link href={NAV_LINKS.contact} className="hover:text-[#111111] transition-colors">
                   {language === "id" ? "Hubungi Kami" : "Contact Us"}
                 </Link>
@@ -191,11 +191,11 @@ export function MegaFooter(): React.JSX.Element {
           {/* ═══════════════════════════════════════════════════════
               MOBILE LAYOUT (< 1024px) — Sharp Editorial Architecture
           ═══════════════════════════════════════════════════════ */}
-          <div className="flex lg:hidden flex-col justify-between h-full w-full flex-1 gap-5 py-2">
+          <div className="flex lg:hidden flex-col justify-between h-full w-full flex-1 gap-3 sm:gap-5 py-1 sm:py-2">
             
             {/* Mobile Header: Title + Arrow */}
             <div className="flex w-full items-start justify-between gap-3 pt-1">
-              <h2 className="text-[1.65rem] sm:text-[2.2rem] font-normal leading-[1.1] tracking-[-0.03em] text-[#111111] max-w-[240px] sm:max-w-md">
+              <h2 className="text-h2 font-normal leading-[1.1] tracking-[-0.03em] text-[#111111] max-w-[240px] sm:max-w-md">
                 {language === "id" ? "Inovasi untuk Pemimpin Industri." : (
                   <>
                     Innovated for<br />Industry Leaders.
@@ -205,7 +205,7 @@ export function MegaFooter(): React.JSX.Element {
 
               <button
                 onClick={scrollToTop}
-                className="group relative flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-none border border-[#111111]/30 bg-white text-[#111111] transition-all active:scale-95 shadow-sm"
+                className="group relative flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-none border border-[#111111]/30 bg-white text-[#111111] transition-all active:scale-95 shadow-sm cursor-pointer"
                 aria-label="Back to top"
               >
                 <ArrowUp className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -213,7 +213,7 @@ export function MegaFooter(): React.JSX.Element {
             </div>
 
             {/* Mobile Big Brand Mark (Centered) */}
-            <div className="flex items-center justify-center my-auto py-2 sm:py-4">
+            <div className="flex items-center justify-center my-auto py-1 sm:py-4">
               <Link href="/" aria-label="Alfa Beauty Home" className="relative flex items-center justify-center">
                 <Image
                   src="/images/logo/alfa-beauty-mark.svg"
@@ -222,17 +222,17 @@ export function MegaFooter(): React.JSX.Element {
                   height={280}
                   unoptimized
                   priority
-                  className="h-32 sm:h-44 w-auto object-contain drop-shadow-[0_4px_20px_rgba(186,24,27,0.15)]"
+                  className="h-24 sm:h-44 w-auto object-contain drop-shadow-[0_4px_20px_rgba(186,24,27,0.15)]"
                 />
               </Link>
             </div>
 
             {/* Mobile 2 + 1 Solution Cards Grid with Product Images */}
-            <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5 w-full">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3.5 w-full">
               {/* Card 1: Smoothing Solutions */}
               <Link
                 href={footerSolutions[0].href}
-                className="group relative col-span-1 flex items-center justify-center py-5 px-3 sm:py-6 sm:px-4 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
+                className="group relative col-span-1 flex items-center justify-center py-3.5 px-3 sm:py-6 sm:px-4 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Image
@@ -245,7 +245,7 @@ export function MegaFooter(): React.JSX.Element {
                   />
                   <div className="absolute inset-0 bg-black/50" />
                 </div>
-                <span className="relative z-10 text-[13px] sm:text-[15px] font-normal text-[#111111] group-hover:text-white leading-tight transition-colors">
+                <span className="relative z-10 text-subtitle font-normal text-[#111111] group-hover:text-white leading-tight transition-colors">
                   {footerSolutions[0].title}
                 </span>
               </Link>
@@ -253,7 +253,7 @@ export function MegaFooter(): React.JSX.Element {
               {/* Card 2: Coloring Solutions */}
               <Link
                 href={footerSolutions[1].href}
-                className="group relative col-span-1 flex items-center justify-center py-5 px-3 sm:py-6 sm:px-4 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
+                className="group relative col-span-1 flex items-center justify-center py-3.5 px-3 sm:py-6 sm:px-4 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Image
@@ -266,7 +266,7 @@ export function MegaFooter(): React.JSX.Element {
                   />
                   <div className="absolute inset-0 bg-black/50" />
                 </div>
-                <span className="relative z-10 text-[13px] sm:text-[15px] font-normal text-[#111111] group-hover:text-white leading-tight transition-colors">
+                <span className="relative z-10 text-subtitle font-normal text-[#111111] group-hover:text-white leading-tight transition-colors">
                   {footerSolutions[1].title}
                 </span>
               </Link>
@@ -274,7 +274,7 @@ export function MegaFooter(): React.JSX.Element {
               {/* Card 3: Barber Solutions (Full Width Bottom) */}
               <Link
                 href={footerSolutions[2].href}
-                className="group relative col-span-2 flex items-center justify-center py-5 px-4 sm:py-6 sm:px-6 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
+                className="group relative col-span-2 flex items-center justify-center py-3.5 px-4 sm:py-6 sm:px-6 rounded-none border border-[#D5D0C7] bg-[#FBF9F6] text-center overflow-hidden transition-all active:scale-[0.98] shadow-xs"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Image
@@ -287,23 +287,25 @@ export function MegaFooter(): React.JSX.Element {
                   />
                   <div className="absolute inset-0 bg-black/50" />
                 </div>
-                <span className="relative z-10 text-[13px] sm:text-[15px] font-normal text-[#111111] group-hover:text-white leading-tight transition-colors">
+                <span className="relative z-10 text-subtitle font-normal text-[#111111] group-hover:text-white leading-tight transition-colors">
                   {footerSolutions[2].title}
                 </span>
               </Link>
             </div>
 
             {/* Mobile Unified Legal Container Box */}
-            <div className="w-full rounded-none border border-[#D5D0C7] bg-[#FBF9F6] p-4 sm:p-5 flex flex-col items-center gap-3 text-center">
-              {/* Legal Links (Always strictly 1 horizontal row side by side) */}
-              <div className="flex flex-nowrap items-center justify-center gap-3 sm:gap-6 text-[10.5px] sm:text-[12.5px] text-[#222222] font-normal w-full">
-                <Link href={NAV_LINKS.contact} className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors">
+            <div className="w-full rounded-none border border-[#D5D0C7] bg-[#FBF9F6] p-3 sm:p-5 flex flex-col items-center gap-2.5 text-center">
+              {/* Legal Links */}
+              <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-1.5 text-caption text-[#222222] font-normal w-full">
+                <Link href={NAV_LINKS.contact} className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors py-1">
                   {language === "id" ? "Hubungi Kami" : "Contact Us"}
                 </Link>
-                <Link href="/privacy" className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors">
+                <span className="text-[#CCCCCC] text-tiny sm:hidden" aria-hidden="true">•</span>
+                <Link href="/privacy" className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors py-1">
                   {language === "id" ? "Kebijakan Privasi" : "Privacy Policy"}
                 </Link>
-                <Link href="/terms" className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors">
+                <span className="text-[#CCCCCC] text-tiny sm:hidden" aria-hidden="true">•</span>
+                <Link href="/terms" className="whitespace-nowrap shrink-0 hover:text-brand-crimson transition-colors py-1">
                   {language === "id" ? "Syarat & Ketentuan" : "Terms & Conditions"}
                 </Link>
               </div>
@@ -322,7 +324,7 @@ export function MegaFooter(): React.JSX.Element {
               </div>
 
               {/* Copyright */}
-              <p className="text-[10.5px] sm:text-[11.5px] text-[#777777] font-normal pt-0.5">
+              <p className="text-tiny text-[#777777] font-normal pt-0.5">
                 © Alfa Beauty {currentYear}. {dict.footer.copyright || (language === "id" ? "Semua Hak Dilindungi" : "All Rights Reserved")}
               </p>
             </div>
@@ -338,7 +340,7 @@ export function MegaFooter(): React.JSX.Element {
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackEvent("cta_whatsapp_click", { location: "sticky_fab" })}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#1F9849] text-white shadow-[0_10px_25px_rgba(31,152,73,0.35)] transition-all duration-300 hover:scale-105 hover:bg-[#187d3c] active:scale-95"
+        className="fixed bottom-[max(1.5rem,calc(env(safe-area-inset-bottom,0px)+1rem))] right-5 sm:right-6 z-50 flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#1F9849] text-white shadow-[0_10px_25px_rgba(31,152,73,0.35)] transition-all duration-300 hover:scale-105 hover:bg-[#187d3c] active:scale-95"
         aria-label={language === "id" ? "Hubungi via WhatsApp" : "Chat on WhatsApp"}
         initial={{ y: 80, opacity: 0 }}
         animate={showFab ? { y: 0, opacity: 1, pointerEvents: "auto" as const } : { y: 80, opacity: 0, pointerEvents: "none" as const }}

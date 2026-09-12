@@ -34,14 +34,14 @@ export function PreFooterCTA(): React.JSX.Element {
             <div className="relative z-10 mx-auto max-w-4xl px-6 sm:px-10 text-center flex flex-col items-center">
                 {/* Eyebrow */}
                 <FadeIn>
-                    <p className="text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-white/50 mb-3.5 sm:mb-5 font-semibold">
+                    <p className="text-eyebrow text-white/50 mb-3.5 sm:mb-5">
                         {preFooter?.eyebrow ?? "READY TO ELEVATE YOUR SALON?"}
                     </p>
                 </FadeIn>
 
                 {/* Main Headline (Refined Luxury Light Typography) */}
                 <FadeIn delay={0.1}>
-                    <h2 className="text-[1.85rem] sm:text-[2.6rem] lg:text-[3.2rem] font-light leading-[1.12] tracking-[-0.03em] text-white text-balance max-w-3xl mx-auto">
+                    <h2 className="text-h2 font-light text-white text-balance max-w-3xl mx-auto">
                         {preFooter?.headingLine1 ?? "Elevate Your Craft With"}{" "}
                         <span className="font-light text-white/95">
                             {preFooter?.headingLine2 ?? "Premium Professional Products"}
@@ -51,7 +51,7 @@ export function PreFooterCTA(): React.JSX.Element {
 
                 {/* Narrative Description */}
                 <FadeIn delay={0.2}>
-                    <p className="text-[13px] sm:text-[15px] font-normal leading-relaxed text-white/60 max-w-xl mx-auto mt-4 sm:mt-5 mb-8 sm:mb-11">
+                    <p className="text-body font-normal text-white/60 max-w-xl mx-auto mt-4 sm:mt-5 mb-8 sm:mb-11">
                         {preFooter?.description ??
                             "Join hundreds of salon professionals who trust Alfa Beauty for world-class brands, expert education, and dedicated partnership."}
                     </p>
@@ -68,7 +68,7 @@ export function PreFooterCTA(): React.JSX.Element {
                     <motion.div variants={fadeInUp} className="w-full sm:w-auto">
                         <Link
                             href="/products"
-                            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-none bg-white px-7 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.18em] text-[#0A0A0A] transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.25)]"
+                            className="group inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-none bg-white px-7 sm:px-8 py-3.5 sm:py-4 text-cta font-bold text-[#0A0A0A] transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.25)] active:scale-[0.98]"
                         >
                             <span>{preFooter?.exploreProducts ?? "Explore Products"}</span>
                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -78,7 +78,7 @@ export function PreFooterCTA(): React.JSX.Element {
                     <motion.div variants={fadeInUp} className="w-full sm:w-auto">
                         <Link
                             href="/partnership"
-                            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-none border border-white/25 bg-transparent px-7 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.18em] text-white transition-all duration-200 hover:border-white hover:bg-white/10"
+                            className="group inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-none border border-white/25 bg-transparent px-7 sm:px-8 py-3.5 sm:py-4 text-cta font-bold text-white transition-all duration-200 hover:border-white hover:bg-white/10 active:scale-[0.98]"
                         >
                             <span>{preFooter?.becomePartner ?? "Become a Partner"}</span>
                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

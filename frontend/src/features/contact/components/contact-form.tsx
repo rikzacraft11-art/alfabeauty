@@ -270,7 +270,7 @@ export function ContactForm(): React.JSX.Element {
                 >
                     <SelectTrigger
                         className={cn(
-                            "w-full border bg-background py-2.5 text-sm",
+                            "w-full min-h-[44px] sm:min-h-[40px] border bg-background px-4 py-2.5 text-base sm:text-sm",
                             errors.subject
                                 ? "border-brand-crimson"
                                 : "border-border-warm"
@@ -349,7 +349,7 @@ export function ContactForm(): React.JSX.Element {
             <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex w-full items-center justify-center gap-2 bg-brand-crimson px-8 py-3.5 text-sm font-bold uppercase tracking-[0.15em] text-white hover:bg-brand-dark-crimson disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex w-full min-h-[48px] items-center justify-center gap-2 bg-brand-crimson px-8 py-3.5 text-cta font-bold text-white hover:bg-brand-dark-crimson disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.99] transition-transform"
             >
                 {isSubmitting ? (
                     <>

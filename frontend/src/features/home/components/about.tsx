@@ -51,11 +51,11 @@ function Counter({
         <motion.div variants={counterFadeUp}>
             <p
                 ref={ref as React.RefObject<HTMLParagraphElement>}
-                className={`text-[2rem] font-bold text-brand-crimson lg:text-[2.5rem] transition-[filter,box-shadow] duration-700 ${completed ? "counter-glow drop-shadow-[0_0_12px_rgba(164,22,26,0.3)]" : ""}`}
+                className={`text-h1 font-bold text-brand-crimson transition-[filter,box-shadow] duration-700 ${completed ? "counter-glow drop-shadow-[0_0_12px_rgba(164,22,26,0.3)]" : ""}`}
             >
                 {display}
             </p>
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-text-muted">
+            <p className="mt-2 text-eyebrow text-text-muted">
                 {label}
             </p>
         </motion.div>
@@ -108,8 +108,8 @@ export function AboutSection(): React.JSX.Element {
                                     <div className="absolute inset-0 bg-gradient-to-br from-surface via-surface-elevated to-background opacity-95" />
                                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(164,22,26,0.08)_0%,transparent_60%)]" />
                                     <div className="relative flex flex-col items-center justify-center z-10 opacity-60 text-center px-8">
-                                        <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand-crimson mb-3">18+ Years Heritage</span>
-                                        <p className="text-sm font-semibold tracking-tight text-foreground/80">Authorized National Distributor</p>
+                                        <span className="text-eyebrow text-brand-crimson mb-3">18+ Years Heritage</span>
+                                        <p className="text-caption font-semibold tracking-tight text-foreground/80">Authorized National Distributor</p>
                                         <div className="h-[1px] w-12 bg-border-warm mt-4" />
                                     </div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
@@ -124,7 +124,7 @@ export function AboutSection(): React.JSX.Element {
                                 whileInView="visible"
                                 viewport={{ once: true }}
                             >
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+                                <p className="text-cta text-white">
                                     Since 2007
                                 </p>
                             </motion.div>

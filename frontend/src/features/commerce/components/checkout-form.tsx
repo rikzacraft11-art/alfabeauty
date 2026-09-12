@@ -70,16 +70,16 @@ export function CheckoutForm(): React.JSX.Element {
 
   return (
     <div className="mx-auto max-w-[1100px] px-6 pb-20 pt-10 sm:px-8 lg:px-12">
-      <Link href="/cart" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground">
+      <Link href="/cart" className="inline-flex items-center gap-2 text-cta font-bold text-muted-foreground hover:text-foreground">
         <ArrowLeft className="h-4 w-4" /> Back to cart
       </Link>
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_340px]">
         <form onSubmit={submit} className="border-t border-border-warm pt-7">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-crimson">Guest checkout</p>
-          <h1 className="mt-2 text-3xl font-bold">Delivery details</h1>
+          <p className="text-eyebrow font-bold text-brand-crimson">Guest checkout</p>
+          <h1 className="mt-2 text-h1 font-bold">Delivery details</h1>
           <div className="mt-8 grid gap-5 sm:grid-cols-2">
             {fields.map(([name, label, type]) => (
-              <label key={name} className={name === "street" ? "text-sm font-semibold sm:col-span-2" : "text-sm font-semibold"}>
+              <label key={name} className={name === "street" ? "text-caption font-semibold sm:col-span-2" : "text-caption font-semibold"}>
                 {label}
                 <input
                   required
@@ -92,26 +92,26 @@ export function CheckoutForm(): React.JSX.Element {
               </label>
             ))}
           </div>
-          {error && <p className="mt-5 border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</p>}
-          <Button type="submit" disabled={submitting || !cart?.items.length} className="mt-7 h-12 bg-foreground px-8 text-white">
+          {error && <p className="mt-5 border border-destructive/30 bg-destructive/5 p-4 text-body text-destructive">{error}</p>}
+          <Button type="submit" disabled={submitting || !cart?.items.length} className="mt-7 min-h-[48px] bg-foreground px-8 text-cta font-bold text-white">
             <LockKeyhole /> {submitting ? "Creating secure checkout..." : "Continue to payment"}
           </Button>
         </form>
 
         <aside className="h-fit border border-border-warm p-6">
-          <h2 className="text-sm font-bold uppercase tracking-[0.15em]">Summary</h2>
+          <h2 className="text-cta font-bold">Summary</h2>
           <div className="mt-5 space-y-3">
             {cart?.items.map((item) => (
-              <div key={item.commerceVariantId} className="flex justify-between gap-4 text-xs">
+              <div key={item.commerceVariantId} className="flex justify-between gap-4 text-caption">
                 <span>{item.productName} x {item.quantity}</span>
                 <span className="font-semibold">{formatIdr(item.lineTotalIdr)}</span>
               </div>
             ))}
           </div>
-          <div className="mt-5 flex justify-between border-t border-border-warm pt-5 text-sm">
+          <div className="mt-5 flex justify-between border-t border-border-warm pt-5 text-body">
             <strong>Total</strong><strong>{formatIdr(cart?.subtotalIdr ?? 0)}</strong>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-caption leading-relaxed text-muted-foreground">
             Demo mode uses a local payment simulator. Sandbox mode redirects to Midtrans Sandbox. No real funds are charged.
           </p>
         </aside>

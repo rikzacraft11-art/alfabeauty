@@ -226,7 +226,7 @@ export function BrandHeroShowcaseStage({
                                 >
                                     <span
                                         className={cn(
-                                            "text-xs font-mono tracking-[0.22em] uppercase transition-all duration-300",
+                                            "text-cta font-mono transition-all duration-300",
                                             isSelected
                                                 ? "text-foreground font-semibold"
                                                 : "text-muted-foreground/50 hover:text-muted-foreground"
@@ -278,12 +278,12 @@ export function BrandHeroShowcaseStage({
 
                             {/* Floating 2.5D Technical Indicator Badges */}
                             <div className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-left hidden sm:block pointer-events-none">
-                                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-900 bg-amber-50/95 border border-amber-200/80 px-2.5 py-1 rounded-md shadow-sm backdrop-blur-sm">
+                                <span className="text-tiny font-mono font-bold uppercase tracking-widest text-amber-900 bg-amber-50/95 border border-amber-200/80 px-2.5 py-1 rounded-md shadow-sm backdrop-blur-sm">
                                     1 HARD • Virgin
                                 </span>
                             </div>
                             <div className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-right hidden sm:block pointer-events-none">
-                                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-800 bg-slate-100/95 border border-slate-300/80 px-2.5 py-1 rounded-md shadow-sm backdrop-blur-sm">
+                                <span className="text-tiny font-mono font-bold uppercase tracking-widest text-slate-800 bg-slate-100/95 border border-slate-300/80 px-2.5 py-1 rounded-md shadow-sm backdrop-blur-sm">
                                     1 SOFT • Sensitized
                                 </span>
                             </div>
@@ -295,15 +295,15 @@ export function BrandHeroShowcaseStage({
 
                     {/* Minimalist Editorial Metadata */}
                     <div className="w-full text-center z-20">
-                        <p className="text-[10.5px] font-mono font-semibold uppercase tracking-[0.22em] text-muted-foreground/75 mb-1">
+                        <p className="text-eyebrow font-mono font-semibold text-muted-foreground/75 mb-1">
                             {spotlightProduct.category} • JAPANESE CYSTEAMINE PERM
                         </p>
-                        <h3 className="text-xl sm:text-2xl font-light tracking-tight text-foreground mb-3">
+                        <h3 className="text-h3 font-light tracking-tight text-foreground mb-3">
                             {spotlightProduct.name}
                         </h3>
 
                         {/* Dual Formula Tagline */}
-                        <p className="text-xs text-muted-foreground mb-4 max-w-sm mx-auto">
+                        <p className="text-caption text-muted-foreground mb-4 max-w-sm mx-auto">
                             {isId
                                 ? "Sistem pengeritingan digital heat perm dengan formula ganda (HARD untuk rambut resisten & SOFT untuk rambut diwarnai)."
                                 : "Dual-strength digital heat perm system engineered with low-alkaline cysteamine chemistry."}
@@ -346,10 +346,10 @@ export function BrandHeroShowcaseStage({
 
                     {/* Minimalist Editorial Metadata */}
                     <div className="w-full text-center z-20">
-                        <p className="text-[10.5px] font-mono font-semibold uppercase tracking-[0.22em] text-muted-foreground/75 mb-1">
+                        <p className="text-eyebrow font-mono font-semibold text-muted-foreground/75 mb-1">
                             {spotlightProduct.category}
                         </p>
-                        <h3 className="text-xl sm:text-2xl font-light tracking-tight text-foreground mb-4">
+                        <h3 className="text-h3 font-light tracking-tight text-foreground mb-4">
                             {spotlightProduct.name}
                         </h3>
                     </div>

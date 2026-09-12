@@ -125,14 +125,14 @@ export function SiteHeader(): React.JSX.Element {
     const hasElevation = scrolled && !menuOpen;
 
     const triggerClasses = React.useMemo(() => cn(
-        "header-nav-indicator relative h-full whitespace-nowrap bg-transparent px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
+        "header-nav-indicator relative h-full whitespace-nowrap bg-transparent px-2.5 xl:px-3.5 text-caption font-medium tracking-[0.01em] transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
         isSolid
             ? "header-nav-solid text-foreground/90 hover:text-foreground data-[state=open]:text-foreground"
             : "header-nav-transparent text-white/90 hover:text-white data-[state=open]:text-white"
     ), [isSolid]);
 
     const directLinkClasses = React.useMemo(() => cn(
-        "header-nav-indicator relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-[12.5px] xl:text-[13.5px] font-medium tracking-[0.01em] whitespace-nowrap transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[active=true]:bg-transparent",
+        "header-nav-indicator relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-caption font-medium tracking-[0.01em] whitespace-nowrap transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[active=true]:bg-transparent",
         isSolid
             ? "header-nav-solid text-foreground/90 hover:text-foreground"
             : "header-nav-transparent text-white/90 hover:text-white"
@@ -172,7 +172,7 @@ export function SiteHeader(): React.JSX.Element {
                     : "bg-transparent border-b border-white/10"
             )}
         >
-            <div className="mx-auto flex h-[var(--header-height,80px)] w-full max-w-[1720px] items-center justify-between px-6 sm:px-10 lg:px-16 xl:px-20">
+            <div className="mx-auto flex h-[var(--header-height,56px)] w-full max-w-[1720px] items-center justify-between px-4 sm:px-10 lg:px-16 xl:px-20">
                 {/* ─── Left Group: Logo + Left-Aligned Desktop Navigation ─── */}
                 <div className="flex items-center gap-5 xl:gap-8 h-full">
                     {/* Logo */}
@@ -187,7 +187,7 @@ export function SiteHeader(): React.JSX.Element {
                         />
                         <span
                             className={cn(
-                                "text-xs sm:text-[13px] font-bold uppercase tracking-[0.2em] transition-colors duration-[400ms] ease-[var(--ease)] whitespace-nowrap",
+                                "text-cta font-bold tracking-[0.2em] transition-colors duration-[400ms] ease-[var(--ease)] whitespace-nowrap",
                                 isSolid ? "text-foreground" : "text-white"
                             )}
                         >
@@ -265,7 +265,7 @@ export function SiteHeader(): React.JSX.Element {
                     <Link
                         href="/partnership"
                         className={cn(
-                            "hidden md:inline-flex items-center gap-1.5 text-[12px] xl:text-[12.5px] font-medium tracking-[0.02em] whitespace-nowrap transition-all duration-[350ms] ease-[var(--ease)] group",
+                            "hidden md:inline-flex items-center gap-1.5 text-caption font-medium tracking-[0.02em] whitespace-nowrap transition-all duration-[350ms] ease-[var(--ease)] group",
                             isSolid
                                 ? "text-foreground/75 hover:text-foreground hover:opacity-100"
                                 : "text-white/80 hover:text-white hover:opacity-100"
@@ -287,7 +287,7 @@ export function SiteHeader(): React.JSX.Element {
                         aria-label="Shopping Cart (0 items)"
                     >
                         <ShoppingBag className="h-3.5 w-3.5" />
-                        <span className="absolute -top-1 -right-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand-crimson px-1 text-[9px] font-bold text-white">
+                        <span className="absolute -top-1 -right-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand-crimson px-1 text-tiny font-bold leading-none text-white">
                             0
                         </span>
                     </Link>
@@ -307,7 +307,7 @@ export function SiteHeader(): React.JSX.Element {
                                 variant="ghost"
                                 size="icon"
                                 className={cn(
-                                    "lg:hidden transition-colors duration-[400ms] ease-[var(--ease)]",
+                                    "lg:hidden flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center p-2 transition-colors duration-[400ms] ease-[var(--ease)] active:scale-95",
                                     isSolid ? "text-foreground" : "text-white"
                                 )}
                                 aria-label="Open menu"
@@ -317,7 +317,7 @@ export function SiteHeader(): React.JSX.Element {
                         </SheetTrigger>
                         <SheetContent
                             side="right"
-                            className="w-full max-w-sm border-l border-border-warm/40 bg-background p-0 [&>button]:hidden"
+                            className="w-full max-w-[88vw] sm:max-w-sm border-l border-border-warm/40 bg-background p-0 [&>button]:hidden"
                         >
                             <SheetTitle className="sr-only">Navigation menu</SheetTitle>
                             <MobileMenu onClose={handleMobileClose} />

@@ -21,7 +21,7 @@ export function CustomMaklonCTA(): React.JSX.Element {
             <div className="relative z-10 mx-auto max-w-[1540px] px-6 sm:px-10 lg:px-16">
                 {/* ─── Left-Aligned Headline ─── */}
                 <div className="mr-auto max-w-[880px] text-left">
-                    <h2 className="text-[1.85rem] sm:text-[2.6rem] lg:text-[3.3rem] font-light sm:font-normal leading-[1.18] tracking-[-0.02em] text-white text-balance">
+                    <h2 className="text-h1 font-light sm:font-normal text-white text-balance">
                         {dict.customMaklon.heading}
                     </h2>
                 </div>
@@ -30,7 +30,7 @@ export function CustomMaklonCTA(): React.JSX.Element {
                 <div className="mt-10 sm:mt-14 flex items-center justify-end w-full">
                     <Link
                         href={NAV_LINKS.contact}
-                        className="group inline-flex items-center gap-2.5 text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white border-b border-white/90 pb-1.5 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
+                        className="group inline-flex items-center gap-2.5 text-cta font-semibold text-white border-b border-white/90 pb-1.5 transition-all duration-200 hover:border-[#EABD68] hover:text-[#EABD68]"
                     >
                         <span>{dict.customMaklon.seeAllProducts || "CONSULT WITH OUR EXPERTS"}</span>
                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

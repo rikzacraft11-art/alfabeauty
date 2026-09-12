@@ -52,15 +52,15 @@ function PartnerCard({ number, eyebrow, title, items, accent = "crimson" }: Part
 
             <div className="relative z-10">
                 {/* Numbered badge */}
-                <span className="text-[36px] sm:text-[48px] lg:text-[64px] font-bold leading-none tracking-tighter text-border-warm/60 transition-colors duration-500 group-hover:text-border-warm select-none">
+                <span className="text-h1 font-bold leading-none tracking-tighter text-border-warm/60 transition-colors duration-500 group-hover:text-border-warm select-none">
                     {number}
                 </span>
 
-                <p className={`mt-4 text-xs font-bold uppercase tracking-[0.15em] ${accent === "dark" ? "text-brand-dark" : "text-brand-crimson"}`}>
+                <p className={`mt-4 text-eyebrow ${accent === "dark" ? "text-brand-dark" : "text-brand-crimson"}`}>
                     {eyebrow}
                 </p>
 
-                <h3 className="mt-3 text-xl font-bold tracking-tight">
+                <h3 className="mt-3 text-h3 font-bold tracking-tight">
                     {title}
                 </h3>
 
@@ -81,7 +81,7 @@ function PartnerCard({ number, eyebrow, title, items, accent = "crimson" }: Part
                             className="flex items-start gap-3 border-l-2 border-border-warm pl-4 transition-colors duration-[600ms] ease-[var(--ease)] hover:border-brand-crimson"
                             variants={listItemFadeIn}
                         >
-                            <span className="text-sm leading-7 text-charcoal">
+                            <span className="text-body text-charcoal">
                                 {item}
                             </span>
                         </motion.li>
@@ -165,7 +165,7 @@ export function PartnershipSection(): React.JSX.Element {
                             location="partnership_section"
                             variant="outline"
                             size="lg"
-                            className="border-border-warm px-8 py-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300"
+                            className="border-border-warm px-8 py-6 text-cta font-bold transition-colors duration-300"
                         >
                             Consult via WhatsApp
                         </WhatsAppCTA>

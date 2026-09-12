@@ -12,16 +12,16 @@ export function StandardsSection(): React.JSX.Element {
 
     return (
         <section className="section section-standards bg-[#000000] py-12 sm:py-20 lg:py-32 text-white border-b border-white/10">
-            <div className="mx-auto w-full max-w-[1720px] px-6 sm:px-10 lg:px-16 xl:px-20">
+            <div className="mx-auto w-full max-w-[1720px] px-5 sm:px-10 lg:px-16 xl:px-20">
                 {/* Header */}
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-16 pb-8 sm:pb-12 items-baseline border-b border-white/10">
                     <div className="lg:col-span-6">
-                        <h2 className="text-[1.85rem] sm:text-[2.6rem] lg:text-[3.2rem] font-light sm:font-normal tracking-[-0.02em] text-white">
+                        <h2 className="text-h2 font-light sm:font-normal text-white">
                             {dict.standardsSection.heading}
                         </h2>
                     </div>
                     <div className="lg:col-span-6">
-                        <p className="text-[14.5px] sm:text-[16px] leading-relaxed text-white/70 font-normal">
+                        <p className="text-body text-white/70 font-normal">
                             {dict.standardsSection.description}
                         </p>
                     </div>
@@ -34,10 +34,10 @@ export function StandardsSection(): React.JSX.Element {
                             key={name}
                             className="flex items-center justify-between py-4 sm:py-5 border-b border-white/10"
                         >
-                            <span className="text-[14.5px] sm:text-[16px] font-normal tracking-[-0.01em] text-white">
+                            <span className="text-body-lg font-normal text-white">
                                 {name}
                             </span>
-                            <span className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                            <span className="text-tiny font-semibold uppercase tracking-[0.2em] text-white/40">
                                 0{idx + 1}
                             </span>
                         </div>

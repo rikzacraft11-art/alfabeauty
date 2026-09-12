@@ -41,33 +41,33 @@ export function OrderStatusContent({
         <div className="flex items-start gap-4">
           {paid ? <CheckCircle2 className="mt-1 h-7 w-7 text-emerald-700" /> : <Clock3 className="mt-1 h-7 w-7 text-amber-700" />}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-crimson">Order {order.orderNumber}</p>
-            <h1 className="mt-2 text-3xl font-bold">{paid ? "Payment confirmed" : "Awaiting payment"}</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Hello {order.customerName}. This private page is accessible only through its order token.</p>
+            <p className="text-eyebrow font-bold text-brand-crimson">Order {order.orderNumber}</p>
+            <h1 className="mt-2 text-h1 font-bold">{paid ? "Payment confirmed" : "Awaiting payment"}</h1>
+            <p className="mt-2 text-body text-muted-foreground">Hello {order.customerName}. This private page is accessible only through its order token.</p>
           </div>
         </div>
       </div>
 
       <div className="mt-8 divide-y divide-border-warm border-y border-border-warm">
         {order.items.map((item) => (
-          <div key={item.commerceVariantId} className="flex justify-between gap-6 py-5 text-sm">
-            <div><strong>{item.productName}</strong><p className="mt-1 text-xs text-muted-foreground">{item.variantLabel} | {item.sku} | Qty {item.quantity}</p></div>
+          <div key={item.commerceVariantId} className="flex justify-between gap-6 py-5 text-body">
+            <div><strong>{item.productName}</strong><p className="mt-1 text-caption text-muted-foreground">{item.variantLabel} | {item.sku} | Qty {item.quantity}</p></div>
             <strong>{formatIdr(item.lineTotalIdr)}</strong>
           </div>
         ))}
       </div>
-      <div className="mt-6 flex justify-between text-lg"><strong>Total</strong><strong>{formatIdr(order.totalIdr)}</strong></div>
+      <div className="mt-6 flex justify-between text-subtitle font-bold"><span>Total</span><span>{formatIdr(order.totalIdr)}</span></div>
 
       {mode === "demo" && order.status === "awaiting_payment" && (
         <div className="mt-8 border border-brand-crimson/30 bg-brand-crimson/5 p-6">
-          <p className="text-sm font-semibold">Controlled demo payment</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">This changes only the in-memory demo order. It never calls Midtrans or moves real funds.</p>
-          <Button type="button" onClick={simulatePayment} disabled={busy} className="mt-4 bg-foreground text-white">
+          <p className="text-subtitle font-semibold">Controlled demo payment</p>
+          <p className="mt-1 text-caption leading-relaxed text-muted-foreground">This changes only the in-memory demo order. It never calls Midtrans or moves real funds.</p>
+          <Button type="button" onClick={simulatePayment} disabled={busy} className="mt-4 min-h-[48px] bg-foreground text-cta font-bold text-white">
             <RefreshCw className={busy ? "animate-spin" : ""} /> {busy ? "Processing..." : "Simulate successful payment"}
           </Button>
         </div>
       )}
-      <Link href="/shop" className="mt-8 inline-block border-b border-foreground pb-1 text-sm font-semibold">Return to shop</Link>
+      <Link href="/shop" className="mt-8 inline-block border-b border-foreground pb-1 text-cta font-semibold">Return to shop</Link>
     </div>
   );
 }

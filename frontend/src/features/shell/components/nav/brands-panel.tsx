@@ -47,20 +47,20 @@ export const BrandsPanel = React.memo(function BrandsPanel() {
                                 />
                             </div>
 
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60 transition-colors duration-300 group-hover:text-brand-crimson">
+                            <p className="text-tiny font-semibold tracking-[0.2em] text-muted-foreground/60 transition-colors duration-300 group-hover:text-brand-crimson">
                                 {brand.origin} {brand.flag}
                             </p>
-                            <h4 className="mt-1 text-[15px] font-bold leading-snug tracking-tight text-foreground transition-colors duration-300">
+                            <h4 className="mt-1 text-subtitle font-bold tracking-tight text-foreground transition-colors duration-300">
                                 {brand.name}
                             </h4>
-                            <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground/75 transition-colors duration-300 group-hover:text-foreground/85 line-clamp-3">
+                            <p className="mt-2 text-caption leading-relaxed text-muted-foreground/75 transition-colors duration-300 group-hover:text-foreground/85 line-clamp-3">
                                 {brand.category}
                             </p>
                         </div>
 
                         <div className="pt-4">
                             <div className="mb-3.5 h-px bg-border-warm/40" />
-                            <span className="inline-flex w-full items-center justify-between text-[11px] font-semibold text-muted-foreground/70 transition-colors duration-300 group-hover:text-foreground">
+                            <span className="inline-flex w-full items-center justify-between text-cta font-semibold text-muted-foreground/70 transition-colors duration-300 group-hover:text-foreground">
                                 <span>{dict.brands.exploreBrand || (language === "id" ? "Lihat Produk" : "Explore Brand")}</span>
                                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 text-muted-foreground/50 group-hover:text-brand-crimson" />
                             </span>
@@ -75,13 +75,13 @@ export const BrandsPanel = React.memo(function BrandsPanel() {
             {/* 6th Column: Vertical Service CTA Column */}
             <div className="flex flex-col justify-between border-l border-border-warm/40 pl-6 py-2">
                 <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-crimson">
+                    <p className="text-tiny font-bold tracking-[0.2em] text-brand-crimson">
                         {language === "id" ? "Butuh Bantuan?" : "Looking for something?"}
                     </p>
-                    <h4 className="mt-2 text-[16px] font-bold leading-snug text-foreground">
+                    <h4 className="mt-2 text-subtitle font-bold text-foreground">
                         {language === "id" ? "Bingung Memilih?" : "Need Help Choosing?"}
                     </h4>
-                    <p className="mt-2.5 text-[12px] leading-relaxed text-muted-foreground/75">
+                    <p className="mt-2.5 text-caption leading-relaxed text-muted-foreground/75">
                         {language === "id"
                             ? "Tim kami siap merekomendasikan produk dan brand eksklusif yang sesuai untuk salon Anda."
                             : "Our curation team can help source and recommend exclusive lineups for your salon needs."}
@@ -93,7 +93,7 @@ export const BrandsPanel = React.memo(function BrandsPanel() {
                     <NavigationMenuLink asChild>
                         <Link
                             href="/contact"
-                            className="group/link flex flex-row items-center justify-between gap-0 rounded-none p-0 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/70 transition-colors duration-300 hover:text-foreground"
+                            className="group/link flex flex-row items-center justify-between gap-0 rounded-none p-0 text-cta font-bold text-foreground/70 transition-colors duration-300 hover:text-foreground"
                         >
                             <span>{dict.common.contactUs}</span>
                             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:translate-x-1 text-muted-foreground/60 group-hover/link:text-brand-crimson" />

@@ -94,7 +94,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                     }}
                 />
 
-                <div className="relative z-10 w-full max-w-4xl mx-auto px-6 sm:px-10 flex flex-col items-center justify-center">
+                <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-10 flex flex-col items-center justify-center">
                     {/* Massive Centered Official Brand Wordmark */}
                     <div className="relative w-full max-w-[600px] sm:max-w-[720px] aspect-[1440/378] transition-transform duration-700 hover:scale-[1.01]">
                         <Image
@@ -113,19 +113,19 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
              * SECTION 2: BRAND HERITAGE & FRAMELESS 2.5D PRODUCT STAGING
              * ══════════════════════════════════════════════════════════════ */}
             <section className="py-20 sm:py-28 border-b overflow-hidden" style={{ borderColor: theme.borderColor }}>
-                <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-10 lg:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
                         {/* Left Column: Brand Heritage & Narrative Story */}
                         <div className="lg:col-span-6 flex flex-col justify-center">
                             <h2
-                                className="text-2xl sm:text-4xl font-light tracking-[-0.02em] leading-tight mb-6"
+                                className="text-h2 font-light tracking-[-0.02em] leading-tight mb-6"
                                 style={{ color: theme.textPrimary }}
                             >
                                 {brand.fullName}
                             </h2>
 
                             <div
-                                className="space-y-4 text-sm sm:text-[15px] font-normal leading-relaxed opacity-85"
+                                className="space-y-4 text-body font-normal leading-relaxed opacity-85"
                                 style={{ color: theme.textSecondary }}
                             >
                                 {storyParagraphs.map((p, idx) => (
@@ -150,14 +150,14 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
              * SECTION 3: KEY ACTIVE FORMULATIONS (4-COLUMN EDITORIAL SPECTRUM)
              * ══════════════════════════════════════════════════════════════ */}
             <section className="py-20 sm:py-28 border-b" style={{ borderColor: theme.borderColor }}>
-                <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-10 lg:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 lg:gap-16 pb-12 sm:pb-16 items-baseline border-b" style={{ borderColor: theme.borderColor }}>
                         <div>
-                            <h2 className="text-2xl sm:text-4xl font-light tracking-[-0.02em]" style={{ color: theme.textPrimary }}>
+                            <h2 className="text-h2 font-light tracking-[-0.02em]" style={{ color: theme.textPrimary }}>
                                 {isId ? "Kandungan Nutrisi & Bahan Aktif Kunci" : "Key Active Ingredients & Molecular Action"}
                             </h2>
                         </div>
-                        <p className="text-xs sm:text-sm font-normal leading-relaxed opacity-75" style={{ color: theme.textSecondary }}>
+                        <p className="text-body font-normal leading-relaxed opacity-75" style={{ color: theme.textSecondary }}>
                             {isId
                                 ? "Dipilih secara presisi untuk efikasi maksimal, perlindungan kutikula rambut, dan hidrasi kulit tanpa rasa berat di iklim tropis."
                                 : "Engineered with pharmaceutical purity to deliver cellular repair, barrier protection, and lasting sensory radiance."}
@@ -175,24 +175,24 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                 <div>
                                     <div className="flex items-center justify-between mb-4">
                                         <Beaker className="h-5 w-5" style={{ color: theme.primaryColor }} />
-                                        <span className="text-[10px] font-mono uppercase tracking-widest opacity-60" style={{ color: theme.textSecondary }}>
+                                        <span className="text-tiny font-mono uppercase tracking-widest opacity-60" style={{ color: theme.textSecondary }}>
                                             0{idx + 1}
                                         </span>
                                     </div>
-                                    <h4 className="text-base sm:text-lg font-medium mb-1" style={{ color: theme.textPrimary }}>
+                                    <h4 className="text-subtitle font-medium mb-1" style={{ color: theme.textPrimary }}>
                                         {ing.name}
                                     </h4>
                                     <div
-                                        className="text-[11px] font-mono font-semibold mb-3"
+                                        className="text-caption font-mono font-semibold mb-3"
                                         style={{ color: theme.accentColor }}
                                     >
                                         {ing.role}
                                     </div>
-                                    <p className="text-xs sm:text-[13px] font-normal leading-relaxed opacity-75 mb-6" style={{ color: theme.textSecondary }}>
+                                    <p className="text-caption font-normal leading-relaxed opacity-75 mb-6" style={{ color: theme.textSecondary }}>
                                         {ing.description}
                                     </p>
                                 </div>
-                                <div className="pt-3 border-t text-[10px] font-mono opacity-50" style={{ borderColor: theme.borderColor, color: theme.textSecondary }}>
+                                <div className="pt-3 border-t text-tiny font-mono opacity-50" style={{ borderColor: theme.borderColor, color: theme.textSecondary }}>
                                     Source: {ing.source}
                                 </div>
                             </div>
@@ -209,7 +209,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                     {/* Minimalist Tab Navigation Bar */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-8 border-b mb-12" style={{ borderColor: theme.borderColor }}>
                         <div>
-                            <h3 className="text-2xl sm:text-3xl font-light" style={{ color: theme.textPrimary }}>
+                            <h3 className="text-h2 font-light" style={{ color: theme.textPrimary }}>
                                 {isId ? "Manfaat Teruji, Standar Lab & Tanya Jawab" : "Proven Benefits, Lab Specs & FAQs"}
                             </h3>
                         </div>
@@ -218,7 +218,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                         <div className="flex items-center gap-6 sm:gap-8">
                             <button
                                 onClick={() => setActiveTab("benefits")}
-                                className={`pb-2 text-xs font-bold uppercase tracking-[0.16em] transition-all border-b-2 ${
+                                className={`pb-2 text-cta font-bold transition-all border-b-2 ${
                                     activeTab === "benefits"
                                         ? "border-current opacity-100"
                                         : "border-transparent opacity-50 hover:opacity-100"
@@ -229,7 +229,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                             </button>
                             <button
                                 onClick={() => setActiveTab("lab")}
-                                className={`pb-2 text-xs font-bold uppercase tracking-[0.16em] transition-all border-b-2 ${
+                                className={`pb-2 text-cta font-bold transition-all border-b-2 ${
                                     activeTab === "lab"
                                         ? "border-current opacity-100"
                                         : "border-transparent opacity-50 hover:opacity-100"
@@ -240,7 +240,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                             </button>
                             <button
                                 onClick={() => setActiveTab("faqs")}
-                                className={`pb-2 text-xs font-bold uppercase tracking-[0.16em] transition-all border-b-2 ${
+                                className={`pb-2 text-cta font-bold transition-all border-b-2 ${
                                     activeTab === "faqs"
                                         ? "border-current opacity-100"
                                         : "border-transparent opacity-50 hover:opacity-100"
@@ -272,19 +272,19 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                     >
                                         <div>
                                             <div
-                                                className="text-[10.5px] font-mono font-semibold uppercase tracking-wider mb-1"
+                                                className="text-caption font-mono font-semibold uppercase tracking-wider mb-1"
                                                 style={{ color: theme.primaryColor }}
                                             >
                                                 {benefit.highlight}
                                             </div>
-                                            <h4 className="text-[15px] sm:text-[16px] font-medium mb-1" style={{ color: theme.textPrimary }}>
+                                            <h4 className="text-subtitle font-medium mb-1" style={{ color: theme.textPrimary }}>
                                                 {benefit.title}
                                             </h4>
-                                            <p className="text-xs sm:text-[13px] font-normal leading-relaxed opacity-75" style={{ color: theme.textSecondary }}>
+                                            <p className="text-caption font-normal leading-relaxed opacity-75" style={{ color: theme.textSecondary }}>
                                                 {benefit.description}
                                             </p>
                                         </div>
-                                        <span className="text-[11px] font-mono font-semibold opacity-40 shrink-0 mt-1" style={{ color: theme.textSecondary }}>
+                                        <span className="text-tiny font-mono font-semibold opacity-40 shrink-0 mt-1" style={{ color: theme.textSecondary }}>
                                             0{idx + 1}
                                         </span>
                                     </div>
@@ -304,12 +304,12 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                 <div className="lg:col-span-5">
                                     <div className="flex items-center gap-2 mb-3" style={{ color: theme.accentColor }}>
                                         <Award className="h-4 w-4" />
-                                        <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{labSafety.subtitle}</span>
+                                        <span className="text-eyebrow font-bold">{labSafety.subtitle}</span>
                                     </div>
-                                    <h3 className="text-2xl sm:text-3xl font-light mb-4" style={{ color: theme.textPrimary }}>
+                                    <h3 className="text-h2 font-light mb-4" style={{ color: theme.textPrimary }}>
                                         {labSafety.title}
                                     </h3>
-                                    <p className="text-sm font-normal leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
+                                    <p className="text-body font-normal leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
                                         {labSafety.description}
                                     </p>
                                 </div>
@@ -319,9 +319,9 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                         <div key={idx} className="py-4 first:pt-0 flex items-center justify-between gap-4" style={{ borderColor: theme.borderColor }}>
                                             <div className="flex items-center gap-3">
                                                 <Check className="h-4 w-4 shrink-0" style={{ color: theme.primaryColor }} />
-                                                <span className="text-sm font-normal" style={{ color: theme.textPrimary }}>{std}</span>
+                                                <span className="text-body font-normal" style={{ color: theme.textPrimary }}>{std}</span>
                                             </div>
-                                            <span className="text-[10.5px] font-mono font-semibold text-emerald-600">VERIFIED</span>
+                                            <span className="text-tiny font-mono font-semibold text-emerald-600">VERIFIED</span>
                                         </div>
                                     ))}
                                 </div>
@@ -340,22 +340,22 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                             >
                                 <div className="lg:col-span-4">
                                     <p
-                                        className="text-[11px] font-bold uppercase tracking-[0.22em] mb-2"
+                                        className="text-eyebrow font-bold mb-2"
                                         style={{ color: theme.accentColor }}
                                     >
                                         {isId ? "Punya Pertanyaan?" : "Have Questions?"}
                                     </p>
-                                    <h3 className="text-2xl sm:text-3xl font-light mb-4" style={{ color: theme.textPrimary }}>
+                                    <h3 className="text-h2 font-light mb-4" style={{ color: theme.textPrimary }}>
                                         {isId ? "Tanya Jawab Seputar Produk & Kemitraan" : "Frequently Asked Questions"}
                                     </h3>
-                                    <p className="text-xs sm:text-sm font-normal leading-relaxed mb-6 opacity-75" style={{ color: theme.textSecondary }}>
+                                    <p className="text-body font-normal leading-relaxed mb-6 opacity-75" style={{ color: theme.textSecondary }}>
                                         {isId
                                             ? "Informasi seputar cara pakai, kecocokan iklim tropis, sertifikasi BPOM, dan tata cara pembelian grosir salon."
                                             : "Everything you need to know about formulas, application techniques, and wholesale partnership terms."}
                                     </p>
                                     <Link
                                         href={NAV_LINKS.contact}
-                                        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] hover:underline"
+                                        className="inline-flex items-center gap-2 text-cta font-bold hover:underline"
                                         style={{ color: theme.primaryColor }}
                                     >
                                         <span>{isId ? "Hubungi Representatif Brand" : "Contact Brand Representative"}</span>
@@ -378,7 +378,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                                     aria-expanded={isOpen}
                                                     onClick={() => toggleFaq(idx)}
                                                 >
-                                                    <span className="text-[15px] sm:text-[16px] font-medium tracking-[-0.01em]" style={{ color: theme.textPrimary }}>
+                                                    <span className="text-subtitle font-medium tracking-[-0.01em]" style={{ color: theme.textPrimary }}>
                                                         {faq.question}
                                                     </span>
                                                     <span
@@ -405,7 +405,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                                             }}
                                                             className="overflow-hidden"
                                                         >
-                                                            <div className="pb-6 pr-6 sm:pr-12 text-sm font-normal leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
+                                                            <div className="pb-6 pr-6 sm:pr-12 text-body font-normal leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
                                                                 {faq.answer}
                                                             </div>
                                                         </motion.div>
@@ -427,7 +427,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
             <section className="py-20 sm:py-28 border-b" style={{ borderColor: theme.borderColor }}>
                 <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12">
                     <div className="max-w-2xl mb-14">
-                        <h2 className="text-2xl sm:text-4xl font-light" style={{ color: theme.textPrimary }}>
+                        <h2 className="text-h2 font-light" style={{ color: theme.textPrimary }}>
                             {isId ? "3 Langkah Transformasi Salon Profesional" : "3-Step Hair & Body Transformation Ritual"}
                         </h2>
                     </div>
@@ -442,15 +442,15 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                     {step.step}
                                 </div>
                                 <div
-                                    className="text-[10.5px] font-mono font-semibold uppercase tracking-widest mb-1.5"
+                                    className="text-caption font-mono font-semibold uppercase tracking-widest mb-1.5"
                                     style={{ color: theme.accentColor }}
                                 >
                                     {step.subtitle}
                                 </div>
-                                <h4 className="text-lg font-medium mb-2.5" style={{ color: theme.textPrimary }}>
+                                <h4 className="text-subtitle font-medium mb-2.5" style={{ color: theme.textPrimary }}>
                                     {step.title}
                                 </h4>
-                                <p className="text-xs sm:text-sm font-normal leading-relaxed opacity-75" style={{ color: theme.textSecondary }}>
+                                <p className="text-body font-normal leading-relaxed opacity-75" style={{ color: theme.textSecondary }}>
                                     {step.description}
                                 </p>
                             </div>
@@ -466,14 +466,14 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                 <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
                         <div className="lg:col-span-6">
-                            <div className="flex items-center gap-2 text-emerald-700 text-[11px] font-bold uppercase tracking-[0.22em] mb-3">
+                            <div className="flex items-center gap-2 text-emerald-700 text-eyebrow font-bold mb-3">
                                 <Leaf className="h-4 w-4" />
                                 <span>{sustainability.tagline}</span>
                             </div>
-                            <h2 className="text-2xl sm:text-4xl font-light mb-5" style={{ color: theme.textPrimary }}>
+                            <h2 className="text-h2 font-light mb-5" style={{ color: theme.textPrimary }}>
                                 {sustainability.title}
                             </h2>
-                            <p className="text-sm font-normal leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
+                            <p className="text-body font-normal leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
                                 {sustainability.description}
                             </p>
                         </div>
@@ -489,7 +489,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                         className="h-2 w-2 rounded-full shrink-0"
                                         style={{ backgroundColor: theme.primaryColor }}
                                     />
-                                    <span className="text-xs sm:text-sm font-normal" style={{ color: theme.textPrimary }}>
+                                    <span className="text-body font-normal" style={{ color: theme.textPrimary }}>
                                         {feat}
                                     </span>
                                 </div>
@@ -514,7 +514,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                     {brand.rating.score}/5.0 • {brand.rating.reviewCount}+ Salon Endorsements
                                 </span>
                             </div>
-                            <h2 className="text-2xl sm:text-4xl font-light" style={{ color: theme.textPrimary }}>
+                            <h2 className="text-h2 font-light" style={{ color: theme.textPrimary }}>
                                 {isId ? "Pengakuan Profesional Salon" : "Salon Community Voices"}
                             </h2>
                         </div>
@@ -523,20 +523,20 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
                         {testimonials.map((t, idx) => (
                             <div key={idx} className="flex flex-col justify-between">
-                                <p className="text-sm font-normal leading-relaxed italic mb-6 opacity-85" style={{ color: theme.textSecondary }}>
+                                <p className="text-body font-normal leading-relaxed italic mb-6 opacity-85" style={{ color: theme.textSecondary }}>
                                     &ldquo;{t.quote}&rdquo;
                                 </p>
                                 <div className="border-t pt-4" style={{ borderColor: theme.borderColor }}>
-                                    <div className="text-xs font-semibold" style={{ color: theme.textPrimary }}>
+                                    <div className="text-caption font-semibold" style={{ color: theme.textPrimary }}>
                                         {t.author}
                                     </div>
                                     <div
-                                        className="text-[11px] font-medium"
+                                        className="text-caption font-medium"
                                         style={{ color: theme.accentColor }}
                                     >
                                         {t.role} • {t.salon}
                                     </div>
-                                    <div className="text-[10px] font-mono mt-0.5 opacity-50" style={{ color: theme.textSecondary }}>
+                                    <div className="text-tiny font-mono mt-0.5 opacity-50" style={{ color: theme.textSecondary }}>
                                         {t.city}
                                     </div>
                                 </div>
@@ -550,21 +550,21 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
              * SECTION 8: OFFICIAL CATALOG SHOWCASE (THE PRODUCT GRID HERO)
              * ══════════════════════════════════════════════════════════════ */}
             <section id="products-catalog" className="py-20 sm:py-28 border-b" style={{ borderColor: theme.borderColor }}>
-                <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-10 lg:px-12">
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
                         <div>
-                            <h3 className="text-2xl sm:text-4xl font-light" style={{ color: theme.textPrimary }}>
+                            <h3 className="text-h2 font-light" style={{ color: theme.textPrimary }}>
                                 {isId ? `Koleksi Lengkap ${brand.name}` : `Complete ${brand.name} Collection`}
                             </h3>
                         </div>
 
                         {/* Minimalist Underline Filter Tabs */}
-                        <div className="flex flex-wrap items-center gap-6 sm:gap-8 border-b border-black/[0.06] pb-3">
+                        <div className="flex items-center gap-4 sm:gap-8 border-b border-black/[0.06] pb-3 overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
                             <button
                                 type="button"
                                 onClick={() => setSelectedCategory("all")}
                                 className={cn(
-                                    "group relative py-1 text-xs font-mono tracking-[0.16em] uppercase transition-all duration-300 cursor-pointer",
+                                    "group relative shrink-0 min-h-[40px] flex items-center py-1 text-cta font-mono transition-all duration-300 cursor-pointer active:scale-95",
                                     selectedCategory === "all"
                                         ? "font-bold"
                                         : "text-muted-foreground/60 hover:text-foreground"
@@ -592,7 +592,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                                         type="button"
                                         onClick={() => setSelectedCategory(col.category)}
                                         className={cn(
-                                            "group relative py-1 text-xs font-mono tracking-[0.16em] uppercase transition-all duration-300 cursor-pointer",
+                                            "group relative shrink-0 min-h-[40px] flex items-center py-1 text-cta font-mono transition-all duration-300 cursor-pointer active:scale-95",
                                             isSelected
                                                 ? "font-bold"
                                                 : "text-muted-foreground/60 hover:text-foreground"
@@ -635,9 +635,9 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
              * SECTION 9: EDUCATIONAL JOURNAL & MASTERCLASS
              * ══════════════════════════════════════════════════════════════ */}
             <section className="py-20 sm:py-28 border-b" style={{ borderColor: theme.borderColor }}>
-                <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-10 lg:px-12">
                     <div className="max-w-2xl mb-14">
-                        <h2 className="text-2xl sm:text-4xl font-light" style={{ color: theme.textPrimary }}>
+                        <h2 className="text-h2 font-light" style={{ color: theme.textPrimary }}>
                             {isId ? "Teknik Salon & Edukasi Sains Rambut" : "Salon Techniques & Hair Science"}
                         </h2>
                     </div>
@@ -646,19 +646,19 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
                         {articles.map((art, idx) => (
                             <div key={idx} className="flex flex-col justify-between">
                                 <div>
-                                    <div className="flex items-center justify-between text-[10px] font-mono opacity-60 mb-3" style={{ color: theme.textSecondary }}>
+                                    <div className="flex items-center justify-between text-tiny font-mono opacity-60 mb-3" style={{ color: theme.textSecondary }}>
                                         <span>{art.category}</span>
                                         <span>{art.readTime}</span>
                                     </div>
-                                    <h4 className="text-base sm:text-lg font-medium mb-2.5" style={{ color: theme.textPrimary }}>
+                                    <h4 className="text-subtitle font-medium mb-2.5" style={{ color: theme.textPrimary }}>
                                         {art.title}
                                     </h4>
-                                    <p className="text-xs sm:text-sm font-normal leading-relaxed mb-4 opacity-75" style={{ color: theme.textSecondary }}>
+                                    <p className="text-body font-normal leading-relaxed mb-4 opacity-75" style={{ color: theme.textSecondary }}>
                                         {art.summary}
                                     </p>
                                 </div>
                                 <div
-                                    className="text-[11px] font-semibold uppercase tracking-[0.14em]"
+                                    className="text-caption font-semibold uppercase tracking-[0.14em]"
                                     style={{ color: theme.accentColor }}
                                 >
                                     {art.date}
@@ -673,23 +673,23 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
              * SECTION 10: AUTHORIZED SALON PARTNERSHIP & STOCKIST CTA
              * ══════════════════════════════════════════════════════════════ */}
             <section className="py-24 sm:py-32 relative overflow-hidden">
-                <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-12 text-center">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-10 lg:px-12 text-center">
                     <div className="max-w-2xl mx-auto">
-                        <h2 className="text-2xl sm:text-4xl font-light mb-6" style={{ color: theme.textPrimary }}>
+                        <h2 className="text-h2 font-light mb-6" style={{ color: theme.textPrimary }}>
                             {isId
                                 ? `Berminat Menjadi Stockist Resmi ${brand.name}?`
                                 : `Interested in Becoming an Official ${brand.name} Stockist?`}
                         </h2>
-                        <p className="text-sm sm:text-[15px] font-normal mb-10 leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
+                        <p className="text-body font-normal mb-10 leading-relaxed opacity-80" style={{ color: theme.textSecondary }}>
                             {isId
                                 ? "Dapatkan akses langsung ke pasokan produk resmi berstandar BPOM, pelatihan teknis salon, dan skema harga grosir eksklusif."
                                 : "Gain direct access to genuine BPOM-certified supply, professional salon education, and exclusive wholesale commercial terms."}
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center gap-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <Link
                                 href={NAV_LINKS.partnership}
-                                className="inline-flex items-center gap-2.5 px-9 py-4 text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:opacity-95 shadow-[0_10px_25px_rgba(196,109,134,0.25)]"
+                                className="inline-flex w-full sm:w-auto min-h-[48px] items-center justify-center gap-2.5 px-9 py-3.5 text-white text-cta font-bold transition-all hover:opacity-95 shadow-[0_10px_25px_rgba(196,109,134,0.25)] active:scale-[0.98]"
                                 style={{ backgroundColor: theme.primaryColor }}
                             >
                                 <span>{isId ? "Daftar Mitra Salon" : "Register as Salon Partner"}</span>
@@ -698,7 +698,7 @@ export function BrandDetailContent({ brand, products }: BrandDetailContentProps)
 
                             <Link
                                 href={NAV_LINKS.contact}
-                                className="inline-flex items-center gap-2.5 px-9 py-4 border text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-black/5"
+                                className="inline-flex w-full sm:w-auto min-h-[48px] items-center justify-center gap-2.5 px-9 py-3.5 border text-cta font-bold transition-all hover:bg-black/5 active:scale-[0.98]"
                                 style={{ borderColor: theme.textPrimary, color: theme.textPrimary }}
                             >
                                 <span>{isId ? "Hubungi Tim Ahli" : "Contact Sales Representative"}</span>

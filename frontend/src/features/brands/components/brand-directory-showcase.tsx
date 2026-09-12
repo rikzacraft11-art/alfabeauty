@@ -17,18 +17,18 @@ export function BrandDirectoryShowcase(): React.JSX.Element {
             <section className="py-16 sm:py-24 border-b border-border-warm/60">
                 <div className="mx-auto max-w-[1540px] px-6 sm:px-10 lg:px-16">
                     <div className="max-w-3xl mb-14 sm:mb-20">
-                        <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-brand-crimson mb-4">
+                        <span className="inline-flex items-center gap-2 text-eyebrow font-bold text-brand-crimson mb-4">
                             <Sparkles className="h-3.5 w-3.5" />
                             <span>{isId ? "Portofolio Brand Resmi" : "Official Brand Directory"}</span>
                         </span>
 
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-light leading-[1.08] tracking-[-0.03em] text-foreground text-balance">
+                        <h1 className="text-h1 font-light tracking-[-0.03em] text-foreground text-balance">
                             {isId
                                 ? "Portofolio Brand Kecantikan & Perawatan Rambut Kelas Dunia"
                                 : "World-Class Professional Beauty & Haircare Portfolios"}
                         </h1>
 
-                        <p className="mt-6 text-sm sm:text-base text-muted-foreground font-normal leading-relaxed">
+                        <p className="mt-6 text-body text-muted-foreground font-normal leading-relaxed">
                             {isId
                                 ? "PT Alfa Beauty Cosmetica mendistribusikan secara eksklusif brand salon terkemuka dari Italia, Spanyol, Jepang, serta formulasi inovatif lokal bersertifikasi BPOM resmi."
                                 : "PT Alfa Beauty Cosmetica is the exclusive distributor and manufacturer of premier salon houses from Italy, Spain, Japan, and BPOM-certified domestic formulas."}

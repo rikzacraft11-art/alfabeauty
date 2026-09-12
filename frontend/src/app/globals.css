@@ -117,6 +117,10 @@
   --border: #e8e4df;
   --input: #e8e4df;
   --ring: #a4161a;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 /* Responsive header height — Yucca: 9.6rem desktop / 5.6rem mobile */
@@ -129,6 +133,7 @@
 @layer base {
   html {
     position: relative;
+    scroll-padding-top: var(--header-height, 56px);
   }
 
   * {
@@ -155,11 +160,11 @@
 
 @layer components {
   .eyebrow {
-    @apply uppercase tracking-[0.2em] text-[11px] font-semibold text-muted-foreground;
+    @apply uppercase tracking-[0.2em] text-[10px] font-semibold text-muted-foreground;
   }
 
   .body-prose {
-    @apply text-[14px] md:text-[15px] font-normal leading-[1.85] text-charcoal;
+    @apply text-[13px] md:text-[15px] font-normal leading-[1.85] text-charcoal;
   }
 }
 
@@ -179,78 +184,83 @@
    * ───────────────────────────────────────────────────────────────── */
 
   .text-display-xl {
-    font-size: clamp(2.5rem, 7vw, 9rem);
+    font-size: clamp(1.75rem, 0.5rem + 6.25vw, 9rem);
     line-height: 1;
     letter-spacing: -0.03em;
-    font-weight: 700;
   }
   .text-display {
-    font-size: clamp(3rem, 5.5vw, 7rem);
+    font-size: clamp(1.625rem, 0.4rem + 5.2vw, 7rem);
     line-height: 1.05;
     letter-spacing: -0.025em;
-    font-weight: 700;
   }
   .text-h1 {
-    font-size: clamp(2.5rem, 4.5vw, 5.5rem);
-    line-height: 1.1;
+    font-size: clamp(1.375rem, 0.8rem + 2.5vw, 3.5rem);
+    line-height: 1.12;
     letter-spacing: -0.02em;
-    font-weight: 700;
   }
   .text-h2 {
-    font-size: clamp(2rem, 3.5vw, 4rem);
-    line-height: 1.15;
+    font-size: clamp(1.25rem, 0.85rem + 1.8vw, 2.75rem);
+    line-height: 1.18;
     letter-spacing: -0.015em;
-    font-weight: 700;
   }
   .text-h3 {
-    font-size: clamp(1.5rem, 2.5vw, 3rem);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    font-weight: 700;
-  }
-  .text-h4 {
-    font-size: clamp(1.25rem, 2vw, 2.25rem);
+    font-size: clamp(1.125rem, 0.88rem + 1.1vw, 2rem);
     line-height: 1.25;
     letter-spacing: -0.01em;
-    font-weight: 600;
+  }
+  .text-h4 {
+    font-size: clamp(1rem, 0.86rem + 0.65vw, 1.5rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
   }
   .text-subtitle {
-    font-size: clamp(1.125rem, 1.5vw, 1.5rem);
-    line-height: 1.3;
-    font-weight: 600;
+    font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.25rem);
+    line-height: 1.45;
   }
   .text-body-lg {
-    font-size: clamp(1rem, 1.2vw, 1.25rem);
+    font-size: clamp(0.9375rem, 0.88rem + 0.25vw, 1.125rem);
     line-height: 1.7;
-    font-weight: 400;
+  }
+  .text-body {
+    font-size: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem);
+    line-height: 1.8;
+  }
+  .text-cta {
+    font-size: clamp(0.625rem, 0.59rem + 0.18vw, 0.75rem);
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .text-eyebrow {
+    font-size: clamp(0.625rem, 0.6rem + 0.12vw, 0.6875rem);
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
   }
   .text-caption {
-    font-size: clamp(0.75rem, 0.9vw, 0.875rem);
+    font-size: clamp(0.6875rem, 0.66rem + 0.15vw, 0.8125rem);
     line-height: 1.5;
-    font-weight: 500;
   }
   .text-tiny {
-    font-size: 0.6875rem;
+    font-size: clamp(0.5625rem, 0.54rem + 0.12vw, 0.6875rem);
     line-height: 1.5;
-    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.15em;
   }
 
-  /* Legacy aliases (existing classes — now use clamp internally) */
+  /* Harmonized aliases */
 
   .heading-display {
-    font-size: clamp(1.75rem, 5vw, 3.75rem);
-    line-height: 1.1;
+    font-size: clamp(1.375rem, 0.8rem + 2.5vw, 3.5rem);
+    line-height: 1.12;
     letter-spacing: -0.02em;
-    font-weight: 700;
   }
 
   .heading-section {
-    font-size: clamp(1.75rem, 2.8vw, 2.25rem);
-    line-height: 1.15;
+    font-size: clamp(1.25rem, 0.85rem + 1.8vw, 2.75rem);
+    line-height: 1.18;
     letter-spacing: -0.015em;
-    font-weight: 700;
   }
 
   /* ─────────────────────────────────────────────────────────────────
@@ -909,6 +919,23 @@
 
   .header-nav-transparent::before {
     background-color: #ffffff;
+  }
+
+  /* Mobile-first touch & safe area utilities */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .pt-safe {
+    padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
   }
 
   @media (prefers-reduced-motion: reduce) {

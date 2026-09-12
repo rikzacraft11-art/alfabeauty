@@ -28,7 +28,7 @@ export default function Error({
             <Button
               onClick={reset}
               size="lg"
-              className="bg-foreground px-8 py-6 text-[11px] font-bold uppercase tracking-[0.2em] text-white hover:bg-foreground/90"
+              className="bg-foreground px-8 py-6 text-cta font-bold text-white hover:bg-foreground/90"
             >
               Try Again
             </Button>
@@ -36,7 +36,7 @@ export default function Error({
               variant="outline"
               asChild
               size="lg"
-              className="border-border-warm px-8 py-6 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300"
+              className="border-border-warm px-8 py-6 text-cta font-bold transition-colors duration-300"
             >
               <Link href="/">Back to Home</Link>
             </Button>

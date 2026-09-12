@@ -122,7 +122,7 @@ export function AboutPageContent(): React.JSX.Element {
         <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── §1: Hero ─── */}
             <section className="bg-surface py-14 sm:py-20 lg:py-28">
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
                         <div className="flex flex-col justify-center">
                             <p className="eyebrow">
@@ -149,7 +149,7 @@ export function AboutPageContent(): React.JSX.Element {
                                 reliable, and long-term partnership
                                 approach.
                             </p>
-                            <p className="mt-7 text-[13px] italic leading-[1.85] text-text-muted">
+                            <p className="mt-7 text-caption italic leading-[1.85] text-text-muted">
                                 &ldquo;We believe long-term success is
                                 built on knowledge, not short-term
                                 tactics.&rdquo;
@@ -164,19 +164,19 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="border-y border-border-warm/60 bg-background py-8 sm:py-14"
             >
-                <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 sm:grid-cols-3 sm:px-8 lg:px-12">
+                <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-4 sm:grid-cols-3 sm:px-8 lg:px-12">
                     {stats.map((stat) => (
                         <div
                             key={stat.label}
                             className="text-center lg:text-left"
                         >
-                            <p className="text-[2rem] font-bold tracking-tight text-foreground lg:text-[2.5rem]">
+                            <p className="text-h2 font-bold tracking-tight text-foreground">
                                 {stat.value}
                             </p>
-                            <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground">
+                            <p className="mt-1.5 text-eyebrow text-foreground">
                                 {stat.label}
                             </p>
-                            <p className="mt-1 text-[12px] text-text-muted">
+                            <p className="mt-1 text-caption text-text-muted">
                                 {stat.sub}
                             </p>
                         </div>
@@ -191,7 +191,7 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="bg-background py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-2xl text-center">
                         <p className="eyebrow">
                             Our Journey
@@ -209,11 +209,11 @@ export function AboutPageContent(): React.JSX.Element {
                     </div>
 
                     {/* Timeline */}
-                    <div className="relative mt-16">
+                    <div className="relative mt-12 sm:mt-16">
                         {/* Vertical line — desktop only */}
                         <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-border-warm/60 lg:block" />
 
-                        <div className="space-y-8 sm:space-y-12 lg:space-y-0">
+                        <div className="relative border-l border-border-warm/80 pl-6 ml-2 sm:ml-4 lg:border-l-0 lg:pl-0 lg:ml-0 space-y-10 sm:space-y-12 lg:space-y-0">
                             {journeyMilestones.map(
                                 (milestone, i) => {
                                     const isLeft = i % 2 === 0;
@@ -228,6 +228,9 @@ export function AboutPageContent(): React.JSX.Element {
                                             {/* Dot on timeline — desktop */}
                                             <div className="absolute left-1/2 top-1 hidden h-3.5 w-3.5 -translate-x-1/2 bg-foreground lg:block" />
 
+                                            {/* Dot on timeline — mobile */}
+                                            <div className="absolute -left-[31px] sm:-left-[23px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-foreground bg-background lg:hidden" />
+
                                             {/* Content */}
                                             <div
                                                 className={cn(
@@ -237,13 +240,13 @@ export function AboutPageContent(): React.JSX.Element {
                                                         : "lg:col-start-2 lg:pl-16"
                                                 )}
                                             >
-                                                <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/40">
+                                                <p className="text-eyebrow text-foreground/50">
                                                     {milestone.year}
                                                 </p>
-                                                <h3 className="mt-2 text-[15px] font-bold tracking-tight text-foreground">
+                                                <h3 className="mt-1.5 text-subtitle font-bold tracking-tight text-foreground">
                                                     {milestone.title}
                                                 </h3>
-                                                <p className="mt-2 text-[13px] leading-[1.85] text-charcoal">
+                                                <p className="mt-2 text-body text-charcoal">
                                                     {milestone.desc}
                                                 </p>
                                             </div>
@@ -264,7 +267,7 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="bg-surface py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-2xl text-center">
                         <p className="eyebrow">
                             Our Role
@@ -290,10 +293,10 @@ export function AboutPageContent(): React.JSX.Element {
                                     <div className="flex h-11 w-11 items-center justify-center bg-foreground/5">
                                         <Icon className="h-5 w-5 text-foreground/60" />
                                     </div>
-                                    <h3 className="mt-6 text-[13px] font-bold uppercase tracking-[0.15em] text-foreground">
+                                    <h3 className="mt-6 text-cta font-bold text-foreground">
                                         {pillar.title}
                                     </h3>
-                                    <p className="mt-3 text-[13px] leading-[1.85] text-text-muted">
+                                    <p className="mt-3 text-body text-text-muted">
                                         {pillar.desc}
                                     </p>
                                 </div>
@@ -310,7 +313,7 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="bg-background py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                         {/* Mission */}
                         <div className="border border-border-warm/60 p-6 sm:p-8 transition-all duration-300 hover:shadow-sm lg:p-12">
@@ -318,7 +321,7 @@ export function AboutPageContent(): React.JSX.Element {
                                 <div className="flex h-10 w-10 items-center justify-center bg-foreground/5">
                                     <Target className="h-5 w-5 text-foreground/60" />
                                 </div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/60">
+                                <p className="text-eyebrow text-foreground/60">
                                     Our Mission
                                 </p>
                             </div>
@@ -338,7 +341,7 @@ export function AboutPageContent(): React.JSX.Element {
                                 <div className="flex h-10 w-10 items-center justify-center bg-foreground/5">
                                     <Award className="h-5 w-5 text-foreground/60" />
                                 </div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/60">
+                                <p className="text-eyebrow text-foreground/60">
                                     Our Vision
                                 </p>
                             </div>
@@ -362,7 +365,7 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="bg-surface py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="text-center">
                         <p className="eyebrow">
                             Brand Portfolio
@@ -394,25 +397,25 @@ export function AboutPageContent(): React.JSX.Element {
                                     />
                                 </div>
 
-                                <div className="p-7 lg:p-8">
+                                <div className="p-6 sm:p-7 lg:p-8">
                                     <div className="flex items-center justify-between">
-                                        <h3 className="text-[14px] font-bold text-foreground">
+                                        <h3 className="text-subtitle font-bold text-foreground">
                                             {brand.name}
                                         </h3>
-                                        <span className="text-[11px] font-medium text-text-muted">
+                                        <span className="text-tiny font-medium text-text-muted">
                                             {brand.origin} {brand.flag}
                                         </span>
                                     </div>
-                                    <p className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">
+                                    <p className="mt-1.5 text-tiny font-bold uppercase tracking-[0.2em] text-foreground/40">
                                         {brand.category}
                                     </p>
-                                    <p className="mt-4 text-[13px] leading-[1.85] text-text-muted">
+                                    <p className="mt-4 text-body text-text-muted">
                                         {brand.description}
                                     </p>
 
                                     <Link
                                         href={`/products?brand=${encodeURIComponent(brand.name.toLowerCase().split(" ")[0])}`}
-                                        className="group/link mt-5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-colors hover:text-foreground/70"
+                                        className="group/link mt-5 inline-flex min-h-[44px] items-center gap-2 text-cta font-bold text-foreground transition-colors hover:text-foreground/70"
                                     >
                                         View Products
                                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:translate-x-0.5" />
@@ -431,7 +434,7 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="bg-background py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
                     <div className="mx-auto max-w-2xl text-center">
                         <p className="eyebrow">
                             Our People
@@ -446,20 +449,20 @@ export function AboutPageContent(): React.JSX.Element {
                         </p>
                     </div>
 
-                    <div className="mt-14 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+                    <div className="mt-14 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
                         {teamMembers.map((member) => (
                             <div
                                 key={member.name}
-                                className="border border-border-warm/60 p-7 text-center transition-all duration-300 hover:shadow-sm"
+                                className="border border-border-warm/60 p-5 sm:p-7 text-center transition-all duration-300 hover:shadow-sm"
                             >
                                 {/* Avatar placeholder */}
-                                <div className="mx-auto flex h-20 w-20 items-center justify-center bg-surface">
-                                    <Users className="h-8 w-8 text-text-muted/20" />
+                                <div className="mx-auto flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center bg-surface">
+                                    <Users className="h-7 w-7 sm:h-8 sm:w-8 text-text-muted/20" />
                                 </div>
-                                <h3 className="mt-5 text-[14px] font-bold text-foreground">
+                                <h3 className="mt-4 sm:mt-5 text-subtitle font-bold text-foreground">
                                     {member.name}
                                 </h3>
-                                <p className="mt-1 text-[12px] text-text-muted">
+                                <p className="mt-1 text-caption text-text-muted">
                                     {member.role}
                                 </p>
                             </div>
@@ -475,8 +478,8 @@ export function AboutPageContent(): React.JSX.Element {
             <section
                 className="bg-foreground py-14 sm:py-20 lg:py-28"
             >
-                <div className="mx-auto max-w-[1400px] px-6 text-center sm:px-8 lg:px-12">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">
+                <div className="mx-auto max-w-[1400px] px-4 text-center sm:px-8 lg:px-12">
+                    <p className="text-eyebrow text-white/50">
                         Let&apos;s Work Together
                     </p>
                     <h2 className="mt-5 heading-section text-white">
@@ -484,13 +487,13 @@ export function AboutPageContent(): React.JSX.Element {
                         shape the future of professional haircare in
                         Indonesia.
                     </h2>
-                    <p className="mx-auto mt-6 max-w-lg text-[14px] leading-[1.85] text-white/60">
+                    <p className="mx-auto mt-6 max-w-lg text-body text-white/60">
                         {SITE_NAME} is a trusted
                         distribution partner committed to quality,
                         education, and sustainable industry growth.
                     </p>
                     <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                        <Button asChild className="group bg-background px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground transition-all duration-300 hover:bg-white/90">
+                        <Button asChild className="group w-full sm:w-auto min-h-[48px] bg-background px-8 py-3.5 text-cta font-bold text-foreground transition-all duration-300 hover:bg-white/90 active:scale-[0.98]">
                             <Link href="/partnership">
                                 <Handshake className="h-4 w-4" />
                                 Become a Partner
@@ -498,7 +501,7 @@ export function AboutPageContent(): React.JSX.Element {
                         </Button>
                         <WhatsAppCTA
                             location="about_page"
-                            className="border border-white/20 px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-white/10"
+                            className="w-full sm:w-auto min-h-[48px] border border-white/20 px-8 py-3.5 text-cta font-bold text-white transition-all duration-300 hover:bg-white/10 active:scale-[0.98]"
                         />
                     </div>
                 </div>

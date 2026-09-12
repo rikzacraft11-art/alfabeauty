@@ -148,7 +148,7 @@ export function BrandCarousel(): React.JSX.Element {
                     {/* Navigation arrows + counter */}
                     <FadeIn delay={0.2}>
                         <div className="hidden items-center gap-3 lg:flex">
-                            <span className="text-[11px] font-semibold tabular-nums text-text-muted">
+                            <span className="text-eyebrow tabular-nums text-text-muted">
                                 {selectedIndex + 1} / {BRANDS.length}
                             </span>
                             <button

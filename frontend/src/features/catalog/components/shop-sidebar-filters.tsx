@@ -38,13 +38,13 @@ export const ShopSidebarFilters: React.FC<ShopSidebarFiltersProps> = ({
         <aside className="s-sidebar w-full space-y-6">
             {/* Header with Clear All button */}
             <div className="flex items-center justify-between border-b border-border/40 pb-3">
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-foreground">
+                <span className="text-cta font-bold text-foreground">
                     Filters
                 </span>
                 {hasActiveFilters && (
                     <button
                         onClick={onResetAll}
-                        className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+                        className="flex min-h-[40px] items-center gap-1 text-caption font-medium text-muted-foreground transition-colors hover:text-foreground"
                     >
                         <RotateCcw className="h-3 w-3" />
                         <span>Reset All</span>
@@ -60,7 +60,7 @@ export const ShopSidebarFilters: React.FC<ShopSidebarFiltersProps> = ({
                         <div key={section.id} className="border-b border-border/20 pb-4">
                             <button
                                 onClick={() => toggleSection(section.id)}
-                                className="flex w-full items-center justify-between py-1 text-left text-xs font-semibold uppercase tracking-[0.14em] text-foreground hover:text-foreground/80"
+                                className="flex min-h-[44px] w-full items-center justify-between py-2 text-left text-cta font-semibold text-foreground hover:text-foreground/80"
                             >
                                 <span>{section.title}</span>
                                 {isOpen ? (
@@ -71,26 +71,26 @@ export const ShopSidebarFilters: React.FC<ShopSidebarFiltersProps> = ({
                             </button>
 
                             {isOpen && (
-                                <div className="mt-3 space-y-2.5 pl-0.5">
+                                <div className="mt-1 space-y-1 pl-0.5">
                                     {section.items.map((item) => {
                                         const isChecked = section.selected.includes(item.id);
                                         return (
                                             <label
                                                 key={item.id}
-                                                className="group flex cursor-pointer items-center justify-between text-xs text-muted-foreground transition-colors hover:text-foreground"
+                                                className="group flex min-h-[40px] cursor-pointer items-center justify-between py-1.5 text-caption text-muted-foreground transition-colors hover:text-foreground active:opacity-70"
                                             >
                                                 <div className="flex items-center gap-2.5">
                                                     <Checkbox
                                                         checked={isChecked}
                                                         onCheckedChange={() => section.onToggle(item.id)}
-                                                        className="h-3.5 w-3.5 rounded-sm border-border-warm/60 data-[state=checked]:border-foreground data-[state=checked]:bg-foreground"
+                                                        className="h-4 w-4 rounded-sm border-border-warm/60 data-[state=checked]:border-foreground data-[state=checked]:bg-foreground"
                                                     />
                                                     <span className={isChecked ? "font-medium text-foreground" : ""}>
                                                         {item.label}
                                                     </span>
                                                 </div>
                                                 {typeof item.count === "number" && (
-                                                    <span className="text-[10px] text-muted-foreground/60">
+                                                    <span className="text-tiny text-muted-foreground/60">
                                                         ({item.count})
                                                     </span>
                                                 )}

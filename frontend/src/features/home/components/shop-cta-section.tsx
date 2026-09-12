@@ -95,28 +95,14 @@ export function ShopCTASection(): React.JSX.Element {
     const arrowTipX = Math.round(underlineEndX + 16);
     const arrowBarbX = Math.round(arrowTipX - 5);
 
-    const isMobile = w < 640;
+    const isMobile = w < 768;
 
     let spinePath = "";
     let strandA = "";
     let strandB = "";
     let whispStrand = "";
 
-    if (isMobile) {
-        // ─── Mobile Organic Atmospheric Silk Wave (Liberated from rigid underline) ───
-        // Pure, sensual, harmonic S-waves drifting naturally across the lower-middle dark canvas
-        const p1x = Math.round(w * 0.28);
-        const p1y = Math.round(h * 0.76);
-        const p2x = Math.round(w * 0.68);
-        const p2y = Math.round(h * 0.65);
-        const endX = Math.round(w + 35);
-        const endY = Math.round(h * 0.74);
-
-        spinePath = `M -35,${Math.round(h * 0.68)} C ${p1x},${p1y} ${p2x},${p2y} ${endX},${endY}`;
-        strandA = `M -35,${Math.round(h * 0.64)} C ${p1x + 12},${p1y - 14} ${p2x - 12},${p2y - 12} ${endX},${endY - 12}`;
-        strandB = `M -35,${Math.round(h * 0.72)} C ${p1x - 12},${p1y + 14} ${p2x + 12},${p2y + 12} ${endX},${endY + 12}`;
-        whispStrand = `M ${Math.round(w * 0.05)},${Math.round(h * 0.70)} C ${p1x + 25},${p1y + 6} ${p2x - 5},${p2y - 8} ${endX},${endY - 4}`;
-    } else {
+    if (!isMobile) {
         // ─── Desktop Sweeping Cinematic Wave (100% Intact with Underline & Arrow) ───
         spinePath = `M -30,${Math.round(h * 0.22)} C ${Math.round(w * 0.10)},${Math.round(h * 0.26)} ${Math.round(w * 0.18)},${Math.round(h * 0.42)} ${Math.round(w * 0.26)},${Math.round(h * 0.54)} C ${Math.round(w * 0.34)},${Math.round(h * 0.66)} ${Math.round(w * 0.42)},${Math.round(h * 0.76)} ${Math.round(w * 0.52)},${Math.round(h * 0.76)} C ${Math.round(w * 0.64)},${Math.round(h * 0.76)} ${Math.round(underlineStartX - w * 0.12)},${linkY} ${underlineStartX},${linkY} L ${underlineEndX},${linkY} L ${arrowTipX},${linkY} L ${arrowBarbX},${linkY - 4} L ${arrowTipX},${linkY} L ${arrowBarbX},${linkY + 4}`;
 
@@ -131,21 +117,21 @@ export function ShopCTASection(): React.JSX.Element {
         <section
             ref={sectionRef}
             id="shop-cta"
-            className="section section-shop-cta relative z-10 w-full bg-[#000000] text-white h-[175vh]"
+            className="section section-shop-cta relative z-10 w-full bg-[#000000] text-white h-auto md:h-[175vh]"
         >
-            {/* ─── Sticky 100vh Viewport (Locks until hair wave animation completes) ─── */}
+            {/* ─── Sticky Viewport on Desktop (175vh Runway), Natural Luxury Padding on Mobile ─── */}
             <div
                 ref={viewportRef}
-                className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden border-b border-white/10"
+                className="relative md:sticky md:top-0 min-h-[50vh] sm:min-h-[60vh] md:h-screen w-full flex flex-col justify-center overflow-hidden border-b border-white/10 py-20 sm:py-28 md:py-0"
             >
-                {/* ─── Scroll-Interactive Fluid Golden Silk Filaments ─── */}
+                {/* ─── Scroll-Interactive Fluid Golden Silk Filaments (Desktop only) ─── */}
                 <motion.div 
                     style={{
                         opacity: waveOpacity,
                         x: waveX,
                         y: waveY,
                     }}
-                    className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+                    className="pointer-events-none absolute inset-0 z-0 h-full w-full hidden md:block"
                 >
                     <svg
                         className="h-full w-full"
@@ -179,20 +165,20 @@ export function ShopCTASection(): React.JSX.Element {
 
                         {/* 1. Ambient Glow Underlay (Deep background radiance) */}
                         <motion.path
-                            style={{ pathLength: pathDraw }}
+                            style={{ pathLength: isMobile ? 1 : pathDraw }}
                             d={spinePath}
                             stroke="#EABD68"
                             strokeWidth={isHovered ? "4" : "3"}
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            opacity="0.35"
+                            opacity={isMobile ? "0.45" : "0.35"}
                             filter="url(#silkGlowSticky)"
                             className="transition-all duration-300"
                         />
                         
                         {/* 2. Primary Silk Hair Strand Spine & Live Arrow */}
                         <motion.path
-                            style={{ pathLength: pathDraw }}
+                            style={{ pathLength: isMobile ? 1 : pathDraw }}
                             d={spinePath}
                             stroke="url(#silkGoldLinearSticky)"
                             strokeWidth={isHovered ? "1.9" : "1.5"}
@@ -205,7 +191,7 @@ export function ShopCTASection(): React.JSX.Element {
 
                         {/* 3. Interweaving Harmonic Strand A */}
                         <motion.path
-                            style={{ pathLength: pathDraw }}
+                            style={{ pathLength: isMobile ? 1 : pathDraw }}
                             d={strandA}
                             stroke="#EABD68"
                             strokeWidth="0.9"
@@ -215,7 +201,7 @@ export function ShopCTASection(): React.JSX.Element {
 
                         {/* 4. Interweaving Harmonic Strand B */}
                         <motion.path
-                            style={{ pathLength: pathDraw }}
+                            style={{ pathLength: isMobile ? 1 : pathDraw }}
                             d={strandB}
                             stroke="#EABD68"
                             strokeWidth="0.8"
@@ -225,7 +211,7 @@ export function ShopCTASection(): React.JSX.Element {
 
                         {/* 5. Delicate Whispy Flyaway Hair Fiber */}
                         <motion.path
-                            style={{ pathLength: pathDraw }}
+                            style={{ pathLength: isMobile ? 1 : pathDraw }}
                             d={whispStrand}
                             stroke="#FFE8A3"
                             strokeWidth="0.6"
@@ -238,7 +224,7 @@ export function ShopCTASection(): React.JSX.Element {
                 <div className="relative z-10 mx-auto w-full max-w-[1720px] px-6 sm:px-10 lg:px-16 xl:px-20">
                     {/* ─── Centered on Mobile / Right-Aligned on Desktop Editorial Statement Box ─── */}
                     <div className="w-full sm:ml-auto max-w-[880px] text-center sm:text-right flex flex-col items-center sm:items-end">
-                        <h2 className="text-[1.65rem] sm:text-[2.6rem] lg:text-[3.3rem] font-light sm:font-normal leading-[1.25] sm:leading-[1.18] tracking-[-0.02em] text-white text-balance">
+                        <h2 className="text-h2 font-light sm:font-normal text-white text-balance">
                             {dict.shopCTA.heading}
                         </h2>
 
@@ -249,12 +235,12 @@ export function ShopCTASection(): React.JSX.Element {
                                 href={NAV_LINKS.products}
                                 onMouseEnter={() => setIsHovered(true)}
                                 onMouseLeave={() => setIsHovered(false)}
-                                className="group relative inline-flex items-center gap-2 text-[11px] sm:text-[12.5px] font-semibold uppercase tracking-[0.22em] sm:tracking-[0.18em] text-white border-b border-[#EABD68] sm:border-transparent pb-1.5 sm:pb-3 transition-colors duration-200 hover:text-[#EABD68]"
+                                className="group relative inline-flex min-h-[44px] items-center gap-2 text-cta font-semibold text-white border-b border-[#EABD68] md:border-transparent pb-1.5 sm:pb-3 transition-colors duration-200 hover:text-[#EABD68] active:text-[#EABD68]"
                             >
                                 <span>{dict.shopCTA.seeAllProducts}</span>
                                 {/* Arrow on mobile (clean icon), desktop uses drawn SVG arrow */}
-                                <ArrowRight className="h-3 w-3 sm:hidden text-[#EABD68] transition-transform duration-200 group-hover:translate-x-1" />
-                                <span className="hidden sm:inline-block w-4" aria-hidden="true" />
+                                <ArrowRight className="h-3.5 w-3.5 md:hidden text-[#EABD68] transition-transform duration-200 group-hover:translate-x-1" />
+                                <span className="hidden md:inline-block w-4" aria-hidden="true" />
                             </Link>
                         </div>
                     </div>
