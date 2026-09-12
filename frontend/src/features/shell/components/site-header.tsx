@@ -125,14 +125,14 @@ export function SiteHeader(): React.JSX.Element {
     const hasElevation = scrolled && !menuOpen;
 
     const triggerClasses = React.useMemo(() => cn(
-        "header-nav-indicator relative h-full whitespace-nowrap bg-transparent px-2.5 xl:px-3.5 text-caption font-medium tracking-[0.01em] transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
+        "header-nav-indicator relative h-full whitespace-nowrap bg-transparent px-2 xl:px-3.5 text-caption font-medium tracking-[0.01em] transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
         isSolid
             ? "header-nav-solid text-foreground/90 hover:text-foreground data-[state=open]:text-foreground"
             : "header-nav-transparent text-white/90 hover:text-white data-[state=open]:text-white"
     ), [isSolid]);
 
     const directLinkClasses = React.useMemo(() => cn(
-        "header-nav-indicator relative inline-flex h-full items-center justify-center gap-0 p-0 px-2.5 xl:px-3.5 text-caption font-medium tracking-[0.01em] whitespace-nowrap transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[active=true]:bg-transparent",
+        "header-nav-indicator relative inline-flex h-full items-center justify-center gap-0 p-0 px-2 xl:px-3.5 text-caption font-medium tracking-[0.01em] whitespace-nowrap transition-colors duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent focus:bg-transparent data-[active=true]:bg-transparent",
         isSolid
             ? "header-nav-solid text-foreground/90 hover:text-foreground"
             : "header-nav-transparent text-white/90 hover:text-white"
@@ -172,9 +172,9 @@ export function SiteHeader(): React.JSX.Element {
                     : "bg-transparent border-b border-white/10"
             )}
         >
-            <div className="mx-auto flex h-[var(--header-height,56px)] w-full max-w-[1720px] items-center justify-between px-4 sm:px-10 lg:px-16 xl:px-20">
+            <div className="mx-auto flex h-[var(--header-height,56px)] w-full max-w-[1720px] items-center justify-between px-4 sm:px-8 lg:px-8 xl:px-10 2xl:px-16">
                 {/* ─── Left Group: Logo + Left-Aligned Desktop Navigation ─── */}
-                <div className="flex items-center gap-5 xl:gap-8 h-full">
+                <div className="flex items-center gap-4 xl:gap-6 2xl:gap-8 h-full">
                     {/* Logo */}
                     <Link href="/" className="group flex items-center gap-3 shrink-0 py-2 mr-1 xl:mr-2">
                         <Image
@@ -259,13 +259,13 @@ export function SiteHeader(): React.JSX.Element {
                     </NavigationMenu>
                 </div>
 
-                {/* ─── Right Group: Credit Application, Cart, ID/EN, Dual-Pane Login Dropdown, Mobile Drawer ─── */}
-                <div className="flex items-center gap-3.5 xl:gap-5 shrink-0">
+                {/* ─── Right Group: Actions (Credit App, Cart, Lang, Login, Mobile Toggle) ─── */}
+                <div className="flex items-center gap-3 xl:gap-4 2xl:gap-5 shrink-0">
                     {/* Credit Application Link (Yucca style) */}
                     <Link
                         href="/partnership"
                         className={cn(
-                            "hidden md:inline-flex items-center gap-1.5 text-caption font-medium tracking-[0.02em] whitespace-nowrap transition-all duration-[350ms] ease-[var(--ease)] group",
+                            "hidden xl:inline-flex items-center gap-1.5 text-caption font-medium tracking-[0.02em] whitespace-nowrap transition-all duration-[350ms] ease-[var(--ease)] group",
                             isSolid
                                 ? "text-foreground/75 hover:text-foreground hover:opacity-100"
                                 : "text-white/80 hover:text-white hover:opacity-100"

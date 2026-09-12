@@ -35,32 +35,31 @@ export default function OgImage(): ImageResponse {
               fontWeight: 600,
               letterSpacing: "0.25em",
               textTransform: "uppercase",
-              color: "#a4161a",
+              color: "#C8322C",
             }}
           >
-            PT Alfa Beauty Cosmetica
+            PT ALFA BEAUTY COSMETICA
           </div>
           <div
             style={{
-              fontSize: "48px",
+              fontSize: "46px",
               fontWeight: 700,
               textAlign: "center",
-              lineHeight: 1.15,
-              maxWidth: "800px",
+              lineHeight: 1.2,
+              maxWidth: "880px",
             }}
           >
-            Connecting Global Hair Innovation to Indonesia
+            Distributor Resmi Produk Salon &amp; Hair Academy
           </div>
           <div
             style={{
               fontSize: "18px",
-              color: "rgba(255,255,255,0.6)",
+              color: "rgba(255,255,255,0.7)",
               textAlign: "center",
-              maxWidth: "600px",
+              maxWidth: "700px",
             }}
           >
-            Exclusive importer and distributor of leading Italian and Spanish
-            professional haircare brands
+            Importir Eksklusif Alfaparf Milano, Montibello, Farmavita &amp; Gamma+ Più di Indonesia
           </div>
         </div>
       </div>

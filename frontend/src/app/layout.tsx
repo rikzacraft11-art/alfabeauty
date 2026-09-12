@@ -39,39 +39,38 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
   title: {
-    default: `${SITE_NAME} — Professional Haircare Distribution`,
+    default: `${SITE_NAME} — Distributor Resmi & Salon Academy Indonesia`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia's salon and barber industry for over 18 years.",
+    "Importir eksklusif dan distributor resmi produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) serta pusat pelatihan Alfa Beauty Salon & Academy.",
   keywords: [
-    "professional haircare",
-    "salon products",
-    "barber products",
-    "hair distribution",
-    "Indonesia",
-    "Alfaparf Milano",
-    "Farmavita",
-    "Montibello",
-    "Gamma+ Professional",
-    "salon supplies",
-    "barber supplies",
+    "distributor produk salon",
+    "importir alfaparf milano indonesia",
+    "distributor montibello indonesia",
+    "distributor farmavita indonesia",
+    "gamma piu indonesia",
+    "alfa beauty salon academy",
+    "haircare profesional",
+    "kursus salon profesional",
+    "suplier salon indonesia",
+    "PT Alfa Beauty Cosmetica",
   ],
   openGraph: {
-    title: SITE_NAME,
+    title: `${SITE_NAME} — Distributor Resmi Produk Salon & Hair Academy`,
     description:
-      "Connecting Global Hair Innovation to Indonesia's Salon and Barber Professionals",
+      "Importir eksklusif produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) dan pusat pelatihan salon berlisensi resmi di Indonesia.",
     url: SITE_DOMAIN,
     siteName: SITE_NAME,
     locale: "id_ID",
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${SITE_NAME} — Professional Haircare Distribution` }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${SITE_NAME} — Distributor Resmi & Salon Academy Indonesia` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_NAME,
+    title: `${SITE_NAME} — Distributor Resmi Produk Salon & Hair Academy`,
     description:
-      "Connecting Global Hair Innovation to Indonesia's Salon and Barber Professionals",
+      "Importir eksklusif produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) dan pusat pelatihan salon berlisensi resmi di Indonesia.",
   },
   robots: {
     index: true,
@@ -90,16 +89,48 @@ export const metadata: Metadata = {
   },
 };
 
-/* ── JSON-LD Structured Data ── */
+/* ── JSON-LD Structured Data (CITE Framework: Core Entity & WholesaleStore) ── */
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE_NAME,
-  url: SITE_DOMAIN,
-  email: CONTACT_EMAIL,
-  description:
-    "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands in Indonesia.",
-  sameAs: [INSTAGRAM_URL],
+  "@graph": [
+    {
+      "@type": ["Organization", "WholesaleStore"],
+      "@id": `${SITE_DOMAIN}/#organization`,
+      name: SITE_NAME,
+      legalName: "PT Alfa Beauty Cosmetica",
+      alternateName: ["Alfa Beauty", "Alfa Beauty Salon & Academy", "Alfa Beauty Cosmetica"],
+      url: SITE_DOMAIN,
+      email: CONTACT_EMAIL,
+      telephone: "+628151168745",
+      foundingDate: "2007",
+      description:
+        "Importir eksklusif dan distributor resmi produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) serta operator Alfa Beauty Salon & Academy di Indonesia.",
+      sameAs: [INSTAGRAM_URL],
+      areaServed: {
+        "@type": "Country",
+        name: "Indonesia",
+      },
+      knowsAbout: [
+        "Professional Haircare Distribution",
+        "Alfaparf Milano Professional",
+        "Montibello Haircare",
+        "Farmavita Professional",
+        "Gamma+ Più Barber Tools",
+        "Alfa Beauty Salon & Academy",
+        "Hair Coloring Technical Masterclasses",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_DOMAIN}/#website`,
+      url: SITE_DOMAIN,
+      name: SITE_NAME,
+      publisher: {
+        "@id": `${SITE_DOMAIN}/#organization`,
+      },
+      inLanguage: ["id-ID", "en-US"],
+    },
+  ],
 };
 
 /* ── Analytics IDs ── */
@@ -119,7 +150,7 @@ export default async function RootLayout({
     : null;
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${montserrat.variable} ${lexendDeca.variable}`}>
       <head>
         <script
           type="application/ld+json"

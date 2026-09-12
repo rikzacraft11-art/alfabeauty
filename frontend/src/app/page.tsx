@@ -11,10 +11,10 @@ import {
 
 export const metadata: Metadata = {
   title: {
-    absolute: "PT Alfa Beauty Cosmetica — Professional Haircare Distribution",
+    absolute: "PT Alfa Beauty Cosmetica — Distributor Resmi Produk Salon & Hair Academy",
   },
   description:
-    "Exclusive importer and distributor of leading Italian and Spanish professional haircare brands, serving Indonesia's salon and barber industry for over 18 years.",
+    "Importir eksklusif dan distributor resmi produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) serta pusat pelatihan salon berlisensi resmi di Indonesia.",
   alternates: { canonical: "/" },
 };
 

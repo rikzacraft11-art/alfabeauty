@@ -30,7 +30,7 @@ export const CONTACT_EMAIL = "alfabeautycosmeticaa@gmail.com" as const;
 export const WHATSAPP_NUMBER = "628151168745" as const;
 export const WHATSAPP_DISPLAY = "+62 815-116-8745" as const;
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}` as const;
-export const INSTAGRAM_HANDLE = "alfabeautycosmetica" as const;
+export const INSTAGRAM_HANDLE = "alfabeauty_id" as const;
 export const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM_HANDLE}` as const;
 
 // ── Address ──
