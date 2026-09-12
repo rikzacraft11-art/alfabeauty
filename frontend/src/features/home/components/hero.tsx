@@ -368,7 +368,7 @@ export function HeroSection(): React.JSX.Element {
                                             dict.hero.titleLine1,
                                             dict.hero.titleLine2,
                                             dict.hero.titleLine3,
-                                        ]}
+                                        ].filter(Boolean)}
                                     />
                                 </div>
 

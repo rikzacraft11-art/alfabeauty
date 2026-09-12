@@ -49,14 +49,14 @@ export function BrandShowroom(): React.JSX.Element {
     }, []);
 
     return (
-        <section id="brand-showroom" className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-hidden border-b border-[#E5E5E5]">
+        <section id="brand-showroom" className="relative w-full bg-[#0B0B0B] text-white overflow-hidden border-b border-[#222222]">
             {/* ═══════════════════════════════════════════════════════
-                TOP SECTION: 50/50 High-Fashion Editorial Split (Pure White Canvas)
+                TOP SECTION: 50/50 High-Fashion Editorial Split (Dark Canvas)
             ═══════════════════════════════════════════════════════ */}
             <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[580px] lg:min-h-[720px] xl:min-h-[780px]">
 
-                {/* ─── LEFT HALF: Pure Minimalist White Editorial Canvas ─── */}
-                <div className="flex flex-col justify-center p-8 sm:p-14 lg:p-18 xl:p-24 z-10 bg-[#FFFFFF]">
+                {/* ─── LEFT HALF: Pure Minimalist Dark Editorial Canvas ─── */}
+                <div className="flex flex-col justify-center p-8 sm:p-14 lg:p-18 xl:p-24 z-10 bg-[#0B0B0B]">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeBrand.id}
@@ -66,33 +66,37 @@ export function BrandShowroom(): React.JSX.Element {
                             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                             className="max-w-[580px]"
                         >
-                            {/* Eyebrow */}
-                            <div className="mb-4 sm:mb-6">
-                                <span className="inline-block text-tiny font-bold uppercase tracking-[0.25em] text-[#B38728]">
-                                    {activeBrand.name}
-                                </span>
-                            </div>
-
-                            {/* Main Serif Headline */}
-                            <h2 className="text-h2 font-light text-[#111111]">
+                            {/* Main Headline: Sans-Serif Light + Serif Italic */}
+                            <h2 className="text-[2.2rem] sm:text-[3rem] lg:text-[3.4rem] xl:text-[4rem] font-light leading-[1.12] tracking-[-0.03em] text-white">
                                 {activeBrand.headline.split("&")[0]}
                                 {activeBrand.headline.includes("&") && (
-                                    <span className="font-serif italic text-[#333333] font-normal">
+                                    <span className="font-serif italic text-white/90 font-normal">
                                         & {activeBrand.headline.split("&")[1]}
                                     </span>
                                 )}
                             </h2>
 
                             {/* Refined Description */}
-                            <p className="mt-6 text-body font-normal text-[#666666]">
+                            <p className="mt-6 text-[14px] sm:text-[15.5px] font-light leading-relaxed text-white/60">
                                 {activeBrand.description}
                             </p>
+
+                            {/* Left-Aligned Editorial Action Link */}
+                            <div className="mt-8 sm:mt-10">
+                                <Link
+                                    href={activeBrand.href}
+                                    className="group inline-flex min-h-[44px] items-center gap-2 text-[12.5px] sm:text-[13.5px] font-medium tracking-wide text-white border-b border-white/70 pb-1 transition-all duration-300 hover:border-white hover:text-white"
+                                >
+                                    <span className="font-serif italic text-white/95">{activeBrand.subheading}</span>
+                                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                                </Link>
+                            </div>
                         </motion.div>
                     </AnimatePresence>
                 </div>
 
                 {/* ─── RIGHT HALF: Full-Bleed High-Fashion Editorial Stage ─── */}
-                <div className="relative w-full h-[460px] sm:h-[560px] lg:h-full overflow-hidden bg-[#F5F5F5]">
+                <div className="relative w-full h-[460px] sm:h-[560px] lg:h-full overflow-hidden bg-[#141414]">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeBrand.id}
@@ -119,20 +123,9 @@ export function BrandShowroom(): React.JSX.Element {
                             />
 
                             {/* Subtle luxury edge gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none lg:bg-gradient-to-r lg:from-[#0B0B0B]/20 lg:via-transparent lg:to-transparent" />
                         </motion.div>
                     </AnimatePresence>
-
-                    {/* ─── Tombol Aksi di Pojok Kanan Bawah (Font Konsisten dengan Desain Web) ─── */}
-                    <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20">
-                        <Link
-                            href={activeBrand.href}
-                            className="group inline-flex min-h-[44px] items-center gap-2 text-cta font-semibold text-white border-b border-white/80 pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-white hover:text-white active:scale-[0.98]"
-                        >
-                            <span>{activeBrand.subheading}</span>
-                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                        </Link>
-                    </div>
                 </div>
             </div>
 

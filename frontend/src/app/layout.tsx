@@ -150,7 +150,7 @@ export default async function RootLayout({
     : null;
 
   return (
-    <html lang="en" className={`${montserrat.variable} ${lexendDeca.variable}`}>
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"

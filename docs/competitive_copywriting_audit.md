@@ -108,30 +108,38 @@ graph TD
 
 ---
 
-## 5. Rekomendasi Struktur Copywriting Standar Baru (Usulan Pengganti)
+## 5. Rekomendasi Struktur Copywriting Minimalist (Standar Final)
+
+Prinsip Utama: **Lugas, Padat, Zero-Fluff, dan Memberi Ruang Bernapas pada Visual (*Breathing Room*)**. Menghilangkan pengulangan frasa, memangkas panjang paragraf hingga 60%, dan mempertahankan fokus B2B resmi.
 
 ### A. Hero Section (Homepage)
 
-- **Eyebrow:** `DISTRIBUTOR RESMI PRODUK SALON SEJAK 2007`
+- **Eyebrow:** `DISTRIBUTOR RESMI SEJAK 2007` · `OFFICIAL DISTRIBUTOR SINCE 2007`
 - **Headline (Bahasa Indonesia):**  
-  *Distributor Resmi & Pusat Pelatihan Rambut Profesional untuk Salon dan Barbershop Indonesia*  
+  *Distributor Resmi Salon*  
+  *& Akademi Pelatihan*  
 - **Headline (English):**  
-  *Official Importer, Distributor & Technical Academy for Indonesia's Professional Salons & Barbershops*
-- **Deskripsi (Bahasa Indonesia):**  
-  *PT Alfa Beauty Cosmetica adalah importir dan distributor tunggal resmi brand perawatan rambut profesional terkemuka asal Italia dan Spanyol. Kami melayani kebutuhan ribuan salon dan barbershop di seluruh Indonesia dengan jaminan 100% produk resmi terdaftar BPOM, didukung program pelatihan teknis di Alfa Beauty Academy.*
-- **Deskripsi (English):**  
-  *PT Alfa Beauty Cosmetica is the official exclusive importer and distributor of leading Italian and Spanish professional haircare brands in Indonesia. Supplying salons and barbershops nationwide with genuine, BPOM-registered products, backed by certified technical training at Alfa Beauty Academy.*
-- **CTA:**  
-  `JELAJAHI PRODUK RESMI` · `PENGAJUAN KEMITRAAN SALON`
+  *Official Salon Distribution*  
+  *& Technical Academy*  
+- **Deskripsi (Bahasa Indonesia — 18 Kata):**  
+  *Importir tunggal resmi Alfaparf Milano, Montibello, Farmavita, dan Gamma+ Più di Indonesia. Pasokan resmi 100% BPOM dan pelatihan teknis bersertifikasi.*
+- **Deskripsi (English — 18 Words):**  
+  *Exclusive Indonesian importer of Alfaparf Milano, Montibello, Farmavita, and Gamma+ Più. 100% genuine, BPOM-certified salon supplies and technical education.*
+- **CTA Actions:**  
+  `JELAJAHI PRODUK` · `KEMITRAAN SALON`  
+  *(English: `EXPLORE PRODUCTS` · `SALON PARTNERSHIP`)*
 
 ### B. Solusi Layanan Salon (Solutions Section)
 
 1. **Pelurusan & Keratin Smoothing:**  
-   *Sistem pelurusan rambut dan keratin smoothing profesional bebas formaldehida. Menghasilkan rambut lurus alami, lembut, dan terlindungi untuk kepuasan pelanggan salon Anda.*
+   *Sistem pelurusan dan keratin smoothing bebas formaldehida untuk hasil lurus alami dan terlindungi.*  
+   *(EN: Formaldehyde-free smoothing and straightening systems delivering naturally sleek, protected hair.)*
 2. **Pewarnaan & Bleaching Presisi:**  
-   *Rangkaian cat rambut profesional Italia dan Spanyol dengan teknologi pigmen mikro dan perlindungan serat rambut untuk hasil warna intens, akurat sesuai color chart, dan tahan lama.*
+   *Cat rambut profesional Italia dan Spanyol dengan pigmen mikro dan perlindungan serat rambut.*  
+   *(EN: High-definition Italian and Spanish color formulations with micro-pigment technology and fiber protection.)*
 3. **Peralatan Barbershop & Styling:**  
-   *Hardware salon dan barber profesional dari Gamma+ Italia: clipper, trimmer, dan hair dryer presisi tinggi bertenaga motor tangguh untuk kebutuhan kerja salon volume tinggi.*
+   *Hardware barber Gamma+ Italia: clipper, trimmer, dan hair dryer bertenaga tinggi untuk pemakaian intensif.*  
+   *(EN: High-torque Gamma+ clippers, trimmers, and dryers engineered for master barber endurance.)*
 
 ### C. Profil Showroom Brand (Brand Showroom)
 
