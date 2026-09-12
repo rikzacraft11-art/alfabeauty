@@ -53,10 +53,10 @@ export function BrandShowroom(): React.JSX.Element {
             {/* ═══════════════════════════════════════════════════════
                 TOP SECTION: 50/50 High-Fashion Editorial Split (Dark Canvas)
             ═══════════════════════════════════════════════════════ */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[580px] lg:min-h-[720px] xl:min-h-[780px]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[520px] sm:min-h-[580px] lg:min-h-[560px] xl:min-h-[640px] 2xl:min-h-[720px]">
 
                 {/* ─── LEFT HALF: Pure Minimalist Dark Editorial Canvas ─── */}
-                <div className="flex flex-col justify-center p-8 sm:p-14 lg:p-18 xl:p-24 z-10 bg-[#0B0B0B]">
+                <div className="flex flex-col justify-center px-6 sm:px-12 lg:px-10 xl:px-16 2xl:px-24 py-12 sm:py-16 lg:py-14 xl:py-20 z-10 bg-[#0B0B0B]">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeBrand.id}
@@ -64,28 +64,30 @@ export function BrandShowroom(): React.JSX.Element {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -16 }}
                             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                            className="max-w-[580px]"
+                            className="w-full max-w-[480px] lg:max-w-[480px] xl:max-w-[560px] 2xl:max-w-[640px]"
                         >
-                            {/* Main Headline: Sans-Serif Light + Serif Italic */}
-                            <h2 className="text-[2.2rem] sm:text-[3rem] lg:text-[3.4rem] xl:text-[4rem] font-light leading-[1.12] tracking-[-0.03em] text-white">
-                                {activeBrand.headline.split("&")[0]}
+                            {/* Main Headline: Sans-Serif Light + Serif Italic (Exact 2-Line Parity Across Laptop & Desktop) */}
+                            <h2 className="text-[1.85rem] sm:text-[2.4rem] lg:text-[1.92rem] xl:text-[2.65rem] 2xl:text-[3.6rem] font-light leading-[1.14] tracking-[-0.03em] text-white">
+                                <span className="block">
+                                    {activeBrand.headline.split("&")[0].trim()}
+                                </span>
                                 {activeBrand.headline.includes("&") && (
-                                    <span className="font-serif italic text-white/90 font-normal">
-                                        & {activeBrand.headline.split("&")[1]}
+                                    <span className="block font-serif italic text-white/90 font-normal mt-0.5 sm:mt-1">
+                                        & {activeBrand.headline.split("&")[1].trim()}
                                     </span>
                                 )}
                             </h2>
 
                             {/* Refined Description */}
-                            <p className="mt-6 text-[14px] sm:text-[15.5px] font-light leading-relaxed text-white/60">
+                            <p className="mt-5 sm:mt-6 text-[13px] sm:text-[14px] lg:text-[13.5px] xl:text-[14.5px] 2xl:text-[15.5px] font-light leading-relaxed text-white/60 max-w-lg">
                                 {activeBrand.description}
                             </p>
 
                             {/* Left-Aligned Editorial Action Link */}
-                            <div className="mt-8 sm:mt-10">
+                            <div className="mt-7 sm:mt-9">
                                 <Link
                                     href={activeBrand.href}
-                                    className="group inline-flex min-h-[44px] items-center gap-2 text-[12.5px] sm:text-[13.5px] font-medium tracking-wide text-white border-b border-white/70 pb-1 transition-all duration-300 hover:border-white hover:text-white"
+                                    className="group inline-flex min-h-[44px] items-center gap-2 text-[12px] sm:text-[13px] lg:text-[12.5px] xl:text-[13.5px] font-medium tracking-wide text-white border-b border-white/70 pb-1 transition-all duration-300 hover:border-white hover:text-white"
                                 >
                                     <span className="font-serif italic text-white/95">{activeBrand.subheading}</span>
                                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -133,12 +135,12 @@ export function BrandShowroom(): React.JSX.Element {
                 BOTTOM SECTION: Clean White Brand Selector Bar
                 (Klik untuk Mengganti Brand Aktif)
             ═══════════════════════════════════════════════════════ */}
-            <div className="w-full bg-[#FFFFFF] text-[#111111] py-6 sm:py-9 px-5 sm:px-10 lg:px-16 xl:px-20 border-t border-b border-[#E5E5E5]">
-                <div className="w-full max-w-[1720px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-10">
+            <div className="w-full bg-[#FFFFFF] text-[#111111] py-6 sm:py-8 lg:py-9 px-5 sm:px-8 lg:px-10 xl:px-20 border-t border-b border-[#E5E5E5]">
+                <div className="w-full max-w-[1720px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-8 lg:gap-10">
 
                     {/* Left Label (Without Colon, Bilingual) */}
                     <div className="text-center md:text-left shrink-0">
-                        <p className="text-tiny font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight max-w-[160px]">
+                        <p className="text-tiny font-bold uppercase tracking-[0.22em] text-[#666666] leading-tight max-w-[140px] xl:max-w-[160px]">
                             {dict.brandShowroom.brandPortfolioLabel}
                         </p>
                     </div>
@@ -148,7 +150,7 @@ export function BrandShowroom(): React.JSX.Element {
                         <div
                             ref={scrollContainerRef}
                             onScroll={handleScroll}
-                            className="flex items-center justify-start md:justify-end gap-6 sm:gap-8 lg:gap-12 w-full overflow-x-auto no-scrollbar py-2 px-1"
+                            className="flex items-center justify-start md:justify-end gap-4 sm:gap-5 md:gap-5 lg:gap-5 xl:gap-10 2xl:gap-12 w-full overflow-x-auto no-scrollbar py-2 px-1 pr-6 lg:pr-10 xl:pr-0"
                         >
                             {brands.map((brand) => {
                                 const isActive = brand.id === activeId;
@@ -157,11 +159,11 @@ export function BrandShowroom(): React.JSX.Element {
                                         key={brand.id}
                                         type="button"
                                         onClick={() => setActiveId(brand.id)}
-                                        className={`group relative flex min-h-[44px] flex-col items-center justify-center px-2 py-2 shrink-0 transition-all duration-300 cursor-pointer active:scale-95 ${isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
+                                        className={`group relative flex min-h-[44px] flex-col items-center justify-center px-1.5 sm:px-2 py-2 shrink-0 transition-all duration-300 cursor-pointer active:scale-95 ${isActive ? "opacity-100 scale-105" : "opacity-40 hover:opacity-85"
                                             }`}
                                         title={`Select ${brand.name}`}
                                     >
-                                        <div className="relative h-6 sm:h-8 w-20 sm:w-28">
+                                        <div className="relative h-6 sm:h-7 lg:h-7 xl:h-8 w-18 sm:w-22 lg:w-22 xl:w-28">
                                             <Image
                                                 src={brand.logo}
                                                 alt={brand.name}

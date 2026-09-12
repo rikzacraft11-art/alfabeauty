@@ -95,11 +95,11 @@ export function MegaFooter(): React.JSX.Element {
             </div>
 
             {/* Desktop Row 2: 4-Column Strip with Sharp Editorial Hover Reveal */}
-            <div className="grid w-full grid-cols-4 gap-6 xl:gap-8 items-stretch my-auto py-4">
+            <div className="grid w-full grid-cols-4 gap-4 xl:gap-8 items-center my-auto py-4">
               {/* Column 1: Large Brand Mark */}
               <Link
                 href="/"
-                className="group relative flex aspect-square w-full items-center justify-center p-6 transition-transform duration-300 hover:scale-105"
+                className="group relative flex aspect-square w-full items-center justify-center p-4 xl:p-6 transition-transform duration-300 hover:scale-105"
                 aria-label="Alfa Beauty Home"
               >
                 <div className="relative flex flex-col items-center justify-center w-full h-full">
@@ -110,7 +110,7 @@ export function MegaFooter(): React.JSX.Element {
                     height={260}
                     unoptimized
                     priority
-                    className="h-48 xl:h-56 w-auto object-contain drop-shadow-[0_4px_16px_rgba(186,24,27,0.12)]"
+                    className="h-32 lg:h-36 xl:h-52 2xl:h-56 w-auto object-contain drop-shadow-[0_4px_16px_rgba(186,24,27,0.12)]"
                   />
                 </div>
               </Link>
@@ -120,7 +120,7 @@ export function MegaFooter(): React.JSX.Element {
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="group relative flex aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-[#E8E4DC] bg-[#FBF9F6] p-8 xl:p-10 text-center transition-all duration-400 hover:bg-[#FFFFFF] hover:border-[#111111]/30 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] active:scale-[0.99] overflow-hidden"
+                  className="group relative flex aspect-square w-full cursor-pointer items-center justify-center rounded-none border border-[#E8E4DC] bg-[#FBF9F6] p-4 lg:p-6 xl:p-10 text-center transition-all duration-400 hover:bg-[#FFFFFF] hover:border-[#111111]/30 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] active:scale-[0.99] overflow-hidden"
                 >
                   {/* Hover Product Background Image */}
                   <div className="absolute inset-0 z-0 opacity-0 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-105">
@@ -137,11 +137,11 @@ export function MegaFooter(): React.JSX.Element {
                   </div>
 
                   {/* Centered Typography (No Paragraph Copywriting) */}
-                  <div className="relative z-10 flex flex-col items-center justify-center gap-3 px-4">
-                    <span className="text-eyebrow font-bold text-brand-crimson group-hover:text-[#EABD68] transition-colors duration-300">
+                  <div className="relative z-10 flex flex-col items-center justify-center gap-2 xl:gap-3 px-2 xl:px-4">
+                    <span className="text-tiny xl:text-eyebrow font-bold text-brand-crimson group-hover:text-[#EABD68] transition-colors duration-300">
                       0{idx + 1}
                     </span>
-                    <span className="block text-h3 font-light leading-snug tracking-[-0.01em] text-[#111111] transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                    <span className="block text-[1.15rem] lg:text-[1.25rem] xl:text-h3 font-light leading-snug tracking-[-0.01em] text-[#111111] transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
                       {item.title}
                     </span>
                   </div>

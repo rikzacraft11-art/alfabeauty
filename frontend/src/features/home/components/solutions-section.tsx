@@ -147,7 +147,7 @@ export function SolutionsSection(): React.JSX.Element {
                 </div>
 
                 {/* ─── Desktop & Tablet Viewport (>= md): In-Card Editorial Gallery ─── */}
-                <div className="hidden md:flex w-full items-center justify-center gap-6 lg:gap-8 xl:gap-10">
+                <div className="hidden md:flex w-full items-center justify-center gap-3 lg:gap-5 xl:gap-8 2xl:gap-10">
                     {solutions.map((item, index) => {
                         const isActive = index === activeIndex;
 
@@ -157,10 +157,10 @@ export function SolutionsSection(): React.JSX.Element {
                                 onMouseEnter={() => setActiveIndex(index)}
                                 onClick={() => setActiveIndex(index)}
                                 className={cn(
-                                    "relative flex flex-col cursor-pointer overflow-hidden rounded-none transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                                    "relative flex flex-col cursor-pointer overflow-hidden rounded-none transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shrink-0",
                                     isActive
-                                        ? "z-20 w-full max-w-[480px] lg:max-w-[500px] xl:max-w-[520px] h-[440px] lg:h-[475px] xl:h-[495px] shadow-[0_28px_80px_rgba(0,0,0,0.7)]"
-                                        : "z-10 w-full max-w-[340px] lg:max-w-[360px] xl:max-w-[380px] h-[340px] lg:h-[375px] xl:h-[395px] shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.55)]"
+                                        ? "z-20 w-[310px] md:w-[320px] lg:w-[400px] xl:w-[470px] 2xl:w-[520px] h-[310px] md:h-[320px] lg:h-[390px] xl:h-[450px] 2xl:h-[495px] shadow-[0_28px_80px_rgba(0,0,0,0.7)]"
+                                        : "z-10 w-[180px] md:w-[190px] lg:w-[260px] xl:w-[320px] 2xl:w-[380px] aspect-square shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.55)]"
                                 )}
                             >
                                 {/* ─── Layer A: Active Solid White Canvas Base ─── */}
@@ -194,19 +194,19 @@ export function SolutionsSection(): React.JSX.Element {
                                 {/* ─── Content 1: Inactive Centered Title Layer (Smooth In-Card Dissolve) ─── */}
                                 <div
                                     className={cn(
-                                        "absolute inset-0 z-10 flex flex-col items-center justify-center p-8 lg:p-10 text-center transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                                        "absolute inset-0 z-10 flex flex-col items-center justify-center p-4 lg:p-6 xl:p-8 text-center transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]",
                                         isActive
                                             ? "opacity-0 scale-95 pointer-events-none"
                                             : "opacity-100 scale-100 pointer-events-auto"
                                     )}
                                 >
-                                    <span className="text-tiny font-bold uppercase tracking-[0.25em] text-[#EABD68] mb-2.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                                    <span className="text-tiny font-bold uppercase tracking-[0.25em] text-[#EABD68] mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                                         0{index + 1}
                                     </span>
-                                    <h3 className="text-h3 font-light text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                                    <h3 className="text-[1.05rem] lg:text-[1.18rem] xl:text-[1.35rem] 2xl:text-h3 font-light text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] px-2">
                                         {item.title}
                                     </h3>
-                                    <span className="mt-3.5 inline-flex items-center gap-1.5 text-cta font-semibold text-white/60 border-b border-transparent transition-colors duration-200 group-hover:text-white group-hover:border-white/60 pb-0.5">
+                                    <span className="mt-2.5 lg:mt-3 inline-flex items-center gap-1.5 text-[11px] lg:text-[12px] xl:text-cta font-semibold text-white/60 border-b border-transparent transition-colors duration-200 group-hover:text-white group-hover:border-white/60 pb-0.5">
                                         <span>{dict.solutions.viewDetails || "VIEW DETAILS"}</span>
                                         <ArrowRight className="h-3 w-3" />
                                     </span>
@@ -215,7 +215,7 @@ export function SolutionsSection(): React.JSX.Element {
                                 {/* ─── Content 2: Active Detailed Editorial Content Layer (Smooth In-Card Dissolve) ─── */}
                                 <div
                                     className={cn(
-                                        "relative z-20 flex h-full w-full flex-col justify-between p-8 lg:p-10 xl:p-12 text-[#111111] transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                                        "relative z-20 flex h-full w-full flex-col justify-between p-6 lg:p-7 xl:p-10 2xl:p-12 text-[#111111] transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]",
                                         isActive
                                             ? "opacity-100 translate-y-0 pointer-events-auto"
                                             : "opacity-0 translate-y-3 pointer-events-none"
@@ -223,7 +223,7 @@ export function SolutionsSection(): React.JSX.Element {
                                 >
                                     <div>
                                         {/* Number & Indicator */}
-                                        <div className="flex items-center gap-2 mb-3">
+                                        <div className="flex items-center gap-2 mb-2 lg:mb-3">
                                             <span className="text-tiny font-bold uppercase tracking-[0.28em] text-brand-crimson">
                                                 0{index + 1}
                                             </span>
@@ -231,18 +231,18 @@ export function SolutionsSection(): React.JSX.Element {
                                         </div>
 
                                         {/* Headline Title */}
-                                        <h3 className="text-h2 font-light text-[#111111]">
+                                        <h3 className="text-[1.3rem] lg:text-[1.45rem] xl:text-[1.85rem] 2xl:text-h2 font-light text-[#111111] leading-snug">
                                             {item.title}
                                         </h3>
 
                                         {/* Narrative Description Copywriting */}
-                                        <p className="mt-4 text-body font-normal text-[#555555]">
+                                        <p className="mt-2.5 lg:mt-3 text-[12px] lg:text-[13px] xl:text-body font-normal text-[#555555] line-clamp-3 xl:line-clamp-none leading-relaxed">
                                             {item.description}
                                         </p>
                                     </div>
 
                                     <div>
-                                        <div className="mb-4 h-px w-full bg-[#E5E0D8]" />
+                                        <div className="mb-3 lg:mb-4 h-px w-full bg-[#E5E0D8]" />
 
                                         <Link
                                             href={item.href}

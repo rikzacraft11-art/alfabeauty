@@ -176,7 +176,7 @@ export const idDictionary: Dictionary = {
         id: "core",
         slug: "core",
         name: "Core Professional",
-        headline: "Presisi alat harian & formula perm kimiawi Jepang.",
+        headline: "Presisi alat harian & formula perm Jepang.",
         subheading: "Jelajahi Core Professional",
         description: "Dirancang untuk stylist berbeban kerja tinggi yang membutuhkan ketahanan alat dan presisi keseimbangan alkali.",
         editorialImage: "/images/home/editorial-gammaplus.jpg",
