@@ -3,7 +3,8 @@ import { draftMode, headers } from "next/headers";
 import { Montserrat, Lexend_Deca } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { SITE_NAME, SITE_DOMAIN, CONTACT_EMAIL, INSTAGRAM_URL } from "@/shared/lib/config";
+import { SITE_NAME, SITE_SHORT_NAME, SITE_BASE_URL, BRAND_COLORS, CONTACT_EMAIL, INSTAGRAM_URL, WHATSAPP_NUMBER } from "@/shared/lib/config";
+import { JsonLd } from "@/app/_components";
 import { SiteHeader } from "@/features/shell";
 import { MegaFooter } from "@/shared/components/layout/mega-footer";
 import { GlobalBreadcrumbs } from "@/shared/components/layout/global-breadcrumbs";
@@ -30,20 +31,27 @@ const lexendDeca = Lexend_Deca({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#5D221C",
+  themeColor: BRAND_COLORS.maroon,
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
 };
 
+const baseUrl = SITE_BASE_URL;
+
+const SITE_DESCRIPTION =
+  "Importir eksklusif dan distributor resmi produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) serta pusat pelatihan Alfa Beauty Salon & Academy.";
+const SITE_OG_TITLE = `${SITE_NAME} — Distributor Resmi Produk Salon & Hair Academy`;
+const SITE_OG_DESCRIPTION =
+  "Importir eksklusif produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) dan pusat pelatihan salon berlisensi resmi di Indonesia.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_DOMAIN),
+  metadataBase: new URL(baseUrl),
   title: {
     default: `${SITE_NAME} — Distributor Resmi & Salon Academy Indonesia`,
     template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Importir eksklusif dan distributor resmi produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) serta pusat pelatihan Alfa Beauty Salon & Academy.",
+  description: SITE_DESCRIPTION,
   keywords: [
     "distributor produk salon",
     "importir alfaparf milano indonesia",
@@ -54,13 +62,12 @@ export const metadata: Metadata = {
     "haircare profesional",
     "kursus salon profesional",
     "suplier salon indonesia",
-    "PT Alfa Beauty Cosmetica",
+    SITE_NAME,
   ],
   openGraph: {
-    title: `${SITE_NAME} — Distributor Resmi Produk Salon & Hair Academy`,
-    description:
-      "Importir eksklusif produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) dan pusat pelatihan salon berlisensi resmi di Indonesia.",
-    url: SITE_DOMAIN,
+    title: SITE_OG_TITLE,
+    description: SITE_OG_DESCRIPTION,
+    url: baseUrl,
     siteName: SITE_NAME,
     locale: "id_ID",
     type: "website",
@@ -68,9 +75,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Distributor Resmi Produk Salon & Hair Academy`,
-    description:
-      "Importir eksklusif produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) dan pusat pelatihan salon berlisensi resmi di Indonesia.",
+    title: SITE_OG_TITLE,
+    description: SITE_OG_DESCRIPTION,
+    images: ["/opengraph-image"],
+  },
+  alternates: {
+    canonical: baseUrl,
   },
   robots: {
     index: true,
@@ -95,13 +105,13 @@ const jsonLd = {
   "@graph": [
     {
       "@type": ["Organization", "WholesaleStore"],
-      "@id": `${SITE_DOMAIN}/#organization`,
+      "@id": `${baseUrl}/#organization`,
       name: SITE_NAME,
-      legalName: "PT Alfa Beauty Cosmetica",
-      alternateName: ["Alfa Beauty", "Alfa Beauty Salon & Academy", "Alfa Beauty Cosmetica"],
-      url: SITE_DOMAIN,
+      legalName: SITE_NAME,
+      alternateName: [SITE_SHORT_NAME, "Alfa Beauty Salon & Academy", "Alfa Beauty Cosmetica"],
+      url: baseUrl,
       email: CONTACT_EMAIL,
-      telephone: "+628151168745",
+      telephone: `+${WHATSAPP_NUMBER}`,
       foundingDate: "2007",
       description:
         "Importir eksklusif dan distributor resmi produk perawatan rambut profesional Eropa (Alfaparf Milano, Montibello, Farmavita, Gamma+ Più) serta operator Alfa Beauty Salon & Academy di Indonesia.",
@@ -122,21 +132,26 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": `${SITE_DOMAIN}/#website`,
-      url: SITE_DOMAIN,
+      "@id": `${baseUrl}/#website`,
+      url: baseUrl,
       name: SITE_NAME,
       publisher: {
-        "@id": `${SITE_DOMAIN}/#organization`,
+        "@id": `${baseUrl}/#organization`,
       },
       inLanguage: ["id-ID", "en-US"],
     },
   ],
 };
 
-/* ── Analytics IDs ── */
-const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-const clarityId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
-const fbPixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+/* ── Analytics IDs & Defensive Validation ── */
+const rawGaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const rawClarityId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
+const rawFbPixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+
+const TRACKING_ID_RE = /^[a-zA-Z0-9_-]+$/;
+const gaId = rawGaId && TRACKING_ID_RE.test(rawGaId) ? rawGaId : null;
+const clarityId = rawClarityId && TRACKING_ID_RE.test(rawClarityId) ? rawClarityId : null;
+const fbPixelId = rawFbPixelId && TRACKING_ID_RE.test(rawFbPixelId) ? rawFbPixelId : null;
 
 export default async function RootLayout({
   children,
@@ -150,14 +165,9 @@ export default async function RootLayout({
     : null;
 
   return (
-    <html lang="en">
+    <html lang="id" dir="ltr">
       <head>
-        <script
-          type="application/ld+json"
-          nonce={nonce}
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={jsonLd} nonce={nonce} />
       </head>
       <body className={`${montserrat.variable} ${lexendDeca.variable}`}>
         <LenisProvider>
@@ -185,21 +195,23 @@ export default async function RootLayout({
           </LanguageProvider>
         </LenisProvider>
         {gaId && <GoogleAnalytics gaId={gaId} />}
-        {/* Microsoft Clarity — deferred to after page load */}
+        {/* Microsoft Clarity — deferred with CSP nonce */}
         {clarityId && (
           <Script
             id="clarity-script"
             strategy="lazyOnload"
+            nonce={nonce}
             dangerouslySetInnerHTML={{
               __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","${clarityId}");`,
             }}
           />
         )}
-        {/* Facebook Pixel — deferred to after page load */}
+        {/* Facebook Pixel — deferred with CSP nonce */}
         {fbPixelId && (
           <Script
             id="fb-pixel-script"
             strategy="lazyOnload"
+            nonce={nonce}
             dangerouslySetInnerHTML={{
               __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${fbPixelId}');fbq('track','PageView');`,
             }}

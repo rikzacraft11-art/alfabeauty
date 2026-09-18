@@ -45,7 +45,7 @@ export function ArticleDetailContent({
         .slice(0, 2);
 
     return (
-        <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
+        <div className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── Breadcrumbs ─── */}
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <nav
@@ -207,7 +207,7 @@ export function ArticleDetailContent({
                 </FadeIn>
                 </section>
             )}
-        </main>
+        </div>
     );
 }
 

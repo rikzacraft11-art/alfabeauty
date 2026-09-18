@@ -154,8 +154,18 @@ export function SolutionsSection(): React.JSX.Element {
                         return (
                             <div
                                 key={item.id}
+                                role="button"
+                                tabIndex={0}
+                                aria-pressed={isActive}
+                                aria-label={`Select solution: ${item.title}`}
                                 onMouseEnter={() => setActiveIndex(index)}
                                 onClick={() => setActiveIndex(index)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
+                                        setActiveIndex(index);
+                                    }
+                                }}
                                 className={cn(
                                     "relative flex flex-col cursor-pointer overflow-hidden rounded-none transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shrink-0",
                                     isActive

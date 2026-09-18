@@ -46,7 +46,7 @@ export function EventDetailContent({
         `Hi, saya ingin mendaftar untuk ${event.title} pada tanggal ${formatDate(event.date)} di ${event.location}.`;
 
     return (
-        <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
+        <div className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── Breadcrumbs ─── */}
             <div className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
                 <nav
@@ -316,7 +316,7 @@ export function EventDetailContent({
                 </FadeIn>
                 </section>
             )}
-        </main>
+        </div>
     );
 }
 

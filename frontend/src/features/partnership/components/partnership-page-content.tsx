@@ -79,7 +79,7 @@ const processSteps = [
 
 export function PartnershipPageContent() {
     return (
-        <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
+        <div className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── §1: Hero ─── */}
             <section className="bg-surface py-14 sm:py-20 lg:py-28">
                 <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
@@ -297,6 +297,6 @@ export function PartnershipPageContent() {
                 </div>
             </section>
             </FadeIn>
-        </main>
+        </div>
     );
 }

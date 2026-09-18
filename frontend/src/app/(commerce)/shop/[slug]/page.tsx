@@ -9,7 +9,10 @@ import {
   getCommerceCatalogData,
   getCommerceProductBySlug,
 } from "@/shared/lib/commerce/offers";
-import { SITE_DOMAIN, SITE_NAME } from "@/shared/lib/config";
+import { SITE_BASE_URL, SITE_NAME } from "@/shared/lib/config";
+import { JsonLd, createBreadcrumbList } from "@/app/_components";
+
+const baseUrl = SITE_BASE_URL;
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,14 +22,32 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = await getCatalogProductBySlug(slug);
   if (!product) notFound();
+  const title = product.seo?.title || `${product.name} — ${product.brand}`;
+  const description = product.seo?.description || product.description;
+  const rawImage = product.seo?.image || product.image;
+  const fullImageUrl = rawImage
+    ? rawImage.startsWith("http")
+      ? rawImage
+      : `${baseUrl}${rawImage}`
+    : undefined;
   return {
-    title: product.seo?.title || `${product.name} — ${product.brand}`,
-    description: product.seo?.description || product.description,
-    alternates: { canonical: `/shop/${slug}` },
+    title,
+    description,
+    alternates: { canonical: `${baseUrl}/shop/${slug}` },
     robots: product.seo?.noIndex ? { index: false, follow: false } : undefined,
-    openGraph: product.seo?.image
-      ? { images: [{ url: product.seo.image, alt: product.name }] }
-      : undefined,
+    openGraph: {
+      title,
+      description,
+      url: `${baseUrl}/shop/${slug}`,
+      type: "website",
+      ...(fullImageUrl ? { images: [{ url: fullImageUrl, alt: product.name }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(fullImageUrl ? { images: [fullImageUrl] } : {}),
+    },
   };
 }
 
@@ -45,12 +66,17 @@ export default async function ProductDetailPage({
   ]);
   if (!product) notFound();
 
+  const fullProductImage = product.image
+    ? product.image.startsWith("http")
+      ? product.image
+      : `${baseUrl}${product.image}`
+    : undefined;
+
   const productJsonLd = {
-    "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: product.image,
+    image: fullProductImage,
     sku: product.commerceProductId || product.id,
     brand: {
       "@type": "Brand",
@@ -64,7 +90,7 @@ export default async function ProductDetailPage({
           availability: product.purchasable
             ? "https://schema.org/InStock"
             : "https://schema.org/OutOfStock",
-          url: `${SITE_DOMAIN}/shop/${slug}`,
+          url: `${baseUrl}/shop/${slug}`,
           seller: {
             "@type": "Organization",
             name: SITE_NAME,
@@ -73,47 +99,26 @@ export default async function ProductDetailPage({
       : undefined,
   };
 
-  const breadcrumbJsonLd = {
+  const breadcrumbJsonLd = createBreadcrumbList([
+    { name: "Home", item: baseUrl },
+    { name: "Shop", item: `${baseUrl}/shop` },
+    { name: product.name, item: `${baseUrl}/shop/${slug}` },
+  ]);
+
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_DOMAIN,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Shop",
-        item: `${SITE_DOMAIN}/shop`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: product.name,
-        item: `${SITE_DOMAIN}/shop/${slug}`,
-      },
-    ],
+    "@graph": [productJsonLd, breadcrumbJsonLd],
   };
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+    <main id="main-content" className="relative z-10 bg-background">
+      <JsonLd data={structuredData} />
       <ProductDetailContent
         product={product}
         catalogProducts={catalog.products}
         catalogPath="/shop"
         offers={product.offers}
       />
-    </>
+    </main>
   );
 }

@@ -111,7 +111,7 @@ export function ProductDetailContent({
     const activeImage = allImages[activeImageIndex] ?? allImages[0];
 
     return (
-        <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
+        <div className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── Breadcrumb ─── */}
             <nav aria-label="Breadcrumb" className="mx-auto max-w-[1400px] px-4 py-4 sm:py-6 sm:px-8 lg:px-12">
                 <Link
@@ -873,6 +873,6 @@ export function ProductDetailContent({
             )}
 
             <Separator className="bg-border-warm/40" />
-        </main>
+        </div>
     );
 }

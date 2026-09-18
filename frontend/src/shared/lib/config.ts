@@ -24,6 +24,7 @@ export const BRAND_COLORS = {
 export const SITE_NAME = "PT Alfa Beauty Cosmetica" as const;
 export const SITE_SHORT_NAME = "Alfa Beauty" as const;
 export const SITE_DOMAIN = process.env.NEXT_PUBLIC_SITE_DOMAIN ?? "https://alfabeauty.co.id";
+export const SITE_BASE_URL = SITE_DOMAIN.replace(/\/+$/, "");
 export const ESTABLISHED_YEAR = 2007 as const;
 export const YEARS_OF_EXPERIENCE = `${new Date().getFullYear() - ESTABLISHED_YEAR}+` as const;
 export const CONTACT_EMAIL = "alfabeautycosmeticaa@gmail.com" as const;
@@ -40,6 +41,8 @@ export const SITE_ADDRESS = "Jakarta, Indonesia" as const;
 export const OPERATING_HOURS = {
   days: "Monday – Friday",
   hours: "09:00 – 17:00 WIB",
+  opens: "09:00",
+  closes: "17:00",
   note: "Saturday, Sunday & National Holidays — Closed",
 } as const;
 
@@ -187,3 +190,11 @@ export const LEGAL_LINKS = [
   { label: "Privacy Policy", href: NAV_LINKS.privacy },
   { label: "Terms & Conditions", href: NAV_LINKS.terms },
 ] as const;
+
+// ── HTTP & Security Headers ──
+
+export const HTTP_NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  "X-Content-Type-Options": "nosniff",
+} as const;
+

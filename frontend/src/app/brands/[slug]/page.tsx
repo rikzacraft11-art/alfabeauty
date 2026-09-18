@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { getBrandBySlug, getAllBrandSlugs } from "@/features/brands";
 import { BrandDetailContent } from "@/features/brands";
 import { products } from "@/features/catalog/data/products";
-import { SITE_DOMAIN } from "@/shared/lib/config";
+import { SITE_BASE_URL, SITE_NAME } from "@/shared/lib/config";
+import { JsonLd, createBreadcrumbList } from "@/app/_components";
+
+const baseUrl = SITE_BASE_URL;
 
 type Props = {
     params: Promise<{ slug: string }>;
@@ -12,12 +15,29 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const brand = getBrandBySlug(slug);
-    if (!brand) return {};
+    if (!brand) return { title: "Brand Not Found" };
+
+    const title = `${brand.fullName} — Official Brand Portfolio | ${SITE_NAME}`;
+    const imageUrl = brand.heroImage || brand.logo?.primary;
+    const fullImageUrl = imageUrl ? (imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`) : undefined;
 
     return {
-        title: `${brand.fullName} — Official Brand Portfolio | PT Alfa Beauty Cosmetica`,
+        title,
         description: brand.description,
-        alternates: { canonical: `/brands/${slug}` },
+        alternates: { canonical: `${baseUrl}/brands/${slug}` },
+        openGraph: {
+            title,
+            description: brand.description,
+            url: `${baseUrl}/brands/${slug}`,
+            type: "website",
+            ...(fullImageUrl ? { images: [{ url: fullImageUrl, alt: brand.fullName }] } : {}),
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description: brand.description,
+            ...(fullImageUrl ? { images: [fullImageUrl] } : {}),
+        },
     };
 }
 
@@ -38,49 +58,30 @@ export default async function BrandDetailPage({ params }: Props): Promise<React.
         return pBrand.includes(bName) || pBrand === bFullName || p.id.startsWith(brand.slug);
     });
 
-    const brandJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Brand",
-        name: brand.fullName,
-        description: brand.description,
-        url: `${SITE_DOMAIN}/brands/${slug}`,
-    };
+    const imageUrl = brand.heroImage || brand.logo?.primary;
+    const fullImageUrl = imageUrl ? (imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`) : undefined;
 
-    const breadcrumbJsonLd = {
+    const structuredData = {
         "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
+        "@graph": [
             {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: SITE_DOMAIN,
-            },
-            {
-                "@type": "ListItem",
-                position: 2,
-                name: "Brands",
-                item: `${SITE_DOMAIN}/brands`,
-            },
-            {
-                "@type": "ListItem",
-                position: 3,
+                "@type": "Brand",
                 name: brand.fullName,
-                item: `${SITE_DOMAIN}/brands/${slug}`,
+                description: brand.description,
+                url: `${baseUrl}/brands/${slug}`,
+                ...(fullImageUrl ? { logo: fullImageUrl } : {}),
             },
+            createBreadcrumbList([
+                { name: "Home", item: baseUrl },
+                { name: "Brands", item: `${baseUrl}/brands` },
+                { name: brand.fullName, item: `${baseUrl}/brands/${slug}` },
+            ]),
         ],
     };
 
     return (
-        <main className="relative z-10 bg-[#000000]">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(brandJsonLd) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-            />
+        <main id="main-content" className="relative z-10 bg-black">
+            <JsonLd data={structuredData} />
             <BrandDetailContent brand={brand} products={brandProducts} />
         </main>
     );

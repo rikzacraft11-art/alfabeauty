@@ -7,6 +7,7 @@ import {
   readGuestToken,
 } from "@/shared/lib/commerce/security";
 import { consumeStoredRateLimit } from "@/shared/lib/commerce/store";
+import { HTTP_NO_STORE_HEADERS } from "@/shared/lib/config";
 import { logError, logWarn } from "@/shared/lib/logger";
 
 export const runtime = "nodejs";
@@ -16,10 +17,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     assertSameOrigin(request);
     const guestToken = readGuestToken(request);
-    if (!guestToken) return NextResponse.json({ ok: false, error: "Cart session missing" }, { status: 401 });
+    if (!guestToken) {
+      return NextResponse.json(
+        { ok: false, error: "Cart session missing" },
+        { status: 401, headers: HTTP_NO_STORE_HEADERS }
+      );
+    }
     const parsed = checkoutSchema.safeParse(await request.json());
     if (!parsed.success) {
-      return NextResponse.json({ ok: false, error: "Invalid checkout details" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Invalid checkout details" },
+        { status: 400, headers: HTTP_NO_STORE_HEADERS }
+      );
     }
     const allowed = await consumeStoredRateLimit(
       "checkout",
@@ -27,18 +36,32 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       5,
       10 * 60,
     );
-    if (!allowed) return NextResponse.json({ ok: false, error: "Too many checkout attempts" }, { status: 429 });
+    if (!allowed) {
+      return NextResponse.json(
+        { ok: false, error: "Too many checkout attempts" },
+        { status: 429, headers: HTTP_NO_STORE_HEADERS }
+      );
+    }
 
     const checkout = await createCheckout(guestToken, parsed.data);
-    return NextResponse.json({ ok: true, checkout });
+    return NextResponse.json(
+      { ok: true, checkout },
+      { headers: HTTP_NO_STORE_HEADERS }
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "unknown-error";
     if (message.includes("Cart") || message.includes("stock") || message.includes("offer")) {
       logWarn("commerce-checkout", "Checkout validation failed.", { message });
-      return NextResponse.json({ ok: false, error: "Cart is no longer valid" }, { status: 409 });
+      return NextResponse.json(
+        { ok: false, error: "Cart is no longer valid" },
+        { status: 409, headers: HTTP_NO_STORE_HEADERS }
+      );
     }
     logError("commerce-checkout", "Checkout failed.", { message });
-    return NextResponse.json({ ok: false, error: "Checkout unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { ok: false, error: "Checkout unavailable" },
+      { status: 503, headers: HTTP_NO_STORE_HEADERS }
+    );
   }
 }
 

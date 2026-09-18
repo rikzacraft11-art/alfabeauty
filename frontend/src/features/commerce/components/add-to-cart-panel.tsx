@@ -64,7 +64,7 @@ export function AddToCartPanel({ offers }: { offers: CommerceOffer[] }): React.J
 
       <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_96px]">
         <div className="flex flex-col gap-1.5">
-          <label className="text-caption font-semibold text-foreground">
+          <label htmlFor="variant-select" className="text-caption font-semibold text-foreground">
             Variant
           </label>
           <Select
@@ -74,7 +74,7 @@ export function AddToCartPanel({ offers }: { offers: CommerceOffer[] }): React.J
               setState("idle");
             }}
           >
-            <SelectTrigger className="h-11 w-full border border-border-warm bg-background px-3 text-sm focus-visible:ring-1 focus-visible:ring-foreground rounded-none shadow-none">
+            <SelectTrigger id="variant-select" className="h-11 w-full border border-border-warm bg-background px-3 text-sm focus-visible:ring-1 focus-visible:ring-foreground rounded-none shadow-none">
               <SelectValue placeholder="Select variant" />
             </SelectTrigger>
             <SelectContent position="popper" align="start" className="border-border-warm/80 bg-background/95 backdrop-blur-md shadow-xl rounded-md">

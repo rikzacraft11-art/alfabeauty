@@ -19,8 +19,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/shared/lib/supabase";
 import { timingSafeEqual } from "crypto";
+import { HTTP_NO_STORE_HEADERS } from "@/shared/lib/config";
 import { logError } from "@/shared/lib/logger";
 
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const CSV_COLUMNS = [
@@ -45,29 +47,35 @@ const CSV_COLUMNS = [
 
 function escapeCSV(value: unknown): string {
   if (value === null || value === undefined) return "";
-  const str = String(value);
+  let str = String(value);
+  // Security: Prevent CSV Formula Injection (OWASP: '=', '+', '-', '@', '\t', '\r')
+  if (/^[=+\-@\t\r]/.test(str)) {
+    str = `'${str}`;
+  }
   // Escape quotes and wrap in quotes if contains comma, quote, or newline
-  if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+  if (str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r")) {
     return `"${str.replace(/"/g, '""')}"`;
   }
   return str;
 }
 
+function extractToken(request: NextRequest): string | null {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader?.startsWith("Bearer ")) {
+    return authHeader.slice(7).trim();
+  }
+  return request.nextUrl.searchParams.get("token");
+}
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  // ── Auth check ──
-  const token = request.nextUrl.searchParams.get("token");
+  // ── Auth check: Support both Bearer header and query param ──
+  const token = extractToken(request);
   const expectedToken = process.env.CSV_EXPORT_TOKEN;
 
   if (!expectedToken || !token || token.length !== expectedToken.length) {
     return NextResponse.json(
       { error: "Unauthorized" },
-      {
-        status: 401,
-        headers: {
-          "X-Content-Type-Options": "nosniff",
-          "Cache-Control": "no-store",
-        },
-      }
+      { status: 401, headers: HTTP_NO_STORE_HEADERS }
     );
   }
 
@@ -79,13 +87,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   ) {
     return NextResponse.json(
       { error: "Unauthorized" },
-      {
-        status: 401,
-        headers: {
-          "X-Content-Type-Options": "nosniff",
-          "Cache-Control": "no-store",
-        },
-      }
+      { status: 401, headers: HTTP_NO_STORE_HEADERS }
     );
   }
 
@@ -101,22 +103,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       logError("csv-export", "Supabase fetch error", error);
       return NextResponse.json(
         { error: "Failed to fetch leads" },
-        {
-          status: 500,
-          headers: {
-            "X-Content-Type-Options": "nosniff",
-            "Cache-Control": "no-store",
-          },
-        }
+        { status: 500, headers: HTTP_NO_STORE_HEADERS }
       );
     }
 
-    // ── Build CSV ──
+    // ── Build CSV with UTF-8 BOM for Microsoft Excel compatibility ──
     const header = CSV_COLUMNS.join(",");
     const rows = (leads ?? []).map((lead) =>
       CSV_COLUMNS.map((col) => escapeCSV(lead[col])).join(",")
     );
-    const csv = [header, ...rows].join("\n");
+    const csv = "\uFEFF" + [header, ...rows].join("\n");
 
     // ── Response ──
     const filename = `leads-export-${new Date().toISOString().slice(0, 10)}.csv`;
@@ -126,21 +122,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
         "Content-Disposition": `attachment; filename="${filename}"`,
-        "X-Content-Type-Options": "nosniff",
-        "Cache-Control": "no-store",
+        ...HTTP_NO_STORE_HEADERS,
       },
     });
   } catch (err) {
     logError("csv-export", "Unexpected error", err);
     return NextResponse.json(
       { error: "Internal server error" },
-      {
-        status: 500,
-        headers: {
-          "X-Content-Type-Options": "nosniff",
-          "Cache-Control": "no-store",
-        },
-      }
+      { status: 500, headers: HTTP_NO_STORE_HEADERS }
     );
   }
 }

@@ -10,6 +10,7 @@ import {
   setGuestCookie,
 } from "@/shared/lib/commerce/security";
 import { consumeStoredRateLimit } from "@/shared/lib/commerce/store";
+import { HTTP_NO_STORE_HEADERS } from "@/shared/lib/config";
 import { logWarn } from "@/shared/lib/logger";
 
 export const runtime = "nodejs";
@@ -17,12 +18,18 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    return NextResponse.json({ ok: true, cart: await getCart(readGuestToken(request)) });
+    return NextResponse.json(
+      { ok: true, cart: await getCart(readGuestToken(request)) },
+      { headers: HTTP_NO_STORE_HEADERS }
+    );
   } catch (error) {
     logWarn("commerce-cart", "Cart read failed.", {
       message: error instanceof Error ? error.message : "unknown-error",
     });
-    return NextResponse.json({ ok: false, error: "Cart unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { ok: false, error: "Cart unavailable" },
+      { status: 503, headers: HTTP_NO_STORE_HEADERS }
+    );
   }
 }
 
@@ -31,7 +38,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     assertSameOrigin(request);
     const parsed = cartMutationSchema.safeParse(await request.json());
     if (!parsed.success) {
-      return NextResponse.json({ ok: false, error: "Invalid cart request" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Invalid cart request" },
+        { status: 400, headers: HTTP_NO_STORE_HEADERS }
+      );
     }
     const allowed = await consumeStoredRateLimit(
       "cart",
@@ -39,17 +49,28 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       30,
       60,
     );
-    if (!allowed) return NextResponse.json({ ok: false, error: "Too many requests" }, { status: 429 });
+    if (!allowed) {
+      return NextResponse.json(
+        { ok: false, error: "Too many requests" },
+        { status: 429, headers: HTTP_NO_STORE_HEADERS }
+      );
+    }
 
     const guest = ensureGuestToken(request);
     const cart = await updateCart(guest.token, parsed.data.commerceVariantId, parsed.data.quantity);
-    const response = NextResponse.json({ ok: true, cart });
+    const response = NextResponse.json(
+      { ok: true, cart },
+      { headers: HTTP_NO_STORE_HEADERS }
+    );
     if (guest.created) setGuestCookie(response, guest.token, requestUsesHttps(request));
     return response;
   } catch (error) {
     logWarn("commerce-cart", "Cart mutation rejected.", {
       message: error instanceof Error ? error.message : "unknown-error",
     });
-    return NextResponse.json({ ok: false, error: "Unable to update cart" }, { status: 409 });
+    return NextResponse.json(
+      { ok: false, error: "Unable to update cart" },
+      { status: 409, headers: HTTP_NO_STORE_HEADERS }
+    );
   }
 }

@@ -10,6 +10,7 @@ export { BrandShowroom } from "./components/brand-showroom";
 export { CustomMaklonCTA } from "./components/custom-maklon-cta";
 export { StandardsSection } from "./components/standards-section";
 export { FAQSection } from "./components/faq-section";
+export { DEFAULT_FAQ, type FAQItem } from "./components/faq-data";
 export { BrandTotemShowroom } from "./components/brand-totems";
 export { AboutSection } from "./components/about";
 export { BrandCarousel } from "./components/brand-carousel";

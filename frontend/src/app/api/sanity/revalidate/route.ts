@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
+import { HTTP_NO_STORE_HEADERS } from "@/shared/lib/config";
 import { logWarn } from "@/shared/lib/logger";
 
 export const runtime = "nodejs";
@@ -34,27 +35,42 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const secret = process.env.SANITY_REVALIDATE_SECRET?.trim();
   if (!secret || secret.length < 32) {
     logWarn("sanity-webhook", "Revalidation secret is missing or too short.");
-    return NextResponse.json({ ok: false, error: "Webhook unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { ok: false, error: "Webhook unavailable" },
+      { status: 503, headers: HTTP_NO_STORE_HEADERS }
+    );
   }
 
   try {
     const { body, isValidSignature } = await parseBody<WebhookPayload>(request, secret);
     if (isValidSignature !== true) {
-      return NextResponse.json({ ok: false, error: "Invalid signature" }, { status: 401 });
+      return NextResponse.json(
+        { ok: false, error: "Invalid signature" },
+        { status: 401, headers: HTTP_NO_STORE_HEADERS }
+      );
     }
 
     const documentType = typeof body?._type === "string" ? body._type : "";
     const tags = TYPE_TAGS[documentType];
     if (!tags) {
-      return NextResponse.json({ ok: false, error: "Unsupported document type" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Unsupported document type" },
+        { status: 400, headers: HTTP_NO_STORE_HEADERS }
+      );
     }
 
     const slug = documentType === "productContent" ? readSlug(body?.slug) : null;
     const tagsToRevalidate = slug ? [...tags, `sanity:product:${slug}`] : tags;
     for (const tag of tagsToRevalidate) revalidateTag(tag, "max");
 
-    return NextResponse.json({ ok: true, revalidated: tagsToRevalidate });
+    return NextResponse.json(
+      { ok: true, revalidated: tagsToRevalidate },
+      { headers: HTTP_NO_STORE_HEADERS }
+    );
   } catch {
-    return NextResponse.json({ ok: false, error: "Invalid webhook payload" }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: "Invalid webhook payload" },
+      { status: 400, headers: HTTP_NO_STORE_HEADERS }
+    );
   }
 }
