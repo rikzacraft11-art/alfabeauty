@@ -77,7 +77,7 @@ const processSteps = [
     },
 ];
 
-export function PartnershipPageContent() {
+export function PartnershipPageContent(): React.JSX.Element {
     return (
         <div className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
             {/* ─── §1: Hero ─── */}

@@ -39,6 +39,14 @@ export const PARALLAX = {
 
 const PRELOADER_DURATION = 2.6;
 
+export interface HeroTiming {
+  eyebrow: number;
+  heading: number;
+  body: number;
+  cta: number;
+  scroll: number;
+}
+
 /**
  * Hero timing offsets. Components should call `getHeroTiming()` at render time
  * (not import time) so sessionStorage check is accurate.
@@ -46,7 +54,7 @@ const PRELOADER_DURATION = 2.6;
  * On first visit: preloader plays → long delays coordinated with preloader exit.
  * On repeat visits: preloader skipped → zero-delay instant reveal.
  */
-export function getHeroTiming() {
+export function getHeroTiming(): HeroTiming {
   let base = PRELOADER_DURATION;
   if (typeof window !== "undefined" && sessionStorage.getItem("preloader-seen") === "1") {
     base = 0;

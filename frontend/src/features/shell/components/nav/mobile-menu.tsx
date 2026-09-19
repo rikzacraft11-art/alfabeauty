@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { X, ChevronRight, MessageCircle, FileText, ArrowRight } from "lucide-react";
+import { X, ChevronRight, MessageCircle, FileText, ArrowRight, User, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     NAV_LINKS,
@@ -12,6 +12,7 @@ import {
     PILLARS,
 } from "@/shared/lib/config";
 import { useLanguage } from "@/shared/components/providers/language-provider";
+import { useUserRole } from "@/shared/components/providers/role-provider";
 import { LanguageSwitcher } from "@/shared/components/ui/language-switcher";
 import { trackEvent } from "@/shared/lib/analytics";
 import { cn } from "@/shared/lib/utils";
@@ -25,6 +26,7 @@ import {
 
 export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Element {
     const { dict } = useLanguage();
+    const { user, isGuest, setRole } = useUserRole();
     const [expandedSection, setExpandedSection] = React.useState<string | null>(null);
 
     const toggleSection = (section: string) => {
@@ -147,28 +149,69 @@ export function MobileMenu({ onClose }: { onClose: () => void }): React.JSX.Elem
                     </motion.div>
                 ))}
 
-                {/* Quick Utility Links (Credit Application & Partner Login) */}
+                {/* Quick Utility Links (Auth & Account Actions) */}
                 <motion.div variants={mobileMenuItemFade} className="px-6 pt-4 pb-2 space-y-2">
-                    <Link
-                        href="/partnership"
-                        onClick={onClose}
-                        className="flex min-h-[44px] items-center justify-between p-3 rounded-lg border border-border-warm/60 bg-surface text-cta font-semibold text-foreground hover:bg-surface-elevated active:scale-[0.98] transition-all"
-                    >
-                        <span className="flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-brand-crimson" />
-                            {dict.nav.creditApplication}
-                        </span>
-                        <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
-                    </Link>
-
-                    <Link
-                        href="/partnership"
-                        onClick={onClose}
-                        className="flex min-h-[44px] items-center justify-between p-3 rounded-lg bg-foreground text-white text-cta font-semibold hover:bg-foreground/90 active:scale-[0.98] transition-all"
-                    >
-                        <span>{dict.nav.partnerLogin}</span>
-                        <ArrowRight className="h-3.5 w-3.5 text-white/80" />
-                    </Link>
+                    {isGuest ? (
+                        <>
+                            <Link
+                                href="/login"
+                                onClick={onClose}
+                                className="flex min-h-[44px] items-center justify-between p-3 rounded-lg bg-brand-crimson text-white text-cta font-bold hover:bg-brand-dark active:scale-[0.98] transition-all shadow-sm"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <User className="h-4 w-4" />
+                                    <span>Masuk ke Akun</span>
+                                </span>
+                                <ArrowRight className="h-3.5 w-3.5 text-white/80" />
+                            </Link>
+                            <Link
+                                href="/register"
+                                onClick={onClose}
+                                className="flex min-h-[44px] items-center justify-between p-3 rounded-lg border border-border-warm bg-surface text-cta font-semibold text-foreground hover:bg-surface-elevated active:scale-[0.98] transition-all"
+                            >
+                                <span>Daftar Akun Baru</span>
+                                <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
+                            </Link>
+                            <Link
+                                href="/partnership"
+                                onClick={onClose}
+                                className="flex min-h-[44px] items-center justify-between p-3 rounded-lg border border-brand-crimson/20 bg-brand-crimson/[0.03] text-cta font-semibold text-brand-crimson hover:bg-brand-crimson/[0.07] active:scale-[0.98] transition-all"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <FileText className="h-4 w-4" />
+                                    <span>Ajukan Kemitraan Salon</span>
+                                </span>
+                                <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                href="/my-account"
+                                onClick={onClose}
+                                className="flex min-h-[44px] items-center justify-between p-3 rounded-lg bg-surface-elevated border border-border-warm/80 text-cta font-bold text-foreground hover:bg-surface active:scale-[0.98] transition-all"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <User className="h-4 w-4 text-brand-crimson" />
+                                    <span className="truncate">Akun Saya ({user.name.split(" ")[0]})</span>
+                                </span>
+                                <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
+                            </Link>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setRole("guest");
+                                    onClose();
+                                }}
+                                className="flex w-full min-h-[44px] items-center justify-between p-3 rounded-lg border border-border-warm/60 bg-surface text-cta font-semibold text-brand-crimson hover:bg-brand-crimson/5 active:scale-[0.98] transition-all cursor-pointer"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <LogOut className="h-4 w-4" />
+                                    <span>Keluar dari Akun</span>
+                                </span>
+                            </button>
+                        </>
+                    )}
                 </motion.div>
             </div>
 

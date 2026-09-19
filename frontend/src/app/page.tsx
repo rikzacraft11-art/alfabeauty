@@ -35,6 +35,7 @@ const homeJsonLd = {
       url: baseUrl,
       name: HOME_TITLE,
       description: HOME_DESCRIPTION,
+      inLanguage: "id-ID",
       isPartOf: {
         "@id": `${baseUrl}/#website`,
       },
@@ -45,7 +46,9 @@ const homeJsonLd = {
     {
       "@type": "FAQPage",
       "@id": `${baseUrl}/#faq`,
+      url: baseUrl,
       name: `Frequently Asked Questions — ${SITE_NAME}`,
+      inLanguage: "id-ID",
       mainEntity: DEFAULT_FAQ.map((item) => ({
         "@type": "Question",
         name: item.question,

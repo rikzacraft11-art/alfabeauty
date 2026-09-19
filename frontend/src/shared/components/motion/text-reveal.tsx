@@ -25,9 +25,10 @@ import { cn } from "@/shared/lib/utils";
  *   />
  * ───────────────────────────────────────────────────────────────────── */
 
-type ValidElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
+export type TextRevealElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
+export type ValidElement = TextRevealElement;
 
-interface TextRevealProps {
+export interface TextRevealProps {
     lines: string[];
     as?: ValidElement;
     className?: string;

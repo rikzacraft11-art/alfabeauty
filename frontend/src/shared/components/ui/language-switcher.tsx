@@ -5,7 +5,7 @@ import { useLanguage } from "@/shared/components/providers/language-provider";
 import { cn } from "@/shared/lib/utils";
 import { Globe } from "lucide-react";
 
-interface LanguageSwitcherProps {
+export interface LanguageSwitcherProps {
   isSolid?: boolean;
   className?: string;
   variant?: "header" | "mobile" | "footer";

@@ -66,6 +66,7 @@ export default async function BrandDetailPage({ params }: Props): Promise<React.
         "@graph": [
             {
                 "@type": "Brand",
+                "@id": `${baseUrl}/brands/${slug}#brand`,
                 name: brand.fullName,
                 description: brand.description,
                 url: `${baseUrl}/brands/${slug}`,

@@ -83,6 +83,7 @@ export function MegaFooter(): React.JSX.Element {
               </h2>
 
               <button
+                type="button"
                 onClick={scrollToTop}
                 className="group relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-none border border-[#111111]/20 bg-white text-[#111111] transition-all duration-300 hover:border-brand-crimson hover:bg-brand-crimson hover:text-white cursor-pointer shadow-sm active:scale-95"
                 aria-label="Back to top"
@@ -204,6 +205,7 @@ export function MegaFooter(): React.JSX.Element {
               </h2>
 
               <button
+                type="button"
                 onClick={scrollToTop}
                 className="group relative flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-none border border-[#111111]/30 bg-white text-[#111111] transition-all active:scale-95 shadow-sm cursor-pointer"
                 aria-label="Back to top"

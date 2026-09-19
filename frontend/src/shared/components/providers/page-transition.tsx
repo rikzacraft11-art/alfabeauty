@@ -1,10 +1,15 @@
 "use client";
 
+import * as React from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cinematicEase } from "@/shared/lib/motion";
 
-export function PageTransition({ children }: { children: React.ReactNode }) {
+export interface PageTransitionProps {
+    children: React.ReactNode;
+}
+
+export function PageTransition({ children }: PageTransitionProps): React.JSX.Element {
     const pathname = usePathname();
 
     return (

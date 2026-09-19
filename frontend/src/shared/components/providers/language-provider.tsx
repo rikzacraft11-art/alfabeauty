@@ -14,7 +14,11 @@ const LanguageContext = React.createContext<LanguageContextValue | null>(null);
 
 const STORAGE_KEY = "alfa_beauty_lang";
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
+export interface LanguageProviderProps {
+  children: React.ReactNode;
+}
+
+export function LanguageProvider({ children }: LanguageProviderProps): React.JSX.Element {
   const [language, setLanguageState] = React.useState<Language>("en");
 
   React.useEffect(() => {

@@ -2,20 +2,34 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, ShieldCheck, Check } from "lucide-react";
+import {
+    ChevronDown,
+    User,
+    LogOut,
+    Package,
+    Building2,
+    Headphones,
+    ShieldCheck,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUserRole, type UserRole } from "@/shared/components/providers/role-provider";
+import { cn } from "@/shared/lib/utils";
 
-export const LoginDropdown: React.FC = () => {
+export const LoginDropdown: React.FC<{ isSolid?: boolean }> = ({ isSolid = true }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { role, setRole, user, isGuest, isSalon, isDistributor } = useUserRole();
 
-    const roleBadges: Record<UserRole, { label: string; icon: string; bg: string }> = {
-        guest: { label: "Guest", icon: "👤", bg: "bg-neutral-100 text-neutral-800" },
-        consumer: { label: "Konsumen", icon: "🛍️", bg: "bg-blue-100 text-blue-900" },
-        partner_pending: { label: "Mitra (Pending)", icon: "⏳", bg: "bg-amber-100 text-amber-900" },
-        salon_verified: { label: "Mitra Salon", icon: "✂️", bg: "bg-red-100 text-red-900" },
-        distributor_verified: { label: "Distributor", icon: "🏢", bg: "bg-emerald-100 text-emerald-900" },
+    const roleLabels: Record<UserRole, string> = {
+        guest: "Pengunjung",
+        consumer: "Konsumen",
+        partner_pending: "Mitra (Verifikasi)",
+        salon_verified: "Mitra Salon",
+        distributor_verified: "Distributor",
+    };
+
+    const handleLogout = () => {
+        setRole("guest");
+        setIsOpen(false);
     };
 
     return (
@@ -24,136 +38,155 @@ export const LoginDropdown: React.FC = () => {
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
         >
-            {/* Trigger Button */}
+            {/* Standard E-Commerce Header Account Trigger */}
             <button
+                type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 ${
-                    !isGuest
-                        ? "bg-brand-crimson text-white hover:bg-brand-dark"
-                        : "bg-foreground text-background hover:bg-foreground/85"
-                }`}
+                className={cn(
+                    "flex items-center gap-1.5 px-2.5 py-1.5 text-caption font-medium tracking-[0.01em] transition-colors cursor-pointer rounded-full",
+                    isSolid
+                        ? "text-foreground/80 hover:text-foreground"
+                        : "text-white/90 hover:text-white"
+                )}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
             >
-                <span>{roleBadges[role].icon}</span>
-                <span className="max-w-[110px] truncate">{isGuest ? "Login" : user.name.split(" ")[0]}</span>
+                <User className="h-4 w-4" />
+                <span className="max-w-[100px] truncate">
+                    {isGuest ? "Masuk" : user.name.split(" ")[0]}
+                </span>
                 <ChevronDown
-                    className={`h-3 w-3 transition-transform duration-200 ${
-                        isOpen ? "rotate-180" : ""
-                    }`}
+                    className={cn(
+                        "h-3 w-3 transition-transform duration-200",
+                        isSolid ? "text-muted-foreground" : "text-white/70",
+                        isOpen && "rotate-180"
+                    )}
                 />
             </button>
 
-            {/* Account & Role Switcher Dropdown */}
+            {/* Standard E-Commerce Account Popover */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="h-account-dropdown absolute right-0 top-full z-50 mt-2 w-[340px] overflow-hidden rounded-2xl border border-border/60 bg-background/95 p-5 shadow-2xl backdrop-blur-xl"
+                        exit={{ opacity: 0, y: 6 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="absolute right-0 top-full z-50 mt-1 w-64 rounded-md border border-border bg-background p-3 shadow-lg"
                     >
-                        {/* Current User Role Info Card */}
-                        <div className="rounded-xl border border-border-warm/60 bg-surface-elevated/70 p-3.5">
-                            <div className="flex items-center justify-between">
-                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-tiny font-bold ${roleBadges[role].bg}`}>
-                                    {roleBadges[role].icon} {roleBadges[role].label}
-                                </span>
-                                {user.isVerified && (
-                                    <span className="inline-flex items-center gap-1 text-tiny font-semibold text-emerald-700">
-                                        <ShieldCheck className="h-3 w-3" /> Terverifikasi
-                                    </span>
-                                )}
-                            </div>
-
-                            <p className="mt-2 text-sm font-bold text-foreground truncate">
-                                {user.name}
-                            </p>
-                            {user.businessName && (
-                                <p className="text-caption text-muted-foreground truncate">
-                                    {user.businessName}
+                        {isGuest ? (
+                            /* ─── Standard E-Commerce Guest State ─── */
+                            <div>
+                                <Link
+                                    href="/login"
+                                    onClick={() => setIsOpen(false)}
+                                    className="flex h-10 w-full items-center justify-center rounded bg-foreground px-4 text-xs font-semibold text-background transition-colors hover:bg-foreground/90"
+                                >
+                                    Masuk
+                                </Link>
+                                <p className="mt-2.5 text-center text-xs text-muted-foreground">
+                                    Pengguna baru?{" "}
+                                    <Link
+                                        href="/register"
+                                        onClick={() => setIsOpen(false)}
+                                        className="font-semibold text-brand-crimson hover:underline"
+                                    >
+                                        Daftar di sini
+                                    </Link>
                                 </p>
-                            )}
 
-                            {/* Points & Plafon Counter for Partners */}
-                            {(isSalon || isDistributor) && (
-                                <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border-warm/50 pt-2.5 text-caption">
-                                    <div>
-                                        <span className="block text-tiny text-muted-foreground">Poin Loyalitas</span>
-                                        <span className="font-bold text-emerald-700">Rp {user.pointsBalance.toLocaleString("id-ID")}</span>
+                                <div className="my-2.5 border-t border-border" />
+
+                                <div className="space-y-0.5">
+                                    <Link
+                                        href="/my-account"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-foreground hover:bg-surface-elevated transition-colors"
+                                    >
+                                        <Package className="h-4 w-4 text-muted-foreground" />
+                                        <span>Lacak & Riwayat Pesanan</span>
+                                    </Link>
+                                    <Link
+                                        href="/partnership"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-foreground hover:bg-surface-elevated transition-colors"
+                                    >
+                                        <Building2 className="h-4 w-4 text-muted-foreground" />
+                                        <span>Kemitraan Salon & B2B</span>
+                                    </Link>
+                                    <Link
+                                        href="/contact"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-foreground hover:bg-surface-elevated transition-colors"
+                                    >
+                                        <Headphones className="h-4 w-4 text-muted-foreground" />
+                                        <span>Pusat Bantuan & CS</span>
+                                    </Link>
+                                </div>
+                            </div>
+                        ) : (
+                            /* ─── Standard E-Commerce Authenticated State ─── */
+                            <div>
+                                <div className="px-2.5 py-2">
+                                    <div className="flex items-center gap-1.5">
+                                        <p className="text-xs font-bold text-foreground truncate">
+                                            {user.name}
+                                        </p>
+                                        {user.isVerified && (
+                                            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                                        )}
                                     </div>
-                                    {user.creditLimit && (
-                                        <div>
-                                            <span className="block text-tiny text-muted-foreground">Sisa Plafon Tempo</span>
-                                            <span className="font-bold text-foreground">
-                                                Rp {((user.creditLimit || 0) - (user.usedCredit || 0)).toLocaleString("id-ID")}
-                                            </span>
-                                        </div>
+                                    <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                                        {user.businessName || user.email || roleLabels[role]}
+                                    </p>
+                                    {(isSalon || isDistributor) && user.pointsBalance > 0 && (
+                                        <p className="mt-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                                            Poin: Rp {user.pointsBalance.toLocaleString("id-ID")}
+                                        </p>
                                     )}
                                 </div>
-                            )}
-                        </div>
 
-                        {/* Interactive Role Switcher for Testing (Blueprint.md Principles) */}
-                        <div className="mt-4">
-                            <p className="mb-2 text-tiny font-bold text-muted-foreground">
-                                Simulasi Peran Pengguna (Blueprint.md):
-                            </p>
-                            <div className="grid grid-cols-1 gap-1.5">
-                                {(
-                                    [
-                                        { id: "guest", label: "Guest (Pengunjung)", sub: "MSRP publik (C1) · Login untuk harga mitra" },
-                                        { id: "consumer", label: "Konsumen Terdaftar", sub: "MSRP · Checkout SKU white-list" },
-                                        { id: "salon_verified", label: "Salon / Barber Resmi", sub: "Harga Net Salon (-35%) · Order grosir" },
-                                        { id: "distributor_verified", label: "Distributor Resmi", sub: "Harga Net Distributor (-50%) · Tier MOQ" },
-                                        { id: "partner_pending", label: "Pendaftar Mitra", sub: "Verifikasi dokumen SLA ≤ 4 jam" },
-                                    ] as const
-                                ).map((r) => {
-                                    const isSelected = role === r.id;
-                                    return (
-                                        <button
-                                            key={r.id}
-                                            onClick={() => setRole(r.id)}
-                                            className={`flex items-start justify-between rounded-lg border p-2 text-left transition-all ${
-                                                isSelected
-                                                    ? "border-brand-crimson bg-brand-crimson/5 text-brand-crimson"
-                                                    : "border-border-warm/50 bg-background/50 hover:bg-surface-elevated text-foreground"
-                                            }`}
-                                        >
-                                            <div>
-                                                <span className="text-caption font-semibold flex items-center gap-1.5">
-                                                    <span>{roleBadges[r.id].icon}</span>
-                                                    <span>{r.label}</span>
-                                                </span>
-                                                <span className="block text-tiny normal-case tracking-normal text-muted-foreground/80 mt-0.5">
-                                                    {r.sub}
-                                                </span>
-                                            </div>
-                                            {isSelected && (
-                                                <Check className="h-3.5 w-3.5 shrink-0 text-brand-crimson mt-0.5" />
-                                            )}
-                                        </button>
-                                    );
-                                })}
+                                <div className="my-1.5 border-t border-border" />
+
+                                <div className="space-y-0.5">
+                                    <Link
+                                        href="/my-account"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-foreground hover:bg-surface-elevated transition-colors"
+                                    >
+                                        <Package className="h-4 w-4 text-muted-foreground" />
+                                        <span>Dashboard & Pesanan</span>
+                                    </Link>
+                                    <Link
+                                        href="/partnership"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-foreground hover:bg-surface-elevated transition-colors"
+                                    >
+                                        <Building2 className="h-4 w-4 text-muted-foreground" />
+                                        <span>Program Kemitraan</span>
+                                    </Link>
+                                    <Link
+                                        href="/contact"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-foreground hover:bg-surface-elevated transition-colors"
+                                    >
+                                        <Headphones className="h-4 w-4 text-muted-foreground" />
+                                        <span>Pusat Bantuan & CS</span>
+                                    </Link>
+                                </div>
+
+                                <div className="my-1.5 border-t border-border" />
+
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="flex w-full items-center gap-2.5 rounded px-2.5 py-2 text-xs font-medium text-brand-crimson hover:bg-brand-crimson/5 transition-colors cursor-pointer"
+                                >
+                                    <LogOut className="h-4 w-4" />
+                                    <span>Keluar dari Akun</span>
+                                </button>
                             </div>
-                        </div>
-
-                        {/* Direct Navigation Links */}
-                        <div className="mt-4 border-t border-border-warm/50 pt-3 flex items-center justify-between text-caption">
-                            <Link
-                                href="/partnership"
-                                className="font-semibold text-brand-crimson hover:underline"
-                            >
-                                Formulir Kemitraan
-                            </Link>
-                            <Link
-                                href="/contact"
-                                className="text-muted-foreground hover:text-foreground"
-                            >
-                                Hubungi CS
-                            </Link>
-                        </div>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>

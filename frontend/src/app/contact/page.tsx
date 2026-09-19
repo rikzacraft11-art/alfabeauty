@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContactPageContent } from "@/features/contact/components/contact-page-content";
+import { ContactPageContent } from "@/features/contact";
 import { PreFooterCTA } from "@/features/home";
 import {
     SITE_NAME,
@@ -31,8 +31,8 @@ export default function ContactPage(): React.JSX.Element {
                 "@id": `${baseUrl}/contact#webpage`,
                 url: `${baseUrl}/contact`,
                 name: `Contact ${SITE_NAME}`,
-                description:
-                    `Official contact channel for ${SITE_NAME} customer support, brand partnerships, and academy masterclasses.`,
+                description: PAGE_DESCRIPTION,
+                inLanguage: "id-ID",
             },
             {
                 "@type": "Organization",

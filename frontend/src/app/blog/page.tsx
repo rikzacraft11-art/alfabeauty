@@ -8,9 +8,12 @@ import { JsonLd, createBreadcrumbList } from "@/app/_components";
 
 const baseUrl = SITE_BASE_URL;
 
+const PAGE_DESCRIPTION =
+  `Read the latest articles about professional haircare trends, techniques, and industry news from ${SITE_SHORT_NAME}.`;
+
 export const metadata: Metadata = {
   title: "Blog — Industry Insights & News",
-  description: `Read the latest articles about professional haircare trends, techniques, and industry news from ${SITE_SHORT_NAME}.`,
+  description: PAGE_DESCRIPTION,
   alternates: { canonical: `${baseUrl}/blog` },
 };
 
@@ -22,8 +25,9 @@ export default function BlogPage(): React.JSX.Element {
         "@type": "Blog",
         "@id": `${baseUrl}/blog#blog`,
         name: `${SITE_SHORT_NAME} Blog — Industry Insights`,
-        description:
-          "Professional haircare trends, techniques, and salon business knowledge.",
+        description: PAGE_DESCRIPTION,
+        url: `${baseUrl}/blog`,
+        inLanguage: "id-ID",
         publisher: {
           "@type": "Organization",
           name: SITE_NAME,

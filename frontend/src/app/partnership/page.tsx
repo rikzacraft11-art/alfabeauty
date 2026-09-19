@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PartnershipPageContent } from "@/features/partnership/components/partnership-page-content";
+import { PartnershipPageContent } from "@/features/partnership";
 import { FAQSection, PreFooterCTA } from "@/features/home";
 import { SITE_BASE_URL, SITE_NAME } from "@/shared/lib/config";
 import { JsonLd, createBreadcrumbList } from "@/app/_components";
@@ -25,6 +25,7 @@ export default function PartnershipPage(): React.JSX.Element {
                 name: `Become a Partner — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/partnership`,
+                inLanguage: "id-ID",
             },
             createBreadcrumbList([
                 { name: "Home", item: baseUrl },

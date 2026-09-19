@@ -295,9 +295,9 @@ export function SiteHeader(): React.JSX.Element {
                     {/* Language Switcher (ID / EN) */}
                     <LanguageSwitcher isSolid={isSolid} className="hidden sm:inline-flex" />
 
-                    {/* Dual-Pane Login Dropdown (1:1 Yucca Style) */}
+                    {/* Standard E-Commerce Account Dropdown */}
                     <div className="hidden sm:block">
-                        <LoginDropdown />
+                        <LoginDropdown isSolid={isSolid} />
                     </div>
 
                     {/* Mobile Drawer Trigger */}

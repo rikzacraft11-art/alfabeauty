@@ -7,9 +7,12 @@ import { JsonLd, createBreadcrumbList } from "@/app/_components";
 
 const baseUrl = SITE_BASE_URL;
 
+const PAGE_DESCRIPTION =
+  `Masuk ke akun ${SITE_SHORT_NAME} Anda untuk melacak pesanan, melihat histori belanja, dan mengakses layanan pelanggan.`;
+
 export const metadata: Metadata = {
-  title: "Login — Sign In to Your Account",
-  description: `Sign in to your ${SITE_SHORT_NAME} account to track orders and manage your profile.`,
+  title: `Masuk — ${SITE_SHORT_NAME}`,
+  description: PAGE_DESCRIPTION,
   alternates: { canonical: `${baseUrl}/login` },
   robots: { index: false, follow: false, nocache: true },
 };
@@ -21,9 +24,10 @@ export default function LoginPage(): React.JSX.Element {
       {
         "@type": "WebPage",
         "@id": `${baseUrl}/login#webpage`,
-        name: `Login — ${SITE_SHORT_NAME}`,
-        description: `Sign in to your ${SITE_SHORT_NAME} account to track orders and manage your profile.`,
+        name: `Masuk — ${SITE_SHORT_NAME}`,
+        description: PAGE_DESCRIPTION,
         url: `${baseUrl}/login`,
+        inLanguage: "id-ID",
       },
       createBreadcrumbList([
         { name: "Home", item: baseUrl },
@@ -37,17 +41,17 @@ export default function LoginPage(): React.JSX.Element {
       <JsonLd data={structuredData} />
       <section className="w-full max-w-md px-4 py-16">
         <h1 className="text-h2 font-bold tracking-tight text-foreground mb-2 text-center">
-          Welcome Back
+          Masuk ke Akun
         </h1>
         <p className="text-body text-muted-foreground text-center mb-8">
-          Sign in to your account
+          Masuk untuk melanjutkan belanja dan melacak pesanan Anda
         </p>
         <LoginForm />
         <div className="mt-8 text-center space-y-4">
           <p className="text-caption text-text-muted">
-            Don&apos;t have an account?{" "}
+            Belum memiliki akun?{" "}
             <Link href="/register" className="font-semibold text-foreground underline underline-offset-4 hover:opacity-80 transition-opacity">
-              Create an account
+              Daftar sekarang
             </Link>
           </p>
           <div>
@@ -56,7 +60,7 @@ export default function LoginPage(): React.JSX.Element {
               className="inline-flex items-center gap-1.5 text-caption text-text-muted hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              Back to Home
+              Kembali ke Beranda
             </Link>
           </div>
         </div>

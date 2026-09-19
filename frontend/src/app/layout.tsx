@@ -6,14 +6,18 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_NAME, SITE_SHORT_NAME, SITE_BASE_URL, BRAND_COLORS, CONTACT_EMAIL, INSTAGRAM_URL, WHATSAPP_NUMBER } from "@/shared/lib/config";
 import { JsonLd } from "@/app/_components";
 import { SiteHeader } from "@/features/shell";
-import { MegaFooter } from "@/shared/components/layout/mega-footer";
-import { GlobalBreadcrumbs } from "@/shared/components/layout/global-breadcrumbs";
-import { LenisProvider } from "@/shared/components/providers/lenis-provider";
-import { LanguageProvider } from "@/shared/components/providers/language-provider";
-import { RoleProvider } from "@/shared/components/providers/role-provider";
-import { Preloader } from "@/shared/components/providers/preloader";
-import { PageTransition } from "@/shared/components/providers/page-transition";
-import { CookieConsent } from "@/shared/components/layout/cookie-consent";
+import {
+  MegaFooter,
+  GlobalBreadcrumbs,
+  CookieConsent,
+} from "@/shared/components/layout";
+import {
+  LenisProvider,
+  LanguageProvider,
+  RoleProvider,
+  Preloader,
+  PageTransition,
+} from "@/shared/components/providers";
 import "./globals.css";
 
 const montserrat = Montserrat({

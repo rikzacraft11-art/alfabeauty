@@ -21,7 +21,7 @@ import { cn } from "@/shared/lib/utils";
  *   </AnimatedButton>
  * ───────────────────────────────────────────────────────────────────── */
 
-interface AnimatedButtonProps extends React.ComponentProps<"a"> {
+export interface AnimatedButtonProps extends React.ComponentProps<"a"> {
   /** Link destination — renders <a> when provided, <button> otherwise */
   href?: string;
   /** Class(es) for the sweep-fill layer (e.g. "bg-white") */

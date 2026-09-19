@@ -9,12 +9,7 @@ import {
     Phone,
 } from "lucide-react";
 import { Separator } from "@/shared/components/ui/separator";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/shared/components/ui/accordion";
+import { FAQSection, type FAQItem } from "@/features/home";
 const ContactForm = dynamic(
     () => import("@/features/contact/components/contact-form").then((m) => m.ContactForm),
     { loading: () => <div className="h-[400px] animate-pulse bg-surface" /> }
@@ -28,61 +23,61 @@ import { useLanguage } from "@/shared/components/providers/language-provider";
  * Contact Page — Fully Bilingual (ID / EN)
  * ───────────────────────────────────────────────────────────────────── */
 
-export function ContactPageContent() {
+export function ContactPageContent(): React.JSX.Element {
     const { dict, language } = useLanguage();
     const isId = language === "id";
 
-    const faqs = isId
+    const faqs: FAQItem[] = isId
         ? [
               {
-                  q: "Brand apa saja yang didistribusikan secara resmi oleh Alfa Beauty?",
-                  a: "PT Alfa Beauty Cosmetica merupakan importir dan distributor eksklusif untuk brand internasional terkemuka seperti Alfaparf Milano Professional, Farmavita, Montibello, CORE Japan, dan Gamma+ Professional.",
+                  question: "Brand apa saja yang didistribusikan secara resmi oleh Alfa Beauty?",
+                  answer: "PT Alfa Beauty Cosmetica merupakan importir dan distributor eksklusif untuk brand internasional terkemuka seperti Alfaparf Milano Professional, Farmavita, Montibello, CORE Japan, dan Gamma+ Professional.",
               },
               {
-                  q: "Apakah Alfa Beauty melayani pengiriman ke luar pulau Jawa?",
-                  a: "Ya. Kami memiliki jaringan distribusi resmi yang menjangkau seluruh 34 provinsi di Indonesia termasuk Jakarta, Surabaya, Bandung, Bali, Medan, Makassar, dan kota-kota lainnya.",
+                  question: "Apakah Alfa Beauty melayani pengiriman ke luar pulau Jawa?",
+                  answer: "Ya. Kami memiliki jaringan distribusi resmi yang menjangkau seluruh 34 provinsi di Indonesia termasuk Jakarta, Surabaya, Bandung, Bali, Medan, Makassar, dan kota-kota lainnya.",
               },
               {
-                  q: "Bagaimana cara mendaftar menjadi mitra salon resmi?",
-                  a: "Kunjungi halaman Kemitraan dan isi formulir pendaftaran mitra, atau hubungi tim kami via WhatsApp. Tim representatif kami akan menghubungi Anda dalam waktu 1-2 hari kerja.",
+                  question: "Bagaimana cara mendaftar menjadi mitra salon resmi?",
+                  answer: "Kunjungi halaman Kemitraan dan isi formulir pendaftaran mitra, atau hubungi tim kami via WhatsApp. Tim representatif kami akan menghubungi Anda dalam waktu 1-2 hari kerja.",
               },
               {
-                  q: "Apakah tersedia program pelatihan teknis untuk staf salon?",
-                  a: "Tentu. Melalui Alfa Beauty Academy, kami menyelenggarakan workshop dan masterclass rutin seputar teknik pewarnaan lanjutan, perm modern, pemotongan rambut, dan manajemen bisnis salon.",
+                  question: "Apakah tersedia program pelatihan teknis untuk staf salon?",
+                  answer: "Tentu. Melalui Alfa Beauty Academy, kami menyelenggarakan workshop dan masterclass rutin seputar teknik pewarnaan lanjutan, perm modern, pemotongan rambut, dan manajemen bisnis salon.",
               },
               {
-                  q: "Berapa batas minimum pemesanan (MOQ) untuk salon?",
-                  a: "Ketentuan minimum pemesanan bervariasi sesuai lini brand dan kategori produk. Silakan hubungi tim sales kami untuk mendapatkan penawaran dan daftar harga khusus B2B salon.",
+                  question: "Berapa batas minimum pemesanan (MOQ) untuk salon?",
+                  answer: "Ketentuan minimum pemesanan bervariasi sesuai lini brand dan kategori produk. Silakan hubungi tim sales kami untuk mendapatkan penawaran dan daftar harga khusus B2B salon.",
               },
               {
-                  q: "Apakah kami bisa mendapatkan demo produk atau tester?",
-                  a: "Kami dapat mengatur demonstrasi produk dan tester khusus bagi pemilik salon atau profesional yang memenuhi kualifikasi. Hubungi tim kami via WhatsApp untuk berdiskusi lebih lanjut.",
+                  question: "Apakah kami bisa mendapatkan demo produk atau tester?",
+                  answer: "Kami dapat mengatur demonstrasi produk dan tester khusus bagi pemilik salon atau profesional yang memenuhi kualifikasi. Hubungi tim kami via WhatsApp untuk berdiskusi lebih lanjut.",
               },
           ]
         : [
               {
-                  q: "What brands do you distribute?",
-                  a: "We are the official Indonesian distributor for leading professional haircare brands: Alfaparf Milano (Italy), Farmavita (Italy), Montibello (Spain), and Gamma+ Professional (Italy).",
+                  question: "What brands do you distribute?",
+                  answer: "We are the official Indonesian distributor for leading professional haircare brands: Alfaparf Milano (Italy), Farmavita (Italy), Montibello (Spain), and Gamma+ Professional (Italy).",
               },
               {
-                  q: "Do you supply nationwide?",
-                  a: "Yes. We have an established distribution network covering major cities across Indonesia including Jakarta, Surabaya, Bandung, Bali, Medan, and many more.",
+                  question: "Do you supply nationwide?",
+                  answer: "Yes. We have an established distribution network covering major cities across Indonesia including Jakarta, Surabaya, Bandung, Bali, Medan, and many more.",
               },
               {
-                  q: "How do I become a partner?",
-                  a: "Visit our Partnership page and fill out the Become Partner form. Our team will review your application and reach out within 2 business days.",
+                  question: "How do I become a partner?",
+                  answer: "Visit our Partnership page and fill out the Become Partner form. Our team will review your application and reach out within 2 business days.",
               },
               {
-                  q: "Do you offer training for salon professionals?",
-                  a: "Absolutely. We run regular technical trainings, workshops, and masterclasses covering color techniques, hair treatments, barbering, and business skills.",
+                  question: "Do you offer training for salon professionals?",
+                  answer: "Absolutely. We run regular technical trainings, workshops, and masterclasses covering color techniques, hair treatments, barbering, and business skills.",
               },
               {
-                  q: "What is the minimum order requirement?",
-                  a: "Minimum order quantities vary by brand and product line. Contact our sales team for specific details and pricing tailored to your salon's needs.",
+                  question: "What is the minimum order requirement?",
+                  answer: "Minimum order quantities vary by brand and product line. Contact our sales team for specific details and pricing tailored to your salon's needs.",
               },
               {
-                  q: "Do you offer product samples?",
-                  a: "We can arrange product demonstrations and samples for qualified salon and barbershop professionals. Reach out to our team via WhatsApp.",
+                  question: "Do you offer product samples?",
+                  answer: "We can arrange product demonstrations and samples for qualified salon and barbershop professionals. Reach out to our team via WhatsApp.",
               },
           ];
 
@@ -225,51 +220,17 @@ export function ContactPageContent() {
 
             <Separator className="mx-auto max-w-[1400px] bg-border-warm/40" />
 
-            {/* ─── §3: FAQ ─── */}
-            <FadeIn>
-            <section className="bg-surface py-14 sm:py-20 lg:py-28">
-                <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-12">
-                    <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
-                        {/* Left: heading */}
-                        <div>
-                            <p className="eyebrow text-text-muted">
-                                {dict.contactPage.faqEyebrow}
-                            </p>
-                            <h2 className="mt-3 heading-section text-foreground">
-                                {dict.contactPage.faqTitle}
-                            </h2>
-                            <p className="mt-5 body-prose text-text-muted">
-                                {isId
-                                    ? "Tidak menemukan jawaban yang Anda cari? Hubungi tim kami langsung via WhatsApp atau formulir kontak."
-                                    : "Can't find what you're looking for? Reach out to our team directly via WhatsApp or the contact form above."}
-                            </p>
-                        </div>
-
-                        {/* Right: accordion */}
-                        <Accordion
-                            type="single"
-                            collapsible
-                            className="w-full"
-                        >
-                            {faqs.map((faq, i) => (
-                                <AccordionItem
-                                    key={faq.q}
-                                    value={`faq-${i}`}
-                                    className="border-b border-border-warm/60"
-                                >
-                                    <AccordionTrigger className="min-h-[48px] py-4 sm:py-5 text-left text-subtitle font-semibold text-foreground hover:no-underline">
-                                        {faq.q}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="text-body text-charcoal pb-4">
-                                        {faq.a}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
-                    </div>
-                </div>
-            </section>
-            </FadeIn>
+            {/* ─── §3: FAQ (Unified Design System Component) ─── */}
+            <FAQSection
+                items={faqs}
+                eyebrow={dict.contactPage.faqEyebrow}
+                heading={dict.contactPage.faqTitle}
+                description={
+                    isId
+                        ? "Tidak menemukan jawaban yang Anda cari? Hubungi tim kami langsung via WhatsApp atau formulir kontak."
+                        : "Can't find what you're looking for? Reach out to our team directly via WhatsApp or the contact form above."
+                }
+            />
         </div>
     );
 }

@@ -27,6 +27,7 @@ export default function BrandsPage(): React.JSX.Element {
                 url: `${baseUrl}/brands`,
                 name: `Brand Portfolios — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
+                inLanguage: "id-ID",
                 mainEntity: {
                     "@type": "ItemList",
                     itemListElement: brands.map((brand, index) => ({

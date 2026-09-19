@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui";
 
 interface ErrorBoundaryProps {
   error: Error & { digest?: string };

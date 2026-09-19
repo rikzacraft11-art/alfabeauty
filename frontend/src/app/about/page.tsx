@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AboutPageContent } from "@/features/about/components/about-page-content";
+import { AboutPageContent } from "@/features/about";
 import { FAQSection, CertificationBadges, PreFooterCTA } from "@/features/home";
 import { SITE_BASE_URL, SITE_NAME } from "@/shared/lib/config";
 import { JsonLd, createBreadcrumbList } from "@/app/_components";
@@ -25,6 +25,7 @@ export default function AboutPage(): React.JSX.Element {
                 name: `About Us — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/about`,
+                inLanguage: "id-ID",
             },
             createBreadcrumbList([
                 { name: "Home", item: baseUrl },

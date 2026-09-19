@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { PARALLAX } from "@/shared/lib/motion";
 import { cn } from "@/shared/lib/utils";
 
@@ -11,7 +11,14 @@ import { cn } from "@/shared/lib/utils";
  * V4: Returns opacity transform for fade-out at section edges.
  * ───────────────────────────────────────────────────────────────────── */
 
-export function useParallax({ speed = PARALLAX.default }: { speed?: number } = {}) {
+export interface ParallaxResult {
+    ref: React.RefObject<HTMLDivElement | null>;
+    y: MotionValue<number>;
+    opacity: MotionValue<number>;
+    scrollYProgress: MotionValue<number>;
+}
+
+export function useParallax({ speed = PARALLAX.default }: { speed?: number } = {}): ParallaxResult {
     const ref = React.useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -28,7 +35,7 @@ export function useParallax({ speed = PARALLAX.default }: { speed?: number } = {
  * Parallax — Declarative parallax wrapper component.
  * ───────────────────────────────────────────────────────────────────── */
 
-interface ParallaxProps {
+export interface ParallaxProps {
     children: React.ReactNode;
     speed?: number;
     className?: string;
@@ -36,7 +43,7 @@ interface ParallaxProps {
     fade?: boolean;
 }
 
-export function Parallax({ children, speed = PARALLAX.default, className, fade }: ParallaxProps) {
+export function Parallax({ children, speed = PARALLAX.default, className, fade }: ParallaxProps): React.JSX.Element {
     const { ref, y, opacity } = useParallax({ speed });
     return (
         <div ref={ref} className={cn("relative overflow-hidden", className)}>
@@ -53,7 +60,7 @@ export function Parallax({ children, speed = PARALLAX.default, className, fade }
  * Useful for scroll-linked progress bars, header opacity, etc.
  * ───────────────────────────────────────────────────────────────────── */
 
-export function useScrollProgress() {
+export function useScrollProgress(): MotionValue<number> {
     const { scrollYProgress } = useScroll();
     return scrollYProgress;
 }
@@ -67,16 +74,7 @@ export function useScrollProgress() {
  *   - Configurable threshold
  * ───────────────────────────────────────────────────────────────────── */
 
-export function useCountUp({
-    target,
-    duration = 2.4,
-    suffix = "",
-    prefix = "",
-    delay = 0,
-    format = true,
-    decimals = 0,
-    onComplete,
-}: {
+export interface CountUpOptions {
     target: number;
     duration?: number;
     suffix?: string;
@@ -88,7 +86,23 @@ export function useCountUp({
     decimals?: number;
     /** Called when animation completes */
     onComplete?: () => void;
-}) {
+}
+
+export interface CountUpResult {
+    ref: React.RefObject<HTMLElement | null>;
+    display: string;
+}
+
+export function useCountUp({
+    target,
+    duration = 2.4,
+    suffix = "",
+    prefix = "",
+    delay = 0,
+    format = true,
+    decimals = 0,
+    onComplete,
+}: CountUpOptions): CountUpResult {
     const ref = React.useRef<HTMLElement>(null);
     const [display, setDisplay] = React.useState(`${prefix}0${suffix}`);
     const hasTriggered = React.useRef(false);
@@ -148,7 +162,13 @@ export function useCountUp({
  * V4: Tighter scroll offset, supports vertical (scaleY) option.
  * ───────────────────────────────────────────────────────────────────── */
 
-export function useLineGrow({ vertical = false }: { vertical?: boolean } = {}) {
+export interface LineGrowResult {
+    ref: React.RefObject<HTMLDivElement | null>;
+    scaleY?: MotionValue<number>;
+    scaleX?: MotionValue<number>;
+}
+
+export function useLineGrow({ vertical = false }: { vertical?: boolean } = {}): LineGrowResult {
     const ref = React.useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -158,12 +178,12 @@ export function useLineGrow({ vertical = false }: { vertical?: boolean } = {}) {
     return { ref, ...(vertical ? { scaleY: scale } : { scaleX: scale }) };
 }
 
-interface LineGrowProps {
+export interface LineGrowProps {
     className?: string;
     vertical?: boolean;
 }
 
-export function LineGrow({ className, vertical }: LineGrowProps) {
+export function LineGrow({ className, vertical }: LineGrowProps): React.JSX.Element {
     const { ref, ...scaleProps } = useLineGrow({ vertical });
     return (
         <div ref={ref} className="relative overflow-hidden">

@@ -15,24 +15,36 @@ import { smoothEase } from "@/shared/lib/motion";
 
 const STORAGE_KEY = "alfa-cookie-consent";
 
-export function CookieConsent() {
+export function CookieConsent(): React.JSX.Element {
     const [visible, setVisible] = React.useState(false);
 
     React.useEffect(() => {
-        const consent = localStorage.getItem(STORAGE_KEY);
-        if (!consent) {
-            const timer = setTimeout(() => setVisible(true), 2000);
-            return () => clearTimeout(timer);
+        try {
+            const consent = localStorage.getItem(STORAGE_KEY);
+            if (!consent) {
+                const timer = setTimeout(() => setVisible(true), 2000);
+                return () => clearTimeout(timer);
+            }
+        } catch {
+            // Ignore storage errors in restricted contexts
         }
     }, []);
 
     const handleAccept = () => {
-        localStorage.setItem(STORAGE_KEY, "accepted");
+        try {
+            localStorage.setItem(STORAGE_KEY, "accepted");
+        } catch {
+            // Ignore storage errors in restricted contexts
+        }
         setVisible(false);
     };
 
     const handleReject = () => {
-        localStorage.setItem(STORAGE_KEY, "rejected");
+        try {
+            localStorage.setItem(STORAGE_KEY, "rejected");
+        } catch {
+            // Ignore storage errors in restricted contexts
+        }
         setVisible(false);
     };
 
@@ -40,6 +52,8 @@ export function CookieConsent() {
         <AnimatePresence>
             {visible && (
                 <motion.div
+                    role="region"
+                    aria-label="Cookie consent"
                     className="fixed bottom-0 left-0 right-0 z-[60] border-t border-border-warm/40 bg-background/95 backdrop-blur-sm"
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -61,18 +75,21 @@ export function CookieConsent() {
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
                             <button
+                                type="button"
                                 onClick={handleReject}
                                 className="px-5 py-2.5 text-cta font-bold border border-neutral-400 text-neutral-800 transition-all duration-300 hover:border-foreground hover:text-foreground"
                             >
                                 Reject
                             </button>
                             <button
+                                type="button"
                                 onClick={handleAccept}
                                 className="px-5 py-2.5 text-cta font-bold bg-foreground text-background transition-all duration-300 hover:bg-foreground/90"
                             >
                                 Accept All
                             </button>
                             <button
+                                type="button"
                                 onClick={handleReject}
                                 className="flex h-8 w-8 items-center justify-center text-neutral-700 transition-colors duration-300 hover:text-foreground sm:hidden"
                                 aria-label="Dismiss cookie banner"

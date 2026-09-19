@@ -79,20 +79,24 @@ interface FAQSectionProps {
     items?: FAQItem[];
     heading?: string;
     eyebrow?: string;
+    description?: string;
+    showExploreLink?: boolean;
 }
 
 export function FAQSection({
     items,
     heading,
     eyebrow,
-}: FAQSectionProps = {}) {
+    description,
+    showExploreLink = true,
+}: FAQSectionProps = {}): React.JSX.Element {
     const { dict, language } = useLanguage();
     const [openIndex, setOpenIndex] = React.useState<number | null>(null);
 
     const faqItems = items ?? dict.faq.items ?? DEFAULT_FAQ;
     const faqHeading = heading ?? dict.faq.heading ?? "Frequently Asked Questions";
     const faqEyebrow = eyebrow ?? dict.faq.eyebrow ?? "Support Hub";
-    const faqDescription = dict.faq.description ?? "Everything you need to know about our products, salon partnership, and distribution.";
+    const faqDescription = description ?? dict.faq.description ?? "Everything you need to know about our products, salon partnership, and distribution.";
 
     return (
         <section id="faq" className="section section-faq bg-background bg-tactile-luxury py-12 sm:py-20 lg:py-32 text-foreground border-t border-b border-border-warm/80 scroll-mt-[calc(var(--header-height,56px)+16px)]">
@@ -125,16 +129,18 @@ export function FAQSection({
                             <p className="body-prose mt-4 max-w-sm">
                                 {faqDescription}
                             </p>
-                            <div className="mt-6">
-                                <Link
-                                    href="/faq"
-                                    aria-label={language === "id" ? "Lihat seluruh pertanyaan umum (FAQ)" : "Explore all frequently asked questions (FAQ)"}
-                                    className="group inline-flex items-center gap-1.5 text-cta font-semibold text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:opacity-70"
-                                >
-                                    <span>{language === "id" ? "Lihat Seluruh FAQ" : "Explore Full FAQ"}</span>
-                                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                                </Link>
-                            </div>
+                            {showExploreLink && (
+                                <div className="mt-6">
+                                    <Link
+                                        href="/faq"
+                                        aria-label={language === "id" ? "Lihat seluruh pertanyaan umum (FAQ)" : "Explore all frequently asked questions (FAQ)"}
+                                        className="group inline-flex items-center gap-1.5 text-cta font-semibold text-foreground border-b border-foreground pb-1 transition-all duration-200 hover:opacity-70"
+                                    >
+                                        <span>{language === "id" ? "Lihat Seluruh FAQ" : "Explore Full FAQ"}</span>
+                                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                                    </Link>
+                                </div>
+                            )}
                         </FadeIn>
                     </div>
 

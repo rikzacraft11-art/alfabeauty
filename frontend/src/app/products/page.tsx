@@ -26,6 +26,7 @@ export default function ProductsPage(): React.JSX.Element {
                 name: `Product Catalog — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/products`,
+                inLanguage: "id-ID",
             },
             createBreadcrumbList([
                 { name: "Home", item: baseUrl },

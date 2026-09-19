@@ -16,20 +16,28 @@ import { cinematicEase } from "@/shared/lib/motion";
 
 const PRELOADER_SEEN_KEY = "preloader-seen";
 
-export function Preloader({ children }: { children: React.ReactNode }) {
+export interface PreloaderProps {
+    children: React.ReactNode;
+}
+
+export function Preloader({ children }: PreloaderProps): React.JSX.Element {
     const [loading, setLoading] = React.useState(true);
     const [exit, setExit] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
 
     React.useEffect(() => {
-        /* If already seen in this session, skip entirely */
-        if (sessionStorage.getItem(PRELOADER_SEEN_KEY) === "1") {
-            setLoading(false);
-            return;
-        }
+        try {
+            /* If already seen in this session, skip entirely */
+            if (sessionStorage.getItem(PRELOADER_SEEN_KEY) === "1") {
+                setLoading(false);
+                return;
+            }
 
-        // Mark as seen for future visits in this session
-        sessionStorage.setItem(PRELOADER_SEEN_KEY, "1");
+            // Mark as seen for future visits in this session
+            sessionStorage.setItem(PRELOADER_SEEN_KEY, "1");
+        } catch {
+            // Ignore storage errors in restricted contexts (e.g. sandboxed iframes)
+        }
         // Animate progress counter 0→100 over 1.6s
         const start = performance.now();
         const duration = 1600;

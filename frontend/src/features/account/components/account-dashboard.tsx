@@ -22,6 +22,8 @@ import { Button } from "@/shared/components/ui/button";
 import { SITE_NAME, SITE_SHORT_NAME, WHATSAPP_NUMBER } from "@/shared/lib/config";
 import { cn } from "@/shared/lib/utils";
 
+import { useUserRole } from "@/shared/components/providers/role-provider";
+
 type AccountTab = "orders" | "partnership" | "resources";
 
 interface StoredOrder {
@@ -36,6 +38,7 @@ const LOCAL_STORAGE_ORDERS_KEY = "alfa_recent_orders";
 
 export function AccountDashboard(): React.JSX.Element {
   const router = useRouter();
+  const { user, isGuest, isConsumer, isPartnerPending, isSalon, isDistributor, setRole } = useUserRole();
   const [activeTab, setActiveTab] = React.useState<AccountTab>("orders");
   const [orderInput, setOrderInput] = React.useState("");
   const [lookupError, setLookupError] = React.useState("");
@@ -84,15 +87,15 @@ export function AccountDashboard(): React.JSX.Element {
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-1">
                 <h1 className="text-h2 font-bold text-foreground tracking-tight">
-                  Akun Pelanggan & Mitra
+                  {!isGuest && user.name ? `Halo, ${user.name}` : "Akun Pelanggan & Mitra"}
                 </h1>
                 <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brand-crimson/10 text-brand-crimson border border-brand-crimson/20">
                   <Sparkles className="h-3 w-3" />
-                  Mode Konsumen & Mitra
+                  {isSalon ? "Mitra Salon Resmi" : isDistributor ? "Distributor Resmi" : isPartnerPending ? "Mitra (Dalam Verifikasi)" : isConsumer ? "Konsumen Retail" : "Mode Tamu"}
                 </span>
               </div>
               <p className="text-caption text-muted-foreground">
-                Akses pelacakan pesanan ritel, status pendaftaran mitra salon, dan panduan SOP resmi {SITE_SHORT_NAME}.
+                {user.businessName ? `${user.businessName} · ` : ""}{user.email || `Akses pelacakan pesanan ritel, status pendaftaran mitra salon, dan panduan SOP resmi ${SITE_SHORT_NAME}.`}
               </p>
             </div>
           </div>
@@ -424,6 +427,34 @@ export function AccountDashboard(): React.JSX.Element {
           </a>
         </Button>
       </div>
+
+      {/* ─── Developer Sandbox Role Switcher (Visible only in local development) ─── */}
+      {process.env.NODE_ENV === "development" && (
+        <div className="mt-8 border border-dashed border-border-warm p-4 rounded-lg bg-surface-subtle/40">
+          <details className="cursor-pointer">
+            <summary className="text-tiny font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground">
+              [Developer Sandbox] Simulasi Peran Pengguna (Khusus Pengujian Lingkungan Lokal)
+            </summary>
+            <div className="mt-3 pt-3 border-t border-border-warm flex flex-wrap gap-2">
+              <Button size="sm" variant={isGuest ? "default" : "outline"} onClick={() => setRole("guest")}>
+                Guest
+              </Button>
+              <Button size="sm" variant={isConsumer ? "default" : "outline"} onClick={() => setRole("consumer")}>
+                Konsumen Retail
+              </Button>
+              <Button size="sm" variant={isPartnerPending ? "default" : "outline"} onClick={() => setRole("partner_pending")}>
+                Pendaftar Mitra (Pending)
+              </Button>
+              <Button size="sm" variant={isSalon ? "default" : "outline"} onClick={() => setRole("salon_verified")}>
+                Mitra Salon Resmi
+              </Button>
+              <Button size="sm" variant={isDistributor ? "default" : "outline"} onClick={() => setRole("distributor_verified")}>
+                Distributor Resmi
+              </Button>
+            </div>
+          </details>
+        </div>
+      )}
     </div>
   );
 }

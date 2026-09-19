@@ -10,18 +10,19 @@ import {
   Mail,
   Loader2,
   AlertCircle,
-  Building2,
-  ShieldCheck,
   CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { fieldClass } from "@/shared/components/ui/form-field";
 import { SITE_SHORT_NAME, WHATSAPP_NUMBER } from "@/shared/lib/config";
 import { cn } from "@/shared/lib/utils";
+import { useUserRole } from "@/shared/components/providers/role-provider";
 
 export function LoginForm(): React.JSX.Element {
   const router = useRouter();
+  const { setRole, updateUser } = useUserRole();
   const [identifier, setIdentifier] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -56,11 +57,28 @@ export function LoginForm(): React.JSX.Element {
       // Simulated authentication delay for UX feedback
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      // For demo / unauthenticated phase: simulate successful sign-in
+      const isSalonPartner = cleanIdentifier.toLowerCase().includes("salon") || cleanIdentifier.toLowerCase().includes("mitra");
+      if (isSalonPartner) {
+        setRole("salon_verified");
+        updateUser({
+          name: "Rian Hidayat",
+          email: cleanIdentifier,
+          businessName: "Alfa Signature Salon & Spa",
+          isVerified: true,
+        });
+      } else {
+        setRole("consumer");
+        updateUser({
+          name: cleanIdentifier.includes("@") ? cleanIdentifier.split("@")[0] : "Konsumen Alfa",
+          email: cleanIdentifier.includes("@") ? cleanIdentifier : "",
+          isVerified: true,
+        });
+      }
+
       setSuccess(true);
       setTimeout(() => {
         router.push("/my-account");
-      }, 1000);
+      }, 900);
     } catch {
       setError("Terjadi kesalahan saat masuk. Silakan coba beberapa saat lagi.");
     } finally {
@@ -73,13 +91,14 @@ export function LoginForm(): React.JSX.Element {
   )}`;
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-5">
+      {/* ─── Feedback Messages ─── */}
       {success && (
         <div
           role="status"
-          className="p-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-sm flex items-center gap-2.5"
+          className="p-3.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-2.5"
         >
-          <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
           <span>Berhasil masuk. Mengarahkan ke dashboard akun...</span>
         </div>
       )}
@@ -87,13 +106,14 @@ export function LoginForm(): React.JSX.Element {
       {error && (
         <div
           role="alert"
-          className="p-4 bg-brand-crimson/10 border border-brand-crimson/30 text-brand-crimson text-sm flex items-center gap-2.5"
+          className="p-3.5 rounded bg-brand-crimson/10 border border-brand-crimson/30 text-brand-crimson text-xs flex items-center gap-2.5"
         >
-          <AlertCircle className="h-5 w-5 shrink-0" />
+          <AlertCircle className="h-4 w-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
+      {/* ─── Standard E-Commerce Login Form ─── */}
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div>
           <label htmlFor="login-identifier" className="mb-1.5 block text-xs font-semibold text-charcoal">
@@ -110,7 +130,7 @@ export function LoginForm(): React.JSX.Element {
                 setIdentifier(e.target.value);
                 if (error) setError("");
               }}
-              placeholder="nama@salon.com atau 0812xxxx"
+              placeholder="nama@domain.com atau 0812xxxx"
               className={fieldClass()}
               disabled={loading || success}
             />
@@ -178,7 +198,7 @@ export function LoginForm(): React.JSX.Element {
         <Button
           type="submit"
           size="lg"
-          className="w-full bg-foreground text-white hover:bg-foreground/90 font-bold text-cta cursor-pointer h-12 mt-2"
+          className="w-full bg-foreground text-white hover:bg-foreground/90 font-bold text-cta cursor-pointer h-11 mt-2 rounded"
           disabled={loading || success}
         >
           {loading ? (
@@ -195,23 +215,22 @@ export function LoginForm(): React.JSX.Element {
         </Button>
       </form>
 
-      {/* ─── Salon Partner Callout ─── */}
-      <div className="p-4 border border-border-warm bg-surface-elevated mt-6">
-        <div className="flex items-start gap-3">
-          <Building2 className="h-5 w-5 text-brand-crimson shrink-0 mt-0.5" />
-          <div className="text-caption">
+      {/* ─── Standard E-Commerce B2B Partner Notice ─── */}
+      <div className="rounded border border-border bg-surface-subtle p-3.5 text-xs">
+        <div className="flex items-center justify-between gap-3">
+          <div>
             <p className="font-semibold text-foreground">Pemilik Salon atau Barbershop?</p>
-            <p className="text-muted-foreground mt-0.5">
-              Mitra salon resmi mendapatkan harga net distributor, fasilitas tempo pembayaran, dan paket pembukaan.
+            <p className="text-muted-foreground text-[11px] mt-0.5">
+              Mitra resmi mendapatkan akses harga khusus grosir dan fasilitas kemitraan.
             </p>
-            <Link
-              href="/partnership"
-              className="inline-flex items-center gap-1 font-semibold text-brand-crimson hover:underline mt-2"
-            >
-              Daftar Jadi Mitra Salon
-              <ShieldCheck className="h-3.5 w-3.5" />
-            </Link>
           </div>
+          <Link
+            href="/partnership"
+            className="shrink-0 font-semibold text-brand-crimson hover:underline inline-flex items-center gap-1 text-xs"
+          >
+            <span>Daftar Mitra</span>
+            <ArrowRight className="h-3 w-3" />
+          </Link>
         </div>
       </div>
     </div>

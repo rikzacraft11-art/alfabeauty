@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PrivacyPageContent } from "@/features/legal/components/privacy-page-content";
+import { PrivacyPageContent } from "@/features/legal";
 import { SITE_BASE_URL, SITE_NAME } from "@/shared/lib/config";
 import { JsonLd, createBreadcrumbList } from "@/app/_components";
 
@@ -24,6 +24,7 @@ export default function PrivacyPage(): React.JSX.Element {
                 name: `Privacy Policy — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/privacy`,
+                inLanguage: "id-ID",
             },
             createBreadcrumbList([
                 { name: "Home", item: baseUrl },

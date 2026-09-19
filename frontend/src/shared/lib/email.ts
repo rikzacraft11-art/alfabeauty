@@ -77,6 +77,7 @@ export async function sendNotificationEmail({
       html,
     });
   } catch (err) {
-    logError("email", `${label} notification error`, err);
+    const message = err instanceof Error ? err.message : String(err);
+    logError("email", `${label} notification error: ${message}`, err);
   }
 }

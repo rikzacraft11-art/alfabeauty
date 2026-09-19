@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { OrderStatusContent } from "@/features/commerce/components/order-status-content";
+import { OrderStatusContent } from "@/features/commerce";
 import { getCommerceMode } from "@/shared/lib/commerce/env";
 import { getOrder } from "@/shared/lib/commerce/service";
 
@@ -22,7 +22,7 @@ export default async function OrderStatusPage({
   const order = await getOrder(token);
   if (!order) notFound();
   return (
-    <main id="main-content" className="relative z-10 min-h-screen bg-background pt-[var(--header-height)]">
+    <main id="main-content" className="relative z-10 min-h-[80dvh] bg-background pt-[var(--header-height)]">
       <OrderStatusContent initialOrder={order} orderToken={token} mode={getCommerceMode()} />
     </main>
   );

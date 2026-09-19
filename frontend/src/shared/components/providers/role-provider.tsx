@@ -8,7 +8,7 @@ import * as React from "react";
  * Supported Roles:
  * - "guest": Unauthenticated visitor (default)
  * - "consumer": Registered retail customer (email / OTP WhatsApp)
- * - "partner_pending": Partner applicant awaiting verification (SLA <= 4h)
+ * - "partner_pending": Partner applicant awaiting verification (Verifikasi tim kemitraan pada hari kerja)
  * - "salon_verified": Verified Salon & Barbershop partner (KTP + Salon photo verified)
  * - "distributor_verified": Verified Regional Distributor (NIB + NPWP verified)
  * ───────────────────────────────────────────────────────────────────── */
@@ -96,7 +96,11 @@ const RoleContext = React.createContext<RoleContextValue | null>(null);
 
 const ROLE_STORAGE_KEY = "alfa_beauty_user_role";
 
-export function RoleProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
+export interface RoleProviderProps {
+    children: React.ReactNode;
+}
+
+export function RoleProvider({ children }: RoleProviderProps): React.JSX.Element {
     const [role, setRoleState] = React.useState<UserRole>("guest");
     const [user, setUser] = React.useState<UserProfile>(DEFAULT_PROFILES.guest);
     const [config, setConfig] = React.useState<RoleConfig>(DEFAULT_ROLE_CONFIG);

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SITE_BASE_URL, SITE_SHORT_NAME } from "@/shared/lib/config";
 import { JsonLd, createBreadcrumbList } from "@/app/_components";
-import { EducationPageContent } from "@/features/education/components/education-page-content";
+import { EducationPageContent } from "@/features/education";
 import { PreFooterCTA } from "@/features/home";
 
 const baseUrl = SITE_BASE_URL;
@@ -26,6 +26,7 @@ export default function EducationArticlesPage(): React.JSX.Element {
                 name: PAGE_TITLE,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/education/articles`,
+                inLanguage: "id-ID",
                 isPartOf: {
                     "@type": "EducationalOrganization",
                     name: `${SITE_SHORT_NAME} Academy`,

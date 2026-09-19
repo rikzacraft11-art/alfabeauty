@@ -82,8 +82,8 @@ export function GlobalBreadcrumbs(): React.JSX.Element | null {
     });
 
     return (
-        <section
-            aria-label="Breadcrumb Navigation Section"
+        <nav
+            aria-label="Breadcrumbs"
             className="w-full bg-transparent transition-colors pt-[var(--header-height,80px)]"
         >
             <div className="mx-auto flex max-w-[1440px] items-center px-6 sm:px-8 lg:px-12 py-3">
@@ -100,8 +100,8 @@ export function GlobalBreadcrumbs(): React.JSX.Element | null {
                     </li>
 
                     {/* Dynamic Trail */}
-                    {breadcrumbs.map((crumb, idx) => (
-                        <li key={crumb.href || idx} className="flex items-center gap-2">
+                    {breadcrumbs.map((crumb) => (
+                        <li key={crumb.href} className="flex items-center gap-2">
                             <ChevronRight className="h-3 w-3 text-muted-foreground/40 shrink-0" />
                             {crumb.isLast ? (
                                 <span
@@ -122,6 +122,6 @@ export function GlobalBreadcrumbs(): React.JSX.Element | null {
                     ))}
                 </ol>
             </div>
-        </section>
+        </nav>
     );
 }

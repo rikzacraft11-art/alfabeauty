@@ -8,11 +8,11 @@ import { JsonLd, CatalogLoadingSkeleton, createBreadcrumbList } from "@/app/_com
 const baseUrl = SITE_BASE_URL;
 
 const PAGE_DESCRIPTION =
-    "Browse and purchase professional haircare products from leading Italian and Spanish brands.";
+    "Browse and purchase professional haircare products from leading Italian and Spanish brands with fast delivery across Indonesia.";
 
 export const metadata: Metadata = {
     title: "Shop — Professional Haircare Distribution",
-    description: `${PAGE_DESCRIPTION} Fast delivery across Indonesia.`,
+    description: PAGE_DESCRIPTION,
     alternates: { canonical: `${baseUrl}/shop` },
 };
 
@@ -26,6 +26,7 @@ export default function ShopPage(): React.JSX.Element {
                 name: `Shop — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/shop`,
+                inLanguage: "id-ID",
             },
             createBreadcrumbList([
                 { name: "Home", item: baseUrl },

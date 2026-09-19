@@ -1,6 +1,6 @@
 import { CONTACT_EMAIL } from "@/shared/lib/config";
 
-export function PrivacyPageContent() {
+export function PrivacyPageContent(): React.JSX.Element {
     return (
         <div className="mx-auto max-w-3xl px-6 pt-[calc(var(--header-height)+2rem)] pb-24 sm:px-8 lg:px-12">
             <h1 className="heading-display mb-8">Privacy Policy</h1>

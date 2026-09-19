@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CheckoutForm } from "@/features/commerce/components/checkout-form";
+import { CheckoutForm } from "@/features/commerce";
 import { SITE_BASE_URL } from "@/shared/lib/config";
 
 const baseUrl = SITE_BASE_URL;

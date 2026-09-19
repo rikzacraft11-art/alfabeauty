@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { useEffect, useRef, createContext, useContext, useCallback, useMemo } from "react";
 import Lenis from "lenis";
 
@@ -15,7 +16,7 @@ import Lenis from "lenis";
 
 type LenisScrollToOptions = Parameters<Lenis["scrollTo"]>[1];
 
-interface LenisContextValue {
+export interface LenisContextValue {
     stop: () => void;
     start: () => void;
     scrollTo: (target: number | HTMLElement | string, options?: LenisScrollToOptions) => void;
@@ -27,12 +28,16 @@ const LenisContext = createContext<LenisContextValue>({
     scrollTo: () => {},
 });
 
-export function useLenisControl() {
+export function useLenisControl(): LenisContextValue {
     const ctx = useContext(LenisContext);
     return { stop: ctx.stop, start: ctx.start, scrollTo: ctx.scrollTo };
 }
 
-export function LenisProvider({ children }: { children: React.ReactNode }) {
+export interface LenisProviderProps {
+    children: React.ReactNode;
+}
+
+export function LenisProvider({ children }: LenisProviderProps): React.JSX.Element {
     const lenisRef = useRef<Lenis | null>(null);
 
     const stop = useCallback(() => {

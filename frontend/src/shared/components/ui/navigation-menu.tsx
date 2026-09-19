@@ -1,9 +1,9 @@
-import * as React from "react"
-import { cva } from "class-variance-authority"
-import { ChevronDownIcon } from "lucide-react"
-import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui"
+import * as React from "react";
+import { cva } from "class-variance-authority";
+import { ChevronDownIcon } from "lucide-react";
+import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui";
 
-import { cn } from "@/shared/lib/utils"
+import { cn } from "@/shared/lib/utils";
 
 /* ── Shared class-name fragments ─────────────────────────────────── */
 
@@ -25,7 +25,7 @@ const CONTENT_MOTION = [
   "top-0 left-0 w-full p-2 pr-2.5 md:absolute md:w-auto",
   "group-data-[full-width]/navigation-menu:md:w-full",
   "group-data-[full-width]/navigation-menu:p-0",
-].join(" ")
+].join(" ");
 
 const CONTENT_NO_VIEWPORT = [
   "group-data-[viewport=false]/navigation-menu:bg-popover",
@@ -45,13 +45,13 @@ const CONTENT_NO_VIEWPORT = [
   "group-data-[viewport=false]/navigation-menu:duration-200",
   "**:data-[slot=navigation-menu-link]:focus:ring-0",
   "**:data-[slot=navigation-menu-link]:focus:outline-none",
-].join(" ")
+].join(" ");
 
 const VIEWPORT_BASE = [
   "origin-top-center relative overflow-hidden",
   "bg-popover text-popover-foreground",
   "h-[var(--radix-navigation-menu-viewport-height)]",
-].join(" ")
+].join(" ");
 
 const VIEWPORT_FULL_WIDTH = [
   "mt-0 w-screen rounded-none border-0 border-b border-border-warm/60 bg-background text-foreground",
@@ -62,7 +62,7 @@ const VIEWPORT_FULL_WIDTH = [
   "data-[state=open]:fade-in data-[state=closed]:fade-out",
   "data-[state=open]:duration-[320ms] data-[state=open]:ease-[cubic-bezier(0.16,1,0.3,1)]",
   "data-[state=closed]:duration-[220ms] data-[state=closed]:ease-[cubic-bezier(0.25,1,0.5,1)]",
-].join(" ")
+].join(" ");
 
 const VIEWPORT_DROPDOWN = [
   "mt-1.5 w-full rounded-sm border shadow",
@@ -70,7 +70,45 @@ const VIEWPORT_DROPDOWN = [
   "data-[state=open]:animate-in data-[state=closed]:animate-out",
   "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90",
   "md:w-[var(--radix-navigation-menu-viewport-width)]",
-].join(" ")
+].join(" ");
+
+/* ── Type Definitions ────────────────────────────────────────────── */
+
+export interface NavigationMenuProps
+  extends React.ComponentProps<typeof NavigationMenuPrimitive.Root> {
+  viewport?: boolean;
+  fullWidth?: boolean;
+}
+
+export type NavigationMenuListProps = React.ComponentProps<
+  typeof NavigationMenuPrimitive.List
+>;
+
+export type NavigationMenuItemProps = React.ComponentProps<
+  typeof NavigationMenuPrimitive.Item
+>;
+
+export interface NavigationMenuTriggerProps
+  extends React.ComponentProps<typeof NavigationMenuPrimitive.Trigger> {
+  hideChevron?: boolean;
+}
+
+export type NavigationMenuContentProps = React.ComponentProps<
+  typeof NavigationMenuPrimitive.Content
+>;
+
+export interface NavigationMenuViewportProps
+  extends React.ComponentProps<typeof NavigationMenuPrimitive.Viewport> {
+  fullWidth?: boolean;
+}
+
+export type NavigationMenuLinkProps = React.ComponentProps<
+  typeof NavigationMenuPrimitive.Link
+>;
+
+export type NavigationMenuIndicatorProps = React.ComponentProps<
+  typeof NavigationMenuPrimitive.Indicator
+>;
 
 /* ── Components ──────────────────────────────────────────────────── */
 
@@ -80,10 +118,7 @@ function NavigationMenu({
   viewport = true,
   fullWidth = false,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
-  viewport?: boolean
-  fullWidth?: boolean
-}) {
+}: NavigationMenuProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
@@ -98,13 +133,13 @@ function NavigationMenu({
       {children}
       {viewport && <NavigationMenuViewport fullWidth={fullWidth} />}
     </NavigationMenuPrimitive.Root>
-  )
+  );
 }
 
 function NavigationMenuList({
   className,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.List>) {
+}: NavigationMenuListProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
@@ -114,20 +149,20 @@ function NavigationMenuList({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function NavigationMenuItem({
   className,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Item>) {
+}: NavigationMenuItemProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
       className={cn("relative", className)}
       {...props}
     />
-  )
+  );
 }
 
 const navigationMenuTriggerStyle = cva(
@@ -142,16 +177,14 @@ const navigationMenuTriggerStyle = cva(
     "focus-visible:ring-ring/50 focus-visible:ring-[3px] focus-visible:outline-1",
     "transition-[color,box-shadow] duration-[600ms] ease-[var(--ease)]",
   ].join(" ")
-)
+);
 
 function NavigationMenuTrigger({
   className,
   children,
   hideChevron = false,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger> & {
-  hideChevron?: boolean
-}) {
+}: NavigationMenuTriggerProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
@@ -166,29 +199,27 @@ function NavigationMenuTrigger({
         />
       )}
     </NavigationMenuPrimitive.Trigger>
-  )
+  );
 }
 
 function NavigationMenuContent({
   className,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Content>) {
+}: NavigationMenuContentProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
       className={cn(CONTENT_MOTION, CONTENT_NO_VIEWPORT, className)}
       {...props}
     />
-  )
+  );
 }
 
 function NavigationMenuViewport({
   className,
   fullWidth = false,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport> & {
-  fullWidth?: boolean
-}) {
+}: NavigationMenuViewportProps): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -208,13 +239,13 @@ function NavigationMenuViewport({
         {...props}
       />
     </div>
-  )
+  );
 }
 
 function NavigationMenuLink({
   className,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
+}: NavigationMenuLinkProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
@@ -228,14 +259,14 @@ function NavigationMenuLink({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function NavigationMenuIndicator({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Indicator>) {
+}: NavigationMenuIndicatorProps): React.JSX.Element {
   return (
     <NavigationMenuPrimitive.Indicator
       data-slot="navigation-menu-indicator"
@@ -249,7 +280,7 @@ function NavigationMenuIndicator({
     >
       {children}
     </NavigationMenuPrimitive.Indicator>
-  )
+  );
 }
 
 export {
@@ -262,4 +293,4 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
-}
+};

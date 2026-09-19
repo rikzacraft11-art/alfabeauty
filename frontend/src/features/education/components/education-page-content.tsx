@@ -35,7 +35,7 @@ import { YEARS_OF_EXPERIENCE } from "@/shared/lib/config";
  *   §7. CTA band
  * ───────────────────────────────────────────────────────────────────── */
 
-export function EducationPageContent() {
+export function EducationPageContent(): React.JSX.Element {
     const featuredEvent = getFeaturedEvent();
     const upcomingEvents = getUpcomingEvents().filter(
         (e) => !e.isFeatured

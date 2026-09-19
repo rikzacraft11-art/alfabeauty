@@ -22,9 +22,10 @@ import { smoothEase, cinematicEase } from "@/shared/lib/motion";
  *   ))}
  * ───────────────────────────────────────────────────────────────────── */
 
-type Direction = "up" | "down" | "left" | "right" | "none";
+export type FadeInDirection = "up" | "down" | "left" | "right" | "none";
+export type Direction = FadeInDirection;
 
-interface FadeInProps
+export interface FadeInProps
   extends Omit<HTMLMotionProps<"div">, "initial" | "whileInView" | "viewport" | "transition"> {
   children: React.ReactNode;
   delay?: number;

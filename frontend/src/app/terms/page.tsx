@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TermsPageContent } from "@/features/legal/components/terms-page-content";
+import { TermsPageContent } from "@/features/legal";
 import { SITE_BASE_URL, SITE_NAME } from "@/shared/lib/config";
 import { JsonLd, createBreadcrumbList } from "@/app/_components";
 
@@ -24,6 +24,7 @@ export default function TermsPage(): React.JSX.Element {
                 name: `Terms & Conditions — ${SITE_NAME}`,
                 description: PAGE_DESCRIPTION,
                 url: `${baseUrl}/terms`,
+                inLanguage: "id-ID",
             },
             createBreadcrumbList([
                 { name: "Home", item: baseUrl },

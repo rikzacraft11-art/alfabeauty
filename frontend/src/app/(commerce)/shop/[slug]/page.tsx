@@ -74,6 +74,9 @@ export default async function ProductDetailPage({
 
   const productJsonLd = {
     "@type": "Product",
+    "@id": `${baseUrl}/shop/${slug}#product`,
+    url: `${baseUrl}/shop/${slug}`,
+    inLanguage: "id-ID",
     name: product.name,
     description: product.description,
     image: fullProductImage,

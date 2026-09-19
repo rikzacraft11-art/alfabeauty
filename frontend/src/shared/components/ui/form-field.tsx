@@ -17,7 +17,7 @@ import { cn } from "@/shared/lib/utils";
  *   </FormField>
  * ───────────────────────────────────────────────────────────────────── */
 
-interface FormFieldProps {
+export interface FormFieldProps {
   label: string;
   error?: string;
   children: React.ReactElement<{ id?: string; "aria-describedby"?: string }>;

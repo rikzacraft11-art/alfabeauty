@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { announcementSlide } from "@/shared/lib/motion";
@@ -13,7 +13,7 @@ import { announcementSlide } from "@/shared/lib/motion";
  * Dismissed state persisted via sessionStorage.
  */
 
-interface AnnouncementBarProps {
+export interface AnnouncementBarProps {
     message: string;
     href?: string;
     linkText?: string;
@@ -26,19 +26,30 @@ export function AnnouncementBar({
     message,
     href,
     linkText = "Learn More",
-}: AnnouncementBarProps) {
-    const subscribe = useCallback((onStoreChange: () => void) => {
+}: AnnouncementBarProps): React.JSX.Element {
+    const subscribe = React.useCallback((onStoreChange: () => void) => {
         window.addEventListener(DISMISS_EVENT, onStoreChange);
         return () => window.removeEventListener(DISMISS_EVENT, onStoreChange);
     }, []);
-    const dismissed = useSyncExternalStore(
+
+    const dismissed = React.useSyncExternalStore(
         subscribe,
-        () => sessionStorage.getItem(STORAGE_KEY) === "1",
+        () => {
+            try {
+                return sessionStorage.getItem(STORAGE_KEY) === "1";
+            } catch {
+                return false;
+            }
+        },
         () => false
     );
 
     const handleDismiss = () => {
-        sessionStorage.setItem(STORAGE_KEY, "1");
+        try {
+            sessionStorage.setItem(STORAGE_KEY, "1");
+        } catch {
+            // Ignore storage errors in restricted contexts
+        }
         window.dispatchEvent(new Event(DISMISS_EVENT));
     };
 
@@ -67,6 +78,7 @@ export function AnnouncementBar({
                         )}
                     </p>
                     <button
+                        type="button"
                         onClick={handleDismiss}
                         className="absolute right-4 top-1/2 -translate-y-1/2 p-1 opacity-60 hover:opacity-100 transition-opacity"
                         aria-label="Dismiss announcement"

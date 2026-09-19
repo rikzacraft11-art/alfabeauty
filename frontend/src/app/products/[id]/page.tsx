@@ -53,10 +53,12 @@ export default async function ProductDetailPage({ params }: Props): Promise<Reac
         "@graph": [
             {
                 "@type": "Product",
+                "@id": `${baseUrl}/products/${id}#product`,
                 name: product.name,
                 description: product.description,
                 image: fullImageUrl,
                 sku: product.id,
+                inLanguage: "id-ID",
                 brand: {
                     "@type": "Brand",
                     name: product.brand,

@@ -18,7 +18,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/shared/lib/supabase";
-import { timingSafeEqual } from "crypto";
+import { timingSafeEqual } from "node:crypto";
 import { HTTP_NO_STORE_HEADERS } from "@/shared/lib/config";
 import { logError } from "@/shared/lib/logger";
 
@@ -126,7 +126,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     });
   } catch (err) {
-    logError("csv-export", "Unexpected error", err);
+    const message = err instanceof Error ? err.message : String(err);
+    logError("csv-export", `Unexpected error: ${message}`, err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500, headers: HTTP_NO_STORE_HEADERS }
